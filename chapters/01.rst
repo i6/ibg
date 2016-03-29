@@ -1,0 +1,229 @@
+======================================
+ 1: Just what is interactive fiction?
+======================================
+
+.. epigraph::
+
+   | *A was an archer, who shot at a frog;*
+   | *B was a butcher, who had a great dog.*
+
+Before we start learning to use the Inform system, it's probably sensible
+to consider briefly how IF, which has many narrative elements, differs from
+regular storytelling.  Before we do *that*, though, let's look at an example
+of a familiar folk tale.
+
+    "There was once a man called Wilhelm Tell, from high in the he lived by
+    his skills Swiss Alps near the town Altdorf.  A hunter and a guide,
+    proud mountaineer, in tracking and archery.  It happened one day that
+    Wilhelm visited the town to buy provisions, and he took his son Walter
+    with him.
+
+    The region was at the time governed by Hermann Gessler (a vain and
+    petty man appointed as vogt by the Austrian emperor), who attempted a
+    show of power over his subjects by placing his hat on a pole in the
+    town square, for everyone to salute.  Reluctant citizens were
+    "encouraged" by a troop of the vogt's soldiers, who made sure that
+    their bows were sufficiently respectful.
+
+    Wilhelm knew of the hat, and of the humiliating exercise in obeisance.
+    So far he had managed to avoid the town's square, sure that -- given
+    his open dislike for the vogt -- his refusal to bend the knee would
+    cause trouble.  Today, however, he needed to pass near the pole to
+    reach Johansson's tannery.
+
+    If Wilhelm had hoped for a lucky break, we'll never know.  The square
+    was filled with market-day crowds; the soldiers were especially keen in
+    their salute- enforcing duties, challenging everyone with loud shouts
+    and the occasional coarse expletive.  Wilhelm threw a protective arm
+    over his son's shoulder and walked determinedly without looking at the
+    pole or the guards.
+
+    A soldier called to him; Wilhelm took no notice.  Other guards focused
+    their attention on the archer.  "Salute the vogt's hat," he was told.
+    A tense silence followed.  Wilhelm tried to keep going, but by now he
+    was surrounded.  The men knew of him; one counselled Wilhelm to give a
+    cursory nod towards the hat and be done.  Everybody in the vicinity was
+    watching, so the disrespect could not be ignored.  There was a long
+    pause.  Wilhelm refused.
+
+    Word was sent to Gessler, who rushed to the square with reinforcements.
+    The little man was delighted at the chance of making an example of the
+    trouble-maker.  He mockingly recounted the many skills of Herr Tell,
+    speculating that such mastery maybe accounted for the pride that
+    prevented acknowledgement of the Emperor's authority.  The vogt
+    understood all that, and would give him a fair chance.  If Wilhelm were
+    able to shoot true at an apple from fifty paces, Gessler would be
+    inclined to show mercy; however, to make things interesting, the apple
+    was to be balanced on Walter's head.
+
+    Everything was set up.  Wilhelm selected and mounted an arrow and
+    slowly raised the bow, conscious of the motionless and brave stance
+    that Walter was displaying.  He pulled, feeling the tension mount on
+    the string and his fingers, through his hands, into his arms.  He'd
+    made much more difficult shots in the past, at fleeting deer, at
+    soaring birds; but this was the life of his son...  he could not fail,
+    would not fail.
+
+    Wilhelm let loose.  The arrow flew straight and true, violently pinning
+    the apple to the tree behind the boy.  The crowd exploded in a roar of
+    relief and admiration, and Gessler, disappointed, had no option but to
+    let them go.
+
+    Years later, Wilhelm led an uprising against the vogt... but that's
+    another story."
+
+And now an extract from the same tale, this time in the form of a tiny text
+adventure game.  If you're new to interaction with text adventures you'll
+find some general instructions in "How to play an IF game" on page 209, and
+you can see a complete transcript of the game in the "William Tell" story
+on page 219::
+
+     A street in Altdorf
+     The narrow street runs north towards the town square.  Local folk are
+     pouring into the town through the gate to the south, shouting
+     greetings, offering produce for sale, exchanging news, enquiring with
+     exaggerated disbelief about the prices of the goods displayed by
+     merchants whose stalls make progress even more difficult.
+
+     "Stay close to me, son," you say, "or you'll get lost among all these
+     people."
+
+     >GO NORTH
+
+     Further along the street
+     People are still pushing and shoving their way from the southern gate
+     towards the town square, just a little further north.  You recognise
+     the owner of a fruit and vegetable stall.
+
+     Helga pauses from sorting potatoes to give you a cheery wave.
+
+     "Hello, Wilhelm, it's a fine day for trade!  Is this young Walter?
+     My, how he's grown.  Here's an apple for him -- tell him to mind that
+     scabby part, but the rest's good enough.  How's Frau Tell?  Give her
+     my best wishes."
+
+     >INVENTORY
+     You are carrying:
+       an apple
+       a quiver (being worn)
+         three arrows
+       a bow
+
+     >TALK TO HELGA
+     You warmly thank Helga for the apple.
+
+     >GIVE THE APPLE TO WALTER
+     "Thank you, Papa."
+
+     >NORTH
+
+     South side of the square
+     The narrow street to the south has opened onto the town square, and
+     resumes at the far side of this cobbled meeting place.  To continue
+     along the street towards your destination -- Johansson's tannery --
+     you must walk north across the square, in the middle of which you see
+     Gessler's hat set on that loathsome pole.  If you go on, there's no
+     way you can avoid passing it.  Imperial soldiers jostle rudely through
+     the throng, pushing, kicking and swearing loudly.
+
+     ...
+
+Some of the more obvious differences are highlighted by these questions:
+
+*   Who is the protagonist?
+
+    Our example of narrative prose is written in the third person; it
+    refers to the hero as "Wilhelm" and "he" and "him", watching and
+    reporting on his activities from afar.  In this sample IF game, you are
+    the hero, seeing everything through Wilhelm's eyes.
+
+*   What happens next?
+
+    The regular narrative is intended to be read once, straight through
+    from beginning to end.  Unless you didn't pay attention the first time,
+    or you're planning to critique the story, there's generally no need to
+    go back and read a sentence twice; if you do, you'll find exactly the
+    same text.  The author leads the way and sets the pace; you, as the
+    reader, just go along for the ride.  In IF, that's usually much less
+    true.  The author has created a landscape and populated it with
+    characters, but you choose how and when to explore it.  The game
+    evolves, at least superficially, under your control; perhaps you
+    explore the street first and then the square, perhaps the other way
+    round.  There usually are multiple paths to be found and followed --
+    and you can be pretty certain that you won't discover them all, at
+    least on first acquaintance.
+
+*   How does it all turn out?
+
+    You can tell when you've come to the end of a regular narrative -- you
+    read the last sentence, and you know there's no more.  In IF, it's
+    clear enough when you reach an end; what's much less apparent is
+    whether that's the only conclusion.  In the transcript from the example
+    game, you win by shooting the apple from Walter's head.  But what if
+    you miss?  What if you hit him by mistake?  Or fire instead at the
+    hated vogt?  Or even stand the tale on its head by bowing obsequiously
+    to the governor's hat and then going about your business?  All of these
+    are possible ways in which the game could come to an end.  The phrase
+    "what if" is the key to writing successfully, and should always be in
+    the forefront of an IF designer's mind.
+
+*   Where did Helga come from?
+
+    You'll notice that Helga and her stall don't appear in the regular
+    narrative; she's a distraction from the tale's momentum.  But in the IF
+    game, she fulfils a number of useful functions: mentioning the names
+    "Wilhelm", "Walter" and "Frau Tell" (so that you know who the tale's
+    about), introducing the all-important apple in a natural manner and,
+    above all, providing an opportunity for the "I" in IF -- some
+    interactivity.  Without that -- the chance to interact with the tale's
+    environment -- the game is little different from a conventional piece
+    of fiction.
+
+*   That item looks interesting; can you tell me more about it?
+
+    In the regular narrative, what you see is what you get; if you want to
+    know more about alpine life in the fourteenth century, you'll need to
+    consult another source.  IF, on the other hand, offers at least the
+    possibility of delving deeper, of investigating in greater detail an
+    item which has been casually mentioned.  For example, you could have
+    explored Helga's stall::
+
+           " ... How's Frau Tell?  Give her my best wishes."
+
+           >EXAMINE THE STALL
+           It's really only a small table, with a big heap of potatoes,
+           some carrots and turnips, and a few apples.
+
+           >EXAMINE THE CARROTS
+           Fine locally grown produce.
+
+    You see those descriptions only if you seek them; nothing you find
+    there is unexpected, and if you don't examine the stall, you've not
+    missed anything important.  Nevertheless, you've enhanced the illusion
+    that you're visiting a real place.  Such details would rapidly grow
+    tedious if the stall and its contents were described in full each time
+    that you pass them.
+
+*   How do I work this thing?
+
+    Whereas the presence of Helga is an elaboration of the folk tale, the
+    shooting of the arrow (it's in the transcript in "William Tell" story
+    on page 219, not in the extract above) illustrates the opposite
+    principle: simplification.  The tale builds dramatic tension by
+    describing each step as Wilhelm prepares to shoot the apple.  That's
+    OK; he's been an archer all his life, and knows how to do it.  You, on
+    the other hand, probably know little about archery, and shouldn't be
+    expected to guess at the process and vocabulary.  Let's hope you know
+    that you need to shoot at the apple -- and that's all it takes.  The
+    game explains what was involved, but doesn't force you through each
+    mundane step.
+
+Of course, all of these are generalisations, not universal truths; you
+could find fine works of IF which contradict each observation.  However,
+for our purposes as beginners in the craft of IF design, they represent
+useful distinctions between IF and conventional fiction.
+
+We'll come back to the "William Tell" tale in a later chapter, but before
+then we'll work through an even simpler example.  And before either of
+those, we need to download the necessary files which will enable us to
+write Inform games.

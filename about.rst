@@ -1,0 +1,225 @@
+==================
+ About this guide
+==================
+
+.. epigraph::
+
+   | *If they asked me, I could write a book;*
+   | *About the way you TALK, and LISTEN; And LOOK.*
+
+   -- with apologies to Richard Rodgers and Lorenz Hart.
+
+Text adventures, otherwise known collectively as interactive fiction (IF),
+were highly popular computer games during the 1980s.  As technology evolved
+they faded from the market, unable to compete with increasingly
+sophisticated graphical games; however, IF was far from dead.  The Internet
+grew, and Usenet discussion forums offered a focal point for fans of the
+genre.  By developing IF programming tools and systems, organising contests
+and writing tutorials and reviews, these enthusiasts have led a revival
+responsible for many notable works, including some whose quality arguably
+surpasses that of the best commercial titles of the 1980s.
+
+Nowadays, IF is a hobby; almost everything that you need to begin writing
+your own text adventures is available, for free, on the Internet.  While
+expert programmers may relish the considerable challenge of creating
+interactive fiction using a generalised language such as BASIC or C,
+specialist IF tools have largely solved the fundamental world-building
+issues.  The most common systems are Graham Nelson's Inform -- our subject
+matter -- and Mike Roberts' TADS (Text Adventure Development System).  New
+hopefuls arrive each year, but few achieve widespread acceptance; the
+majority of today's IF (and virtually all the works generally regarded as
+interesting, innovative, sophisticated, etc.)  have been created with
+either one or the other.  In our view, only TADS bears comparison with
+Inform in popularity, in being able to handle simple and complex stories,
+and in availability on PCs, Macs, hand-held devices and a wide variety of
+other computers.  But, since you're reading our guide, we'll assume that
+you've already made a choice, and decided to give Inform a try.
+
+We aim to provide a grounding in Inform basics.  When you have learnt a
+little about it, you'll be able to design simple games for your friends to
+play and, as you become more accomplished, which you can share via the
+Internet with enthusiasts worldwide.  However, if you simply want to play
+[#play]_ games written by others -- rather than write them yourself -- then
+you don't need to learn Inform, and this guide isn't for you.
+
+Scope and approach
+==================
+
+Because this is only an introduction to Inform, many features are treated
+rather superficially, or ignored altogether.  The definitive text is Graham
+Nelson's Inform *Designer's Manual* (Fourth Edition, July 2001), commonly
+known as the DM4; you cannot hope to use Inform successfully without having
+this splendid book by your side.  Our guide should be seen merely as a
+supplement to the DM4, offering step-by-step descriptions of those aspects
+of Inform which are most important on first acquaintance.  In any matter
+where we seem at odds with what Graham has written, you should assume that
+he is right and that we are, well, confused.
+
+As a tutorial, this guide is intended to be printed out and then read
+sequentially; it isn't meant for online usage or designed as a reference
+manual, though it does provide brief summaries of Inform's language and
+library.  Our approach is to teach you about Inform through the creation of
+three games: all short, all playable to completion.  "Heidi" is just about
+as simple as an IF game can be, but still manages to introduce a range of
+important concepts.  "William Tell", a retelling of the famous folk tale,
+is nearly as brief but roams more widely in its use of Inform's
+capabilities.  Finally "Captain Fate" presents a comic-book hero in urgent
+need of a change.  By the end of the guide, we'll have touched on less than
+half of Inform's capabilities, but we hope we'll have mentioned most of the
+things that matter when you're starting out to design your first Inform
+game.
+
+One final point: Inform is a powerful system, often offering several
+different ways of tackling a particular design requirement.  We've tried to
+present things as simply and consistently as possible, but you shouldn't be
+surprised to discover other approaches, maybe shorter, maybe more
+efficient, than those shown here.
+
+Presentation and style
+======================
+
+Most of the guide's text appears in this typeface, except where we're using
+words which are part of the Inform system (like ``print``, ``Include``,
+``VerbLib``) or are extracted from one of our games (like ``bird``,
+``nest``, ``top_of_tree``).  Terms in **bold type** are included in the
+glossary -- Appendix G on page 273.  We switch to italic type for a
+placeholder: for example you should read the Inform statement:
+
+.. parsed-literal::
+
+   print "*string*";
+
+as meaning "display on the player's screen the arbitrary character or
+characters which are represented here by the placeholder *string*".
+Examples might include::
+
+  print "Hello world!";
+  print "Fourscore and seven years ago our fathers brought forth on
+         this continent a new nation, [...] and that government of
+	 the people, by the people, for the people shall not perish
+	 from the earth.";
+
+We place the "TYPE" symbol alongside game fragments which you can type in
+as a part of our working examples.  This differentiates them from other
+code snippets whose only purpose is to illustrate some particular feature.
+
+.. todo::
+
+   The "TYPE" symbol doesn't really work here.  Think of a better way to
+   indicate typed-in fragments.
+
+Useful Internet resources
+=========================
+
+One of our basic assumptions -- along with your burning desire to learn
+Inform and your ability to work comfortably with the files and folders on
+your computer -- is that you have access to the Internet.  This is pretty
+well essential, since almost everything you need is available only via this
+medium.  In particular, you'll find much helpful material at these
+locations:
+
+*   http://www.inform-fiction.org/
+
+    The Inform home page, maintained by Graham Nelson and a small team of
+    helpers.  Most important, this is where you can find the *Inform
+    Designer's Manual* in PDF format.
+
+*   http://mirror.ifarchive.org/
+
+    The IF Archive (or actually a high-speed mirror copy of it), from which
+    you can download almost anything that's free and in the public domain.
+    For a clickable map of Inform-related parts of the Archive, see
+    http://www.firthworks.com/roger/informfaq/hh.html.
+
+    .. note::
+
+       Prior to August 2001, the IF Archive was located elsewhere, at
+       ftp://ftp.gmd.de/if-archive/, and references to that location can
+       still occasionally be found.  *Do not use* the old location: any
+       information still available from there is likely to be out-of-date.
+
+*   http://www.firthworks.com/roger/
+
+    Roger Firth's Inform pages, including the Informary (what's new in
+    Inform?), and the Inform Frequently Asked Questions (FAQ) pages.
+
+*   http://www.plover.net/~textfire/raiffaq/
+
+    A more general list of FAQs about IF authorship, covering both Inform
+    and the other main systems.
+
+*   news:rec.arts.int-fiction
+
+    The Usenet newsgroup for authors of IF, commonly known by the
+    abbreviation RAIF.  Here you'll find discussion on IF technology,
+    criticism and game design issues, and fast, friendly and knowledgeable
+    assistance with your own "how do I..." questions (but please, look in
+    the manual first).
+
+*   news:rec.games.int-fiction
+
+    The complementary newsgroup for IF *players*, often known as RGIF.
+
+.. todo::
+
+   Update these links appropriately.  The newsgroups in particular are
+   mostly unused these days.
+
+Acknowledgements
+================
+
+Becoming sufficiently conversant with Inform to be able to share it with
+others is not something done quickly or in isolation.  In getting to where
+we are today, we have been assisted at many times and in many ways by the
+notably supportive and good-natured people, far too numerous to list by
+name, who make ``rec.arts.int-fiction`` such an invaluable IF resource.  We
+are grateful to you all.
+
+In creating this guide, we have received specific help from a number of
+people.  First and foremost we must mention Graham Nelson, who kindly wrote
+the Foreword, and delighted us with long and detailed lists of helpful
+comments and suggestions on two of our drafts; also Dennis G.  Jerz, who
+patiently and skilfully edited the text, making innumerable improvements to
+our often wayward and inconsistent prose.  David Cornelson supervised the
+Second Edition's transformation into professionally printed respectability.
+Further assistance came from Barney Firth, Christine Firth, Harry Firth,
+Megan Firth, Jim Fisher, Rosemary Frezza, Phil Graham, Graham Holden, Paul
+Johnson, Yoon Ha Lee, Brian Pylant, Jo Quinn, Milos Radovanovic, Muffy
+St. Bernard, Gunther Schmidl, Emily Short, Curt Siffert, A. Sloe, Pavel
+Soukenik, Elise Stone, Brent VanFossen and R. Cliff Young.  Thank you: it
+is impossible to overstate the value of this freely given support and
+assistance.
+
+The drop capitals, and their associated poem, are from "A Picture
+Alphabet", digitised from a collection of public domain woodcuts, circa
+1834, by Steven J.  Lundeen of emerald city fontwerks.
+
+.. todo::
+
+   Reference to the drop-caps should only apply to those places they're
+   used (just the PDF?).
+
+All credit to the generosity of http://briefcase.yahoo.com/ for making
+international file-sharing such a breeze.
+
+Finally, of course, we owe an enormous debt of gratitude to Graham Nelson
+for devising it all, thereby giving us the opportunity -- first
+independently and later in enjoyable collaboration -- of using, and
+eventually of presenting, the Inform text adventure development system.
+
+| *Roger Firth*
+| *Wallingford, England*
+
+| *Sonja Kesserich*
+| *Madrid, Spain*
+
+| *August 2004*
+
+.. rubric:: Footnotes
+
+.. [#play]
+   If you feel confused about IF in general or about this distinction
+   between writing and playing in particular, try glancing ahead at "Just
+   what is interactive fiction?" on page 13 and at "How to play an IF game"
+   on page 209; also, you may find the Ifaq at
+   http://www.plover.net/~textfire/raiffaq/ifaq/ helpful.
