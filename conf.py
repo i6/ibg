@@ -19,7 +19,15 @@ import shlex
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('tools'))
+
+from inform import InformLexer
+from transcript import TranscriptLexer
+
+# Setup function.
+def setup(app):
+    app.add_lexer('inform', InformLexer())
+    app.add_lexer('transcript', TranscriptLexer())
 
 # -- General configuration ------------------------------------------------
 
@@ -92,7 +100,7 @@ default_role = "any"
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'default'
 
 # The default Pygments highlight language.
 highlight_language = 'none'

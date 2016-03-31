@@ -66,5 +66,4 @@ others.  Also, in parallel with that, other niceties:
 
 * Add a glossary
 * Add an index
-* Add Inform syntax highlighting
 * Prepare a new PDF version, via the Sphinx LaTeX converter

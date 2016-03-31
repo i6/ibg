@@ -2,6 +2,8 @@
  About this guide
 ==================
 
+.. highlight:: inform
+
 .. epigraph::
 
    | *If they asked me, I could write a book;*

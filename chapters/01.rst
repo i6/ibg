@@ -2,6 +2,8 @@
  1: Just what is interactive fiction?
 ======================================
 
+.. highlight:: transcript
+
 .. epigraph::
 
    | *A was an archer, who shot at a frog;*
