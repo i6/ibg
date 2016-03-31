@@ -1,6 +1,6 @@
-
-Release history
-===============
+=================
+ Release history
+=================
 
 .. list-table::
    :widths: 1 1 2
@@ -16,7 +16,3 @@ Release history
    * - Third Edition
      - August 2004
      - Alignment with Inform 6.30, further minor revisions
-
-   * - Fourth Edition
-     - March--May 2016
-     - Reformatting and more minor revisions
