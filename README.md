@@ -1,17 +1,17 @@
-Inform Beginner's Guide, 4th Edition
-====================================
+Inform Beginner's Guide
+=======================
 
 Introduction
 ------------
 
-This repository contains the sources for the 4th edition of the
+This repository contains the sources for the
 [Inform Beginner's Guide](http://www.firthworks.com/roger/IBG.html),
-henceforth known as the IBG.  The new edition will be in a new source
-format that's more contributor-friendly (see below).  It's a
-work-in-progress; see the [issue tracker](https://github.com/i6/ibg/issues)
-for how it's going.
+henceforth known as the IBG.  This version is in a new source format that's
+more contributor-friendly (see below).  It's a work-in-progress; see the
+[issue tracker](https://github.com/i6/ibg/issues) for how it's going.
 
-The rationale for this 4th edition is:
+Initially it will be a straight conversion of the 3rd edition.  After that,
+the 4th edition will be prepared.  The rationale for a 4th edition is:
 
 * There have been quite a few updates to Inform and its support libraries
   in the time since 2004, when the 3rd edition was published.
@@ -58,7 +58,7 @@ So, it's back to my original plan: use the PDF file.  Here's the first
 (major) part of the work:
 
 * Dump the text out of the PDF file
-* Convert all the text to Sphinx format
+* Convert all the 3rd edition text to Sphinx format
 * Get the online version to look good
 
 After that comes the 4th edition changes, hopefully in collaboration with
