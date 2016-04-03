@@ -2,7 +2,7 @@
  About this guide
 ==================
 
-.. highlight:: inform
+.. highlight:: inform6
 
 .. epigraph::
 

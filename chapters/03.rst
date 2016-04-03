@@ -41,7 +41,7 @@ that we design will start out like this.  Follow these steps:
 #. In that folder, use your text editor to create this source file
    ``Heidi.inf``:
 
-   .. code-block:: inform
+   .. code-block:: inform6
 
       !% -SD
       !============================================================================
@@ -191,7 +191,7 @@ looking at the source file.
   character.  On this line, the first ``!`` is part of the sequence (or
   string) of characters to be displayed:
 
-  .. code-block:: inform
+  .. code-block:: inform6
 
      print "Hello world!";         ! <- is the start of this comment
 
@@ -199,7 +199,7 @@ looking at the source file.
   space (except when the spaces are part of a character string).  So, these
   two rules tell us that we *could* have typed the source file like this:
 
-  .. code-block:: inform
+  .. code-block:: inform6
 
      Constant Story "Heidi";
      Constant Headline
@@ -222,7 +222,7 @@ looking at the source file.
 * Every game needs the three lines which ``Include`` the standard library
   files -- that is, they merge those files' contents into your source file:
 
-  .. code-block:: inform
+  .. code-block:: inform6
 
      Include "Parser";
      Include "VerbLib";
@@ -235,7 +235,7 @@ looking at the source file.
 * Every game needs to define an ``Initialise`` routine (note the British
   spelling):
 
-  .. code-block:: inform
+  .. code-block:: inform6
 
      [ Initialise; ];
 
@@ -250,7 +250,7 @@ looking at the source file.
   that's why we were able to take three lines to define the ``Headline``
   constant
 
-  .. code-block:: inform
+  .. code-block:: inform6
 
      Constant Headline
            "^A simple Inform example
@@ -278,7 +278,7 @@ In IF, we talk about each of these locations as a **room**, even though in
 this example none of them has four walls.  So let's use Inform to define
 those rooms.  Here's a first attempt:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object   "In front of a cottage"
      with   description
@@ -372,7 +372,7 @@ clearing.  Now, although our descriptions mention or imply these available
 routes, we also need to explicitly add them to the room definitions in a
 form that the game itself can make sense of.  Like this:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object   before_cottage "In front of a cottage"
      with   description
@@ -462,7 +462,7 @@ At this stage, you should study the four room definitions, comparing them
 with the sketch map until you're comfortable that you understand how to
 create simple rooms and define the connections between them.
 
-.. code-block:: inform
+.. code-block:: inform6
 
    !============================================================================
    Constant Story "Heidi";
@@ -535,7 +535,7 @@ Given what we said earlier, you won't be surprised to hear that both the
 bird and its nest are Inform objects.  We'll start their definitions like
 this:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object  bird "baby bird"
      with  description "Too young to fly, the nestling tweets helplessly.",
@@ -563,7 +563,7 @@ relevant vocabulary so that the player can use whatever term seems
 appropriate to her, with a good chance of it being understood.  We add a
 line to each definition:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object  bird "baby bird"
      with  description "Too young to fly, the nestling tweets helplessly.",
@@ -614,7 +614,7 @@ that the player can type PUT (or INSERT) BIRD IN (or INTO) NEST.
 Furthermore, we label it as ``open``; this prevents the interpreter from
 asking us to open it before putting in the bird.
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object   nest "bird's nest"
      with   description "The nest is carefully woven of twigs and moss.",
@@ -626,7 +626,7 @@ To do this, we need to choose the locations where the player will find
 them.  Let's say that the bird is found in the forest, while the nest is in
 the clearing.  This is how we set this up:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object   bird "baby bird" forest
      with   description "Too young to fly, the nestling tweets helplessly.",
@@ -648,7 +648,7 @@ but you'll find it convenient to insert them following the rooms where
 they're found.  This means adding the bird just after the forest, and the
 nest just after the clearing.  Here's the middle piece of the source file:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    !============================================================================
    ! The game objects
@@ -710,7 +710,7 @@ Adding the tree and the branch
 The description of the clearing mentions a tall sycamore tree, up which the
 player character supposedly "climbs".  We'd better define it:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object   tree "tall sycamore tree" clearing
      with   description
@@ -727,7 +727,7 @@ labelling the tree as ``scenery`` we suppress that, and also prevent it
 from being picked up by the player character.  One final object: the branch
 at the top of the tree.  Again, not many surprises in this definition:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object   branch "wide firm bough" top_of_tree
      with   description "It's flat enough to support a small object.",
@@ -743,7 +743,7 @@ objects *onto* the branch.  (In passing, we'll mention that an object can't
 normally be both a ``container`` and a ``supporter``.)  And so here are our
 objects again:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    !============================================================================
    ! The game objects
@@ -811,7 +811,7 @@ carrying the bird and the nest separately: we want the player character to
 put the bird into the nest first.  One easy way to enforce this is by
 adding a line near the top of the file:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    !============================================================================
    Constant Story "Heidi";
@@ -833,7 +833,7 @@ to put the bird in the nest, take the nest to the top of the tree, and
 place it on the branch; when that happens, the game should be over.  This
 is one way of making it happen:
 
-.. code-block:: inform
+.. code-block:: inform6
 
    Object  branch "wide firm bough" top_of_tree
      with  description "It's flat enough to support a small object.",
