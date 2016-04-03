@@ -1,0 +1,610 @@
+=================
+ Heidi revisited
+=================
+
+.. epigraph::
+
+   | *I was an innkeeper, who loved to carouse;*
+   | *J was a joiner, and built up a house.*
+
+In even the simplest story, there's bound to be scope for the player to
+attempt activities that you hadn't anticipated.  Sometimes there may be
+alternative ways of approaching a problem: if you can't be sure which
+approach the player will take, you really ought to allow for all
+possibilities.  Sometimes the objects you create and the descriptions you
+provide may suggest to the player that doing such-and-such should be
+possible, and, within reason, you ought to allow for that also.  The basic
+game design is easy: what takes the time, and makes a game large and
+complex, is taking care of all the *other* things that the player may think
+of trying.
+
+Here, we try to illustrate what this means by addressing a few of the more
+glaring deficiencies in our first game.
+
+Listening to the bird
+=====================
+
+Here's a fragment of the game being played:
+
+.. code-block:: transcript
+
+   Deep in the forest
+   Through the dense foliage, you glimpse a building to the west. A track heads
+   to the northeast.
+
+   You can see a baby bird here.
+
+   >EXAMINE THE BIRD
+   Too young to fly, the nestling tweets helplessly.
+
+   >LISTEN TO BIRD
+   You hear nothing unexpected.
+
+   >
+
+That's not too smart, is it?  Our description specifically calls the
+player's attention to the sound of the bird -- and then she finds out that
+we've got nothing special to say about its helpless tweeting.
+
+The library has a stock of actions and responses for each of the game's
+defined verbs, so it can handle most of the player's input with a default,
+standard behaviour instead of remaining impertinently silent or saying that
+it doesn't understand what the player intends.  "You hear nothing
+unexpected" is the library's standard LISTEN response, good enough after
+LISTEN TO NEST or LISTEN TO TREE, but fairly inappropriate here; we really
+need to substitute a more relevant response after LISTEN TO BIRD.  Here's
+how we do it:
+
+.. code-block:: inform6
+
+   Object   bird "baby bird" forest
+     with   description "Too young to fly, the nestling tweets helplessly.",
+            name 'baby' 'bird' 'nestling',
+            before [;
+                  Listen:
+                    print "It sounds scared and in need of assistance.^";
+                    return true;
+            ],
+      has   ;
+
+We'll go through this a step at a time:
+
+#. We've added a new ``before`` property to our bird object.  The
+   interpreter looks at the property *before* attempting to perform any
+   action which is directed specifically at this object::
+
+      before [; ... ],
+
+#. The value of the property is an embedded routine, containing a label and
+   two statements::
+
+       Listen:
+         print "It sounds scared and in need of assistance.^";
+         return true;
+
+#. The label is the name of an action, in this case ``Listen``.  What we're
+   telling the interpreter is: if the action that you're about to perform
+   on the bird is a ``Listen``, execute these statements first; if it's any
+   other action, carry on as normal.  So, if the player types EXAMINE BIRD,
+   PICK UP BIRD, PUT BIRD IN NEST, HIT BIRD or FONDLE BIRD, then she'll get
+   the standard response.  If she types LISTEN TO BIRD, then our two
+   statements get executed before anything else happens.  We call this
+   "trapping" or "intercepting" the action of Listening to the bird.
+
+#. The two statements that we execute are, first::
+
+       print "It sounds scared and in need of assistance.^";
+
+   which causes the interpreter to display the string given in double
+   quotes; remember that a ``^`` character in a string appears as a
+   newline.  Second, we execute::
+
+       return true;
+
+   which tells the interpreter that it doesn't need to do anything else,
+   because we've handled the ``Listen`` action ourselves.  And the game now
+   behaves like this -- perfect:
+
+   .. code-block:: transcript
+
+      >LISTEN TO BIRD
+      It sounds scared and in need of assistance.
+
+      >
+
+The use of the ``return true`` statement probably needs a bit more
+explanation.  An object's ``before`` property traps an action aimed at that
+object right at the start, before the interpreter has started to do
+anything.  That's the point at which the statements in the embedded routine
+are executed.  If the last of those statements is ``return true`` then the
+interpreter assumes that the action has been dealt with by those
+statements, and so there's nothing left to do: no action, no message;
+nothing.  On the other hand, if the last of the statements is ``return
+false`` then the interpreter carries on to perform the default action as
+though it hadn't been intercepted.  Sometimes that's what you want it to
+do, but not here: if instead we'd written this:
+
+.. code-block:: inform6
+
+   Object    bird "baby bird" forest
+     with    description "Too young to fly, the nestling tweets helplessly.",
+             name 'baby' 'bird' 'nestling',
+             before [;
+                Listen:
+                  print "It sounds scared and in need of assistance.^";
+                  return false;
+             ],
+       has   ;
+
+then the interpreter would first have displayed our string, and then
+carried on with its normal response, which is to display the standard
+message:
+
+.. code-block:: transcript
+
+   >LISTEN TO BIRD
+   It sounds scared and in need of assistance.
+   You hear nothing unexpected.
+
+   >
+
+This technique -- intercepting an action aimed at a particular object in
+order to do something appropriate for that object -- is one that we'll use
+again and again.
+
+Entering the cottage
+====================
+
+At the start of the game the player character stands "outside a cottage", which
+might lead her to believe that she can go inside:
+
+.. code-block:: transcript
+
+   In front of a cottage
+   You stand outside a cottage. The forest stretches east.
+
+   >IN
+   You can't go that way.
+
+   >
+
+Again, that isn't perhaps the most appropriate response, but it's easy to
+change:
+
+.. code-block:: inform6
+
+   Object    before_cottage "In front of a cottage"
+     with    description
+                 "You stand outside a cottage. The forest stretches east.",
+             e_to forest,
+             in_to "It's such a lovely day -- much too nice to go inside.",
+             cant_go "The only path lies to the east.",
+       has   light;
+
+The ``in_to`` property would normally link to another room, in the same way
+as the ``e_to`` property contain the internal ID of the ``forest`` object.
+However, if instead you set its value to be a string, the interpreter
+displays that string when the player tries the IN direction.  Other --
+unspecified -- directions like NORTH and UP still elicit the standard "You
+can't go that way" response, but we can change that too, by supplying a
+``cant_go`` property whose value is a suitable string.  We then get this
+friendlier behaviour:
+
+.. code-block:: transcript
+
+   In front of a cottage
+   You stand outside a cottage. The forest stretches east.
+
+   >IN
+   It's such a lovely day -- much too nice to go inside.
+
+   >NORTH
+   The only path lies to the east.
+
+   >EAST
+
+   Deep in the forest
+   ...
+
+There's another issue here; since we haven't actually implemented an object
+to represent the cottage, a perfectly reasonable EXAMINE COTTAGE command
+receives the obviously nonsensical reply "You can't see any such thing".
+That's easy to fix; we can add a new ``cottage`` object, making it a piece
+of ``scenery`` just like the ``tree``:
+
+.. code-block:: inform6
+
+   Object   cottage "tiny cottage" before_cottage
+     with   description "It's small and simple, but you're very happy here.",
+            name 'tiny' 'cottage' 'home' 'house' 'hut' 'shed' 'hovel',
+      has   scenery;
+
+This solves the problem, but promptly gives us another unreasonable
+response:
+
+.. code-block:: transcript
+
+   In front of a cottage
+   You stand outside a cottage. The forest stretches east.
+
+   >ENTER COTTAGE
+   That's not something you can enter.
+
+   >
+
+The situation here is similar to our LISTEN TO BIRD problem, and the
+solution we adopt is similar as well:
+
+.. code-block:: inform6
+
+   Object   cottage "tiny cottage" before_cottage
+     with   description "It's small and simple, but you're very happy here.",
+            name 'tiny' 'cottage' 'home' 'house' 'hut' 'shed' 'hovel',
+            before [;
+               Enter:
+                 print_ret "It's such a lovely day -- much too nice to go inside.";
+            ],
+      has   scenery;
+
+We use a ``before`` property to intercept the ``Enter`` action applied to
+the cottage object, so that we can display a more appropriate message.
+This time, however, we've done it using one statement rather than two.  It
+turns out that the sequence "``print`` a string which ends with a newline
+character, and then ``return true``" is so frequently needed that there's a
+special statement which does it all.  That is, this single statement (where
+you'll note that the string doesn't need to end in ``^``)::
+
+     print_ret "It's such a lovely day -- much too nice to go inside.";
+
+works exactly the same as this pair of statements::
+
+     print "It's such a lovely day -- much too nice to go inside.^";
+     return true;
+
+We could have used the shorter form when handling LISTEN TO BIRD, and we
+*will* use it from now on.
+
+Climbing the tree
+=================
+
+In the clearing, holding the nest and looking at the tree, the player is
+meant to type UP.  Just as likely, though, she'll try CLIMB TREE (which
+currently gives the completely misleading response "I don't think much is
+to be achieved by that").  Yet another opportunity to use a ``before``
+property, but now with a difference.
+
+.. code-block:: inform6
+
+   Object   tree "tall sycamore tree" clearing
+     with   description
+                 "Standing proud in the middle of the clearing,
+                  the stout tree looks easy to climb.",
+            name 'tall' 'sycamore' 'tree' 'stout' 'proud',
+            before [;
+               Climb:
+                 PlayerTo(top_of_tree);
+                 return true;
+            ],
+     has    scenery;
+
+This time, when we intercept the ``Climb`` action applied to the ``tree``
+object, it's not in order to display a better message; it's because we want
+to move the player character to another room, just as if she'd typed UP.
+Relocating the player character is actually quite a complex business, but
+fortunately all of that complexity is hidden: there's a standard **library
+routine** to do the job, not one that we've written, but one that's
+provided as part of the Inform system.
+
+You'll remember that, when we first mentioned routines (see "Standalone
+routines" on page 57), we used the example of ``Initialise()`` and said
+that "the routine's name followed by opening and closing parentheses is all
+that it takes to call a routine".  That was true for ``Initialise()``, but
+not quite the whole story.  To move the player character, we've got to
+specify where we want her to go, and we do that by supplying the internal
+ID of the destination room within the opening and closing parentheses.
+That is, instead of just ``PlayerTo()`` we call ``PlayerTo(top_of_tree)``,
+and we describe ``top_of_tree`` as the routine's **argument**.
+
+Although we've moved the player character to another room, we're still in
+the middle of the intercepted ``Climb`` action.  As previously, we need to
+tell the interpreter that we've dealt with the action, and so we don't want
+the standard rejection message to be displayed.  The ``return true``
+statement does that, as usual.
+
+Dropping objects from the tree
+==============================
+
+In a normal room like the ``forest`` or the ``clearing``, the player can
+DROP something she's carrying and it'll effectively fall to the ground at
+her feet.  Simple, convenient, predictable -- except when the player is at
+the top of the tree.  Should she DROP something from up there, having it
+land nearby might seem a bit improbable; much more likely that it would
+fall to the clearing below.
+
+It looks like we might want to intercept the ``Drop`` action, but not quite
+in the way we've been doing up until now.  For one thing, we don't want to
+complicate the definitions of the ``bird`` and the ``nest`` and any other
+objects we may introduce: much better to find a general solution that will
+work for all objects.  And second, we need to recognise that not all
+objects are droppable; the player can't, for example, DROP THE BRANCH.
+
+The best approach to the second problem is to intercept the ``Drop`` action
+*after* it has occurred, rather than beforehand.  That way, we let the
+library take care of objects which aren't being held or which can't be
+dropped, and only become involved once a ``Drop`` has been successful.  And
+the best approach to the first problem is to do this particular
+interception not on an object-by-object basis, as we have been doing so
+far, but instead for every ``Drop`` which takes place in our troublesome
+``top_of_tree`` room.  This is what we have to write:
+
+.. code-block:: inform6
+
+   Object   top_of_tree "At the top of the tree"
+     with   description "You cling precariously to the trunk.",
+            d_to clearing,
+            after [;
+               Drop:
+                 move noun to clearing;
+                 return false;
+            ],
+      has   light;
+
+Let's again take it a step at a time:
+
+#. We've added a new ``after`` property to our ``top_of_tree`` object.  The
+   interpreter looks at the property *subsequent to* performing any action in
+   this room::
+
+       after [; ... ],
+
+#. The value of the property is an embedded routine, containing a label and
+   two statements::
+
+       Drop:
+         move noun to clearing;
+         return false;
+
+#. The label is the name of an action, in this case ``Drop``.  What we're
+   telling the interpreter is: if the action that you've just performed
+   here is a ``Drop``, execute these statements before telling the player
+   what you've done; if it's any other action, carry on as normal.
+
+#. The two statements that we execute are first::
+
+       move noun to clearing;
+
+   which takes the object which has just been moved from the ``player``
+   object to the ``top_of_tree`` object (by the successful ``Drop`` action)
+   and moves it again so that its parent becomes the ``clearing`` object.
+   That ``noun`` is a library variable that always contains the internal ID
+   of the object which is the target of the current action.  If the player
+   types DROP NEST, ``noun`` contains the internal ID of the ``nest``
+   object; if she types DROP NESTLING then ``noun`` contains the internal
+   ID of the ``bird`` object.  Second, we execute::
+
+       return false;
+
+   which tells the interpreter that it should now let the player know
+   what's happened.  Here's the result of all this:
+
+   .. code-block:: transcript
+
+      At the top of the tree
+      You cling precariously to the trunk.
+
+      You can see a wide firm bough here.
+
+      >DROP NEST
+      Dropped.
+
+      >LOOK
+
+      At the top of the tree
+      You cling precariously to the trunk.
+
+      You can see a wide firm bough here.
+
+      >DOWN
+
+      A forest clearing
+      A tall sycamore stands in the middle of this clearing. The path winds
+      southwest through the trees.
+
+      You can see a bird's nest (in which is a baby bird) here.
+
+      >
+
+Of course, you might think that the standard message "Dropped" is slightly
+unhelpful in these non-standard circumstances.  If you prefer to hint at
+what's just happened, you could use this alternative solution:
+
+.. code-block:: inform6
+
+   Object   top_of_tree "At the top of the tree"
+     with   description "You cling precariously to the trunk.",
+            d_to clearing,
+            after [;
+               Drop:
+                 move noun to clearing;
+                 print_ret "Dropped... to the ground far below.";
+            ],
+     has    light;
+
+The ``print_ret`` statement does two things for us: displays a more
+informative message, and returns ``true`` to tell the interpreter that
+there's no need to let the player know what's happened -- we've handled
+that ourselves.
+
+Is the bird in the nest?
+========================
+
+The game ends when the player character puts the nest onto the branch.  Our
+assumption here is that the bird is inside the nest, but this might not be
+so; the player may have first taken up the bird and then gone back for the
+nest, or vice versa.  It would be better not to end the game until we'd
+checked for the bird actually being in the nest; fortunately, that's easy
+to do:
+
+.. code-block:: inform6
+
+   Object   branch "wide firm bough" top_of_tree
+     with   description "It's flat enough to support a small object.",
+            name 'wide' 'firm' 'flat' 'bough' 'branch',
+            each_turn [; if (bird in nest && nest in branch) deadflag = 2; ],
+      has   static supporter;
+
+The extended ``if`` statement::
+
+    if (bird in nest && nest in branch) deadflag = 2;
+
+should now be read as: "Test whether the ``bird`` is currently in (or on)
+the ``nest``, and whether the ``nest`` is currently on (or in) the
+``branch``; if both parts are ``true``, set the value of ``deadflag`` to 2;
+otherwise, do nothing".
+
+Summing up
+==========
+
+You should by now have some appreciation of the need not only to handle the
+obvious actions which were at the forefront of your mind when designing the
+game, but also as many as you can of the other possible ways that a player
+may choose to interact with the objects presented to her.  Some of those
+ways will be highly intelligent, some downright dumb; in either case you
+should try to ensure that the game's response is at least sensible, even
+when you're telling the player "sorry, you can't do that".
+
+The new topics that we've encountered here include these:
+
+.. rubric:: Object properties
+
+Objects can have a ``before`` property -- if there is one, the interpreter
+looks at it *before* performing an action which in some way involves that
+object.  Similarly, you can provide an ``after`` property, which the
+interpreter looks at *after* performing an action but before telling the
+player what's happened.  Both ``before`` and ``after`` properties can be
+used not only with tangible objects like the ``bird``, ``cottage`` and
+``tree`` (when they intercept actions aimed at that particular object) but
+also with rooms (when they intercept actions aimed at any object in that
+room).
+
+The value of each ``before`` and ``after`` property is an embedded routine.
+If such a routine ends with ``return false``, the interpreter then carries
+on with the next stage of the action which has been intercepted; if it ends
+with ``return true``, the interpreter does nothing further for that action.
+By combining these possibilities, you can supplement the work done by a
+standard action with statements of your own, or you can replace a standard
+action completely.
+
+Previously, we've seen connection properties used with the internal ID of
+the room to which they lead.  In this chapter, we showed that the value
+could also be a string (explaining why movement in that direction isn't
+possible).  Here are examples of both, and also of the ``cant_go`` property
+which provides just such an explanation for *all* connections that aren't
+explicitly listed::
+
+    e_to forest,
+    in_to "It's such a lovely day -- much too nice to go inside.",
+    cant_go "The only path lies to the east.",
+
+.. rubric:: Routines and arguments
+
+The library includes a number of useful routines, available to perform
+certain common tasks if you require them; there's a list in "Library
+routines" on page 264.  We used the ``PlayerTo`` routine, which moves the
+player character from her current room to another one -- not necessarily
+adjacent to the first room.
+
+When calling ``PlayerTo``, we had to tell the library which room is the
+destination.  We did this by supplying that room's internal ID within
+parentheses, thus::
+
+    PlayerTo(clearing);
+
+A value given in parentheses like that is called an **argument** of the
+routine.  In fact, a routine can have more than one argument; if so,
+they're separated by commas.  For example, to move the player character to
+a room *without* displaying that room's description, we could have supplied
+a second argument::
+
+    PlayerTo(clearing,1);
+
+In this example, the effect of the ``1`` is to prevent the description
+being displayed.
+
+.. rubric:: Statements
+
+We encountered several new statements:
+
+``return true;``
+
+``return false;``
+    We used these at the end of embedded routines to control what the
+    interpreter did next.
+
+``print "string";``
+
+``print_ret "string";``
+    The ``print`` statement simply displays the string of characters
+    represented here by *string*.  The ``print_ret`` statement also does
+    that, then outputs a newline character, and finally executes a ``return
+    true;``
+
+``if (condition && condition ) ...``
+    We extended the simple ``if`` statement that we met before.  The ``&&``
+    (to be read as "and") is an operator commonly used when testing for
+    more than one condition at the same time.  It means "if this condition
+    is true *and* this condition is also true *and* ..."  There's also a
+    ``||`` operator, to be read as "or", and a "not" operator ``~~``, which
+    turns true into false and vice versa.
+
+    .. note::
+
+       In addition, there are ``&``, ``|`` and ``~`` operators, but they do
+       a rather different job and are much less common.  Take care not to
+       get them confused.
+
+``move obj_id to parent_obj_id;``
+     The ``move`` statement rearranges the object tree, by making the first
+     ``obj_id`` a child of the ``parent_obj_id``.
+
+.. rubric:: Actions
+
+We've talked a lot about intercepting actions like ``Listen``, ``Enter``,
+``Climb`` and ``Drop``.  An action is a generalised representation of
+something to be done, determined by the verb which the player types.  For
+example, the verbs HEAR and LISTEN are ways of saying much the same thing,
+and so both result in the same action: ``Listen``.  Similarly, verbs like
+ENTER, GET INTO, SIT ON and WALK INSIDE all lead to an action of ``Enter``,
+CLIMB and SCALE lead to Climb, and DISCARD, DROP, PUT DOWN and THROW all
+lead to ``Drop``.  This makes life much easier for the designer; although
+Inform defines quite a lot of actions, there are many fewer than there are
+ways of expressing those same actions using English verbs.
+
+Each action is represented internally by a number, and the value of the
+current action is stored in a library variable called, erm, ``action``.
+Two more variables are also useful here: ``noun`` holds the internal ID of
+the object which is the focus of the action, and ``second`` holds the
+internal ID of the secondary object (if there is one).  Here are some
+examples of these:
+
+===============================    ======     =======   =======
+Player types                       action     noun      second
+-------------------------------    ------     -------   -------
+LISTEN                             Listen     nothing   nothing
+LISTEN TO THE BIRD                 Listen     bird      nothing
+PICK UP THE BIRD                   Take       bird      nothing
+PUT BIRD IN NEST                   Insert     bird      nest
+DROP THE NEST                      Drop       nest      nothing
+PUT NEST ON BRANCH                 PutOn      nest      branch
+===============================    ======     =======   =======
+
+The value ``nothing`` is a built-in constant (like ``true`` and ``false``)
+which means, well, there isn't any object to refer to.  There's a list of
+standard library actions in "Group 1 actions" on page 270, "Group 2
+actions" on page 271 and "Group 3 actions" on page 271.
+
+We've now reached the end of our first game.  In these three chapters we've
+shown you the basic principles on which almost all games are based, and
+introduced you to many of the components that you'll need when creating
+more interesting IF.  We suggest that you take one last look at the source
+code (see "Heidi" story on page 213), and then move on to the next stage.
