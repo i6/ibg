@@ -6,12 +6,17 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-   :glob:
 
    copyright
    history
    foreword
    about
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+   :numbered:
+
    chapters/*
 
 Indices:

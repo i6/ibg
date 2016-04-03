@@ -1,6 +1,6 @@
-======================================
- 1: Just what is interactive fiction?
-======================================
+===================================
+ Just what is interactive fiction?
+===================================
 
 .. highlight:: transcript
 
