@@ -1,0 +1,547 @@
+======================
+ Reviewing the basics
+======================
+
+.. epigraph::
+
+   | *G was a gamester, who had but ill-luck;*
+   | *H was a hunter, and hunted a buck.*
+
+Going through the design of our first game in the previous chapter has
+introduced all sorts of Inform concepts, often without giving you much
+detail about what's been happening.  So let's review some of what we've
+learnt so far, in a slightly more organised fashion.  We'll talk about
+"Constants and variables" on page 49, "Object definitions" on page 50,
+"Object relationships -- the object tree" on page 52, "Things in quotes" on
+page 55, and "Routines and statements" on page 56.
+
+Constants and variables
+=======================
+
+Superficially similar, constants and variables are actually very different
+beasts.
+
+.. rubric:: Constants
+
+A **constant** is a name to which a value is given once and once only; you
+can't later use that name to stand for a different value.  Think of it as a
+stone tablet on which you carve a number: a carving can't be undone, so
+that you see the same number every time you look at the stone.
+
+So far, we've seen a ``Constant`` being set up with its value as a string
+of characters::
+
+    Constant Story "Heidi";
+
+and as a number::
+
+    Constant MAX_CARRIED 1;
+
+Those two examples represent the most common ways in which constants are
+used in Inform.
+
+.. rubric:: Variables
+
+A **variable** is a name to which a value is given, but that value can be
+changed to a different one at any time.  Think of it as a blackboard on
+which you mark a number in chalk: whenever you need to, just wipe the board
+and write up a new number.
+
+We haven't set up any variables of our own yet, though we've used a couple
+which the library created like this::
+
+    Global location;
+    Global deadflag;
+
+The value of a **global variable** created in this way is initially 0, but
+you can change it at any time.  For example, we used the statement::
+
+     location = before_cottage;
+
+to reset the value of the location variable to the ``before_cottage``
+object, and we wrote::
+
+     if (nest in branch) deadflag = 2;
+
+to reset the value of the ``deadflag`` variable to 2.
+
+Later, we'll talk about the **local variable** (see "Routines" on page 179)
+and about using object properties as variables (see "Objects" on page 177).
+
+Object definitions
+==================
+
+The most important information you should have gleaned from the previous
+chapter is that your entire game is defined as a series of objects.  Each
+room is an object, each item that the player sees and touches is an object;
+indeed the player herself is also an object (one that's automatically
+defined by the library).
+
+The general model of an **object** definition looks like this::
+
+        Object      obj_id   "external_name"   parent_obj_id
+           with     property    value ,
+                    property    value ,
+                    ...
+                    property    value ,
+           has      attribute    attribute   ... attribute
+           ;
+
+The definition starts with the word ``Object`` and ends with a semicolon;
+in between are three major blocks of information:
+
+* immediately after the word ``Object`` is the header information;
+* the word ``with`` introduces the object's **properties**;
+* the word ``has`` introduces the object's **attributes**.
+
+.. rubric:: Object headers
+
+An object header comprises up to three items, all optional:
+
+* An internal ``obj_id`` by which other objects refer to this object.  It's
+  a single word (though it can contain digits and underscores) of up to
+  thirty-two characters, and it must be unique within the game.  You can
+  omit the ``obj_id`` if this object isn't referred to by any other
+  objects.
+
+  For example: ``bird``, ``tree``, ``top_of_tree``.
+
+* An ``external_name``, in double quotes, which is what the interpreter
+  uses when referring to the object.  It can be one or more words, and need
+  not be unique (for instance, you might have several ``"Somewhere in the
+  desert"`` rooms).  Although not mandatory, it's best to give *every*
+  object an ``external_name``.  For example: ``"baby bird"``, ``"tall
+  sycamore tree"``, ``"At the top of the tree"``.
+
+* The internal ``obj_id`` of another object which is the initial location
+  of this object (its "parent" -- see the next section) at the start of the
+  game.  This is omitted from objects which have no initial parent; it's
+  *always* omitted from a room.
+
+  For example: the definition of the ``bird`` starts like this, specifying
+  that at the start of the game, it can be found in the ``forest`` room
+  (though later the player character will pick it up and move it around)::
+
+      Object   bird "baby bird" forest
+      ...
+
+  The ``tree`` starts like this; the only real difference is that, because
+  the player character can't move a ``scenery`` object, it's always going
+  to be in the ``clearing``::
+
+      Object   tree "tall sycamore tree" clearing
+      ...
+
+  .. note::
+
+     There's an alternative method for defining an object's initial
+     location, using "arrows" rather than the parent's internal ``obj_id``.
+     For example, the definition of the bird could have started like this::
+
+         Object   -> bird "baby bird"
+         ...
+
+     We don't use the arrows method in this guide, though we do describe
+     how it works in "Setting up the object tree" on page 185.
+
+.. rubric:: Object properties
+
+An object's property definitions are introduced by the ``with`` keyword.
+An object can have any number of properties, and they can be defined in any
+order.  Each definition has two parts: a name, and a value; there's a space
+between the two parts, and a comma at the end.
+
+Think of each property as a variable which is specifically associated with
+that object.  The variable's initial setting is the supplied value; if
+necessary, it can be reset to other values during play (though in fact most
+property values don't change in this way).
+
+Here are examples of the properties that we've come across so far::
+
+    description "The nest is carefully woven of twigs and moss.",
+    e_to forest,
+    name 'baby' 'bird' 'nestling',
+    each_turn [; if (nest in branch) deadflag = 2; ],
+
+By happy coincidence, those examples also demonstrate most of the different
+types of value which can be assigned to a property.  The value associated
+with the ``description`` property in this particular example is a string of
+characters in double quotes; the value associated with this ``e_to``
+property is the internal identity of an object; the ``name`` property is a
+bit unusual -- its value is a list of dictionary words, each in single
+quotes; the ``each_turn`` property has a value which is an **embedded
+routine** (see "Embedded routines" on page 58).  The only other type of
+value which is commonly found is a simple number; for example::
+
+     capacity 10,
+
+In all, the library defines around forty-eight standard properties -- like
+``name`` and ``each_turn`` -- which you can associate with your objects;
+there's a complete list in "Object properties" on page 266.  And in
+"William Tell: in his prime" on page 91 we show you how to invent your own
+property variables.
+
+.. rubric:: Object attributes
+
+An object's attribute list is introduced by the ``has`` keyword.  An object
+can have any number of attributes, and they can be listed in any order,
+with a space between each.
+
+As with properties, you can think of each attribute as a variable which is
+specifically associated with that object.  However, an attribute is a much
+more limited form of variable, since it can have only two possible states:
+present, and absent (also known as set/clear, on/off, or true/false;
+incidentally, a two-state variable like this is often called a **flag**).
+Initially, an attribute is either present (if you mention its name in the
+list) or absent (otherwise); if necessary, its state can change during play
+(and this is relatively common).  We often say that a certain object
+currently *has* a certain attribute, or that conversely it *hasn't* got it.
+
+The attributes that we've come across so far are::
+
+     container light open scenery static supporter
+
+Each of those answers a question: Is this object a container?  Does it
+provide light?  and so on.  If the attribute is present then the answer is
+Yes; if the attribute isn't present, the answer is No.
+
+The library defines around thirty standard attributes, listed in "Object
+attributes" on page 269.  Although you *can* devise additional attributes
+-- see "Common properties and attributes" on page 185 -- in practice you
+seldom need to.
+
+Object relationships -- the object tree
+=======================================
+
+Not only is your game composed entirely of objects, but also Inform takes
+great care to keep track of the relationships between those objects.  By
+"relationship" we don't mean that Walter is Wilhelm's son, while Helga and
+Wilhelm are just good friends; it's a much more comprehensive exercise in
+recording exactly where each object is located, relative to the other
+objects in the game.
+
+Despite what we just said, Inform relationships *are* managed in terms of
+**parent** and **child** objects, though in a much broader sense than
+Wilhelm and Walter.  When the player character is in a particular room --
+for example the forest -- we can say that:
+
+* the forest object is *the* parent of the player object, or alternatively
+* the player object is *a* child of the forest object.
+
+Also, if the player is carrying an object -- for example the nest -- we say
+that:
+
+* the player object is *the* parent of the nest object, or that
+* the nest object is *a* child of the player object.
+
+Note the emphasis there: an object has exactly *one* parent (or no parent
+at all), but can have *any number* of child objects (including none).
+
+For an example of an object having more than one child, think about the way
+we defined the nest and tree objects::
+
+    Object   nest "bird's nest" clearing
+    ...
+
+    Object   tree "tall sycamore tree" clearing
+    ...
+
+We used the third of the header items to say that the clearing was the
+parent of the nest, and also that the clearing was the parent of the tree;
+that is, both nest and tree are child objects of the clearing.
+
+.. note::
+
+   A "room" isn't anything magical; it's just an object which *never* has a
+   parent, and which *may* from time to time have the player object as a
+   child.
+
+When we defined the bird, we placed it in the forest, like so::
+
+    Object   bird "baby bird" forest
+    ...
+
+We didn't place any other objects in that room, so at the start of the game
+the forest was the parent of the bird (and the bird was the only child of
+the forest).  But what happens when the player character, initially in the
+``before_cottage`` room, goes EAST to the forest?  Answer: the player's
+parent is now the forest, and the forest has two children -- the bird *and*
+the player.  This is a key principle of the way Inform manages its objects:
+the parent--child relationships between objects change continuously, often
+dramatically, as the game progresses.
+
+Another example of this: suppose the player character picks up the bird.
+This causes another change in the relationships.  The bird is now a child
+of the player (and *not* of the forest), and the player is both a parent
+(of the bird) and a child (of the forest).
+
+In this diagram, we show how the object relationships change during the
+course of the game.  The straight lines represent parent--child
+relationships, with the parent object at the top of the line, and the child
+object at the bottom.
+
+.. list-table::
+   :widths: 1 3 5
+
+   * - 1.
+     - At the start of the game:
+     - .. image:: /images/heidiobj1.*
+
+   * - 2.
+     - The player types: ``GO EAST``
+     - .. image:: /images/heidiobj2.*
+
+   * - 3.
+     - The player types: ``TAKE THE BIRD``
+     - .. image:: /images/heidiobj3.*
+
+   * - 4.
+     - The player types: ``GO NORTHEAST``
+     - .. image:: /images/heidiobj4.*
+
+   * - 5.
+     - The player types: ``PUT BIRD IN NEST``
+     - .. image:: /images/heidiobj5.*
+
+   * - 6.
+     - The player types: ``TAKE NEST``
+     - .. image:: /images/heidiobj6.*
+
+   * - 7.
+     - The player types: ``UP``
+     - .. image:: /images/heidiobj7.*
+
+   * - 8.
+     - The player types: ``PUT NEST ON BRANCH``
+     - .. image:: /images/heidiobj8.*
+
+In this short example, we've taken a lot of time and space to spell out
+exactly how the objects relationship patterns -- generally known as the
+**object tree** -- appear at each stage.  Normally you wouldn't bother with
+this much detail (a) because the interpreter does most of the work for you,
+and (b) because in a real game there are usually too many objects for you
+to keep track of.  What's important is that you understand the basic
+principles: at any moment in time an object either has no parent (which
+probably means either that it's a room, or that it's floating in hyperspace
+and not currently part of the game) or exactly one parent -- the object
+that it's "in" or "on" or "a part of".  However, there's no restriction on
+the number of children that an object can have.
+
+There's a practical use for these relationships, covered in detail further
+on.  As a designer, you can refer to the current parent or children of any
+given object with the ``parent``, ``child`` and ``children`` routines, and
+this is one feature that you will be using frequently.  There are also
+other routines associated with the object tree, to help you keep track of
+the objects or move them around.  We'll see them one by one in the next
+chapters.  For a quick summary, see "Objects" on page 177.
+
+Things in quotes
+================
+
+Inform makes careful distinction between double and single quotes.
+
+.. rubric:: Double quotes
+
+Double quotes "..." surround a **string** -- a letter, a word, a paragraph,
+or almost any number of characters -- which you want the interpreter to
+display while the game is being played.  You can use the tilde ``~`` to
+represent a double quote inside the string, and the circumflex ``^`` to
+represent a newline (line break) character.  Upper-case and lower-case
+letters are treated as different.
+
+A long string can be split over several lines; Inform transforms each line
+break (and any spaces around it) into a single space (extra spaces not at a
+line break are preserved, though).  These two strings are equivalent::
+
+    "This is a      string of characters."
+
+    "This
+      is
+            a    string
+                       of characters."
+
+When the interpreter displays a long character string -- for example, while
+describing a feature-packed room -- it employs automatic word-wrapping to
+fit the text to the player's screen.  This is where you might insert ``^``
+characters to force line breaks to appear, thus presenting the text as a
+series of paragraphs.  So far, we've seen strings used as the value of a
+``Constant``::
+
+    Constant Headline
+          "^A simple Inform example
+           ^by Roger Firth and Sonja Kesserich.^";
+
+which could equally have been defined thus::
+
+    Constant Headline
+          "^A simple Inform example^by Roger Firth and Sonja Kesserich.^";
+
+and as the value of an object description property::
+
+    description "Too young to fly, the nestling tweets helplessly.",
+
+Later, you'll find that they're also very common in ``print`` statements.
+
+.. rubric:: Single quotes
+
+Single quotes '...' surround a **dictionary word**.  This has to be a
+single word -- no spaces -- and generally contains only letters (and
+occasionally numbers and hyphens), though you can use ``^`` to represent an
+apostrophe inside the word.  Upper-case and lower-case letters are treated
+as identical; also, the interpreter normally looks only at the first nine
+characters of each word that the player types.
+
+When the player types a command, the interpreter divides what was typed
+into individual words, which it then looks up in the dictionary.  If it
+finds all the words, and they seem to represent a sensible course of
+action, that's what happens next.
+
+So far, we've seen dictionary words used as the values of an object
+``name`` property::
+
+     name 'bird^s' 'nest' 'twigs' 'moss',
+
+and indeed that's just about the only place where they commonly occur.
+You'll save yourself a lot of confusion by remembering the distinction:
+Double quotes for Output, Single quotes for Input (DOSI).
+
+Routines and statements
+=======================
+
+A routine is a collection of statements, which are performed (or we often
+say "are executed") at run-time by the interpreter.  There are two types of
+routine, and about two dozen types of statement (there's a complete list in
+"Statements" on page 174; see also "Inform language" on page 257).
+
+.. rubric:: Statements
+
+A **statement** is an instruction telling the interpreter to perform a
+particular task -- to "do something" -- while the game is being played.  A
+real game usually has lots and lots of statements, but so far we've
+encountered only a few.  We saw::
+
+     location = before_cottage;
+
+which is an example of an **assignment** statement, so-called because the
+equals sign ``=`` assigns a new value (the internal ID of our
+``before_cottage`` room) to a variable (the global variable ``location``
+which is part of the library).  Later we saw::
+
+     if (nest in branch) deadflag = 2;
+
+which is actually *two* statements: an assignment, preceded by an ``if``
+statement::
+
+     if (nest in branch) ...
+
+The ``if`` statement tests a particular condition; if the condition is
+true, the interpreter executes whatever statement comes next; if it isn't
+true, the interpreter ignores the next statement.  In this example, the
+interpreter is testing whether the ``nest`` object is "in" or "on" (which
+we now know means "is a child of") the ``branch`` object.  For most of the
+game, that condition is not true, and so the interpreter ignores the
+following statement.  Eventually, when the condition becomes true, the
+interpreter executes that statement: it performs an assignment::
+
+    deadflag = 2;
+
+which changes the value of the library variable ``deadflag`` from its
+current value to 2.  Incidentally, if statements are often written on two
+lines, with the "controlled" statement indented.  This makes it easier to
+read, but doesn't change the way that it works::
+
+    if (nest in branch)
+        deadflag = 2;
+
+The thing that's being controlled by the ``if`` statement doesn't have to
+be an assignment; it can be any kind of statement.  In fact, you can have
+lots of statements, not just one, controlled by an ``if`` statement.  We'll
+talk about these other possibilities later.  For now, just remember that
+the only place where you'll find statements are within standalone routines
+and embedded routines.
+
+.. rubric:: Standalone routines
+
+A **standalone routine** is a series of statements, collected together and
+given a name.  When the routine is "called" -- by its given name -- those
+statements are executed.  Here's the one that we've defined::
+
+    [ Initialise; location = before_cottage; ];
+
+Because it's such a tiny routine, we placed it all on a single line.  Let's
+rewrite it to use several lines (as with the ``if`` statement, this improves
+the readability, but doesn't affect how it works)::
+
+    [ Initialise;
+        location = before_cottage;
+    ];
+
+The ``[ Initialise;`` is the start of the routine, and defines the name by
+which it can be "called".  The ``];`` is the end of the routine.  In
+between are the statements -- sometimes known as the body of the routine --
+which are executed when the routine is called.  And how is that done?  By a
+statement like this::
+
+    Initialise();
+
+That single statement, the routine's name followed by opening and closing
+parentheses, is all that it takes to call a routine.  When it comes across
+a line like this, the interpreter executes the statements -- in this
+example there's only one, but there may be ten, twenty, even a hundred of
+them -- in the body of the routine.  Having done that, the interpreter
+resumes what it was doing, on the line following the ``Initialise();``
+call.
+
+.. note::
+
+   You may have noticed that, although we've defined a routine named
+   ``Initialise``, we've never actually called it.  Don't worry -- the
+   routine is called, by the Inform library, right at the start of a game.
+
+.. rubric:: Embedded routines
+
+An **embedded routine** is much like a standalone routine, though it
+doesn't have a name and doesn't end in a semicolon.  This is the one that
+we defined::
+
+     [; if (nest in branch) deadflag = 2; ]
+
+except that we didn't write it in isolation like that: instead, we defined
+it to be the value of an object property::
+
+     each_turn [; if (nest in branch) deadflag = 2; ],
+
+which would have worked just the same if we'd written it like this::
+
+     each_turn [;
+         if (nest in branch)
+             deadflag = 2;
+     ],
+
+All embedded routines are defined in this manner: as the value of an object
+property.  That's where they're embedded -- inside an object.  The
+introductory characters ``[;`` maybe look a little odd, but it's really
+only the same syntax as for a standalone routine, only without a name
+between the ``[`` and ``;``.
+
+For calling an embedded routine, thus causing the statements it contains to
+be executed, the method that we described for a standalone routine won't
+work.  An embedded routine has no name, and needs none; it's
+*automatically* called by the library at appropriate moments, which are
+determined by the role of the property for which it is the value.  In our
+example, that's at the end of every turn in which the player character is
+in the same room as the branch.  Later, we'll see other examples of
+embedded routines, each designed to perform a task which is appropriate for
+the property whose value it is; we'll also see that it is possible to call
+an embedded routine yourself, using an ``obj_id.property()`` syntax -- in
+this example, we could call the routine by writing ``branch.each_turn()``.
+There's more about these topics in "Routines and arguments" on page 67, "A
+diversion: working with routines" on page 104 and in "Routines" on
+page 179.
+
+That ends our review of the ground covered in our first game.  We'll have
+more to say about most of this later, but we're trying not to overload you
+with facts at this early stage.  What we'd like you to do is to look back
+at the source of the game, and ensure that you can recognise all the
+elements which this chapter has described.  Then, we'll move on to fix a
+few of the game's more important defects.
