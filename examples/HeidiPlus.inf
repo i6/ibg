@@ -1,0 +1,102 @@
+!% -SD
+
+!===============================================================================
+Constant Story "Heidi";
+Constant Headline
+            "^A simple Inform example
+             ^by Roger Firth and Sonja Kesserich.^";
+Constant MAX_CARRIED 1;
+
+Include "Parser";
+Include "VerbLib";
+
+!===============================================================================
+! The game objects
+
+Object  before_cottage "In front of a cottage"
+  with  description
+            "You stand outside a cottage. The forest stretches east.",
+        e_to forest,
+        in_to "It's such a lovely day -- much too nice to go inside.",
+        cant_go "The only path lies to the east.",
+  has   light;
+
+Object  cottage "tiny cottage" before_cottage
+  with  description "It's small and simple, but you're very happy here.",
+        name 'tiny' 'cottage' 'home' 'house' 'hut' 'shed' 'hovel',
+        before [;
+          Enter:
+            print_ret "It's such a lovely day -- much too nice to go inside.";
+        ],
+  has   scenery;
+
+Object  forest "Deep in the forest"
+  with  description
+            "Through the dense foliage, you glimpse a building to the west.
+             A track heads to the northeast.",
+        w_to before_cottage,
+        ne_to clearing,
+  has   light;
+
+Object  bird "baby bird" forest
+  with  description "Too young to fly, the nestling tweets helplessly.",
+        name 'baby' 'bird' 'nestling',
+        before [;
+          Listen:
+            print "It sounds scared and in need of assistance.^";
+            return true;
+        ],
+  has   ;
+
+Object  clearing "A forest clearing"
+  with  description
+            "A tall sycamore stands in the middle of this clearing.
+             The path winds southwest through the trees.",
+        sw_to forest,
+        u_to top_of_tree,
+  has   light;
+
+Object  nest "bird's nest" clearing
+  with  description "The nest is carefully woven of twigs and moss.",
+        name 'bird^s' 'nest' 'twigs' 'moss',
+  has   container open;
+
+Object  tree "tall sycamore tree" clearing
+  with  description
+            "Standing proud in the middle of the clearing,
+             the stout tree looks easy to climb.",
+        name 'tall' 'sycamore' 'tree' 'stout' 'proud',
+        before [;
+          Climb:
+            PlayerTo(top_of_tree);
+            return true;
+        ],
+  has   scenery;
+
+Object  top_of_tree "At the top of the tree"
+  with  description "You cling precariously to the trunk.",
+        d_to clearing,
+        after [;
+          Drop:
+            move noun to clearing;
+            return false;
+        ],
+  has   light;
+
+Object  branch "wide firm bough" top_of_tree
+  with  description "It's flat enough to support a small object.",
+        name 'wide' 'firm' 'flat' 'bough' 'branch',
+        each_turn [; if (bird in nest && nest in branch) deadflag = 2; ],
+  has   static supporter;
+
+!===============================================================================
+! Entry point routines
+
+[ Initialise; location = before_cottage; ];
+
+!===============================================================================
+! Standard and extended grammar
+
+Include "Grammar";
+
+!===============================================================================

@@ -3,3 +3,4 @@ syntax: glob
 output/
 
 *.pyc
+*.z5

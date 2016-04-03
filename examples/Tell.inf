@@ -1,0 +1,560 @@
+!% -SD
+
+!============================================================================
+Constant Story "William Tell";
+Constant Headline
+            "^A simple Inform example
+             ^by Roger Firth and Sonja Kesserich.^";
+!Release 1; Serial "020428";    ! IBG first edition (public beta)
+!Release 2; Serial "020827";    ! IBG second edition
+Release 3;  Serial "040804";    ! for keeping track of public releases
+
+Constant MAX_SCORE = 3;
+
+Include "Parser";
+Include "VerbLib";
+
+!============================================================================
+! Object classes
+
+Class   Room
+  has   light;
+
+Class   Prop
+  with  before [;
+          Examine:
+            return false;
+          default:
+            print_ret "You don't need to worry about ", (the) self, ".";
+        ],
+  has   scenery;
+
+Class   Furniture
+  with  before [;
+          Take,Pull,Push,PushDir:
+            print_ret (The) self, " is too heavy for that.";
+        ],
+  has   static supporter;
+
+Class   Arrow
+  with  name 'arrow' 'arrows//p',
+        article "an",
+        plural "arrows",
+        description "Just like all your other arrows -- sharp and true.",
+        before [;
+          Drop,Give,ThrowAt:
+            print_ret "Your arrows are sharp, and you guard them carefully.";
+        ];
+
+Class   NPC
+  with  life [;
+          Answer,Ask,Order,Tell:
+            print_ret "Just use T[ALK] [TO ", (the) self, "].";
+        ],
+  has   animate;
+
+!============================================================================
+! The game objects
+
+Room    street "A street in Altdorf"
+  with  description [;
+            print "The narrow street runs north towards the town square.
+                Local folk are pouring into the town through the gate to the
+                south, shouting greetings, offering produce for sale,
+                exchanging news, enquiring with exaggerated disbelief about
+                the prices of the goods displayed by merchants whose stalls
+                make progress even more difficult.^";
+            if (self hasnt visited)
+                print "^~Stay close to me, son,~ you say,
+                    ~or you'll get lost among all these people.~^";
+        ],
+        n_to below_square,
+        s_to
+            "The crowd, pressing north towards the square,
+             makes that impossible.";
+
+Prop    "south gate" street
+  with  name 'south' 'southern' 'wooden' 'gate',
+        description "The large wooden gate in the town walls is wide open.";
+
+Prop    "assorted stalls"
+  with  name 'assorted' 'stalls',
+        description "Food, clothing, mountain gear; the usual stuff.",
+        found_in street below_square,
+  has   pluralname;
+
+Prop    "produce"   !! added
+  with  name 'goods' 'produce' 'food' 'clothing' 'mountain' 'gear' 'stuff',
+        description "Nothing special catches your eye.",
+        found_in street below_square,
+  has   pluralname;
+
+Prop    "merchants"
+  with  name 'merchant' 'merchants' 'trader' 'traders',
+        description
+            "A few crooks, but mostly decent traders touting their wares
+             with raucous overstatement.",
+        found_in street below_square,
+  has   animate pluralname;
+
+Prop    "local people"
+  with  name 'people' 'folk' 'local' 'crowd',
+        description "Mountain folk, just like yourself.",
+        found_in [; return true; ],
+  has   animate pluralname;
+
+!----------------------------------------------------------------------------
+
+Room    below_square "Further along the street"
+  with  description
+            "People are still pushing and shoving their way from the southern
+             gate towards the town square, just a little further north.
+             You recognise the owner of a fruit and vegetable stall.",
+        n_to south_square,
+        s_to street;
+
+Furniture   stall "fruit and vegetable stall" below_square
+  with  name 'fruit' 'veg' 'vegetable' 'stall' 'table',
+        description
+            "It's really only a small table, with a big heap of potatoes,
+             some carrots and turnips, and a few apples.",
+        before [;
+          Search:
+            <<Examine self>>;
+        ],
+  has   scenery;
+
+Prop    "potatoes" below_square
+  with  name 'potato' 'potatoes' 'spuds',
+        description
+            "Must be a particularly early variety... by some 300 years!",
+  has   pluralname;
+
+Prop    "fruit and vegetables" below_square
+  with  name 'carrot' 'carrots' 'turnip' 'turnips' 'apples' 'vegetables',
+        description "Fine locally grown produce.",
+  has   pluralname;
+
+NPC     stallholder "Helga" below_square
+  with  name 'stallholder' 'greengrocer' 'monger' 'shopkeeper' 'merchant'
+            'owner' 'Helga' 'dress' 'scarf' 'headscarf',
+        description
+            "Helga is a plump, cheerful woman,
+             concealed beneath a shapeless dress and a spotted headscarf.",
+        initial [;
+            print "Helga pauses from sorting potatoes
+                to give you a cheery wave.^";
+            if (location hasnt visited) {
+                move apple to player;
+                print "^~Hello, Wilhelm, it's a fine day for trade! Is this
+                    young Walter? My, how he's grown. Here's an apple for him
+                    -- tell him to mind that scabby part, but the rest's good
+                    enough. How's Frau Tell? Give her my best wishes.~^";
+            }
+        ],
+        times_spoken_to 0,       ! for counting the conversation topics
+        life [;
+          Kiss:
+            print_ret "~Ooh, you saucy thing!~";
+          Talk:
+            self.times_spoken_to = self.times_spoken_to + 1;
+            switch (self.times_spoken_to) {
+             1: score = score + 1;
+                print_ret "You warmly thank Helga for the apple.";
+             2: print_ret "~See you again soon.~";
+             default:
+                return false;
+            }
+        ],
+  has   female proper;
+
+!----------------------------------------------------------------------------
+
+Room    south_square "South side of the square"
+  with  description
+            "The narrow street to the south has opened onto the town square,
+             and resumes at the far side of this cobbled meeting place.
+             To continue along the street towards your destination --
+             Johansson's tannery -- you must walk north across the square,
+             in the middle of which you see Gessler's hat set on that
+             loathsome pole. If you go on, there's no way you can avoid
+             passing it. Imperial soldiers jostle rudely through the throng,
+             pushing, kicking and swearing loudly.",
+        n_to mid_square,
+        s_to below_square;
+
+Prop     "hat on a pole"     !! changed
+  with   name 'hat' 'pole',
+         before [;
+           default:
+             print_ret "You're too far away at the moment.";
+         ],
+         found_in south_square north_square;
+
+Prop    "Gessler's soldiers"
+  with  name 'soldier' 'soldiers' 'guard' 'guards',     !! added
+        description "They're uncouth, violent men, not from around here.",
+        before [;
+          FireAt:
+            print_ret "You're outnumbered many times.";
+          Talk:
+            print_ret "Such scum are beneath your contempt.";
+        ],
+        found_in south_square mid_square north_square marketplace,
+  has   animate pluralname proper;
+
+!----------------------------------------------------------------------------
+
+Room    mid_square "Middle of the square"
+  with  description
+            "There is less of a crush in the middle of the square; most
+             people prefer to keep as far away as possible from the pole
+             which towers here, topped with that absurd ceremonial hat. A
+             group of soldiers stands nearby, watching everyone who passes.",
+        n_to north_square,
+        s_to south_square,
+        warnings_count 0,       ! for counting the soldier's warnings
+        before [;
+          Go:
+            if (noun == s_obj) {
+                self.warnings_count = 0;
+                pole.has_been_saluted = false;
+            }
+            if (noun == n_obj) {
+                if (pole.has_been_saluted == true) {
+                    print "^~Be sure to have a nice day.~^";
+                    return false;
+                }   ! end of (pole has_been_saluted)
+                else {
+                    self.warnings_count = self.warnings_count + 1;
+                    switch (self.warnings_count) {
+                     1: print_ret "A soldier bars your way. ^^
+                            ~Oi, you, lofty; forgot yer manners, didn't you?
+                            How's about a nice salute for the vogt's hat?~";
+                     2: print_ret "^~I know you, Tell, yer a troublemaker,
+                            ain't you? Well, we don't want no bovver here,
+                            so just be a good boy and salute the friggin'
+                            hat. Do it now: I ain't gonna ask you again...~";
+                     default:
+                        print "^~OK, ";
+                        style underline; print "Herr"; style roman;
+                        print " Tell, now you're in real trouble. I asked you
+                            nice, but you was too proud and too stupid. I
+                            think it's time that the vogt had a little word
+                            with you.~
+                            ^^
+                            And with that the soldiers seize you and Walter
+                            and, while the sergeant hurries off to fetch
+                            Gessler, the rest drag you roughly towards the
+                            old lime tree growing in the marketplace.^";
+                        move apple to son;
+                        PlayerTo(marketplace);
+                        return true;
+                    }   ! end of switch
+                }   ! end of (pole has_NOT_been_saluted)
+            }   ! end of (noun == n_obj)
+        ];
+
+Furniture   pole "hat on a pole" mid_square   !! changed
+  with  name 'wooden' 'pole' 'pine' 'hat' 'black' 'red' 'brim' 'feathers',
+        description
+            "The pole, the trunk of a small pine some few inches in diameter,
+             stands about nine or ten feet high. Set carefully on top is
+             Gessler's ludicrous black and red leather hat, with a widely
+             curving brim and a cluster of dyed goose feathers.",
+        has_been_saluted false,
+        before [;
+          FireAt:   !! added
+            print_ret "Tempting, but you're not looking for trouble.";
+          Salute:
+            self.has_been_saluted = true;
+            print_ret "You salute the hat on the pole. ^^
+                ~Why, thank you, sir,~ sneers the soldier.";
+        ],
+  has   scenery;
+
+!----------------------------------------------------------------------------
+
+Room    north_square "North side of the square"
+  with  description
+            "A narrow street leads north from the cobbled square. In its
+             centre, a little way south, you catch a last glimpse of the pole
+             and hat.",
+        n_to [;
+            deadflag = 3;
+            print_ret "With Walter at your side, you leave the square by the
+                north street, heading for Johansson's tannery.";
+        ],
+        s_to "You hardly feel like going through all that again.";
+
+!----------------------------------------------------------------------------
+
+Room    marketplace "Marketplace near the square"
+  with  description
+            "Altdorf's marketplace, close by the town square, has been hastily
+             cleared of stalls. A troop of soldiers has pushed back the crowd
+             to leave a clear space in front of the lime tree, which has been
+             growing here for as long as anybody can remember. Usually it
+             provides shade for the old men of the town, who gather below to
+             gossip, watch the girls, and play cards. Today, though, it
+             stands alone... apart, that is, from Walter, who has been lashed
+             to the trunk. About forty yards away, you are restrained by two
+             of the vogt's men.",
+        cant_go "What? And leave your son tied up here?";
+
+Object  tree "lime tree" marketplace
+  with  name 'lime' 'tree',
+        description "It's just a large tree.",
+        before [;
+          FireAt:
+            if (BowOrArrow(second) == true) {
+                deadflag = 3;
+                print_ret "Your hand shakes a little, and your arrow flies
+                    high, hitting the trunk a few inches above Walter's
+                    head.";
+            }
+            return true;
+        ],
+  has   scenery;
+
+NPC     governor "governor" marketplace
+  with  name 'governor' 'vogt' 'Hermann' 'Gessler',
+        description
+            "Short, stout but with a thin, mean face, Gessler relishes the
+             power he holds over the local community.",
+        initial [;
+            print "Gessler is watching from a safe distance,
+                a sneer on his face.^";
+            if (location hasnt visited)
+                print "^~It appears that you need to be taught a lesson,
+                    fool. Nobody shall pass through the square without paying
+                    homage to His Imperial Highness Albert; nobody, hear me?
+                    I could have you beheaded for treason, but I'm going to
+                    be lenient. If you should be so foolish again, you can
+                    expect no mercy, but this time, I'll let you go free...
+                    just as soon as you demonstrate your archery skills by
+                    hitting this apple from where you stand. That shouldn't
+                    prove too difficult; here, sergeant, catch. Balance it on
+                    the little bastard's head.~^";
+        ],
+        life [;
+          Talk:
+            print_ret "You cannot bring yourself to speak to him.";
+        ],
+        before [;
+          FireAt:
+            if (BowOrArrow(second) == true) {
+                deadflag = 3;
+                print_ret "Before the startled soldiers can react, you turn
+                    and fire at Gessler; your arrow pierces his heart,
+                    and he dies messily. A gasp, and then a cheer,
+                    goes up from the crowd.";
+            }
+            return true;
+        ],
+  has   male;
+
+!============================================================================
+! The player's possessions
+
+Object  bow "bow"
+  with  name 'bow',
+        description "Your trusty yew bow, strung with flax.",
+        before [;
+          Drop,Give,ThrowAt:
+            print_ret "You're never without your trusty bow.";
+        ]
+  has   clothing;
+
+Object  quiver "quiver"
+  with  name 'quiver',
+        description
+            "Made of goatskin, it usually hangs over your left shoulder.",
+        before [;
+          Drop,Give,ThrowAt:
+            print_ret "But it was a present from Hedwig, your wife.";
+        ],
+  has   container open clothing;
+
+Arrow   "arrow" quiver;
+Arrow   "arrow" quiver;
+Arrow   "arrow" quiver;
+
+NPC     son "your son"
+  with  name 'son' 'your' 'boy' 'lad' 'Walter',
+        description [;
+            if (location == marketplace)
+                print_ret "He stares at you, trying to appear brave and
+                    remain still. His arms are pulled back and tied behind
+                    the trunk, and the apple nestles amid his blond hair.";
+            else
+                print_ret "A quiet, blond lad of eight summers, he's fast
+                    learning the ways of mountain folk.";
+        ],
+        life [;
+          Give:
+            score = score + 1;
+            move noun to self;
+            print_ret "~Thank you, Papa.~";
+          Talk:
+            if (location == marketplace)
+                print_ret "~Stay calm, my son, and trust in God.~";
+            else
+                print_ret "You point out a few interesting sights.";
+        ],
+        before [;
+          Examine,Listen,Salute,Talk:
+            return false;
+          FireAt:
+            if (location == marketplace) {
+                if (BowOrArrow(second) == true) {
+                    deadflag = 3;
+                    print_ret "Oops! Surely you didn't mean to do that?";
+                }
+                return true;
+            }
+            else
+                return false;
+          default:
+            if (location == marketplace)
+                print_ret "Your guards won't permit it.";
+            else
+                return false;
+        ],
+        found_in [; return true; ],
+  has   male proper scenery transparent;
+
+Object  apple "apple"
+  with  name 'apple',
+        description [;
+            if (location == marketplace)
+                print_ret "At this distance you can barely see it.";
+            else
+                print_ret "The apple is blotchy green and brown.";
+        ],
+        before [;
+          Drop:
+            print_ret "An apple is worth quite a bit --
+                better hang on to it.";
+          Eat:
+            print_ret "Helga intended it for Walter...";
+          FireAt:
+            if (location == marketplace) {
+                if (BowOrArrow(second) == true) {
+                    score = score + 1;
+                    deadflag = 2;
+                    print_ret "Slowly and steadily, you place an arrow in
+                        the bow, draw back the string, and take aim with
+                        more care than ever in your life. Holding your
+                        breath, unblinking, fearful, you release the
+                        arrow. It flies across the square towards your
+                        son, and drives the apple against the trunk of
+                        the tree. The crowd erupts with joy;
+                        Gessler looks distinctly disappointed.";
+                }
+                return true;
+            }
+            else
+                return false;
+        ];
+
+!============================================================================
+! Entry point routines
+
+[ Initialise;
+    location = street;
+    lookmode = 2;       ! like the VERBOSE command
+    move bow to player;
+    move quiver to player; give quiver worn;
+    player.description =
+        "You wear the traditional clothing of a Swiss mountaineer.";
+    print_ret "^^
+        The place: Altdorf, in the Swiss canton of Uri. The year is 1307,
+        at which time Switzerland is under rule by the Emperor Albert of
+        Habsburg. His local governor -- the vogt -- is the bullying
+        Hermann Gessler, who has placed his hat atop a wooden pole in
+        the centre of the town square; everybody who passes through the
+        square must bow to this hated symbol of imperial might.
+        ^^
+        You have come from your cottage high in the mountains,
+        accompanied by your younger son, to purchase provisions. You are
+        a proud and independent man, a hunter and guide, renowned both
+        for your skill as an archer and, perhaps unwisely (for his soldiers
+        are everywhere), for failing to hide your dislike of the vogt.
+        ^^
+        It's market-day: the town is packed with people from the
+        surrounding villages and settlements.^";
+];
+
+[ DeathMessage; print "You have screwed up a favourite folk story"; ];
+
+!============================================================================
+! Standard and extended grammar
+
+Include "Grammar";
+
+!----------------------------------------------------------------------------
+
+[ TalkSub;
+    if (noun == player) print_ret "Nothing you hear surprises you.";
+    if (RunLife(noun,##Talk) ~= false) return;  ! consult life[; Talk: ]
+    print_ret "At the moment, you can't think of anything to say.";
+];
+
+Verb 'talk' 't//' 'converse' 'chat' 'gossip'
+    * 'to'/'with' creature          -> Talk
+    * creature                      -> Talk;
+
+!----------------------------------------------------------------------------
+
+[ BowOrArrow o;
+    if (o == bow or nothing || o ofclass Arrow) return true;
+    print "That's an unlikely weapon, isn't it?^";
+    return false;
+];
+
+[ FireAtSub;
+    if (noun == nothing)
+        print_ret "What, just fire off an arrow at random?";
+    if (BowOrArrow(second) == true)
+        print_ret "Unthinkable!";
+];
+
+Verb 'fire' 'shoot' 'aim'
+    *                               -> FireAt
+    * noun                          -> FireAt
+    * 'at' noun                     -> FireAt
+    * 'at' noun 'with' noun         -> FireAt
+    * noun 'with' noun              -> FireAt
+    * noun 'at' noun                -> FireAt reverse;
+
+Extend 'attack' replace
+    * noun                          -> FireAt;
+
+!----------------------------------------------------------------------------
+
+[ SaluteSub;
+    if (noun has animate) print_ret (The) noun, " acknowledges you.";
+    print_ret (The) noun, " takes no notice.";
+];
+
+Verb 'bow' 'nod' 'kowtow' 'genuflect'
+    * 'at'/'to'/'towards' noun      -> Salute;
+
+Verb 'salute' 'greet' 'acknowledge'
+    * noun                          -> Salute;
+
+Extend 'give'
+    * 'homage' 'to' noun            -> Salute;
+
+Extend 'wave'
+    * 'at' noun                     -> Salute;
+
+!----------------------------------------------------------------------------
+
+[ UntieSub; print_ret "You really shouldn't try that."; ];
+
+Verb 'untie' 'unfasten' 'unfix' 'free' 'release'
+    * noun                          -> Untie;
+
+!============================================================================

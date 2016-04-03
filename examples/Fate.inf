@@ -1,0 +1,741 @@
+!% -SD
+
+!============================================================================
+Constant Story "Captain Fate";
+Constant Headline
+            "^A simple Inform example
+             ^by Roger Firth and Sonja Kesserich.^";
+!Release 1; Serial "020428";    ! IBG first edition (public beta)
+!Release 2; Serial "020827";    ! IBG second edition
+Release 3;  Serial "040804";    ! for keeping track of public releases
+
+Constant MANUAL_PRONOUNS;
+Constant MAX_SCORE     2;
+Constant OBJECT_SCORE  1;
+Constant ROOM_SCORE    1;
+
+Replace MakeMatch;              ! required by pname.h
+Replace Identical;
+Replace NounDomain;
+Replace TryGivenObject;
+
+Include "Parser";
+Include "pname";                ! pname.h is from the Archive
+
+Object  LibraryMessages         ! must be defined between Parser and VerbLib
+  with  before [;
+          Buy:    "Petty commerce interests you only on COUNTED occasions.";
+          Dig:    "Your keen senses detect NOTHING underground worth your
+                   immediate attention.";
+          Pray:   "You won't need to bother almighty DIVINITIES to save
+                   the day.";
+          Sing:   "Alas! That is not one of your many superpowers.";
+          Sleep:  "A hero is ALWAYS on the watch.";
+          Sorry:  "Captain FATE prefers ACTION over apologies.";
+          Strong: "An unlikely vocabulary for a HERO like you.";
+          Swim:   "You quickly turn all your ATTENTION towards locating a
+                   suitable place to EXERCISE your superior strokes,
+                   but alas! you find none.";
+          Miscellany:
+            if (lm_n == 19)
+                if (clothes has worn)
+                    "In your secret identity's outfit, you manage most
+                     efficaciously to look like a two-cent loser, a
+                     good-for-nothing wimp.";
+                else
+                    "Now that you are wearing your costume, you project
+                     the image of power UNBOUND, of ballooned,
+                     multicoloured MUSCLE, of DASHING yet MODEST chic.";
+            if (lm_n == 38)
+                "That's not a verb you need to SUCCESSFULLY save the day.";
+            if (lm_n == 39)
+                "That's not something you need to refer to in order to
+                 SAVE the day.";
+        ];
+
+Include "VerbLib";
+
+!============================================================================
+! Object classes
+
+Class   Room
+  with  description "UNDER CONSTRUCTION",
+  has   light;
+
+Class   Appliance
+  with  before [;
+          Take,Pull,Push,PushDir:
+            "Even though your SCULPTED adamantine muscles are up to the task,
+             you don't favour property damage.";
+        ],
+  has   scenery;
+
+!============================================================================
+! The game objects
+
+Room    street "On the street"
+  with  name 'city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
+        description [;
+            if (player in booth)
+                "From this VANTAGE point, you are rewarded with a broad view
+                 of the sidewalk and the entrance to Benny's cafe.";
+            else
+                "On one side -- which your HEIGHTENED sense of direction
+                 indicates is NORTH -- there's an open cafe now serving
+                 lunch. To the south, you can see a phone booth.";
+        ],
+        before [;
+          Go:
+            if (player in booth && noun == n_obj) <<Exit booth>>;
+        ],
+        n_to [; <<Enter outside_of_cafe>>; ],
+        s_to [; <<Enter booth>>; ],
+        in_to "But which way?",
+        cant_go
+            "No time now for exploring! You'll move much faster in your
+             Captain FATE costume.";
+
+Object  "pedestrians" street
+  with  name 'passing' 'people' 'pedestrians',
+        description
+            "They're just PEOPLE going about their daily HONEST business.",
+        before [;
+          Examine:
+            return false;
+          default:
+            "The passing pedestrians are of NO concern to you.";
+        ],
+  has   animate pluralname scenery;
+
+Appliance booth "phone booth" street
+  with  name 'old' 'red' 'picturesque' 'phone' 'booth' 'cabin'
+            'telephone' 'box',
+        description
+            "It's one of the old picturesque models, a red cabin with room
+             for one caller.",
+        before [;
+          Open:
+            "The booth is already open.";
+          Close:
+            "There's no way to close this booth.";
+        ],
+        after [;
+          Enter:
+            "With implausible celerity, you dive inside the phone booth.";
+        ],
+  has   enterable container open;
+
+Appliance "sidewalk" street
+  with  name 'sidewalk' 'pavement' 'street',
+        article "the",
+        description
+            "You make a quick surveillance of the sidewalk and discover much
+             to your surprise that it looks JUST like any other sidewalk in
+             the CITY!";
+
+Appliance outside_of_cafe "Benny's cafe" street
+  with  name 'benny^s' 'cafe' 'entrance',
+        description
+            "The town's favourite for a quick snack, Benny's cafe has a 50's
+             ROCKETSHIP look.",
+        before [;
+          Enter:
+            print "With an impressive mixture of hurry and nonchalance you
+                step into the open cafe.^";
+            PlayerTo(cafe);
+            return true;
+        ],
+  has   enterable proper;
+
+!----------------------------------------------------------------------------
+
+Room    cafe "Inside Benny's cafe"
+  with  description
+            "Benny's offers the FINEST selection of pastries and sandwiches.
+             Customers clog the counter, where Benny himself manages to
+             serve, cook and charge without missing a step. At the north side
+             of the cafe you can see a red door connecting with the toilet.",
+        before [;
+          Go:   ! The player is about to depart. Is he making for the street?
+            if (noun ~= s_obj) return false;
+            if (benny.coffee_not_paid == true ||
+                benny.key_not_returned == true) {
+                print "Just as you are stepping into the street, the big hand
+                    of Benny falls on your shoulder.";
+                if (benny.coffee_not_paid == true &&
+                    benny.key_not_returned == true)
+                    "^^~Hey! You've got my key and haven't paid for the
+                     coffee. Do I look like a chump?~ You apologise as only a
+                     HERO knows how to do and return inside.";
+                if (benny.coffee_not_paid == true)
+                    "^^~Just waidda minute here, Mister,~ he says.
+                     ~Sneaking out without paying, are you?~ You quickly
+                     mumble an excuse and go back into the cafe. Benny
+                     returns to his chores with a mistrusting eye.";
+                if (benny.key_not_returned == true)
+                    "^^~Just where you think you're going with the toilet
+                     key?~ he says. ~You a thief?~ As Benny forces you back
+                     into the cafe, you quickly assure him that it was only
+                     a STUPEFYING mistake.";
+            }
+            if (costume has worn) {
+                deadflag = 5;           ! you win!
+                "You step onto the sidewalk, where the passing pedestrians
+                 recognise the rainbow EXTRAVAGANZA of Captain FATE's costume
+                 and cry your name in awe as you JUMP with sensational
+                 momentum into the BLUE morning skies!";
+            }
+        ],
+        first_time_out false,           ! Captain Fate's first appearance?
+        after [;
+          Go:   ! The player has just arrived. Did he come from the toilet?
+            if (noun ~= s_obj) return false;
+            if (costume has worn && self.first_time_out == false) {
+                self.first_time_out = true;
+                StartDaemon(customers);
+            }
+        ],
+        s_to street,
+        n_to toilet_door;
+
+Appliance counter "counter" cafe
+  with  name 'counter' 'bar',
+        article "the",
+        description
+            "The counter is made of an astonishing ALLOY of metals,
+             STAIN-PROOF, SPILL-RESISTANT and VERY EASY to clean. Customers
+             enjoy their snacks with UTTER tranquillity, safe in the notion
+             that the counter can take it all.",
+        before [;
+          Receive:
+            <<Give noun benny>>;
+        ],
+  has   supporter;
+
+Object  food "Benny's snacks" cafe
+  with  name 'food' 'pastry' 'pastries' 'sandwich' 'sandwiches' 'snack'
+            'snacks' 'doughnut',
+        before [; "There is no time for FOOD right now."; ],
+  has   scenery proper;
+
+Object  menu "menu" cafe
+  with  name 'informative' 'menu' 'board' 'picture' 'writing',
+        description
+            "The menu board lists Benny's food and drinks, along with their
+             prices. Too bad you've never learnt how to read, but luckily
+             there is a picture of a big cup of coffee among the
+             incomprehensible writing.",
+        before [;
+          Take:
+            "The board is mounted on the wall behind Benny. Besides, it's
+             useless WRITING.";
+        ],
+  has   scenery;
+
+Object  customers "customers" cafe
+  with  name 'customers' 'people' 'customer' 'men' 'women',
+        description [;
+            if (costume has worn)
+                "Most seem to be concentrating on their food, but some do
+                 look at you quite blatantly. Must be the MIND-BEFUDDLING
+                 colours of your costume.";
+            else
+                "A group of HELPLESS and UNSUSPECTING mortals, the kind
+                 Captain FATE swore to DEFEND the day his parents choked on a
+                 DEVIOUS slice of RASPBERRY PIE.";
+        ],
+        life [;
+          Ask,Tell,Answer:
+            if (costume has worn)
+                "People seem to MISTRUST the look of your FABULOUS costume.";
+            else
+                "As John Covarth, you attract LESS interest than Benny's
+                 food.";
+          Kiss:
+            "There's no telling what sorts of MUTANT bacteria these
+             STRANGERS may be carrying around.";
+          Attack:
+            "Mindless massacre of civilians is the qualification for
+             VILLAINS. You are SUPPOSED to protect the likes of these
+             people.";
+        ],
+        orders [;
+            "These people don't appear to be of the cooperative sort.";
+        ],
+        number_of_comments 0,           ! for counting the customer comments
+        daemon [;
+            if (location ~= cafe) return;
+            if (self.number_of_comments == 0) {
+                self.number_of_comments = 1;
+                print "^Nearby customers glance at your costume with open
+                    curiosity.^";
+            }
+            if (random(2) == 1) {       ! do this 50% of the time
+                self.number_of_comments = self.number_of_comments + 1;
+                switch (self.number_of_comments) {
+                 2: "^~Didn't know there was a circus in town,~ comments one
+                      customer to another. ~Seems like the clowns have the
+                      day off.~";
+                 3: "^~These fashion designers don't know what to do to show
+                     off,~ snorts a fat gentleman, looking your way. Those
+                     within earshot try to conceal their smiles.";
+                 4: "^~Must be carnival again,~ says a man to his wife, who
+                     giggles, stealing a peek at you. ~Time sure flies.~";
+                 5: "^~Bad thing about big towns~, comments someone to his
+                     table companion, ~is you get the damnedest bugs coming
+                     out from toilets.~";
+                 6: "^~I sure WISH I could go to work in my pyjamas,~ says a
+                     girl in an office suit to some colleagues. ~It looks SO
+                     comfortable.~";
+                 default: StopDaemon(self);
+                }
+            }
+        ],
+  has   scenery animate pluralname;
+
+Object  benny "Benny" cafe
+  with  name 'benny',
+        description
+            "A deceptively FAT man of uncanny agility, Benny entertains his
+             customers crushing coconuts against his forehead when the mood
+             strikes him.",
+        coffee_asked_for false,         ! has player asked for a coffee?
+        coffee_not_paid  false,         ! is Benny waiting to be paid?
+        key_not_returned false,         ! is Benny waiting for the key?
+        life [;
+          Give:
+            switch (noun) {
+              clothes:
+                "You NEED your unpretentious John Covarth clothes.";
+              costume:
+                "You NEED your stupendous ACID-PROTECTIVE suit.";
+              toilet_key:
+                self.key_not_returned = false;
+                move toilet_key to benny;
+                "Benny nods as you ADMIRABLY return his key.";
+              coin:
+                remove coin;
+                self.coffee_not_paid = false;
+                print "With marvellous ILLUSIONIST gestures, you produce the
+                    coin from the depths of your ";
+                if (costume has worn) print "BULLET-PROOF costume";
+                else                  print "ordinary street clothes";
+                " as if it had dropped on the counter from Benny's ear!
+                 People around you clap politely. Benny takes the coin
+                 and gives it a SUSPICIOUS bite. ~Thank you, sir. Come
+                 back anytime,~ he says.";
+            }
+          Attack:
+            if (costume has worn) {
+                deadflag = 4;
+                print "Before the horror-stricken eyes of the surrounding
+                    people, you MAGNIFICENTLY jump OVER the counter and
+                    attack Benny with REMARKABLE, albeit NOT sufficient,
+                    speed. Benny receives you with a TREACHEROUS upper-cut
+                    that sends your GRANITE JAW flying through the cafe.^^
+                    ~These guys in pyjamas think they can bully innocent
+                    folk,~ snorts Benny, as the EERIE hands of DARKNESS
+                    engulf your vision and you lose consciousness.";
+            }
+            else
+                "That would be an unlikely act for MEEK John Covarth.";
+          Kiss:
+            "This is no time for MINDLESS infatuation.";
+          Ask,Tell,Answer:
+            "Benny is too busy for idle chit-chat.";
+        ],
+        orders [;   ! handles ASK BENNY FOR X and BENNY, GIVE ME XXX
+          Give:
+            if (second ~= player or nothing) "Benny looks at you strangely.";
+            switch (noun) {
+              toilet_key:
+                if (toilet_key in player) "But you DO have the key already.";
+                if (self.coffee_asked_for == true)
+                    if (toilet_key in self) {
+                        move toilet_key to player;
+                        self.key_not_returned = true;
+                        "Benny tosses the key to the rest rooms on the
+                         counter, where you grab it with a dextrous and
+                         precise movement of your HYPER-AGILE hand.";
+                    }
+                    else
+                        "~Last place I saw that key, it was in YOUR
+                         possession,~ grumbles Benny. ~Be sure to return it
+                         before you leave.~";
+                else
+                    "~Toilet is only fer customers,~ he grumbles, looking
+                     pointedly at a menu board behind him.";
+              coffee:
+                if (self.coffee_asked_for == true)
+                    "One coffee should be enough.";
+                move coffee to counter;
+                self.coffee_asked_for = self.coffee_not_paid = true;
+                "With two gracious steps, Benny places his world-famous
+                 Cappuccino in front of you.";
+              food:
+                "Food will take too much time, and you must change NOW.";
+              menu:
+                "With only the smallest sigh, Benny nods towards the menu
+                 on the wall behind him.";
+              default:
+                "~I don't think that's on the menu, sir.~";
+            }
+        ],
+  has   scenery animate male proper transparent;
+
+Object  coffee "cup of coffee" benny
+  with  name 'cup' 'of' 'coffee' 'steaming' 'cappuccino'
+            'cappucino' 'capuccino' 'capucino',
+        description [;
+            if (self in benny)
+                "The picture on the menu board SURE looks good.";
+            else
+                "It smells delicious.";
+        ],
+        before [;
+          Take,Drink,Taste:
+            if (self in benny) "You should ask Benny for one first.";
+            else {
+                move self to benny;
+                print "You pick up the cup and swallow a mouthful. Benny's
+                    WORLDWIDE REPUTATION is well deserved. Just as you
+                    finish, Benny takes away the empty cup.";
+                if (benny.coffee_not_paid == true)
+                    " ~That will be one quidbuck, sir.~";
+                else
+                    "";
+            }
+          Buy:
+            if (coin in player) <<Give coin benny>>;
+            else                "You have no money.";
+          Smell:
+            "If your HYPERACTIVE pituitary glands are to be trusted,
+             it's Colombian.";
+        ];
+
+Object  outside_of_toilet "toilet" cafe
+  with  name 'toilet' 'bath' 'rest' 'room' 'bathroom' 'restroom',
+        before [;
+          Enter:
+            if (toilet_door has open) {
+                PlayerTo(toilet);
+                return true;
+            }
+            else
+                "Your SUPERB deductive mind detects that the DOOR is
+                 CLOSED.";
+          Examine:
+            if (toilet_door has open)
+                "A brilliant thought flashes through your SUPERLATIVE
+                 brain: detailed examination of the toilet would be
+                 EXTREMELY facilitated if you entered it.";
+            else
+                "With a TREMENDOUS effort of will, you summon your
+                 unfathomable ASTRAL VISION and project it FORWARD towards
+                 the closed door... until you remember that it's
+                 Dr Mystere who's the one with mystic powers.";
+          Open:
+            <<Open  toilet_door>>;
+          Close:
+            <<Close toilet_door>>;
+          Take,Push,Pull:
+            "That would be PART of the building.";
+        ],
+  has   scenery openable enterable;
+
+Object  toilet_door
+  with  pname '.x' 'red' '.x' 'toilet' 'door',
+        short_name [;
+            if (location == cafe) print "door to the toilet";
+            else                  print "door to the cafe";
+            return true;
+        ],
+        description [;
+            if (location == cafe)
+                "A red door with the unequivocal black man-woman silhouettes
+                 marking the entrance to hygienic facilities. There is a
+                 scribbled note stuck on its surface.";
+            else
+                "A red door with no OUTSTANDING features.";
+        ],
+        found_in cafe toilet,
+        before [ ks;
+          Open:
+            if (self hasnt locked || toilet_key notin player) return false;
+            ks = keep_silent; keep_silent = true;
+            <Unlock self toilet_key>; keep_silent = ks;
+            return true;
+          Lock:
+            if (self hasnt open) return false;
+            print "(first closing ", (the) self, ")^";
+            ks = keep_silent; keep_silent = true;
+            <Close self>; keep_silent = ks;
+            return false;
+        ],
+        after [ ks;
+          Unlock:
+            if (self has locked) return false;
+            print "You unlock ", (the) self, " and open it.^";
+            ks = keep_silent; keep_silent = true;
+            <Open self>; keep_silent = ks;
+            return true;
+          Open:
+            give toilet light;
+          Close:
+            give toilet ~light;
+        ],
+        door_dir [;
+            if (location == cafe) return n_to;
+            else                  return s_to;
+        ],
+        door_to [;
+            if (location == cafe) return toilet;
+            else                  return cafe;
+        ],
+        with_key toilet_key,
+  has   scenery door openable lockable locked;
+
+Object  toilet_key "toilet key" benny
+  with  pname '.x' 'toilet' 'key',
+        article "the",
+        invent [;
+            if (clothes has worn) print "the CRUCIAL key";
+            else                  print "the used and IRRELEVANT key";
+            return true;
+        ],
+        description
+            "Your SUPRA PERCEPTIVE senses detect nothing of consequence
+             about the toilet key.",
+        before [;
+            if (self in benny)
+                "You SCAN your surroundings with ENHANCED AWARENESS,
+                 but fail to detect any key.";
+          Drop:
+            "Benny is trusting you to look after that key.";
+        ];
+
+Object  "scribbled note" cafe
+  with  name 'scribbled' 'note',
+        description [;
+            if (self.read_once == false) {
+                self.read_once = true;
+                "You apply your ENHANCED ULTRAFREQUENCY vision to the note
+                 and squint in concentration, giving up only when you see the
+                 borders of the note begin to blacken under the incredible
+                 intensity of your burning stare. You reflect once more how
+                 helpful it would've been if you'd ever learnt to read.
+                 ^^A kind old lady passes by and explains:
+                 ~You have to ask Benny for the key, at the counter.~^^
+                 You turn quickly and begin, ~Oh, I KNOW that, but...~^^
+                 ~My pleasure, son,~ says the lady, as she exits the cafe.";
+                }
+            else
+                "The scorched undecipherable note holds no SECRETS from
+                 you NOW! Ha!";
+        ],
+        read_once false,                ! has the player read the note once?
+        before [;
+          Take:
+            "No reason to start collecting UNDECIPHERABLE notes.";
+        ],
+  has   scenery;
+
+!----------------------------------------------------------------------------
+
+Room    toilet "Unisex toilet"
+  with  description
+            "A surprisingly CLEAN square room covered with glazed-ceramic
+             tiles, featuring little more than a lavatory and a light switch.
+             The only exit is south, through the door and into the cafe.",
+        s_to toilet_door,
+  has   ~light scored;
+
+Appliance light_switch "light switch" toilet
+  with  name 'light' 'switch',
+        description
+            "A notorious ACHIEVEMENT of technological SCIENCE, elegant yet
+             EASY to use.",
+        before [;
+          Push:
+            if (self has on) <<SwitchOff self>>;
+            else             <<SwitchOn  self>>;
+        ],
+        after [;
+          SwitchOn:
+            give self light;
+            "You turn on the light in the toilet.";
+          SwitchOff:
+            give self ~light;
+            "You turn off the light in the toilet.";
+        ],
+  has   switchable ~on;
+
+Appliance lavatory "lavatory" toilet
+  with  name 'lavatory' 'wc' 'toilet' 'loo' 'bowl' 'can' 'john' 'bog',
+        before [;
+          Examine,Search,LookUnder:
+            if (coin in self) {
+                move coin to parent(self);
+                "The latest user CIVILLY flushed it after use, but failed to
+                 pick up the VALUABLE coin that fell from his pants.";
+            }
+          Receive:
+            "While any other MORTALS might unwittingly throw just about
+             ANYTHING into ", (the) self, ", you remember the WISE teachings
+             of your mentor, Duke ELEGANT, about elderly plumbing and rising
+             waters.";
+        ];
+
+Object  coin "valuable coin" lavatory
+  with  name 'valuable' 'coin' 'silver' 'quidbuck',
+        description "It's a genuine SILVER QUIDBUCK.",
+        before [;
+          Drop:
+            if (self notin player) return false;
+            "Such a valuable coin? Har, har! This must be a demonstration of
+             your ULTRA-FLIPPANT jesting!";
+        ],
+        after [;
+          Take:
+            "You crouch into the SLEEPING DRAGON position and deftly, with
+             PARAMOUNT STEALTH, you pocket the lost coin.";
+        ],
+  has   scored;
+
+!============================================================================
+! The player's possessions
+
+Object  clothes "your clothes"
+  with  name 'ordinary' 'street' 'clothes' 'clothing',
+        description
+            "Perfectly ORDINARY-LOOKING street clothes for a NOBODY like
+             John Covarth.",
+        before [;
+          Wear:
+            if (self has worn)
+                "You are already dressed as John Covarth.";
+            else
+                "The town NEEDS the power of Captain FATE, not the anonymity
+                 of John Covarth.";
+          Change,Disrobe:
+            if (self hasnt worn)
+                "Your KEEN eye detects that you're no longer wearing them.";
+            switch (location) {
+              street:
+                if (player in booth)
+                    "Lacking Superman's super-speed, you realise that it
+                     would be awkward to change in plain view of the passing
+                     pedestrians.";
+                else
+                    "In the middle of the street? That would be a PUBLIC
+                     SCANDAL, to say nothing of revealing your secret
+                     identity.";
+              cafe:
+                "Benny allows no monkey business in his establishment.";
+              toilet:
+                if (toilet_door has open)
+                    "The door to the bar stands OPEN at tens of curious eyes.
+                     You'd be forced to arrest yourself for LEWD conduct.";
+                print "You quickly remove your street clothes and bundle them
+                    up together into an INFRA MINUSCULE pack ready for easy
+                    transportation. ";
+                if (toilet_door has locked) {
+                    give clothes ~worn; give costume worn;
+                    "Then you unfold your INVULNERABLE-COTTON costume and
+                     turn into Captain FATE, defender of free will, adversary
+                     of tyranny!";
+                }
+                else {
+                    deadflag = 3;
+                    "Just as you are slipping into Captain FATE's costume,
+                     the door opens and a young woman enters. She looks at
+                     you and starts screaming, ~RAPIST! NAKED RAPIST IN THE
+                     TOILET!!!~^^
+                     Everybody in the cafe quickly comes to the rescue, only
+                     to find you ridiculously jumping on one leg while trying
+                     to get dressed. Their laughter brings a QUICK END to
+                     your crime-fighting career!";
+                }
+              thedark:
+                "Last time you changed in the dark, you wore the suit inside
+                 out!";
+              default:                  ! this _should_ never happen...
+                "There must be better places to change your clothes!";
+            }
+        ],
+  has   clothing proper pluralname;
+
+Object  costume "your costume"
+  with  name 'captain' 'captain^s' 'fate' 'fate^s' 'costume' 'suit',
+        description
+            "STATE OF THE ART manufacture, from chemically reinforced 100%
+             COTTON-lastic(tm).",
+        before [;
+          Wear:
+            if (self has worn)
+                 "You are already dressed as Captain FATE.";
+            else
+                "First you'd have to take off your commonplace unassuming
+                 John Covarth INCOGNITO street clothes.";
+          Change,Disrobe:
+            if (self has worn)
+                "You need to wear your costume to FIGHT crime!";
+            else
+                "But you're not yet wearing it!";
+          Drop:
+            "Your UNIQUE Captain FATE multi-coloured costume? The most
+             coveted clothing ITEM in the whole city? Certainly NOT!";
+        ],
+  has   clothing proper;
+
+!============================================================================
+! Entry point routines
+
+[ Initialise;
+    #Ifdef DEBUG; pname_verify(); #Endif;       ! suggested by pname.h
+    location = street;
+    move costume to player;
+    move clothes to player; give clothes worn;
+    lookmode = 2;
+    "^^Impersonating mild mannered John Covarth, assistant help boy at an
+     insignificant drugstore, you suddenly STOP when your acute hearing
+     deciphers a stray radio call from the POLICE. There's some MADMAN
+     attacking the population in Granary Park! You must change into your
+     Captain FATE costume fast...!^^";
+];
+
+[ DeathMessage;
+    if (deadflag == 3) print "Your secret identity has been revealed";
+    if (deadflag == 4) print "You have been SHAMEFULLY defeated";
+    if (deadflag == 5) print "You fly away to SAVE the DAY";
+];
+
+[ InScope person item;
+    if (person == player && location == thedark && real_location == toilet) {
+        PlaceInScope(light_switch);
+        PlaceInScope(toilet_door);
+    }
+    if (person == player && location == thedark)
+        objectloop (item in parent(player))
+            if (item has moved) PlaceInScope(item);
+    return false;
+];
+
+!============================================================================
+! Standard and extended grammar
+
+Include "Grammar";
+
+[ ChangeSub;
+    if (noun has pluralname) print "They're";
+    else                     print "That's";
+    " not something you must change to save the day.";
+];
+
+Verb 'change' 'exchange' 'swap' 'swop'
+    * noun                  -> Change;
+
+Extend 'ask'
+    * creature 'for' topic  -> AskFor;
+
+!============================================================================
