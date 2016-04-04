@@ -125,6 +125,8 @@ html_theme = 'alabaster'
 html_theme_options = {
     'font_family': 'Georgia',
     'head_font_family': 'Georgia',
+    'page_width': '1000px',
+    'show_related': True,
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
