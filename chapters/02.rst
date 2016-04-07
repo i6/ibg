@@ -10,7 +10,7 @@
 .. image:: /images/picC.png
    :align: left
 
-Conventional -- static -- fiction can be written using nothing more than
+onventional -- static -- fiction can be written using nothing more than
 pencil and paper, or typewriter, or word-processor; however, the
 requirements for producing IF are a little more extensive, and the creative
 process slightly more complex.
