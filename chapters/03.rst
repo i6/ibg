@@ -7,7 +7,10 @@
    | *E was an esquire, with pride on his brow;*
    | *F was a farmer, and followed the plough.*
 
-Each of the three games in this guide is created step by step; you'll get
+.. image:: /images/picE.png
+   :align: left
+
+ach of the three games in this guide is created step by step; you'll get
 most benefit (especially to begin with) if you take an active part, typing
 in the source code on your computer.  Our first game, described in this
 chapter and the two which follow, tells this sentimental little story:

@@ -11,7 +11,10 @@
 
    -- with apologies to Richard Rodgers and Lorenz Hart.
 
-Text adventures, otherwise known collectively as interactive fiction (IF),
+.. image:: /images/picT.png
+  :align: left
+
+ext adventures, otherwise known collectively as interactive fiction (IF),
 were highly popular computer games during the 1980s.  As technology evolved
 they faded from the market, unable to compete with increasingly
 sophisticated graphical games; however, IF was far from dead.  The Internet

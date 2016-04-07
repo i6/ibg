@@ -2,29 +2,33 @@
  Foreword by Graham Nelson
 ===========================
 
-It would, I think, be immodest to compare myself to Charles Bourbaki
-(1816--97), French hero of the Crimean War and renowned strategist, a man
-offered nothing less as a reward than the throne of Greece (he declined).
-It may be in order, though, to say a few words about his fictitious
-relative Nicholas, the most dogged, lugubrious, interminably thorough and
-clotted writer of textbooks ever to state a theorem.  Rather the way
-Hollywood credits movies for which nobody wants the blame to the director
-"Alan Smithee" (who by now has quite a solid filmography and even gets the
-occasional cinema festival), so in mathematics many small results are
-claimed to be the work of Nicholas Bourbaki.  Various stories are told of
-the birth of Bourbaki, under whose name young Parisian mathematicians have
-clubbed together since 1935 to write surveys of whole fields of algebra.
-His initials, it may be noted, are NB.  Some say "Bourbaki" was an in-joke
-at the Ecole Normale Supérieure (much as "zork" and "foobar" were at MIT),
-going right back to a practical joke in 1880 when a pupil successfully
-impersonated a visiting "General Claude Bourbaki".  Folklore also has it
-that the real general was notorious when on manoeuvres for being able to
-eat *anything* if need be -- stale biscuit, raw turnips, his horse, his
-horse's hay, his horse's leather nosebag that the hay used to be in -- just
-as Nicholas Bourbaki would have to eat everything there was to eat in the
-theory of algebra, no matter how tooth-grinding or chewy.  To give credit
-where it's due, Bourbaki's forty volumes are quite useful.  Or, actually,
-they aren't, but it's nice to know they're there.
+.. image:: /images/picI.png
+   :align: left
+
+t would, I think, be immodest to compare myself to Charles
+Bourbaki (1816--97), French hero of the Crimean War and renowned 
+strategist, a man offered nothing less as a reward than the throne of 
+Greece (he declined). It may be in order, though, to say a few words 
+about his fictitious relative Nicholas, the most dogged, lugubrious, 
+interminably thorough and clotted writer of textbooks ever to state a 
+theorem.  Rather the way Hollywood credits movies for which nobody wants 
+the blame to the director "Alan Smithee" (who by now has quite a solid 
+filmography and even gets the occasional cinema festival), so in 
+mathematics many small results are claimed to be the work of Nicholas 
+Bourbaki.  Various stories are told of the birth of Bourbaki, under 
+whose name young Parisian mathematicians have clubbed together since 
+1935 to write surveys of whole fields of algebra. His initials, it may 
+be noted, are NB.  Some say "Bourbaki" was an in-joke at the Ecole 
+Normale Supérieure (much as "zork" and "foobar" were at MIT), going 
+right back to a practical joke in 1880 when a pupil successfully 
+impersonated a visiting "General Claude Bourbaki".  Folklore also has it 
+that the real general was notorious when on manoeuvres for being able to 
+eat *anything* if need be -- stale biscuit, raw turnips, his horse, his 
+horse's hay, his horse's leather nosebag that the hay used to be in -- 
+just as Nicholas Bourbaki would have to eat everything there was to eat 
+in the theory of algebra, no matter how tooth-grinding or chewy.  To 
+give credit where it's due, Bourbaki's forty volumes are quite useful.  
+Or, actually, they aren't, but it's nice to know they're there.
 
 It was on reading this present book that I realised the melancholy truth:
 that my own volume on Inform, the *Designer's Manual*, is a Bourbaki.  It

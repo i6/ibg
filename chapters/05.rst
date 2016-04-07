@@ -7,7 +7,10 @@
    | *I was an innkeeper, who loved to carouse;*
    | *J was a joiner, and built up a house.*
 
-In even the simplest story, there's bound to be scope for the player to
+.. image:: /images/picI.png
+   :align: left
+
+n even the simplest story, there's bound to be scope for the player to
 attempt activities that you hadn't anticipated.  Sometimes there may be
 alternative ways of approaching a problem: if you can't be sure which
 approach the player will take, you really ought to allow for all

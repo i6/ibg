@@ -7,7 +7,10 @@
    | *G was a gamester, who had but ill-luck;*
    | *H was a hunter, and hunted a buck.*
 
-Going through the design of our first game in the previous chapter has
+.. image:: /images/picG.png
+   :align: left
+
+oing through the design of our first game in the previous chapter has
 introduced all sorts of Inform concepts, often without giving you much
 detail about what's been happening.  So let's review some of what we've
 learnt so far, in a slightly more organised fashion.  We'll talk about

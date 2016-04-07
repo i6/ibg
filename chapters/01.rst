@@ -9,7 +9,10 @@
    | *A was an archer, who shot at a frog;*
    | *B was a butcher, who had a great dog.*
 
-Before we start learning to use the Inform system, it's probably sensible
+.. image:: /images/picB.png
+   :align: left
+
+efore we start learning to use the Inform system, it's probably sensible
 to consider briefly how IF, which has many narrative elements, differs from
 regular storytelling.  Before we do *that*, though, let's look at an example
 of a familiar folk tale.
