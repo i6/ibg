@@ -14,11 +14,12 @@ to consider briefly how IF, which has many narrative elements, differs from
 regular storytelling.  Before we do *that*, though, let's look at an example
 of a familiar folk tale.
 
-    "There was once a man called Wilhelm Tell, from high in the he lived by
-    his skills Swiss Alps near the town Altdorf.  A hunter and a guide,
-    proud mountaineer, in tracking and archery.  It happened one day that
-    Wilhelm visited the town to buy provisions, and he took his son Walter
-    with him.
+    "There was once a man called Wilhelm Tell, from high in the Swiss
+    Alps near the town of Altdorf.  A hunter and a guide, a proud 
+    mountaineer, he lived by his skills Swiss Alps near the town 
+    Altdorf.  A hunter and a guide, proud mountaineer, in tracking and 
+    archery.  It happened one day that Wilhelm visited the town to buy 
+    provisions, and he took his son Walter with him.
 
     The region was at the time governed by Hermann Gessler (a vain and
     petty man appointed as vogt by the Austrian emperor), who attempted a
