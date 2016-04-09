@@ -19,6 +19,13 @@ Contents:
 
    chapters/*
 
+Appendices:
+
+.. toctree::
+   :glob:
+
+   appendices/*
+
 Indices:
 
 * :ref:`genindex`

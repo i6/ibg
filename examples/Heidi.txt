@@ -1,0 +1,59 @@
+Heidi
+A simple Inform example
+by Roger Firth and Sonja Kesserich.
+Release 1 / Serial number 040804 / Inform v6.30 Library 6/11 SD
+
+In front of a cottage
+You stand outside a cottage. The forest stretches east.
+
+>VERBOSE
+Heidi is now in its "verbose" mode, which always gives long descriptions of
+locations (even if you've been there before).
+
+>GO EAST
+
+Deep in the forest
+Through the dense foliage, you glimpse a building to the west. A track heads to the
+northeast.
+
+You can see a baby bird here.
+
+>EXAMINE THE BIRD
+Too young to fly, the nestling tweets helplessly.
+
+>TAKE BIRD
+Taken.
+
+>NE
+
+A forest clearing
+A tall sycamore stands in the middle of this clearing. The path winds southwest
+through the trees.
+
+You can see a bird's nest (which is empty) here.
+
+>PUT BIRD IN NEST
+You put the baby bird into the bird's nest.
+
+>EXAMINE THE NEST
+The nest is carefully woven of twigs and moss.
+
+>TAKE NEST
+Taken.
+
+>UP
+
+At the top of the tree
+You cling precariously to the trunk.
+
+You can see a wide firm bough here.
+
+>PUT NEST ON BRANCH
+You put the bird's nest on the wide firm bough.
+
+      *** You have won ***
+
+In that game you scored 0 out of a possible 0, in 10 turns.
+
+Would you like to RESTART, RESTORE a saved game or QUIT?
+> QUIT
