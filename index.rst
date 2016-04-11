@@ -2,15 +2,25 @@
  The Inform Beginner's Guide
 =============================
 
-Contents:
+.. only:: html
+
+   Contents:
+
+   .. toctree::
+      :maxdepth: 2
+
+      copyright
+      history
 
 .. toctree::
    :maxdepth: 2
 
-   copyright
-   history
    foreword
    about
+
+.. raw:: latex
+
+   \startchapters
 
 .. toctree::
    :maxdepth: 2
@@ -19,21 +29,31 @@ Contents:
 
    chapters/*
 
-Appendices:
+.. only:: html
+
+   Appendices:
+
+.. raw:: latex
+
+   \startappendices
 
 .. toctree::
    :glob:
 
    appendices/*
 
-Indices:
+.. only:: html
+
+   Indices:
 
 * :ref:`genindex`
 * :ref:`search`
 
-End notes:
+.. only:: html
 
-.. toctree::
-   :maxdepth: 2
+   End notes:
 
-   endnotes
+   .. toctree::
+      :maxdepth: 2
+
+      endnotes

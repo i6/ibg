@@ -1,0 +1,123 @@
+%% LaTeX preamble.
+
+\usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{setspace}
+
+%% Set up page.
+\pagestyle{fancy}
+\pagenumbering{roman}
+\thispagestyle{fancy}
+
+\renewcommand\thepage{\roman{page}}
+\newcommand\pagefoot{\thepage}
+
+%% Set various lengths.
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%% Set section numbering depth.
+\setcounter{secnumdepth}{0}
+
+%% Set up headers and footers.
+\fancyhead{}
+\fancyfoot{}
+
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.0pt}
+
+%% Revert to original table of contents.
+\makeatletter
+\renewcommand{\tableofcontents}{\py@OldTableofcontents}
+\makeatother
+
+%% Covering page.
+\def\coverpage{
+    \begin{titlepage}
+    \centering
+    \textbf{\Huge ${title}}\par
+    \vspace{0.5cm}
+    \textbf{\LARGE ${author}}\par
+    \vspace{2cm}
+    \includegraphics[width=\textwidth]{${image}}\par
+    \vspace{2cm}
+    \textit{\large ${edition}}\par
+    \vspace{0.5cm}
+    \textbf{\large ${extra}}\par
+    \vfill
+    \end{titlepage}
+    \newpage
+}
+
+%% License page
+\def\licensepage{
+    \fancyfoot[C]{\pagefoot}
+    ${title}
+
+    Authors: ${author}\par
+    Editor: ${editor}\par
+
+    Cover: \textit{${imagetitle}} ${imageinfo}
+
+    ${licensetext}
+    \newpage
+}
+
+%% Contents page.
+\def\contentspage{
+    \fancyfoot[C]{\pagefoot}
+    \tableofcontents
+}
+
+%% Main text.
+\def\maintext{
+    \fancyfoot[C]{\pagefoot}
+    \pagenumbering{arabic}
+    \renewcommand\thepage{\arabic{page}}
+    \setcounter{page}{1}
+}
+
+%% Start the main chapter text.
+\def\startchapters{
+    \setcounter{secnumdepth}{1}
+}
+
+%% Start the appendices
+\def\startappendices{
+    \setcounter{secnumdepth}{0}
+}
+
+%% Disable standard title (but keep PDF info).
+\renewcommand{\maketitle}{
+  \ifsphinxpdfoutput
+    \begingroup
+    % These \defs are required to deal with multi-line authors; it
+    % changes \\ to ', ' (comma-space), making it pass muster for
+    % generating document info in the PDF file.
+    \def\\{, }
+    \def\and{and }
+    \pdfinfo{
+      /Title (${title})
+      /Author (${author})
+    }
+    \endgroup
+  \fi
+}
+
+%% Fix up index and references.
+\makeatletter
+
+\renewcommand{\theindex}{
+  \newpage
+  \phantomsection
+  \py@OldTheindex
+  \addcontentsline{toc}{section}{Index}
+}
+
+\renewcommand{\thebibliography}[1]{
+  \newpage
+  \phantomsection
+  \py@OldThebibliography{1}
+  \addcontentsline{toc}{section}{References}
+}
+
+\makeatother

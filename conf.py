@@ -12,9 +12,10 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
 import os
-import shlex
+import sys
+import string
+import codecs
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -51,14 +52,20 @@ source_suffix = ['.rst']
 # The master toctree document.
 master_doc = 'index'
 
-# General information about the project.
-project = u'Inform Beginner\'s Guide'
-author = u'Roger Firth and Sonja Kesserich'
-copyright = u'2016, ' + author
+# General document information.
+project = u"The Inform Beginner's Guide"
+author = u"Roger Firth and Sonja Kesserich"
+copyright = u'2004, ' + author
 
-# The version info for the project you're documenting, acts as replacement for
-# |version| and |release|, also used in various other places throughout the
-# built documents.
+editor = "Dennis G. Jerz"
+edition = "Third Edition: August 2004"
+extra = "With a foreword by Graham Nelson"
+
+licensetext = codecs.open('LICENSE', encoding='utf-8').read()
+
+# The version info for the project you're documenting, acts as replacement
+# for |version| and |release|, also used in various other places throughout
+# the built documents.
 #
 # The short X.Y version.
 version = '3'
@@ -80,7 +87,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['output']
+exclude_patterns = ['config', 'output']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -218,25 +225,54 @@ htmlhelp_basename = 'IBG'
 
 # -- Options for LaTeX output ---------------------------------------------
 
+# Title page information.
+latex_image = "harry1"
+latex_image_title = "First Steps"
+latex_image_info = "(watercolour and crayon on paper, 2002) Harry Firth (2000-)"
+latex_image_path = os.path.join('images', latex_image + '.png')
+latex_additional_files = [latex_image_path]
+
+template = string.Template(open('config/preamble.tex').read())
+
+latex_contents = r"""
+\coverpage
+\licensepage
+\contentspage
+\newpage
+\maintext
+"""
+
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
-    'pointsize': '10pt',
+    'pointsize': '12pt',
 
     # Additional stuff for the LaTeX preamble.
-    #'preamble': '',
+    'preamble': template.substitute(title=project,
+                                    author=author,
+                                    image=latex_image,
+                                    imagetitle=latex_image_title,
+                                    imageinfo=latex_image_info,
+                                    editor=editor,
+                                    edition=edition,
+                                    extra=extra,
+                                    licensetext=licensetext),
+
+    'tableofcontents': latex_contents,
+
+    'fontpkg': '',
 
     # Latex figure (float) alignment
     #'figure_align': 'htbp',
 }
-
+ 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'IBG.tex', project, author, 'manual'),
+    (master_doc, 'IBG.tex', project, author, 'howto'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -248,7 +284,7 @@ latex_documents = [
 #latex_use_parts = False
 
 # If true, show page references after internal links.
-#latex_show_pagerefs = False
+latex_show_pagerefs = False
 
 # If true, show URL addresses after external links.
 #latex_show_urls = False
@@ -265,8 +301,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'informbeginnersguide', u'Inform Beginner\'s Guide',
-     [author], 1)
+    (master_doc, 'IBG', project, [author], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -279,8 +314,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'ibg', u'Inform Beginner\'s Guide',
-   author, 'Inform Beginners Guide', 'Beginner\'s guide to Inform.',
+  (master_doc, 'ibg', project,
+   author, project, 'Beginner\'s guide to Inform.',
    'Games'),
 ]
 
