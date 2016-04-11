@@ -25,7 +25,7 @@
 .. toctree::
    :maxdepth: 2
    :glob:
-   :numbered:
+   :numbered: 1
 
    chapters/*
 
