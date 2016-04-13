@@ -2,8 +2,14 @@
  Foreword by Graham Nelson
 ===========================
 
-.. image:: /images/picI.png
-   :align: left
+.. only:: html
+
+  .. image:: /images/picI.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{i}
 
 t would, I think, be immodest to compare myself to Charles
 Bourbaki (1816--97), French hero of the Crimean War and renowned 

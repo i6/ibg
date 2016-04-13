@@ -11,8 +11,14 @@
 
    -- with apologies to Richard Rodgers and Lorenz Hart.
 
-.. image:: /images/picT.png
-  :align: left
+.. only:: html
+
+  .. image:: /images/picT.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{t}
 
 ext adventures, otherwise known collectively as interactive fiction (IF),
 were highly popular computer games during the 1980s.  As technology evolved

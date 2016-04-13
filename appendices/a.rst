@@ -2,7 +2,17 @@
  Appendix A -- How to play an IF game
 ======================================
 
-Playing IF requires just a bit of instruction.  All you have to do is read
+
+.. only:: html
+
+  .. image:: /images/picP.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{p}
+
+laying IF requires just a bit of instruction.  All you have to do is read
 the descriptions and situations that appear on the screen and then tell the
 game what you'd like to happen next.  Imagine that you're saying "I WANT TO
 ..."; you don't actually type those three words, but you *do* type what
