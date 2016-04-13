@@ -1,0 +1,170 @@
+The place: Altdorf, in the Swiss canton of Uri. The year is 1307, at 
+which time Switzerland is under rule by the Emperor Albert of Habsburg. 
+His local governor -- the vogt -- is the bullying Hermann Gessler, who 
+has placed his hat atop a wooden pole in the centre of the town square; 
+everybody who passes through the square must bow to this hated symbol of 
+imperial might.
+
+You have come from your cottage high in the mountains, accompanied by 
+your younger son, to purchase provisions. You are a proud and 
+independent man, a hunter and guide, renowned both for your skill as an 
+archer and, perhaps unwisely (for his soldiers are everywhere), for 
+failing to hide your dislike of the vogt.
+
+It's market-day: the town is packed with people from the surrounding 
+villages and settlements.
+
+William Tell
+A simple Inform example
+by Roger Firth and Sonja Kesserich.
+Release 3 / Serial number 040804 / Inform v6.30 Library 6/11 SD
+
+A street in Altdorf
+The narrow street runs north towards the town square. Local folk are 
+pouring into the town through the gate to the south, shouting greetings, 
+offering produce for sale, exchanging news, enquiring with exaggerated 
+disbelief about the prices of the goods displayed by merchants whose 
+stalls make progress even more difficult.
+
+"Stay close to me, son," you say, "or you'll get lost among all these 
+people."
+
+>EXAMINE YOUR SON
+A quiet, blond lad of eight summers, he's fast learning the ways of 
+mountain folk.
+
+>GO NORTH
+
+Further along the street
+People are still pushing and shoving their way from the southern gate 
+towards the town square, just a little further north. You recognise the 
+owner of a fruit and vegetable stall.
+
+Helga pauses from sorting potatoes to give you a cheery wave.
+
+"Hello, Wilhelm, it's a fine day for trade! Is this young Walter? My, 
+how he's grown. Here's an apple for him -- tell him to mind that scabby 
+part, but the rest's good enough. How's Frau Tell? Give her my best 
+wishes."
+
+>INVENTORY
+You are carrying:
+  an apple
+  a quiver (being worn)
+  three arrows
+  a bow
+
+>TALK TO HELGA
+You warmly thank Helga for the apple.
+
+[Your score has just gone up by one point.]
+
+>GIVE THE APPLE TO WALTER
+"Thank you, Papa."
+
+[Your score has just gone up by one point.]
+
+>NORTH
+
+South side of the square
+The narrow street to the south has opened onto the town square, and 
+resumes at the far side of this cobbled meeting place. To continue along 
+the street towards your destination -- Johansson's tannery -- you must 
+walk north across the square, in the middle of which you see Gessler's 
+hat set on that loathsome pole. If you go on, there's no way you can 
+avoid passing it. Imperial soldiers jostle rudely through the throng, 
+pushing, kicking and swearing loudly.
+
+>EXAMINE THE SOLDIERS
+They're uncouth, violent men, not from around here.
+
+>EXAMINE HAT
+You're too far away at the moment.
+
+>N
+Middle of the square
+There is less of a crush in the middle of the square; most people prefer 
+to keep as far away as possible from the pole which towers here, topped 
+with that absurd ceremonial hat. A group of soldiers stands nearby, 
+watching everyone who passes.
+
+>X HAT
+The pole, the trunk of a small pine some few inches in diameter, stands 
+about nine or ten feet high. Set carefully on top is Gessler's ludicrous 
+black and red leather hat, with a widely curving brim and a cluster of 
+dyed goose feathers.
+
+>N
+A soldier bars your way.
+
+"Oi, you, lofty; forgot yer manners, didn't you? How's about a nice 
+salute for the vogt's hat?"
+
+
+>N
+
+"I know you, Tell, yer a troublemaker, ain't you? Well, we don't want no 
+bovver here, so just be a good boy and salute the friggin' hat. Do it 
+now: I ain't gonna ask you again..."
+
+>N
+
+"OK, Herr Tell, now you're in real trouble. I asked you nice, but you 
+was too proud and too stupid. I think it's time that the vogt had a 
+little word with you."
+
+And with that the soldiers seize you and Walter and, while the sergeant 
+hurries off to fetch Gessler, the rest drag you roughly towards the old 
+lime tree growing in the marketplace.
+
+
+Marketplace near the square
+
+Altdorf's marketplace, close by the town square, has been hastily 
+cleared of stalls. A troop of soldiers has pushed back the crowd to 
+leave a clear space in front of the lime tree, which has been growing 
+here for as long as anybody can remember. Usually it provides shade for 
+the old men of the town, who gather below to gossip, watch the girls, 
+and play cards. Today, though, it stands alone... apart, that is, from 
+Walter, who has been lashed to the trunk. About forty yards away, you 
+are restrained by two of the vogt's men.
+
+Gessler is watching from a safe distance, a sneer on his face.
+
+"It appears that you need to be taught a lesson, fool. Nobody shall pass 
+through the square without paying homage to His Imperial Highness 
+Albert; nobody, hear me? I could have you beheaded for treason, but I'm 
+going to be lenient. If you should be so foolish again, you can expect 
+no mercy, but this time, I'll let you go free... just as soon as you 
+demonstrate your archery skills by hitting this apple from where you 
+stand. That shouldn't prove too difficult; here, sergeant, catch. 
+Balance it on the little bastard's head."
+
+
+>X GESSLER
+Short, stout but with a thin, mean face, Gessler relishes the power he 
+holds over the local community.
+
+>X WALTER
+He stares at you, trying to appear brave and remain still. His arms are 
+pulled back and tied behind the trunk, and the apple nestles amid his 
+blond hair.
+
+>X APPLE
+At this distance you can barely see it.
+
+>SHOOT THE APPLE
+Slowly and steadily, you place an arrow in the bow, draw back the 
+string, and take aim with more care than ever in your life. Holding your 
+breath, unblinking, fearful, you release the arrow. It flies across the 
+square towards your son, and drives the apple against the trunk of the 
+tree. The crowd erupts with joy; Gessler looks distinctly disappointed.
+
+*** You have won ***
+
+In that game you scored 3 out of a possible 3, in 17 turns.
+
+Would you like to RESTART, RESTORE a saved game or QUIT?
+> QUIT
+
+
