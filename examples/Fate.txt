@@ -1,0 +1,187 @@
+Impersonating mild mannered John Covarth, assistant help boy at an 
+insignificant drugstore, you suddenly STOP when your acute hearing 
+deciphers a stray radio call from the POLICE. There's some MADMAN 
+attacking the population in Granary Park! You must change into your 
+Captain FATE costume fast...!
+
+Captain Fate
+A simple Inform example
+by Roger Firth and Sonja Kesserich.
+Release 3 / Serial number 040804 / Inform v6.30 Library 6/11 SD
+
+On the street
+On one side -- which your HEIGHTENED sense of direction indicates is NORTH --
+there's an open cafe now serving lunch. To the south, you can see a phone booth.
+
+>EXAMINE ME
+In your secret identity's outfit, you manage most efficaciously to look like a
+two-cent loser, a good-for-nothing wimp.
+
+>INVENTORY
+You are carrying:
+your clothes (being worn)
+your costume
+
+>X COSTUME
+STATE OF THE ART manufacture, from chemically reinforced 100% COTTON-lastic(tm).
+
+>REMOVE CLOTHES
+In the middle of the street? That would be a PUBLIC SCANDAL, to say nothing of
+revealing your secret identity.
+
+>X BOOTH
+It's one of the old picturesque models, a red cabin with room for one caller.
+
+>ENTER IT
+With implausible celerity, you dive inside the phone booth.
+
+>REMOVE CLOTHES
+Lacking Superman's super-speed, you realise that it would be awkward to change
+in plain view of the passing pedestrians.
+
+>OUT
+You get out of the phone booth.
+
+On the street
+On one side -- which your HEIGHTENED sense of direction indicates is NORTH --
+there's an open cafe now serving lunch. To the south, you can see a phone booth.
+
+>X CAFE
+The town's favourite for a quick snack, Benny's cafe has a 50's ROCKETSHIP look.
+
+>ENTER CAFE
+With an impressive mixture of hurry and nonchalance you step into the open cafe.
+
+Inside Benny's cafe
+Benny's offers the FINEST selection of pastries and sandwiches. Customers clog
+the counter, where Benny himself manages to serve, cook and charge without 
+missing a step. At the north side of the cafe you can see a red door connecting 
+with the toilet.
+
+>OPEN DOOR
+It seems to be locked.
+
+>X IT
+A red door with the unequivocal black man-woman silhouettes marking the entrance
+to hygienic facilities. There is a scribbled note stuck on its surface.
+
+>READ THE NOTE
+You apply your ENHANCED ULTRAFREQUENCY vision to the note and squint in
+concentration, giving up only when you see the borders of the note begin to
+blacken under the incredible intensity of your burning stare. You reflect once 
+more how helpful it would've been if you'd ever learnt to read.
+
+A kind old lady passes by and explains: "You have to ask Benny for the key, at
+the counter."
+
+You turn quickly and begin, "Oh, I KNOW that, but..."
+
+"My pleasure, son," says the lady, as she exits the cafe.
+
+>X BENNY
+A deceptively FAT man of uncanny agility, Benny entertains his customers 
+crushing coconuts against his forehead when the mood strikes him.
+
+>ASK BENNY FOR THE KEY
+"Toilet is only fer customers," he grumbles, looking pointedly at a menu board
+behind him.
+
+>X MENU
+The menu board lists Benny's food and drinks, along with their prices. Too bad
+you've never learnt how to read, but luckily there is a picture of a big 
+cup of coffee among the incomprehensible writing.
+
+>BENNY,GIVE ME A COFFEE
+With two gracious steps, Benny places his world-famous Cappuccino in front of
+you.
+
+>BENNY,GIVE ME THE KEY
+Benny tosses the key to the rest rooms on the counter, where you grab it with a
+dextrous and precise movement of your HYPER-AGILE hand.
+
+>UNLOCK DOOR WITH KEY
+You unlock the door to the toilet and open it.
+
+>N
+
+Unisex toilet
+A surprisingly CLEAN square room covered with glazed-ceramic tiles, featuring
+little more than a lavatory and a light switch. The only exit is south, through
+the door and into the cafe.
+
+[Your score has just gone up by one point.]
+
+>SWITCH ON LIGHT
+You turn on the light in the toilet.
+
+>CLOSE DOOR
+You close the door to the cafe.
+
+>LOCK DOOR WITH KEY
+You lock the door to the cafe.
+
+>X LAVATORY
+The latest user CIVILLY flushed it after use, but failed to pick up the VALUABLE
+coin that fell from his pants.
+
+>TAKE COIN
+You crouch into the SLEEPING DRAGON position and deftly, with PARAMOUNT STEALTH,
+you pocket the lost coin.
+
+[Your score has just gone up by one point.]
+
+>REMOVE CLOTHES
+You quickly remove your street clothes and bundle them up together into an INFRA
+MINUSCULE pack ready for easy transportation. Then you unfold your
+INVULNERABLE-COTTON costume and turn into Captain FATE, defender of free will,
+adversary of tyranny!
+
+>UNLOCK DOOR WITH KEY
+You unlock the door to the cafe and open it.
+
+>S
+
+Inside Benny's cafe
+Benny's offers the FINEST selection of pastries and sandwiches. Customers clog
+the counter, where Benny himself manages to serve, cook and charge without 
+missing a step. At the north side of the cafe you can see a red door connecting
+with the toilet.
+
+On the counter is a cup of coffee.
+
+Nearby customers glance at your costume with open curiosity.
+
+"Didn't know there was a circus in town," comments one customer to another.
+"Seems like the clowns have the day off."
+
+>DRINK COFFEE
+You pick up the cup and swallow a mouthful. Benny's WORLDWIDE REPUTATION is well
+deserved. Just as you finish, Benny takes away the empty cup. "That will be one
+quidbuck, sir."
+
+>PAY COIN TO BENNY
+With marvellous ILLUSIONIST gestures, you produce the coin from the depths of
+your BULLET-PROOF costume as if it had dropped on the counter from Benny's ear!
+People around you clap politely. Benny takes the coin and gives it a SUSPICIOUS 
+bite.  "Thank you, sir. Come back anytime," he says.
+
+"These fashion designers don't know what to do to show off," snorts a fat
+gentleman, looking your way. Those within earshot try to conceal their smiles.
+
+>PUT KEY ON COUNTER
+Benny nods as you ADMIRABLY return his key.
+
+"Must be carnival again," says a man to his wife, who giggles, stealing a peek
+at you. "Time sure flies."
+
+>S
+You step onto the sidewalk, where the passing pedestrians recognise the rainbow
+EXTRAVAGANZA of Captain FATE's costume and cry your name in awe as you JUMP with
+sensational momentum into the BLUE morning skies!
+
+    *** You fly away to SAVE the DAY ***
+
+In that game you scored 2 out of a possible 2, in 32 turns.
+
+Would you like to RESTART, RESTORE a saved game or QUIT?
+> QUIT
