@@ -1,7 +1,3 @@
-.. raw:: latex
-
-   \newpage
-
 ===================================
  Just what is interactive fiction?
 ===================================

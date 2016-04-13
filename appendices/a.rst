@@ -1,11 +1,6 @@
-.. raw:: latex
-
-   \newpage
-
 ======================================
  Appendix A -- How to play an IF game
 ======================================
-
 
 .. only:: html
 

@@ -5,6 +5,7 @@
 \usepackage{emerald}
 \usepackage{type1cm}
 \usepackage{lettrine}
+\usepackage{titlesec}
 
 %% Set up page.
 \pagestyle{fancy}
@@ -27,6 +28,9 @@
 
 \renewcommand{\headrulewidth}{0.0pt}
 \renewcommand{\footrulewidth}{0.0pt}
+
+%% Add page break before each section.
+\newcommand{\sectionbreak}{\clearpage}
 
 %% Revert to original table of contents.
 \makeatletter

@@ -1,7 +1,3 @@
-.. raw:: latex
-
-   \newpage
-
 ====================
  Tools of the trade
 ====================

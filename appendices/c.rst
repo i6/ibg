@@ -1,11 +1,6 @@
-.. raw:: latex
-
-   \newpage
-
 ======================================
  Appendix C -- "William Tell" story
 ======================================
-
 
 .. only:: html
 

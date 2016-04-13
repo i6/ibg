@@ -1,11 +1,6 @@
-.. raw:: latex
-
-   \newpage
-
 ===================================
  Appendix D -- "Captain Fate" story
 ===================================
-
 
 .. only:: html
 
