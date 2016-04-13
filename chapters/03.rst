@@ -8,6 +8,7 @@
    | *F was a farmer, and followed the plough.*
 
 .. only:: html
+
   .. image:: /images/picE.png
      :align: left
 

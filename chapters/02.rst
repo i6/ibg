@@ -8,6 +8,7 @@
    | *D was a drunkard, and had a red face.*
 
 .. only:: html
+
   .. image:: /images/picC.png
      :align: left
 

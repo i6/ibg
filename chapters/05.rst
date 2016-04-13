@@ -8,6 +8,7 @@
    | *J was a joiner, and built up a house.*
 
 .. only:: html
+
   .. image:: /images/picI.png
      :align: left
 

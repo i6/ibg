@@ -8,6 +8,7 @@
    | *H was a hunter, and hunted a buck.*
 
 .. only:: html
+
   .. image:: /images/picG.png
      :align: left
 

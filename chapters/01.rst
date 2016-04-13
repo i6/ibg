@@ -10,6 +10,7 @@
    | *B was a butcher, who had a great dog.*
 
 .. only:: html
+
   .. image:: /images/picB.png
      :align: left
 
