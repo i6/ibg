@@ -1,8 +1,7 @@
-Impersonating mild mannered John Covarth, assistant help boy at an 
-insignificant drugstore, you suddenly STOP when your acute hearing 
-deciphers a stray radio call from the POLICE. There's some MADMAN 
-attacking the population in Granary Park! You must change into your 
-Captain FATE costume fast...!
+Impersonating mild mannered John Covarth, assistant help boy at an insignificant
+drugstore, you suddenly STOP when your acute hearing deciphers a stray radio
+call from the POLICE. There's some MADMAN attacking the population in Granary
+Park! You must change into your Captain FATE costume fast...!
 
 Captain Fate
 A simple Inform example
