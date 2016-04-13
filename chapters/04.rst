@@ -7,8 +7,13 @@
    | *G was a gamester, who had but ill-luck;*
    | *H was a hunter, and hunted a buck.*
 
-.. image:: /images/picG.png
-   :align: left
+.. only:: html
+  .. image:: /images/picG.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{g}
 
 oing through the design of our first game in the previous chapter has
 introduced all sorts of Inform concepts, often without giving you much

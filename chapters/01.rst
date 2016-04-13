@@ -9,8 +9,13 @@
    | *A was an archer, who shot at a frog;*
    | *B was a butcher, who had a great dog.*
 
-.. image:: /images/picB.png
-   :align: left
+.. only:: html
+  .. image:: /images/picB.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{b}
 
 efore we start learning to use the Inform system, it's probably sensible
 to consider briefly how IF, which has many narrative elements, differs from

@@ -7,8 +7,13 @@
    | *I was an innkeeper, who loved to carouse;*
    | *J was a joiner, and built up a house.*
 
-.. image:: /images/picI.png
-   :align: left
+.. only:: html
+  .. image:: /images/picI.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{i}
 
 n even the simplest story, there's bound to be scope for the player to
 attempt activities that you hadn't anticipated.  Sometimes there may be

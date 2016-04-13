@@ -2,6 +2,9 @@
 
 \usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=3cm]{geometry}
 \usepackage{setspace}
+\usepackage{emerald}
+\usepackage{type1cm}
+\usepackage{lettrine}
 
 %% Set up page.
 \pagestyle{fancy}
@@ -121,3 +124,6 @@
 }
 
 \makeatother
+
+%% For picture alphabet drop caps
+\newcommand{\dropcap}[1]{\lettrine[lines=3]{\ECFAPicture{\fontsize{50}{60}\selectfont #1}\normalfont}{}}

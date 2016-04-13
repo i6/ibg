@@ -7,8 +7,13 @@
    | *E was an esquire, with pride on his brow;*
    | *F was a farmer, and followed the plough.*
 
-.. image:: /images/picE.png
-   :align: left
+.. only:: html
+  .. image:: /images/picE.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{e}
 
 ach of the three games in this guide is created step by step; you'll get
 most benefit (especially to begin with) if you take an active part, typing
