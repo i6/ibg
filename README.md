@@ -36,12 +36,13 @@ guide from a command prompt, like this:
 
 	make html
 
-For building the PDF version, you need a reasonably recent installation 
-of TeX Live.  Release 2014 will do.  You will also need the Emerald 
-package from https://www.ctan.org/tex-archive/fonts/emerald/.  This 
-cannot be installed with tlmgr, nor does it seem to be packaged by the 
-usual Linux or BSD distributions.  Scripts for installing and 
-uninstalling Emerald are provided here.  When you're ready, type this:
+For building the PDF version, you need a reasonably recent installation of
+TeX Live.  Release 2014 will do.  You will also need the Emerald font
+package from https://www.ctan.org/tex-archive/fonts/emerald/.  This cannot
+be installed with `tlmgr`, nor does it seem to be packaged by the usual
+Linux or BSD distributions.  Scripts for installing and uninstalling
+Emerald are provided in the `tools` directory.  When you're ready, type
+this:
 
 	make latexpdf
 
