@@ -132,7 +132,7 @@ html_theme = 'alabaster'
 html_theme_options = {
     'font_family': 'Georgia',
     'head_font_family': 'Georgia',
-    'page_width': '1000px',
+    'page_width': '1050px',
     'show_related': True,
 }
 
