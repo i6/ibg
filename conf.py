@@ -20,9 +20,9 @@ import codecs
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('tools'))
+sys.path.insert(0, ".")
 
-from transcript import TranscriptLexer
+from tools.transcript import TranscriptLexer
 
 # Setup function.
 def setup(app):
@@ -38,6 +38,7 @@ def setup(app):
 # ones.
 extensions = [
     'sphinx.ext.todo',
+    'tools.blockdiag',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -331,3 +332,30 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+
+# -- Options for block diagrams -------------------------------------------
+
+# The paths to truetype fonts. blockdiag_fontpath option accepts both
+# single path string and list of paths.
+blockdiag_fontpath = []
+
+# The path to fontmap definitions.
+blockdiag_fontmap = ""
+
+# Render diagrams in antialias mode or not.
+blockdiag_antialias = True
+
+# Render diagrams as transparency or not.
+blockdiag_transparency = True
+
+# The output image format at generating HTML docs ("PNG" or "SVG").
+blockdiag_html_image_format = "SVG"
+
+# The output image format at generating PDF docs (through LaTeX). ("PNG" or
+# "PDF").  When a value of PDF is specified, you can get clear diagram
+# images. In which case, reportlab library is required.
+blockdiag_latex_image_format = "PNG"
+
+# Enable debug mode of blockdiag.
+blockdiag_debug = False

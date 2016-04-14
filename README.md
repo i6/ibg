@@ -7,9 +7,14 @@ Introduction
 This repository contains the sources for the
 [Inform Beginner's Guide](http://www.firthworks.com/roger/IBG.html),
 henceforth known as the IBG.  This version is in a new source format that's
-more contributor-friendly (see below).  It's a work-in-progress; see the
-[issue tracker](https://github.com/i6/ibg/issues) for how it's going.
+more version-control and contributor-friendly:
+[Sphinx](http://sphinx-doc.org), a documentation build tool written in
+[Python](http://python.org).  With Sphinx, the source files are in a very
+readable format called
+[reStructuredText](https://en.wikipedia.org/wiki/ReStructuredText).
 
+This version of the IBG is a work-in-progress; see the
+[issue tracker](https://github.com/i6/ibg/issues) for how it's going.
 Initially it will be a straight conversion of the 3rd edition.  After that,
 the 4th edition will be prepared.  The rationale for a 4th edition is:
 
@@ -25,13 +30,19 @@ the 4th edition will be prepared.  The rationale for a 4th edition is:
 Building from source
 --------------------
 
-The new source format is [Sphinx](http://sphinx-doc.org), a documentation
-build tool written in [Python](http://python.org), which you will need to
-install if you want to build the document.  You can find the complete
-installation instructions
-[here](http://www.sphinx-doc.org/en/stable/install.html).
+As well as these document sources, you will need:
 
-After you have Sphinx installed, you can build the HTML version of the
+* Sphinx.  You can find the complete installation instructions
+  [here](http://www.sphinx-doc.org/en/stable/install.html).
+
+* Sphinx makes use of [Blockdiag](https://pypi.python.org/pypi/blockdiag)
+  for some of the diagrams; you'll need that too.
+
+If you have `pip`, this command will be all you need:
+
+    pip install sphinx blockdiag
+
+After you have everything installed, you can build the HTML version of the
 guide from a command prompt, like this:
 
 	make html

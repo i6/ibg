@@ -284,45 +284,57 @@ This causes another change in the relationships.  The bird is now a child
 of the player (and *not* of the forest), and the player is both a parent
 (of the bird) and a child (of the forest).
 
-In this diagram, we show how the object relationships change during the
-course of the game.  The straight lines represent parent--child
-relationships, with the parent object at the top of the line, and the child
-object at the bottom.
+Here we show how the object relationships change during the course of the
+game.  The straight lines represent parent--child relationships, with the
+parent object at the top of the line, and the child object at the bottom.
 
-.. list-table::
-   :widths: 1 3 5
+1. At the start of the game:
 
-   * - 1.
-     - At the start of the game:
-     - .. image:: /images/heidiobj1.*
+   .. blockdiag:: /figures/heidiobj1.diag
+      :align: center
+      :scale: 80%
 
-   * - 2.
-     - The player types: ``GO EAST``
-     - .. image:: /images/heidiobj2.*
+2. The player types: ``GO EAST``
 
-   * - 3.
-     - The player types: ``TAKE THE BIRD``
-     - .. image:: /images/heidiobj3.*
+   .. blockdiag:: /figures/heidiobj2.diag
+      :align: center
+      :scale: 80%
 
-   * - 4.
-     - The player types: ``GO NORTHEAST``
-     - .. image:: /images/heidiobj4.*
+3. The player types: ``TAKE THE BIRD``
 
-   * - 5.
-     - The player types: ``PUT BIRD IN NEST``
-     - .. image:: /images/heidiobj5.*
+   .. blockdiag:: /figures/heidiobj3.diag
+      :align: center
+      :scale: 80%
 
-   * - 6.
-     - The player types: ``TAKE NEST``
-     - .. image:: /images/heidiobj6.*
+4. The player types: ``GO NORTHEAST``
 
-   * - 7.
-     - The player types: ``UP``
-     - .. image:: /images/heidiobj7.*
+   .. blockdiag:: /figures/heidiobj4.diag
+      :align: center
+      :scale: 80%
 
-   * - 8.
-     - The player types: ``PUT NEST ON BRANCH``
-     - .. image:: /images/heidiobj8.*
+5. The player types: ``PUT BIRD IN NEST``
+
+   .. blockdiag:: /figures/heidiobj5.diag
+      :align: center
+      :scale: 80%
+
+6. The player types: ``TAKE NEST``
+
+   .. blockdiag:: /figures/heidiobj6.diag
+      :align: center
+      :scale: 80%
+
+7. The player types: ``UP``
+
+   .. blockdiag:: /figures/heidiobj7.diag
+      :align: center
+      :scale: 80%
+
+8. The player types: ``PUT NEST ON BRANCH``
+
+   .. blockdiag:: /figures/heidiobj8.diag
+      :align: center
+      :scale: 80%
 
 In this short example, we've taken a lot of time and space to spell out
 exactly how the objects relationship patterns -- generally known as the

@@ -1,0 +1,24 @@
+// 7. The player types: ``UP``
+
+blockdiag {
+    default_shape = roundedbox;
+    orientation = portrait;
+    node_width = 80;
+
+    BC [label = "before_\ncottage"];
+    F  [label = "forest"];
+    C  [label = "clearing"];
+    TT [label = "top_of_\ntree"];
+
+    P  [label = "player"];
+    B  [label = "bird"];
+    N  [label = "nest"];
+    T  [label = "tree"];
+    TB [label = "branch"];
+
+    BC;
+    F;
+    C  -> T;
+    TT -> P -> N -> B;
+    TT -> TB;
+}
