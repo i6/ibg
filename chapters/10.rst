@@ -166,7 +166,7 @@ we've decided to modestly award one point for each. By the way, the use
 of an equals sign ``=`` is optional with ``Constant``; these two lines 
 have identical effect:
 
-.. code-block:: inform6..
+.. code-block:: inform6
 
   Constant ROOM_SCORE    1;
 
