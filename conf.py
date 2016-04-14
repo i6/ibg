@@ -237,6 +237,7 @@ template = string.Template(open('config/preamble.tex').read())
 latex_contents = r"""
 \coverpage
 \licensepage
+\historypage
 \contentspage
 \newpage
 \maintext
