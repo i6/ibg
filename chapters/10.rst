@@ -288,7 +288,7 @@ the movement which is not allowed):
 
    Notice how the syntax coloring thinks that the exclaimation point 
    above is a comment.  This is another problem with the built-in inform6 
-   syntax colorer.
+   syntax highlighter.
 
 That takes care of entering the booth. But what about leaving it? 
 Players may type EXIT or OUT while they are inside an enterable 
@@ -448,42 +448,36 @@ something else to describe it:
           ],
     has   enterable proper;
 
-.. todo::
+.. note::
 
-   Figure out how to set off this entire note section as an indented block
+   although the text of our guide calls Benny's establishment a "café" 
+   -- note the acute "e" -- the game itself simplifies this to "cafe". 
+   We do this for clarity, not because Inform doesn't support accented 
+   characters. The *Inform Designer's Manual* explains in detail how to 
+   display these characters in "§1.11 *How text is printed*" and 
+   provides the whole Z-machine character set in Table 2. In our case, 
+   we could have displayed this::
 
-NOTE : although the text of our guide calls Benny's establishment a 
-"café" -- note the acute "e" -- the game itself simplifies this to 
-"cafe". We do this for clarity, not because Inform doesn't support 
-accented characters. The *Inform Designer's Manual* explains in detail 
-how to display these characters in "§1.11 *How text is printed*" and 
-provides the whole Z-machine character set in Table 2. In our case, we 
-could have displayed this::
+      The town's favourite for a quick snack, Benny's café has a 50's ROCKETSHIP look.
 
-  The town's favourite for a quick snack, Benny's café has a 50's ROCKETSHIP look.
+   by defining the ``description`` property as any of these:
 
-by defining the ``description`` property as any of these:
+   .. code-block:: inform6
 
-.. code-block:: inform6
+     description
+         "The town's favourite for a quick snack, Benny's caf@'e has a 50's
+          ROCKETSHIP look.",
 
-  description
-      "The town's favourite for a quick snack, Benny's caf@'e has a 50's
-       ROCKETSHIP look.",
+     description
+         "The town's favourite for a quick snack, Benny's caf@@170 has a 50's
+          ROCKETSHIP look.",
 
-  description
-      "The town's favourite for a quick snack, Benny's caf@@170 has a 50's
-       ROCKETSHIP look.",
+     description
+         "The town's favourite for a quick snack, Benny's caf@{E9} has a 50's
+          ROCKETSHIP look.",
 
-  description
-      "The town's favourite for a quick snack, Benny's caf@{E9} has a 50's
-       ROCKETSHIP look.",
-
-However, all three forms are harder to read than the vanilla "cafe", so 
-we've opted for the simple life.
-
-.. todo::
-
-   Indented block ends here
+   However, all three forms are harder to read than the vanilla "cafe", so 
+   we've opted for the simple life.
 
 Unlike the sidewalk object, we offer more than a mere description. Since 
 the player may try ENTER CAFE as a reasonable way of access -- which 
@@ -613,44 +607,38 @@ with a test like this:
 .. todo::
 
    That block of code above should be colored.  Is there a defect in the 
-   syntax coloring code?
+   syntax highlighting code?
 
 where 39 is the number for the standard message "That's not something 
 you need to refer to in the course of this game" -- displayed when the 
 player mentions a noun which is listed in a room's name property, as we 
 did for the ``street``.
 
-.. todo::
+.. note::
 
-   Begin big chunk of indented text. Also, NOTE should be in bigcaps.
+   remember that when we are testing for different values of the 
+   same variable, we can also use the switch statement. For the 
+   Miscellany entry, the following code would work just as nicely:
 
-NOTE : remember that when we are testing for different values of the 
-same variable, we can also use the switch statement. For the Miscellany 
-entry, the following code would work just as nicely:
+   .. code-block:: inform6
 
-.. code-block:: inform6
-
-  ...
-  Miscellany:
-    switch (lm_n) {
-      19:
-        if (clothes has worn)
-            "In your secret identity's outfit, you manage most
-             efficaciously to look like a two-cent loser, a
-             good-for-nothing wimp.";
-        else
-            "Now that you are wearing your costume, you project
-             the image of power UNBOUND, of ballooned,
-             multicoloured MUSCLE, of DASHING yet MODEST chic.";
-      38:
-        "That's not a verb you need to SUCCESSFULLY save the day.";
-      39:
-        "That's not something you need to refer to in order to SAVE the day.";
-    }
-
-.. todo::
-
-   End big indented chunk
+     ...
+     Miscellany:
+       switch (lm_n) {
+         19:
+           if (clothes has worn)
+               "In your secret identity's outfit, you manage most
+                efficaciously to look like a two-cent loser, a
+                good-for-nothing wimp.";
+           else
+               "Now that you are wearing your costume, you project
+                the image of power UNBOUND, of ballooned,
+                multicoloured MUSCLE, of DASHING yet MODEST chic.";
+         38:
+           "That's not a verb you need to SUCCESSFULLY save the day.";
+         39:
+           "That's not something you need to refer to in order to SAVE the day.";
+       }
 
 Not surprisingly, the default message for self-examination: "As good 
 looking as ever" is a ``Miscellany`` entry -- it's number 19 -- so we 
@@ -671,21 +659,19 @@ experience grows.
 
 .. todo::
 
-   Begin big indented chunk.  That "whatever new look" needs to be italicized.
+    That "whatever new look" below needs to be italicized and bolded for LaTeX
 
-NOTE: going back to our example, an alternative approach would be to set 
-the variable ``player.description`` in the ``Initialise`` routine (as we 
-did with "William Tell") to the "ordinary clothes" string, and then 
-later change it as the need arises. It is a variable, after all, and you 
-can alter its value with another statement like ``player.description = 
-*whatever new look*`` anywhere in your code. This alternative solution 
-might be better if we intended changing the description of the player 
-many times through the game. Since we plan to have only two states, the 
-``LibraryMessages`` approach will do just fine.
+.. note::
 
-.. todo::
-
-   End big indented chunk
+   going back to our example, an alternative approach would be to set 
+   the variable ``player.description`` in the ``Initialise`` routine (as we 
+   did with "William Tell") to the "ordinary clothes" string, and then 
+   later change it as the need arises. It is a variable, after all, and you 
+   can alter its value with another statement like ``player.description =`` 
+   *whatever new look* anywhere in your code. This alternative solution 
+   might be better if we intended changing the description of the player 
+   many times through the game. Since we plan to have only two states, the 
+   ``LibraryMessages`` approach will do just fine.
 
 A final warning: as we explained when extending the standard verb 
 grammars, you *could* edit the appropriate library file and change all 

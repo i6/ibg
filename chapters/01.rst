@@ -145,8 +145,8 @@ Some of the more obvious differences are highlighted by these questions:
 
     Our example of narrative prose is written in the third person; it
     refers to the hero as "Wilhelm" and "he" and "him", watching and
-    reporting on his activities from afar.  In this sample IF game, you are
-    the hero, seeing everything through Wilhelm's eyes.
+    reporting on his activities from afar.  In this sample IF game,
+    *you* are the hero, seeing everything through Wilhelm's eyes.
 
 *   What happens next?
 
@@ -168,7 +168,7 @@ Some of the more obvious differences are highlighted by these questions:
 
     You can tell when you've come to the end of a regular narrative -- you
     read the last sentence, and you know there's no more.  In IF, it's
-    clear enough when you reach an end; what's much less apparent is
+    clear enough when you reach *an* end; what's much less apparent is
     whether that's the only conclusion.  In the transcript from the example
     game, you win by shooting the apple from Walter's head.  But what if
     you miss?  What if you hit him by mistake?  Or fire instead at the

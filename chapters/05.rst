@@ -261,7 +261,7 @@ This time, however, we've done it using one statement rather than two.  It
 turns out that the sequence "``print`` a string which ends with a newline
 character, and then ``return true``" is so frequently needed that there's a
 special statement which does it all.  That is, this single statement (where
-you'll note that the string doesn't need to end in ``^``)::
+you'll note that the string *doesn't* need to end in ``^``)::
 
      print_ret "It's such a lovely day -- much too nice to go inside.";
 
@@ -467,7 +467,7 @@ The extended ``if`` statement::
     if (bird in nest && nest in branch) deadflag = 2;
 
 should now be read as: "Test whether the ``bird`` is currently in (or on)
-the ``nest``, and whether the ``nest`` is currently on (or in) the
+the ``nest``, *and* whether the ``nest`` is currently on (or in) the
 ``branch``; if both parts are ``true``, set the value of ``deadflag`` to 2;
 otherwise, do nothing".
 

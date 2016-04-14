@@ -119,8 +119,8 @@ write an Inform adventure game:
   but you have to remember to save your game in Text File format;
 
 * some Inform **library files** which you Include in your own game source
-  file in order to provide the model world -- a basic game environment and
-  lots of useful standard definitions;
+  file in order to provide the **model world** -- a basic game 
+  environment and lots of useful standard definitions;
 
 * the Inform **compiler** program, which reads your source file (and the
   library files) and translates your descriptions and definitions into
@@ -463,16 +463,18 @@ Follow these steps:
    Now, if you double-click the file, it should open in TextEdit so that
    you can see how it's written, though it probably won't mean much -- yet.
 
-   The above process may affect only this specific file.  To change the
-   program that opens by default all ``.inf`` files, try this:
+   .. note::
 
-   * right-click on the file (or Ctrl-click)
+      The above process may affect only this specific file.  To change 
+      the program that opens by default *all* ``.inf`` files, try this:
 
-   * select ``Get Info``
+      * right-click on the file (or Ctrl-click)
 
-   * in the ``Open with`` tab, select TextEdit as the application
+      * select ``Get Info``
 
-   * click the ``Change All...`` button, and confirm the change when asked.
+      * in the ``Open with`` tab, select TextEdit as the application
+
+      * click the ``Change All...`` button, and confirm the change when asked.
 
 4. ``MyGame1.command`` is a Terminal Shell Script (a UNIX executable
    command-line file, a kind of text-only computer program from the days
@@ -596,11 +598,11 @@ There are three parts to the second line:
 
    .. note::
 
-      On the command line, you sometimes also see a compiler switch such as
-      ``-S``, used for controlling detailed aspects of how the compiler
-      operates.  Rather than do that here, we find it more convenient to
-      place any necessary switches at the very top of the source file, as
-      we'll explain in the next chapter.
+      On the command line, you sometimes also see a compiler **switch** 
+      such as ``-S``, used for controlling detailed aspects of how the 
+      compiler operates.  Rather than do that here, we find it more 
+      convenient to place any necessary switches at the very top of the 
+      source file, as we'll explain in the next chapter.
 
 Once you've finished editing those lines, ``Save`` the file (not
 ``SaveAs``), overwriting the original, and make sure that your text editor

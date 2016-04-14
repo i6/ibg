@@ -67,8 +67,8 @@ you can change it at any time.  For example, we used the statement::
 
      location = before_cottage;
 
-to reset the value of the location variable to the ``before_cottage``
-object, and we wrote::
+to reset the value of the ``location`` variable to the 
+``before_cottage`` object, and we wrote::
 
      if (nest in branch) deadflag = 2;
 
@@ -351,16 +351,17 @@ Inform makes careful distinction between double and single quotes.
 
 .. rubric:: Double quotes
 
-Double quotes "..." surround a **string** -- a letter, a word, a paragraph,
-or almost any number of characters -- which you want the interpreter to
-display while the game is being played.  You can use the tilde ``~`` to
-represent a double quote inside the string, and the circumflex ``^`` to
-represent a newline (line break) character.  Upper-case and lower-case
-letters are treated as different.
+Double quotes ``"..."`` surround a **string** -- a letter, a word, a 
+paragraph, or almost any number of characters -- which you want the 
+interpreter to display while the game is being played.  You can use the 
+tilde ``~`` to represent a double quote inside the string, and the 
+circumflex ``^`` to represent a newline (line break) character.  
+Upper-case and lower-case letters are treated as different.
 
-A long string can be split over several lines; Inform transforms each line
-break (and any spaces around it) into a single space (extra spaces not at a
-line break are preserved, though).  These two strings are equivalent::
+A long string can be split over several lines; Inform transforms each 
+line break (and any spaces around it) into a single space (extra spaces 
+*not* at a line break are preserved, though).  These two strings are 
+equivalent::
 
     "This is a      string of characters."
 
@@ -385,7 +386,7 @@ which could equally have been defined thus::
     Constant Headline
           "^A simple Inform example^by Roger Firth and Sonja Kesserich.^";
 
-and as the value of an object description property::
+and as the value of an object ``description`` property::
 
     description "Too young to fly, the nestling tweets helplessly.",
 
@@ -393,12 +394,12 @@ Later, you'll find that they're also very common in ``print`` statements.
 
 .. rubric:: Single quotes
 
-Single quotes '...' surround a **dictionary word**.  This has to be a
-single word -- no spaces -- and generally contains only letters (and
-occasionally numbers and hyphens), though you can use ``^`` to represent an
-apostrophe inside the word.  Upper-case and lower-case letters are treated
-as identical; also, the interpreter normally looks only at the first nine
-characters of each word that the player types.
+Single quotes ``'...'`` surround a **dictionary word**.  This has to be 
+a single word -- no spaces -- and generally contains only letters (and 
+occasionally numbers and hyphens), though you can use ``^`` to represent 
+an apostrophe inside the word.  Upper-case and lower-case letters are 
+treated as identical; also, the interpreter normally looks only at the 
+first nine characters of each word that the player types.
 
 When the player types a command, the interpreter divides what was typed
 into individual words, which it then looks up in the dictionary.  If it
@@ -454,10 +455,10 @@ interpreter executes that statement: it performs an assignment::
 
     deadflag = 2;
 
-which changes the value of the library variable ``deadflag`` from its
-current value to 2.  Incidentally, if statements are often written on two
-lines, with the "controlled" statement indented.  This makes it easier to
-read, but doesn't change the way that it works::
+which changes the value of the library variable ``deadflag`` from its 
+current value to 2.  Incidentally, ``if`` statements are often written 
+on two lines, with the "controlled" statement indented.  This makes it 
+easier to read, but doesn't change the way that it works::
 
     if (nest in branch)
         deadflag = 2;
@@ -505,7 +506,8 @@ call.
 
    You may have noticed that, although we've defined a routine named
    ``Initialise``, we've never actually called it.  Don't worry -- the
-   routine is called, by the Inform library, right at the start of a game.
+   routine *is* called, by the Inform library, right at the start of a 
+   game.
 
 .. rubric:: Embedded routines
 

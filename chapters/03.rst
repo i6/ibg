@@ -88,12 +88,12 @@ that we design will start out like this.  Follow these steps:
    Ensure the file is named ``Heidi.inf``, rather than ``Heidi.txt`` or
    ``Heidi.inf.txt``.
 
-   Remember that, throughout this guide, we place the "TYPE" symbol
+   Remember that, throughout this guide, we place the "``TYPE``" symbol
    alongside pieces of code that we recommend you to type into your own
    game files as you read through the examples (which, conversely, means
-   that you don't need to type the unmarked pieces of code).  You'll learn
-   Inform more quickly by trying it for yourself, rather than just taking
-   our word for how things work.
+   that you *don't* need to type the unmarked pieces of code).  You'll 
+   learn Inform more quickly by trying it for yourself, rather than just 
+   taking our word for how things work.
 
    .. todo::
 
@@ -198,7 +198,7 @@ looking at the source file.
   By the way, the compiler *doesn't* give special treatment to exclamation
   marks in quoted text: ``!`` within quotes "..." is treated as a normal
   character.  On this line, the first ``!`` is part of the sequence (or
-  string) of characters to be displayed:
+  **string**) of characters to be displayed:
 
   .. code-block:: inform6
 
@@ -584,17 +584,18 @@ line to each definition:
            name 'bird^s' 'nest' 'twigs' 'moss',
       has  ;
 
-The ``name`` introduces a list in single quotes '...'.  We call each of
-those quoted things a **dictionary word**, and we do mean "word", not
-"phrase" (``'baby'``\ ``'bird'`` rather than ``'baby bird'``); you can't
-uses spaces, commas or periods in dictionary words, though there's a space
-*between* each one, and the whole list ends with a comma.  The idea is that
-the interpreter decides which object a player is talking about by matching
-what she types against the full set of all dictionary words.  If the player
-mentions BIRD, or BABY BIRD, or NESTLING, it's the ``baby bird`` that she
-means; if she mentions NEST, BIRD'S NEST or MOSS, it's the ``bird's nest``.
-And if she types NEST BABY or BIRD TWIGS, the interpreter will politely say
-that it doesn't understand what on earth she's talking about.
+The ``name`` introduces a list in single quotes '...'.  We call each of 
+those quoted things a **dictionary word**, and we do mean "word", not 
+"phrase" (``'baby'``\ ``'bird'`` rather than ``'baby bird'``); you can't 
+uses spaces, commas or periods *in* dictionary words, though there's a 
+space *between* each one, and the whole list ends with a comma.  The 
+idea is that the interpreter decides which object a player is talking 
+about by matching what she types against the full set of all dictionary 
+words.  If the player mentions BIRD, or BABY BIRD, or NESTLING, it's the 
+``baby bird`` that she means; if she mentions NEST, BIRD'S NEST or MOSS, 
+it's the ``bird's nest``. And if she types NEST BABY or BIRD TWIGS, the 
+interpreter will politely say that it doesn't understand what on earth 
+she's talking about.
 
 .. note::
 
@@ -743,14 +744,14 @@ at the top of the tree.  Again, not many surprises in this definition:
             name 'wide' 'firm' 'flat' 'bough' 'branch',
      has    static supporter;
 
-The only new things are those two labels.  ``static`` is similar to
-``scenery``: it prevents the branch from being picked up by the player
-character, but *doesn't* suppress mention of it when describing the
-setting.  And ``supporter`` is rather like the ``container`` that we used
-for the nest, except that this time the player character can put other
-objects *onto* the branch.  (In passing, we'll mention that an object can't
-normally be both a ``container`` and a ``supporter``.)  And so here are our
-objects again:
+The only new things are those two labels.  ``static`` is similar to 
+``scenery``: it prevents the branch from being picked up by the player 
+character, but *doesn't* suppress mention of it when describing the 
+setting.  And ``supporter`` is rather like the ``container`` that we 
+used for the nest, except that this time the player character can put 
+other objects *onto* the branch.  (In passing, we'll mention that an 
+object can't normally be both a ``container`` *and* a ``supporter``.)  
+And so here are our objects again:
 
 .. code-block:: inform6
 
