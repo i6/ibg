@@ -1,0 +1,699 @@
+====================
+Captain Fate: take 1
+====================
+
+.. epigraph::
+
+   | *S was a sailor, and spent all he got;*
+   | *T was a tinker, and mended a pot.*
+
+.. only:: html
+
+  .. image:: /images/picS.png
+     :align: left
+
+.. raw:: latex
+
+   \dropcap{s}
+
+imple though they are, our two games have covered most of the basic
+functionality of Inform, providing enough solid ground underfoot
+for you to start creating simple stories. Even if some of what you've
+encountered doesn't make sense yet, you should be able to browse a
+game's source code and form a general understanding of what is going on.
+
+We'll now design a third game, to show you a few additional features and 
+give you some more sample code to analyse. In "Heidi" we tried to make 
+progress step by step, explaining every bit of code that went into the 
+game as we laid the objects sequentially; in "William Tell" you'll have 
+noticed that we took a few necessary explanatory detours, as the 
+concepts grew more interesting and complicated. Here we'll organise the 
+information in logical didactic chunks, defining some of the objects 
+minimally at first and then adding complexity as need arises. Again, 
+this means that you won't be able to compile for testing purposes after 
+the addition of every code snippet, so, if you're typing in the game as 
+you read, you’ll need to check the advice in "Compile-as-you-go" on page 
+255.
+
+A lot of what goes into this game we have already seen; you may deduce 
+from this that the game design business is fairly repetitious and that 
+most games are, when you reach the programming bottom line, another 
+remake of the same old theme. Well, yes and no: you've got a camera and 
+have seen some short home videos in the making, but it’s a long way from 
+here to Casablanca. To stick with the analogy, we'll now construct the 
+opening sequence of an indie B-movie, a tribute to the style of 
+super-hero made famous by a childhood of comic books:
+
+.. pull-quote::
+
+	"Impersonating mild mannered John Covarth, assistant help boy at 
+	an Impersonating insignificant drugstore, you suddenly STOP 
+	when your acute hearing deciphers a stray radio call from the 
+	POLICE. There’s some MADMAN attacking the population in Granary 
+	Park! You must change into your Captain FATE costume fast...!"
+
+which won't be so easy to do. In this short example, players will win 
+when they manage to change into their super-hero costume and fly away to 
+meet the foe. The confrontation will -- perhaps -- take place in some 
+other game, where we can but hope that Captain Fate will vanquish the 
+forces of evil, thanks to his mysterious (and here unspecified) 
+superpowers.
+
+Fade up on: a nondescript city street
+=====================================
+
+The game starts with meek John Covarth walking down the street. We set 
+up the game as usual:
+
+.. code-block:: inform6
+
+  !% -SD
+  !============================================================================
+  Constant Story "Captain Fate";
+  Constant Headline
+	     "^A simple Inform example
+	      ^by Roger Firth and Sonja Kesserich.^";
+  Release 3; Serial "040804";	 ! for keeping track of public releases
+
+  Constant MANUAL_PRONOUNS;
+  Constant MAX_SCORE     2;
+  Constant OBJECT_SCORE  1;
+  Constant ROOM_SCORE    1;
+
+  Include "Parser";
+  Include "VerbLib";
+
+  !============================================================================
+  ! Object classes
+
+  Class  Room
+    with description "UNDER CONSTRUCTION",
+    has  light;
+
+  Class  Appliance
+    with before [;
+	   Take,Pull,Push,PushDir:
+	     "Even though your SCULPTED adamantine muscles are up to the task,
+	      you don't favour property damage.";
+         ],
+    has  scenery;
+
+  !============================================================================
+  ! The game objects
+
+  Room	  street "On the street"
+    with  name 'city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
+	  description
+	      "On one side -- which your HEIGHTENED sense of direction
+	       indicates is NORTH -- there's an open cafe now serving
+	       lunch. To the south, you can see a phone booth.";
+
+  !============================================================================
+  ! The player's possessions
+
+  !============================================================================
+  ! Entry point routines
+
+  [ Initialise;
+      location = street;
+      lookmode = 2;
+      "^^Impersonating mild mannered John Covarth, assistant help boy at an
+       insignificant drugstore, you suddenly STOP when your acute hearing
+       deciphers a stray radio call from the POLICE. There's some MADMAN
+       attacking the population in Granary Park! You must change into your
+       Captain FATE costume fast...!^^";
+  ];
+
+  !============================================================================
+  ! Standard and extended grammar
+
+  Include "Grammar";
+  !============================================================================
+
+Almost everything is familar, apart from a few details:
+
+.. code-block:: inform6
+
+  Constant MANUAL_PRONOUNS;
+  Constant MAX_SCORE     2;
+  Constant OBJECT_SCORE  1;
+  Constant ROOM_SCORE    1;
+
+By default, Inform uses a system of automatic pronouns: as the player 
+character moves into a room, the library assigns pronouns like IT and 
+HIM to likely objects (if you play "Heidi" or "William Tell" and type 
+PRONOUNS, you can see how the settings change). There is another option. 
+If we declare the ``MANUAL_PRONOUNS`` onstant, we force the library to 
+assign pronouns to objects only as the player mentions them (that is, IT 
+will be unassigned until the player types, say, EXAMINE TREE, at which 
+point, IT becomes the TREE ). The behaviour of pronoun assignment is a 
+matter of personal taste; no system is objectively perfect.
+
+Apart from the constant ``MAX_SCORE`` that we have seen in "William 
+Tell", which defines the maximum number of points to be scored, we now 
+see two more constants: ``OBJECT_SCORE`` and ``ROOM_SCORE``. There are 
+several scoring systems predefined in Inform. In "William Tell" we've 
+seen how you can manually add (or subtract) points by changing the value 
+of the variable ``score``. Another approach is to award points to 
+players on the first occasion that they (a) enter a particular room, or 
+(b) pick up a particular object. To define that a room or object is 
+indeed “particular”, all you have to do is give it the attribute 
+``scored``; the library take cares of the rest. The predefined scores 
+are five points for finally reached rooms and four points for wondrous 
+acquisition of objects. With the constants ``OBJECT_SCORE`` and 
+``ROOM_SCORE`` we can change those defaults; for the sake of example, 
+we've decided to modestly award one point for each. By the way, the use 
+of an equals sign ``=`` is optional with ``Constant``; these two lines 
+have identical effect:
+
+.. code-block:: inform6..
+
+  Constant ROOM_SCORE    1;
+
+  Constant ROOM_SCORE  = 1;
+
+Another difference has to do with a special short-hand method that 
+Inform provides for displaying strings of text. Until now, we have shown 
+you:
+
+.. code-block:: inform6
+
+  print "And now for something completely different...^"; return true;
+  ...
+  print_ret "And now for something completely different...";
+
+Both lines do the same thing: they display the quoted string, output a 
+newline character, and return true. As you have seen in the previous 
+example games, this happens quite a lot, so there is a yet shorter way 
+of achieving the same result:
+
+.. code-block:: inform6
+
+  "And now for something completely different...";
+
+That is, *in a routine* (where the compiler is expecting to find a 
+collection of statements each terminated by a semicolon), a string in 
+double quotes by itself, without the need for any explicit keywords, 
+works exactly as if there were a ``print_ret`` in front of it. Remember 
+that this way of displaying text implies a ``return true`` at the end 
+(which therefore exits from the routine immediately). This detail 
+becomes important if we *don't* want to return true after the string 
+has been displayed on the screen -- we should use the explicit ``print`` 
+statement instead.
+
+You'll notice that -- unusually for a room -- our ``street`` object has 
+a ``name`` property:
+
+.. code-block:: inform6
+
+  Room    street "On the street"
+    with  name 'city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
+    ...
+
+Rooms aren't normally referenced by name, so this may seem odd. In fact, 
+we're illustrating a feature of Inform: the ability to define dictionary 
+words as "known but irrelevant" in this location. If the player types 
+EXAMINE CITY here, the interpreter will reply "That's not something you 
+need to refer to in order to SAVE the day", rather than the misleading 
+"You can't see any such thing". We mostly prefer to deal with such 
+scenic words using classes like ``Prop`` and ``Furniture``, but 
+sometimes a room's ``name`` property is a quick and convenient solution.
+
+In this game, we provide a class named ``Appliance`` to take care of 
+furniture and unmovable objects. You’ll notice that the starting room we 
+have defined has no connections yet. The description mentions a phone 
+booth and a café, so we might want to code those. While the café will be 
+a normal room, it would seem logical that the phone booth is actually a 
+big box on the sidewalk; therefore we define a ``container`` set in the 
+street, which players may enter:
+
+.. code-block:: inform6
+
+  Appliance booth "phone booth" street
+    with name 'old' 'red' 'picturesque' 'phone' 'booth' 'cabin'
+             'telephone' 'box',
+         description
+             "It's one of the old picturesque models, a red cabin with room
+              for one caller.",
+         before [;
+           Open:
+             "The booth is already open.";
+           Close:
+             "There's no way to close this booth.";
+         ],
+         after [;
+           Enter:
+             "With implausible celerity, you dive inside the phone booth.";
+         ],
+    has  enterable container open;
+
+What's interesting are the attributes at the end of the definition. 
+You'll recall from Heidi's ``nest`` object that a ``container`` is an 
+object capable of having other objects placed in it. If we make 
+something ``enterable``, players count as one of those objects, so that 
+they may squeeze inside. Finally, ``containers`` are, by default, 
+supposed to be closed. You can make them ``openable`` if you wish 
+players to be able to OPEN and CLOSE them at will, but this doesn't seem 
+appropriate behaviour for a public cabin -- it would become tedious to 
+have to type OPEN BOOTH and CLOSE BOOTH when these actions provide 
+nothing special -- so we add instead the attribute ``open`` (as we did 
+with the nest), telling the interpreter that the container is open from 
+the word go. Players aren't aware of our design, of course; they may 
+indeed try to OPEN and CLOSE the booth, so we trap those actions in a 
+``before`` property which just tells them that these are not relevant 
+options. The ``after`` property gives a customised message to override 
+the library’s default for commands like ENTER BOOTH or GO INSIDE BOOTH.
+
+Since in the street's description we have told players that the phone 
+booth is to the south, they might also try typing SOUTH. We must 
+intercept this attempt and redirect it (while we're at it, we add a 
+connection to the as-yet-undefined café room and a default message for 
+the movement which is not allowed):
+
+.. code-block:: inform6
+
+  Room    street "On the street"
+    with  name city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
+          description
+              "On one side -- which your HEIGHTENED sense of direction
+               indicates is NORTH -- there's an open cafe now serving
+               lunch. To the south, you can see a phone booth.",
+          n_to cafe,
+          s_to [; <<Enter booth>>; ],
+          cant_go
+              "No time now for exploring! You'll move much faster in your
+               Captain FATE costume.";
+
+.. todo::
+
+   Notice how the syntax coloring thinks that the exclaimation point 
+   above is a comment.  This is another problem with the built-in inform6 
+   syntax colorer.
+
+That takes care of entering the booth. But what about leaving it? 
+Players may type EXIT or OUT while they are inside an enterable 
+container and the interpreter will oblige but, again, they might type 
+NORTH. This is a problem, since we are actually in the street (albeit 
+inside the booth) and to the north we have the café. We may provide for 
+this condition in the room's ``before`` property:
+
+.. code-block:: inform6
+
+  before [;
+    Go:
+      if (player in booth && noun == n_obj) <<Exit booth>>;
+  ],
+
+Since we are outdoors and the booth provides a shelter, it's not 
+impossible that a player may try just IN, which is a perfectly valid 
+connection. However, that would be an ambiguous command, for it could 
+also refer to the café, so we express our bafflement and force the 
+player to try something else:
+
+.. code-block:: inform6
+
+  n_to cafe,
+  s_to [; <<Enter booth>>; ],
+  in_to "But which way?",
+
+Now everything seems to be fine, except for a tiny detail. We've said 
+that, while in the booth, the player character’s location is still the 
+``street`` room, regardless of being inside a ``container``; if players 
+chanced to type LOOK, they'd get:
+
+.. code-block:: transcript
+
+  On the street (in the phone booth)
+  On one side -- which your HEIGHTENED sense of direction indicates is NORTH --
+  there's an open cafe now serving lunch. To the south, you can see a 
+  phone booth.
+
+Hardly an adequate description while *inside* the booth. There are 
+several ways to fix the problem, depending on the result you wish to 
+achieve. The library provides a property called ``inside_description`` 
+which you can utilise with enterable containers. It works pretty much 
+like the normal ``description`` property, but it gets printed only when 
+the player is inside the container. The library makes use of this 
+property in a very clever way, because for every LOOK action it checks 
+whether we can see outside the container: if the container has the 
+``transparent`` attribute set, or if it happens to be ``open``, the 
+library displays the normal ``description`` of the room first and then 
+the ``inside_description`` of the container. If the library decides we 
+can’t see outside the container, only the inside_description is 
+displayed. Take for instance the following (simplified) example:
+
+.. code-block:: inform6
+
+  Room    stage "On stage"
+    with  description
+              "The stage is filled with David Copperfield's
+               magical contraptions.",
+          ...
+
+  Object  magic_box "magic box" stage
+    with  description
+              "A big elongated box decorated with silver stars, where
+               scantily clad ladies make a disappearing act.",
+          inside_description
+              "The inside panels of the magic box are covered with black
+               velvet. There is a tiny switch by your right foot.",
+          ...
+    has   container openable enterable light;
+
+Now, the player would be able to OPEN BOX and ENTER BOX. A player who
+tried a LOOK would get:
+
+.. code-block:: transcript
+
+  On stage (in the magic box)
+  The stage is filled with David Copperfield's magical contraptions.
+
+  The inside panels of the magic box are covered with black velvet. There is a
+  tiny switch by your right foot.
+
+If now the player closes the box and LOOKs:
+
+.. code-block:: transcript
+
+  On stage (in the magic box)
+  The inside panels of the magic box are covered with black velvet. There is a
+  tiny switch by your right foot.
+
+In our case, however, we don't wish the description of the street to be 
+displayed at all (even if a caller is supposedly able to see the street 
+while inside a booth). The problem is that we have made the booth an 
+``open`` container, so the street's description would be displayed every 
+time. There is another solution. We can make the ``description`` 
+property of the ``street`` room a bit more complex, and change its 
+value: instead of a string, we write an embedded routine. Here's the 
+(almost) finished room:
+
+.. code-block:: inform6
+
+  Room    street "On the street"
+    with  name 'city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
+          description [;
+              if (player in booth)
+                  "From this VANTAGE point, you are rewarded with a broad view
+                   of the sidewalk and the entrance to Benny's cafe.";
+              else
+                  "On one side -- which your HEIGHTENED sense of direction
+                   indicates is NORTH -- there's an open cafe now serving
+                   lunch. To the south, you can see a phone booth.";
+          ],
+          before [;
+            Go:
+              if (player in booth && noun == n_obj) <<Exit booth>>;
+          ],
+          n_to cafe,
+          s_to [; <<Enter booth>>; ],
+          in_to "But which way?",
+          cant_go
+               "No time now for exploring! You'll move much faster in your
+                Captain FATE costume.";
+
+The description while inside the booth mentions the sidewalk, which 
+might invite the player to EXAMINE it. No problem:
+
+.. code-block:: inform6
+
+  Appliance "sidewalk" street
+    with  name sidewalk' 'pavement' 'street',
+          article "the",
+          description
+              "You make a quick surveillance of the sidewalk and discover much
+               to your surprise that it looks JUST like any other sidewalk in
+               the CITY!";
+
+Unfortunately, both descriptions also mention the café, which will be a 
+room and therefore not, from the outside, an examinable object. The 
+player may enter it and will get whatever description we code as the 
+result of a LOOK action (which will have to do with the way the café 
+looks from the *inside*); but while we are on the street we need 
+something else to describe it:
+
+.. code-block:: inform6
+
+  Appliance outside_of_cafe "Benny's cafe" street
+    with  name 'benny^s' 'cafe' 'entrance',
+          description
+              "The town's favourite for a quick snack, Benny's cafe has a 50's
+               ROCKETSHIP look.",
+          before [;
+            Enter:
+              print "With an impressive mixture of hurry and nonchalance
+                  you step into the open cafe.^";
+              PlayerTo(cafe);
+              return true;
+          ],
+    has   enterable proper;
+
+.. todo::
+
+   Figure out how to set off this entire note section as an indented block
+
+NOTE : although the text of our guide calls Benny's establishment a 
+"café" -- note the acute "e" -- the game itself simplifies this to 
+"cafe". We do this for clarity, not because Inform doesn't support 
+accented characters. The *Inform Designer's Manual* explains in detail 
+how to display these characters in "§1.11 *How text is printed*" and 
+provides the whole Z-machine character set in Table 2. In our case, we 
+could have displayed this::
+
+  The town's favourite for a quick snack, Benny's café has a 50's ROCKETSHIP look.
+
+by defining the ``description`` property as any of these:
+
+.. code-block:: inform6
+
+  description
+      "The town's favourite for a quick snack, Benny's caf@'e has a 50's
+       ROCKETSHIP look.",
+
+  description
+      "The town's favourite for a quick snack, Benny's caf@@170 has a 50's
+       ROCKETSHIP look.",
+
+  description
+      "The town's favourite for a quick snack, Benny's caf@{E9} has a 50's
+       ROCKETSHIP look.",
+
+However, all three forms are harder to read than the vanilla "cafe", so 
+we've opted for the simple life.
+
+.. todo::
+
+   Indented block ends here
+
+Unlike the sidewalk object, we offer more than a mere description. Since 
+the player may try ENTER CAFE as a reasonable way of access -- which 
+would have confused the interpreter immensely -- we take the opportunity 
+of making this object also ``enterable``, and we cheat a little. The 
+attribute ``enterable`` has permitted the verb ENTER to be applied to 
+this object, but this is not a ``container``; we want the player to be 
+sent into the *real* café room instead. The ``before`` property handles 
+this, intercepting the action, displaying a message and teleporting the 
+player into the café. We ``return true`` to inform the interpreter that 
+we have taken care of the ``Enter`` action ourselves, so it can stop 
+right there.
+
+As a final detail, note that we now have two ways of going into the 
+café: the ``n_to`` property of the ``street`` room and the ``Enter`` 
+action of the ``outside_of_cafe`` object. A perfectionist might point 
+out that it would be neater to handle the actual movement of the player 
+in just one place of our code, because this helps clarity. To achieve 
+this, we redirect the street's ``n_to`` property thus:
+
+.. code-block:: inform6
+
+  n_to [; <<Enter outside_of_cafe>>; ],
+
+You may think that this is unnecessary madness, but a word to the wise: 
+in a large game, you want action handling going on just in one place 
+when possible, because it will help you to keep track of where things 
+are a-happening if something goes *ploof* (as, believe us, it will; see 
+"Debugging your game" on page 197). You don't need to be a 
+perfectionist, just cautious.
+
+A booth in this kind of situation is an open invitation for the player 
+to step inside and try to change into Captain Fate's costume. We won't 
+let this happen -- the player isn't Clark Kent, after all; later we'll 
+explain how we forbid this action -- and that will force the player to 
+go inside the café, looking for a discreet place to disrobe; but first, 
+let''s freeze John Covarth outside Benny''s and reflect about a 
+fundamental truth.
+
+A hero is not an ordinary person
+================================
+
+Which is to say, normal actions won't be the same for him.
+
+As you have probably inferred from the previous chapters, some of the 
+library’s standard defined actions are less important than others in 
+making the game advance towards one of its conclusions. The library 
+defines PRAY and SING, for instance, which are of little consequence in 
+a normal gaming situation; each displays an all-purpose message, 
+sufficiently non-committal, and that's it. Of course, if your game 
+includes a magic portal that will reveal itself only if the player lets 
+rip with a snatch of Wagner, you may intercept the ``Sing`` action in a 
+``before`` property and alter its default, pretty useless behaviour. If 
+not, it's "Your singing is abominable" for you.
+
+All actions, useful or not, have a stock of messages associated with 
+them (the messages are held in the ``english.h`` library file and listed 
+in Appendix 4 of the *Inform Designer's Manual*). We have already seen 
+one way of altering the player character's description -- "As good 
+looking as ever" -- in "William Tell", but the other defaults may also 
+be redefined to suit your tastes and circumstantial needs.
+
+John Covarth, aka Captain Fate, could happily settle for most of these 
+default messages, but we deem it worthwhile to give him some customised 
+responses. If nothing else, this adds to the general atmosphere, a 
+nicety that many players regard as important. For this mission, we make 
+use of the ``LibraryMessages`` object.
+
+.. code-block:: inform6
+
+  Include "Parser";
+
+  Object  LibraryMessages         ! must be defined between Parser and VerbLib
+    with  before [;
+            Buy:    "Petty commerce interests you only on COUNTED occasions.";
+            Dig:    "Your keen senses detect NOTHING underground worth your
+                     immediate attention.";
+            Pray:   "You won't need to bother almighty DIVINITIES to save
+                     the day.";
+            Sing:   "Alas! That is not one of your many superpowers.";
+            Sleep:  "A hero is ALWAYS on the watch.";
+            Strong: "An unlikely vocabulary for a HERO like you.";
+            Swim:   "You quickly turn all your ATTENTION towards locating a
+                     suitable place to EXERCISE your superior strokes,
+                     but alas! you find none.";
+            Miscellany:
+              if (lm_n == 19)
+                  if (clothes has worn)
+                      "In your secret identity's outfit, you manage most
+                       efficaciously to look like a two-cent loser, a
+                       good-for-nothing wimp.";
+                  else
+                      "Now that you are wearing your costume, you project
+                       the image of power UNBOUND, of ballooned,
+                       multicoloured MUSCLE, of DASHING yet MODEST chic.";
+              if (lm_n == 38)
+                  "That's not a verb you need to SUCCESSFULLY save the day.";
+              if (lm_n == 39)
+                  "That's not something you need to refer to in order to
+                   SAVE the day.";
+        ];
+
+  Include "VerbLib";
+
+If you provide it, the ``LibraryMessages`` object must be defined 
+*between* the inclusion of ``Parser`` and ``VerbLib`` (it won't work 
+otherwise and you’ll get a compiler error). The object contains a single 
+property -- ``before`` -- which intercepts display of the default 
+messages that you want to change. An attempt to SING, for example, will 
+now result in "Alas! That is not one of your many superpowers" being 
+displayed.
+
+In addition to such verb-specific responses, the library defines other 
+messages not directly associated with an action, like the default 
+response when a verb is unrecognised, or if you refer to an object which 
+is not in scope, or indeed many other things. Most of these messages can 
+be accessed through the ``Miscellany entry``, which has a numbered list 
+of responses. The variable ``lm_n`` holds the current value of the 
+number of the message to be displayed, so you can change the default 
+with a test like this:
+
+.. code-block:: inform6
+
+  if (lm_n == 39)
+      "That's not something you need to refer to in order to SAVE the day.";
+
+.. todo::
+
+   That block of code above should be colored.  Is there a defect in the 
+   syntax coloring code?
+
+where 39 is the number for the standard message "That's not something 
+you need to refer to in the course of this game" -- displayed when the 
+player mentions a noun which is listed in a room's name property, as we 
+did for the ``street``.
+
+.. todo::
+
+   Begin big chunk of indented text. Also, NOTE should be in bigcaps.
+
+NOTE : remember that when we are testing for different values of the 
+same variable, we can also use the switch statement. For the Miscellany 
+entry, the following code would work just as nicely:
+
+.. code-block:: inform6
+
+  ...
+  Miscellany:
+    switch (lm_n) {
+      19:
+        if (clothes has worn)
+            "In your secret identity's outfit, you manage most
+             efficaciously to look like a two-cent loser, a
+             good-for-nothing wimp.";
+        else
+            "Now that you are wearing your costume, you project
+             the image of power UNBOUND, of ballooned,
+             multicoloured MUSCLE, of DASHING yet MODEST chic.";
+      38:
+        "That's not a verb you need to SUCCESSFULLY save the day.";
+      39:
+        "That's not something you need to refer to in order to SAVE the day.";
+    }
+
+.. todo::
+
+   End big indented chunk
+
+Not surprisingly, the default message for self-examination: "As good 
+looking as ever" is a ``Miscellany`` entry -- it's number 19 -- so we 
+can change it through the ``LibraryMessages`` object instead of, as 
+before, assigning a new string to the ``player.description property``. 
+In our game, the description of the player character has two states: 
+with street clothes as John Covarth and with the super-hero outfit as 
+Captain Fate; hence the ``if (clothes has worn)`` clause.
+
+This discussion of changing our hero's appearance shows that there are 
+different ways of achieving the same result, which is a common situation 
+while designing a game. Problems may be approached from different 
+angles; why use one technique and not another? Usually, the context tips 
+the balance in favour of one solution, though it might happen that you 
+opt for the not-so-hot approach for some overriding reason. Don't feel 
+discouraged; choices like this become more common (and easier) as your 
+experience grows.
+
+.. todo::
+
+   Begin big indented chunk.  That "whatever new look" needs to be italicized.
+
+NOTE: going back to our example, an alternative approach would be to set 
+the variable ``player.description`` in the ``Initialise`` routine (as we 
+did with "William Tell") to the "ordinary clothes" string, and then 
+later change it as the need arises. It is a variable, after all, and you 
+can alter its value with another statement like ``player.description = 
+*whatever new look*`` anywhere in your code. This alternative solution 
+might be better if we intended changing the description of the player 
+many times through the game. Since we plan to have only two states, the 
+``LibraryMessages`` approach will do just fine.
+
+.. todo::
+
+   End big indented chunk
+
+A final warning: as we explained when extending the standard verb 
+grammars, you *could* edit the appropriate library file and change all 
+the default messages, but that wouldn't be a sound practice, because 
+your library file will probably not be right for the next game. Use of 
+the ``LibraryMessages`` object is strongly advised.
+
+If you're typing in the game, you'll probably want to read the brief 
+section on "Compile-as-you-go" on page 255 prior to performing a test 
+compile. Once everything's correct, it’s time that our hero entered that 
+enticing café.
