@@ -4,8 +4,6 @@
 
 .. only:: html
 
-   Contents:
-
    .. toctree::
       :maxdepth: 2
 
@@ -13,7 +11,7 @@
       history
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    foreword
    about
@@ -24,36 +22,26 @@
 
 .. toctree::
    :maxdepth: 2
-   :glob:
    :numbered: 1
+   :glob:
 
    chapters/*
-
-.. only:: html
-
-   Appendices:
 
 .. raw:: latex
 
    \startappendices
 
 .. toctree::
+   :maxdepth: 1
    :glob:
 
    appendices/*
 
 .. only:: html
 
-   Indices:
-
-* :ref:`genindex`
-* :ref:`search`
-
-.. only:: html
-
-   End notes:
+   * :ref:`genindex`
+   * :ref:`search`
 
    .. toctree::
-      :maxdepth: 2
 
       endnotes
