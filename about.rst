@@ -214,11 +214,6 @@ The drop capitals, and their associated poem, are from "A Picture
 Alphabet", digitised from a collection of public domain woodcuts, circa
 1834, by Steven J.  Lundeen of emerald city fontwerks.
 
-.. todo::
-
-   Reference to the drop-caps should only apply to those places they're
-   used (just the PDF?).
-
 All credit to the generosity of http://briefcase.yahoo.com/ for making
 international file-sharing such a breeze.
 
