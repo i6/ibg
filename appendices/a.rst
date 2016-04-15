@@ -40,6 +40,10 @@ occasionally, IN and OUT.  There is quite an impressive stock of standard
 actions which can generally be relied upon to do something, even if only to
 tell you that you're wasting your time:
 
+.. todo::
+
+  These columns aren't coming through in the PDF version.
+
 .. hlist::
    :columns: 5
 
