@@ -86,6 +86,11 @@ room is an object, each item that the player sees and touches is an object;
 indeed the player herself is also an object (one that's automatically
 defined by the library).
 
+.. todo::
+
+  The set-off below needs to be tweaked or perhaps a custom lexer 
+  created to get italics in the right places.
+
 The general model of an **object** definition looks like this::
 
         Object      obj_id   "external_name"   parent_obj_id
