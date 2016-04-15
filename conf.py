@@ -22,10 +22,12 @@ import codecs
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, ".")
 
+from tools.int_fiction import Inform6Lexer
 from tools.transcript import TranscriptLexer
 
 # Setup function.
 def setup(app):
+    app.add_lexer('inform', Inform6Lexer())
     app.add_lexer('transcript', TranscriptLexer())
 
 # -- General configuration ------------------------------------------------
