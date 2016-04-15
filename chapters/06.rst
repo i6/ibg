@@ -1,0 +1,479 @@
+==============================
+ William Tell: a tale is born
+==============================
+
+.. highlight:: inform6
+
+.. epigraph::
+
+   | *K was King William, once governed the land;*
+   | *L was a lady, who had a white hand.*
+
+.. only:: html
+
+   .. image:: /images/picK.png
+      :align: left
+
+.. raw:: latex
+
+   \dropcap{k}
+
+eeping up the momentum, this chapter (and the three which follow) works
+steadily through the design of the "William Tell" game that we encountered
+right at the start of this guide. Many of the principles are the same as
+the ones we explained when designing Heidi and her forest, so we'll not
+linger on what should be familiar ground.  "William Tell" is a slightly
+longer and more complex game, so we'll move as swiftly as possible to
+examine the features which are new.
+
+Initial setup
+=============
+
+Our starting point is much the same as last time.  Here's a basic
+``Tell.inf``::
+
+   !% -SD
+   !===========================================================================
+   Constant Story "William Tell";
+   Constant Headline
+	       "^A simple Inform example
+		^by Roger Firth and Sonja Kesserich.^";
+   Release 3; Serial "040804";     ! for keeping track of public releases
+
+   Constant MAX_SCORE = 3;
+
+   Include "Parser";
+   Include "VerbLib";
+
+   !===========================================================================
+   ! Object classes
+
+   !===========================================================================
+   ! The game objects
+
+   !===========================================================================
+   ! The player's possessions
+
+   !===========================================================================
+   ! Entry point routines
+
+   [ Initialise;
+       location = street;
+       lookmode = 2;           ! like the VERBOSE command
+       move bow to player;
+       move quiver to player; give quiver worn;
+       player.description =
+	   "You wear the traditional clothing of a Swiss mountaineer.";
+       print_ret "^^
+	   The place: Altdorf, in the Swiss canton of Uri. The year is 1307,
+	   at which time Switzerland is under rule by the Emperor Albert of
+	       Habsburg. His local governor -- the vogt -- is the bullying
+	       Hermann Gessler, who has placed his hat atop a wooden pole in
+	       the centre of the town square; everybody who passes through the
+	       square must bow to this hated symbol of imperial might.
+	       ^^
+	       You have come from your cottage high in the mountains,
+	       accompanied by your younger son, to purchase provisions. You are
+	       a proud and independent man, a hunter and guide, renowned both
+	       for your skill as an archer and, perhaps unwisely (for his soldiers
+	       are everywhere), for failing to hide your dislike of the vogt.
+	       ^^
+	       It's market-day: the town is packed with people from the
+	       surrounding villages and settlements.^";
+   ];
+
+   !===========================================================================
+   ! Standard and extended grammar
+
+   Include "Grammar";
+
+   !===========================================================================
+
+You'll see that we've marked a couple of extra divisions in the file, to
+help organise the stuff we'll add later, but the overall structure is
+identical to our first game.  Let's quickly point out some extra bits and
+pieces:
+
+* If you look at a game's banner, you'll see two pieces of information:
+  "Release" and "Serial number".
+
+  .. code-block:: transcript
+
+     William Tell
+     A simple Inform example
+     by Roger Firth and Sonja Kesserich.
+     Release 3 / Serial number 040804 / Inform v6.30 Library 6/11 SD
+
+  These two fields are automatically written by the compiler, which sets by
+  default Release to 1 and the Serial Number to today's date.  However, we
+  can explicitly override this behaviour using ``Release`` and ``Serial``,
+  to keep track of different versions of our game.  Typically, we will
+  publish several updates of our games over time, each version fixing
+  problems which were found in the previous release.  If somebody else
+  reports a problem with a game, we'd like to know exactly which version
+  they were using; so, rather than take the default values, we set our own.
+  When it's time to release a new version, all we have to do is comment out
+  the previous lines and add another below them::
+
+     !Release 1; Serial "020128";      ! First beta-test release
+     !Release 2; Serial "020217";      ! Second beta-test release
+     Release 3; Serial "020315";       ! IF Library competition entry
+
+* We'll be implementing a simple system of awarding points when the player
+  gets something right, so we define top marks::
+
+     Constant MAX_SCORE = 3;
+
+* The ``Initialise`` routine that we wrote last time contained only one
+  statement, to set the player's initial ``location``.  We do that here as
+  well, but we also do some other stuff.
+
+* The first thing is to assign 2 to the library variable ``lookmode``.
+  Inform's default mode for displaying room descriptions is BRIEF (a
+  description is displayed only when a room is visited for the first time)
+  and, by changing this variable's value, we set it to VERBOSE
+  (descriptions are displayed on *every* visit).  Doing this is largely a
+  matter of personal preference, and in any case it's nothing more than a
+  convenience; it just saves having to remember to type VERBOSE each time
+  that we test the game.
+
+* At the start of the game, we want Wilhelm to be equipped with his bow and
+  quiver of arrows.  The recommended way of making this happen is to
+  perform the necessary object tree rearrangement with a couple of ``move``
+  statements in the ``Initialise`` routine::
+
+     move bow to player;
+     move quiver to player;
+
+  and indeed this is the clearest way to place objects in the player's
+  inventory at the beginning of any game.
+
+  .. note::
+
+     Wait! you say.  In the previous chapter, to make an object the child
+     of another object all we needed to do was to define the child object
+     with the internal identification of the parent object at the end of
+     the header::
+
+        Object bird "baby bird" forest
+
+     Why not do that with the player?  Because the object which represents
+     the player is defined by the library (rather than as part of our
+     game), and actually has an internal ID of ``selfobj``; ``player`` is a
+     variable whose value is that identifier.  Rather than worry all about
+     this, it's easier to use the ``move`` statements.
+
+  There's one other task associated with the quiver; it's an article of
+  clothing which Wilhelm is "wearing", a state denoted by the attribute
+  ``worn``.  Normally the interpreter would apply this automatically, while
+  handling a command like WEAR QUIVER, but since we've moved the quiver
+  ourselves, we also need to set the quiver's ``worn`` attribute.  The
+  ``give`` statement does the job::
+
+     give quiver worn;
+
+  (To clear the attribute, by the way, you'd use the statement ``give
+  quiver ~worn`` -- read that as "give the quiver not-worn"; Inform often
+  uses ``~`` to mean "not".)
+
+* If the player types EXAMINE ME, the interpreter displays the
+  ``description`` property of the ``player`` object.  The default value is
+  "As good-looking as ever", a bit of a cliché in the world of Inform
+  games.  It's easy to change, though, once you realise that, since the
+  properties of an object are variables, you can assign new values to them
+  just as you'd assign new values to ``location`` and ``lookmode``.  The
+  only problem is getting the syntax right; you can't say just::
+
+     description = "You wear the traditional clothing of a Swiss mountaineer.";
+
+  because there are dozens of objects in the game, each with its own
+  ``description`` property; you need to be a little more explicit.  Here's
+  what to type::
+
+     player.description =
+             "You wear the traditional clothing of a Swiss mountaineer.";
+
+* Finally, the ``Initialise`` routine ends with a lengthy ``print_ret``
+  statement.  Since the interpreter calls ``Initialise`` right at the start
+  of the game, that's the point at which this material is displayed, so
+  that it acts as a scene-setting preamble before the game gets under way.
+  In fact, everything you want set or done at the very beginning of the
+  game, should go into the ``Initialise`` routine.
+
+The game won't compile in this state, because it contains references to
+objects which we haven't yet defined.  In any case, we don't intend to
+build up the game in layers as we did last time, but rather to talk about
+it in logically related chunks.  To see (and if you wish, to type) the
+complete source, go to "William Tell" story on page 219.
+
+Object classes
+==============
+
+Remember how we defined the rooms in "Heidi"?  Our first attempt started
+like this::
+
+   Object  "In front of a cottage"
+     with  description
+               "You stand outside a cottage. The forest stretches east.",
+      has  light;
+
+   Object  "Deep in the forest"
+     with  description
+               "Through the dense foliage, you glimpse a building to the west.
+                A track heads to the northeast.",
+      has  light;
+
+   ! ...
+
+and we explained that just about *every* room needs that ``light``
+attribute, or else the player would be literally in the dark.  It's a bit
+of a nuisance having to specify that same attribute each time; what would
+be neater would be to say that *all* rooms are illuminated.  So we can
+write this::
+
+   Class  Room
+     has  light;
+
+    Room  "In front of a cottage"
+    with  description
+               "You stand outside a cottage. The forest stretches east.",
+     has  ;
+
+    Room  "Deep in the forest"
+    with  description
+               "Through the dense foliage, you glimpse a building to the west.
+                A track heads to the northeast.",
+     has  ;
+
+    ! ...
+
+We've done four things:
+
+#. We've said that some of the objects in our game are going to be defined
+   by the specialised word ``Room`` rather than the general-purpose word
+   ``Object``.  In effect, we've taught Inform a new word specially for
+   defining objects, which we can now use as though it had been part of the
+   language all along.
+
+#. We've furthermore said that every object which we define using ``Room``
+   is automatically going to have the ``light`` attribute.
+
+#. We've changed the way in which we define the four room objects, by
+   starting them with our specialised word ``Room``.  The remainder of the
+   definition for these objects -- the header information, the block of
+   properties, the block of attributes and the final semicolon -- remains
+   the same; except that:
+
+#. We don't need to explicitly include the ``light`` attribute each time;
+   every ``Room`` object has it automatically.
+
+A **class** is a family of closely related objects, all of which behave in
+the same way.  Any properties defined for the class, and any attributes
+defined for the class, are automatically given to objects which you specify
+as belonging to that class; this process of acquisition just by being a
+member of a class is called **inheritance**.  In our example, we've defined
+a ``Room`` class with a ``light`` attribute, and then we've specified four
+objects each of which is a member of that class, and each of which gets
+given a ``light`` attribute as a result of that membership.
+
+Why have we gone to this trouble?  Three main reasons:
+
+* By moving the common bits of the definitions from the individual objects
+  to the class definition which they share, those object definitions
+  become shorter and simpler.  Even if we had a hundred rooms, we'd still
+  need to specify ``has light`` only once.
+
+* By creating a specialised word to identify our class of objects, we make
+  our source file easier to read.  Rather than absolutely everything being
+  an anonymous ``Object``, we can now immediately recognise that some are
+  ``Room`` objects (and others belong to the different classes that we'll
+  create soon).
+
+* By collecting the common definitions into one place, we make it much
+  easier to make widespread modifications in future.  If we need to make
+  some change to the definition of all our rooms, we just modify the
+  ``Room`` class, and all of the class members inherit the change.
+
+For these reasons, the use of classes is an incredibly powerful technique,
+easier than it may look, and very well worth mastering.  From now on, we'll
+be defining object classes whenever it makes sense (which is generally when
+two or more objects are meant to behave in exactly the same way).
+
+You may be wondering: suppose I want to define a room which for some reason
+*doesn't* have ``light``; can I still use the ``Room`` class?  Sure you
+can::
+
+   Room    cellar "Gloomy cellar"
+     with  description "Your torch shows only cobwebby brick walls.",
+     has   ~light;
+
+This illustrates another nice feature of inheritance: the object definition
+can override the class definition.  The class says ``has light``, but the
+object itself says ``has ~light`` (read that as "has no light") and the
+object wins.  The cellar is dark, and the player will need a torch to see
+what's in it.
+
+In fact, for any object both the block of properties and the block of
+attributes are optional and can be omitted if there's nothing to be
+specified.  Now that the ``light`` attribute is being provided
+automatically and there aren't any other attributes to set, the word
+``has`` can be left out.  Here's the class again::
+
+   Class  Room
+     has  light;
+
+and here is how we could have used it in "Heidi"::
+
+   Room    "In front of a cottage"
+     with  description
+               "You stand outside a cottage. The forest stretches east.";
+
+   Room    "Deep in the forest"
+     with  description
+               "Through the dense foliage, you glimpse a building to the west.
+                A track heads to the northeast.";
+
+   ! ...
+
+You'll notice that, if an object has no block of attributes, the semicolon
+which terminates its definition simply moves to the end of its last
+property.
+
+.. rubric:: A class for props
+
+We use the ``Room`` class in "William Tell", and a few other classes
+besides.  Here's a ``Prop`` class (that's "Prop" in the sense of a
+theatrical property rather than a supportive device), useful for scenic
+items whose only role is to sit waiting in the background on the off-chance
+that the player might think to EXAMINE them::
+
+   Class    Prop
+     with   before [;
+               Examine:
+                 return false;
+               default:
+                 print_ret "You don't need to worry about ", (the) self, ".";
+            ],
+      has   scenery;
+
+All objects of this class inherit the ``scenery`` attribute, so they're
+excluded from room descriptions.  Also, there's a ``before`` property; one
+that's more complex than our previous efforts.  You'll remember that the
+first ``before`` we met looked like this::
+
+   before [;
+      Listen:
+	print "It sounds scared and in need of assistance.^";
+	return true;
+   ],
+
+The role of that original ``before`` was to intercept ``Listen`` actions,
+while leaving all others well alone.  The role of the ``before`` in the
+``Prop`` class is broader: to intercept (a) ``Examine`` actions, and (b)
+all the rest.  If the action is ``Examine``, then the ``return false``
+statement means that the action carries on.  If the action is ``default``
+-- none of those explicitly listed, which in this instance means *every*
+action apart from ``Examine`` -- then the ``print_ret`` statement is
+executed, after which the interpreter does nothing further.  So, a ``Prop``
+object can be EXAMINEd, but any other action addressed to it results in a
+"no need to worry" message.
+
+That message is also more involved than anything we've so far displayed.
+The statement which produces it is::
+
+   print_ret "You don't need to worry about ", (the) self, ".";
+
+which you should read as doing this:
+
+#. display the string "You don't need to worry about ",
+
+#. display a definite article (usually "the") followed by a space and the
+   external name of the object concerned,
+
+#. display a period, and
+
+#. display a newline and return true in the usual way for a ``print_ret``
+   statement.
+
+The interesting things that this statement demonstrates are:
+
+* The ``print`` and ``print_ret`` statements aren't restricted to
+  displaying a single piece of information: they can display a list of
+  items which are separated by commas.  The statement still ends with a
+  semicolon in the usual way.
+
+* As well as displaying strings, you can also display the names of objects:
+  given the ``nest`` object from our first game, ``(the) nest`` would
+  display "the bird's nest", ``(The) nest`` would display "The bird's
+  nest", ``(a) nest`` would display "a bird's nest", ``(A) nest`` would
+  display "A bird's nest" and ``(name) nest`` would display just "bird's
+  nest".  This use of a word in parentheses, telling the interpreter how to
+  display the following object's internal ID, is called a **print rule**.
+
+* There's a library variable ``self`` which always contains the internal ID
+  of the current object, and is really convenient when using a ``Class``.
+  By using this variable in our ``print_ret`` statement, we ensure that the
+  message contains the name of the appropriate object.
+
+Let's see an example of this in action; here's a ``Prop`` object from
+"William Tell"::
+
+   Prop    "south gate" street
+     with  name 'south' 'southern' 'wooden' 'gate',
+	   description "The large wooden gate in the town walls is wide open.",
+	   ! ...
+
+If players type EXAMINE GATE, they'll see "The large wooden gate..."; if
+they type CLOSE GATE then the gate's ``before`` property will step in and
+display "You don't need to worry about the south gate", neatly picking up
+the name of the object from the ``self`` variable.
+
+The reason for doing all this, rather than just creating a simple scenery
+object like Heidi's ``tree`` and ``cottage``, is to support EXAMINE for
+increased realism, while clearly hinting to players that trying other verbs
+would be a waste of time.
+
+.. rubric:: A class for furniture
+
+The last class for now -- we'll talk about the ``Arrow`` and ``NPC``
+classes in the next chapter -- is for furniture-like objects.  If you label
+an object with the ``static`` attribute, an attempt to TAKE it results in
+"That's fixed in place" -- acceptable in the case of Heidi's branch object
+(which is indeed supposed to be part of the tree), less so for items which
+are simply large and heavy.  This ``Furniture`` class might sometimes be
+more appropriate::
+
+   Class    Furniture
+     with   before [;
+               Take,Pull,Push,PushDir:
+                 print_ret (The) self, " is too heavy for that.";
+            ],
+      has   static supporter;
+
+Its structure is similar to that of our ``Prop`` class: some appropriate
+attributes, and a ``before`` property to trap actions directed at it.
+Again, we display a message which is "personalised" for the object
+concerned by using a ``(The) self`` print rule.  This time we're
+intercepting four actions; we *could* have written the property like this::
+
+   before [;
+       Take: print_ret (The) self, " is too heavy for that.";
+       Pull: print_ret (The) self, " is too heavy for that.";
+       Push: print_ret (The) self, " is too heavy for that.";
+       PushDir: print_ret (The) self, " is too heavy for that.";
+   ],
+
+but since we're giving exactly the same response each time, it's better to
+put all of those actions into one list, separated by commas.  ``PushDir``,
+if you were wondering, is the action triggered by a command like PUSH THE
+TABLE NORTH.
+
+Incidentally, another bonus of defining classes like these is that you can
+probably reuse them in your next game.
+
+Now that most of our class definitions are in place, we can get on with
+defining some real rooms and objects.  First, though, if you're typing in
+the "William Tell" game as you read through the guide, you'd probably like
+to check that what you've entered so far is correct; "Compile-as-you-go" on
+page 233 explains how to compile the game in its current -- incomplete --
+state.
