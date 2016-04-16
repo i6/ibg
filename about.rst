@@ -96,18 +96,7 @@ words which are part of the Inform system (like ``print``, ``Include``,
 glossary -- Appendix G on page 273.  We switch to italic type for a
 placeholder: for example you should read the Inform statement:
 
-.. parsed-literal::
-
-   print "*string*";
-
-.. todo::
-
-   The above will not render correctly in PDF.  In PDF the leading 
-   quotes always appear with at least one backquote.  At the moment, the 
-   best solution I can think up is to have a script fire off after LaTeX 
-   generation to take care of this problem so that when the LaTeX code 
-   is compiled, we'll get the correct glyphs.  At the moment, I don't 
-   know how to make such a script automatically run.
+   :samp:`print "{string}";`
 
 as meaning "display on the player's screen the arbitrary character or
 characters which are represented here by the placeholder *string*".
