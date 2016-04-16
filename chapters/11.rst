@@ -284,13 +284,9 @@ costumed Captain, but not on a completely predictable basis.
 
   if (random(2) == 1) ...
 
-.. todo::
-
-   "expression" in "random(expression)" should be typewriter and italic
-
 ``random`` is an Inform routine used to generate random numbers or to 
 choose randomly between given choices; in the form 
-``random(expression)`` it returns a random number between 1 and 
+:samp:`random({expression})` it returns a random number between 1 and 
 ``expression`` inclusive. So our condition is actually stating: if a 
 random choice between 1 and 2 happens to be 1 then perform some action. 
 Remember that a daemon is run once at the end of every turn, so the 
