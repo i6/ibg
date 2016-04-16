@@ -1,0 +1,592 @@
+============================
+ William Tell: in his prime
+============================
+
+.. highlight:: inform6
+
+.. epigraph::
+
+   | *O was an oyster girl, and went about town;*
+   | *P was a parson, and wore a black gown.*
+
+.. only:: html
+
+   .. image:: /images/picO.png
+      :align: left
+
+.. raw:: latex
+
+   \dropcap{o}
+
+ur game's action nears its climax in the town's central square.  In this
+chapter we define the square's constituent rooms and deal with Wilhelm's
+approach to the hat on the pole -- does he salute it, or does he remain
+proudly defiant?
+
+The south side of the square
+============================
+
+The town square, notionally one enormous open space, is represented by
+three rooms.  Here's the south side::
+
+   Room     south_square "South side of the square"
+     with   description
+                "The narrow street to the south has opened onto the town square,
+                 and resumes at the far side of this cobbled meeting place.
+                 To continue along the street towards your destination --
+                 Johansson's tannery -- you must walk north across the square,
+                 in the middle of which you see Gessler's hat set on that
+                 loathsome pole. If you go on, there's no way you can avoid
+                 passing it. Imperial soldiers jostle rudely through the throng,
+                 pushing, kicking and swearing loudly.",
+            n_to mid_square,
+            s_to below_square;
+
+   Prop     "hat on a pole"
+     with   name 'hat' 'pole',
+            before [;
+               default:
+                 print_ret "You're too far away at the moment.";
+            ],
+            found_in south_square north_square;
+
+   Prop     "Gessler's soldiers"
+     with   name 'soldier' 'soldiers' 'guard' 'guards',
+            description "They're uncouth, violent men, not from around here.",
+            before [;
+               FireAt:
+                 print_ret "You're outnumbered many times.";
+               Talk:
+                 print_ret "Such scum are beneath your contempt.";
+            ],
+            found_in south_square mid_square north_square marketplace,
+     has    animate pluralname proper;
+
+It's all pretty standard stuff: just a ``Room`` and two ``Prop``\s.  The
+"real" pole object is located in the ``mid_square`` room, which means that
+players can't EXAMINE it from this room (technically, it's "not in scope").
+However, since we're pretending that Wilhelm can see the whole of the
+square from where he's standing, we need to provide a dummy hat on a pole,
+``found_in`` both this room and the north side of the square, even if it's
+"too far away" for a detailed description.
+
+In fact, it's "too far away" for anything.  We've replaced the standard
+``before`` action for the ``Prop`` class (which permits ``Examine``, but
+rejects other actions with "You don't need to worry about...") with one
+rejecting *all* actions.  Since Wilhelm's hatred of the vogt's activities
+is central to our plot, a message saying "You don't need to worry about the
+hat" would be unacceptably misleading.
+
+The obnoxious soldiers are also implemented very sketchily; they need to be
+there, but they don't do much.  Their most interesting characteristic is
+probably that they trap two actions -- ``FireAt`` and ``Talk`` -- which are
+*not* part of the library, but instead new actions that we've defined
+specially for this game.  We'll talk about those actions in "Verbs, verbs,
+verbs" on page 111, at which time the role of this ``before`` property will
+make more sense.
+
+The middle of the square
+========================
+
+The activities here are pivotal to the game's plot.  Wilhelm has arrived
+from the south side of the square, and now encounters the pole with the hat
+on top.  He can do three things:
+
+#. Return south.  That's allowed, but all it does is waste a little time --
+   there's nothing else to usefully do south of here.
+
+#. Salute the pole, and then proceed to the north.  That's allowed, though
+   it rather subverts the folk story.
+
+#. Attempt to proceed northwards without saluting the pole.  Twice, a
+   soldier will prevent this, and issue a verbal warning.  On the third
+   attempt, patience runs out, and Wilhelm is hauled off to perform his
+   party piece.
+
+So, there are two actions that we need to look out for: ``Salute`` (trapped
+by the pole), and ``Go`` (which can be trapped by the room itself).  ``Go``
+is a standard library action.  ``Salute`` is one that we've devised; let's
+deal with it first.  Here's a first cut of the room::
+
+   Room     mid_square "Middle of the square"
+     with   description
+                "There is less of a crush in the middle of the square; most
+                 people prefer to keep as far away as possible from the pole
+                 which towers here, topped with that absurd ceremonial hat. A
+                 group of soldiers stands nearby, watching everyone who passes.",
+            n_to north_square,
+            s_to south_square;
+
+and the pole::
+
+   Furniture    pole "hat on a pole" mid_square
+     with name 'wooden' 'pole' 'pine' 'hat' 'black' 'red' 'brim' 'feathers',
+           description
+                "The pole, the trunk of a small pine some few inches in diameter,
+                 stands about nine or ten feet high. Set carefully on top is
+                 Gessler's ludicrous black and red leather hat, with a widely
+                 curving brim and a cluster of dyed goose feathers.",
+           has_been_saluted false,
+           before [;
+              FireAt:
+                print_ret "Tempting, but you're not looking for trouble.";
+              Salute:
+                self.has_been_saluted = true;
+                print_ret "You salute the hat on the pole. ^^
+                    ~Why, thank you, sir,~ sneers the soldier.";
+           ],
+     has   scenery;
+
+The room will need some more work in a minute, but the pole object is
+complete (note that we've simplified matters slightly by making one object
+represent both the pole and the hat which it supports).  It mentions a
+property which we've not met before: ``has_been_saluted``.  What a
+remarkable coincidence: the library provides a property with a name that's
+exactly right for our game; surely not?
+
+No, of course not.  ``has_been_saluted`` isn't a standard library property;
+it's one that we've just invented.  Notice how easily we did it -- we
+simply included the line::
+
+   has_been_saluted false,
+
+in the object definition and voilà, we've added our own home-made property,
+and initialised it to ``false``.  To switch the state of the property, we
+can simply write::
+
+   pole.has_been_saluted = true;
+   pole.has_been_saluted = false;
+
+or just (within the pole object)::
+
+   self.has_been_saluted = true;
+   self.has_been_saluted = false;
+
+We could also test, if necessary, how the property currently fares::
+
+   if (pole.has_been_saluted == true) ...
+
+and that is exactly what we'll be doing in a minute to check whether
+Wilhelm has saluted the pole, and choose between different outcomes.
+
+Notice that we use ``==`` (that's two equals signs) to test for "is equal
+to"; don't confuse this usage with ``=`` (a single equals sign) which
+assigns a value to a variable.  Compare these examples:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 1 1
+
+   * - Correct
+     - Incorrect
+
+   * - ``score = 10;``
+     - ``score == 10;``
+
+   * - assigns the value 10 to ``score``
+     - does nothing; ``score`` is unchanged
+
+   * - ``if (score == 10) ...``
+     - ``if (score = 10) ...``
+
+   * - executes the next statement only if the value of ``score`` is 10 
+     - assigns 10 to ``score``, then always executes the next statement --
+       because ``score = 10`` evaluates to 10, which is treated as
+       ``true``, so the test is always ``true``
+
+Defining a new property variable which, instead of applying to every object
+in the game (as do the standard library properties), is specific only to a
+class of objects or even -- as here -- to a single object, is a common and
+powerful technique.  In this game, we need a ``true/false`` variable to
+show whether Wilhelm has saluted the pole or not: the clearest way is to
+create one as part of the pole.  So, when the pole object traps the Salute
+action, we do two things: use a ``self.has_been_saluted = true`` statement
+to record the fact, and then use a ``print_ret`` statement to tell players
+that the salute was "gratefully" received.
+
+.. note::
+
+   Creating new property variables like this -- at the drop of a hat, as it
+   were -- is the recommended approach, but it isn't the only possibility.
+   We briefly mention some alternative approaches in "Reading other
+   people's code" on page 181.
+
+Back to the ``mid_square`` room.  We've said that we need to detect Wilhelm
+trying to leave this room, which we can do by trapping the ``Go`` action in
+a ``before`` property.  Let's sketch the coding we'll need::
+
+   before [;
+      Go:
+        if (noun == s_obj)       { Wilhelm is trying to move south }
+        if (noun == n_obj)       { Wilhelm is trying to move north }
+   ];
+
+We can easily trap the ``Go`` action, but which direction is he moving?
+Well, it turns out that the interpreter turns a command of GO SOUTH (or
+just SOUTH) into an action of ``Go`` applied to an object ``s_obj``.  This
+object is defined by the library; so why isn't it called just "``south``"?
+Well, because we already have another kind of south, the property ``s_to``
+used to say what lies in a southerly direction when defining a room.  To
+avoid confusing them, ``s_to`` means "south to" and ``s_obj`` means "south
+when the player types it as the object of a verb".
+
+The identity of the object which is the target of the current action is
+stored in the ``noun`` variable, so we can write the statement ``if (noun
+== s_obj)`` to test whether the contents of the ``noun`` variable are equal
+to the ID of the ``s_obj`` object -- and, if so, Wilhelm is trying to move
+south.  Another similar statement tests whether he's trying to move north,
+and that's all that we're interested in; we can let other movements take
+care of themselves.
+
+The words :samp:`{Wilhelm is trying to move south}` aren't part of our
+game; they're just a temporary reminder that, if we need to execute any
+statements in this situation, here's the place to put them.  Actually,
+that's the simpler case; it's when :samp:`{Wilhelm is trying to move
+north}` that the fun starts.  We need to behave in one of two ways,
+depending on whether or not he's saluted the pole.  But we *know* when he's
+done that; the pole's ``has_been_saluted`` property tells us.  So we can
+expand our sketch like this::
+
+  before [;
+     Go:
+       if (noun == s_obj)        { Wilhelm is trying to move south [1] }
+       if (noun == n_obj)        { Wilhelm is trying to move north...
+           if (pole.has_been_saluted == true)
+                                 { ...and he's saluted the pole [2] }
+           else                  { ...but he hasn't saluted the pole [3] }
+       }
+  ];
+
+Here we have one ``if`` statement nested inside another.  And there's more:
+the inner ``if`` has an ``else`` clause, meaning that we can execute one
+statement block when the test ``if (pole.has_been_saluted == true)`` is
+true, and an alternative block when the test isn't true.  Read that again
+carefully, checking how the braces ``{...}`` pair up; it's quite complex,
+and you need to understand what's going on.  One important point to
+remember is that, unless you insert braces to change this, an ``else``
+clause always pairs with the most recent ``if``.  Compare these two
+examples::
+
+  if (condition1) {
+      if (condition2) { here when condition1 is true and condition2 is true }
+      else            { here when condition1 is true and condition2 is false }
+  }
+
+  if (condition1) {
+       if (condition2) { here when condition1 is true and condition2 is true }
+  }
+  else                 { here when condition1 is false }
+
+In the first example, the ``else`` pairs with the most recent :samp:`if
+({condition2})`, whereas in the second example the revised positioning of
+the braces causes the ``else`` to pair with the earlier :samp:`if
+({condition1})`.
+
+.. note::
+
+   We've used indentation as a visual guide to how the ``if`` and ``else``
+   are related.  Be careful, though; the compiler matches an ``else`` to
+   its ``if`` purely on the basis of logical grouping, regardless of how
+   you've laid out the code.
+
+Back to the before property.  You should be able to see that the cases
+marked ``[1]``, ``[2]`` and ``[3]`` correspond to the three possible
+courses of action we listed at the start of this section.  Let's write the
+code for those, one at a time.
+
+.. rubric:: Case 1: Returning south
+
+First, :samp:`{Wilhelm is trying to move south}`; not very much to this::
+
+   warnings_count 0,         ! for counting the soldier's warnings
+   before [;
+      Go:
+        if (noun == s_obj) {
+            self.warnings_count = 0;
+            pole.has_been_saluted = false;
+        }
+        if (noun == n_obj) {
+            if (pole.has_been_saluted == true)
+                      { moving north...and he's saluted the pole }
+            else      { moving north...but he hasn't saluted the pole }
+        }
+   ];
+
+Wilhelm might wander into the middle of the square, take one look at the
+pole and promptly return south.  Or, he might make one or two (but not
+three) attempts to move north first, and then head south.  *Or*, he might
+be really perverse, salute the pole and only then head south.  In all of
+these cases, we take him back to square one, as though he'd received no
+soldier's warnings (irrespective of how many he'd actually had) and as
+though the pole had not been saluted (irrespective of whether it was or
+not).  In effect, we're pretending that the soldier has such a short
+memory, he'll completely forget Wilhelm if our hero should move away from
+the pole.
+
+To do all this, we've added a new property and two statements.  The
+property is ``warnings_count``, and its value will count how many times
+Wilhelm has tried to go north without saluting the pole: 0 initially, 1
+after his first warning, 2 after his second warning, 3 when the soldier's
+patience finally runs out.  The property ``warnings_count`` isn't a
+standard library property; like the pole's ``has_been_saluted`` property,
+it's one that we've created to meet a specific need.
+
+Our first statement is ``self.warnings_count = 0``, which resets the value
+of the ``warnings_count`` property of the current object -- the
+``mid_square`` room -- to 0.  The second statement is
+``pole.has_been_saluted = false``, which signifies that the pole has not be
+saluted.  That's it: the soldier's memory is erased, and Wilhelm's actions
+are forgotten.
+
+.. rubric:: Case 2: Moving north after saluting
+
+:samp:`{Wilhelm is moving north...and he's saluted the pole}`; another easy
+one::
+
+  warnings_count 0,         ! for counting the soldier's warnings
+  before [;
+     Go:
+       if (noun == s_obj) {
+           self.warnings_count = 0;
+           pole.has_been_saluted = false;
+       }
+       if (noun == n_obj) {
+           if (pole.has_been_saluted == true) {
+                print "^~Be sure to have a nice day.~^";
+                return false;
+           }
+           else                   { moving north...but he hasn't saluted the pole }
+       }
+  ];
+
+All that we need do is print a sarcastic goodbye from the soldier, and then
+``return false``.  You'll remember that doing so tells the interpreter to
+continue handling the action, which in this case is an attempt to move
+north.  Since this is a permitted connection, Wilhelm thus ends up in the
+``north_square`` room, defined shortly.
+
+.. rubric:: Case 3: Moving north before saluting
+
+So that just leaves the final case: :samp:`{moving north...but he hasn't
+saluted the pole}`.  This one has more to it than the others, because we
+need the "three strikes and you're out" coding.  Let's sketch a little
+more::
+
+  warnings_count 0,         ! for counting the soldier's warnings
+  before [;
+     Go:
+       if (noun == s_obj) {
+            self.warnings_count = 0;
+            pole.has_been_saluted = false;
+       }
+       if (noun == n_obj) {
+            if (pole.has_been_saluted == true) {
+                print "^~Be sure to have a nice day.~^";
+                return false;
+            }
+            else {
+                self.warnings_count = self.warnings_count + 1;
+                switch (self.warnings_count) {
+                    1:       First attempt at moving north
+                    2:       Second attempt at moving north
+                    default: Final attempt at moving north
+                }
+          }
+       }
+  ];
+
+First of all, we need to count how many times he's tried to move north.
+``self.warnings_count`` is the variable containing his current tally, so we
+add 1 to whatever value it contains: ``self.warnings_count =
+self.warnings_count + 1``.  Then, determined by the value of the variable,
+we must decide what action to take: first attempt, second attempt, or final
+confrontation.  We could have used three separate ``if`` statements::
+
+   if (self.warnings_count == 1)         { First attempt at moving north }
+   if (self.warnings_count == 2)         { Second attempt at moving north }
+   if (self.warnings_count == 3)         { Final attempt at moving north }
+
+or a couple of nested ``if`` statements::
+
+   if (self.warnings_count == 1)     { First attempt at moving north }
+   else {
+       if (self.warnings_count == 2) { Second attempt at moving north }
+       else                          { Final attempt at moving north }
+   }
+
+but for a series of tests all involving the same variable, a ``switch``
+statement is usually a clearer way of achieving the same effect.  The
+generic syntax for a ``switch`` statement is::
+
+   switch (expression) {
+     value1: whatever happens when the expression evaluates to value1
+     value2: whatever happens when the expression evaluates to value2
+     ...
+     valueN: whatever happens when the expression evaluates to valueN
+     default: whatever happens when the expression evaluates to something else
+   }
+
+This means that, according to the current value of an expression, we can
+get different outcomes.  Remember that the :samp:`{expression}` may be a
+``Global`` or local variable, an object's property, one of the variables
+defined in the library, or any other expression capable of having more than
+one value.  You could write ``switch (x)`` if ``x`` is a defined variable,
+or even, for instance, ``switch (x+y)`` if both ``x`` and ``y`` are defined
+variables.  Those :samp:`{whatever happens when...}` are collections of
+statements which implement the desired effect for a particular value of the
+switched variable.
+
+Although a switch statement :samp:`switch ({expression}) { ... }` needs
+that one pair of braces, it doesn't need braces around each of the
+individual "cases", no matter how many statements each of them includes.
+As it happens, case 1 and case 2 contain only a single ``print_ret``
+statement each, so we'll move swiftly past them to the third, more
+interesting, case -- when ``self.warnings_count`` is 3.  Again, we could
+have written this::
+
+   switch     (self.warnings_count) {
+     1:       First attempt at moving north
+     2:       Second attempt at moving north
+     3:       Final attempt at moving north
+   }
+
+but using the word ``default`` -- meaning "any value not already catered
+for" -- is better design practice; it's less likely to produce misleading
+results if for some unforeseen reason the value of ``self.warnings_count``
+isn't the 1, 2 or 3 you'd anticipated.  Here's the remainder of the code
+(with some of the printed text omitted)::
+
+  self.warnings_count = self.warnings_count + 1;
+  switch (self.warnings_count) {
+    1: print_ret "...";
+    2: print_ret "...";
+    default:
+       print "^~OK, ";
+       style underline; print "Herr"; style roman;
+       print " Tell, now you're in real trouble. I asked you
+           ...
+           old lime tree growing in the marketplace.^";
+       move apple to son;
+       PlayerTo(marketplace);
+       return true;
+  }
+
+The first part is really just displaying a lot of text, made slightly
+messier because we're adding emphasis to the word "Herr" by using
+underlining (which actually comes out as *italic type* on most
+interpreters).  Then, we make sure that Walter has the apple (just in case
+we didn't give it to him earlier in the game), relocate to the final room
+using ``PlayerTo(marketplace)``, and finally ``return true`` to tell the
+interpreter that we've handled this part of the ``Go`` action ourselves.
+And so, at long last, here's the complete code for the ``mid_square``, the
+most complicated object in the whole game::
+
+  Room    mid_square "Middle of the square"
+    with  description
+               "There is less of a crush in the middle of the square; most
+                 people prefer to keep as far away as possible from the pole
+                 which towers here, topped with that absurd ceremonial hat.  A
+                 group of soldiers stands nearby, watching everyone who passes.",
+          n_to north_square,
+          s_to south_square,
+          warnings_count 0,          ! for counting the soldier's warnings
+          before [;
+             Go:
+               if (noun == s_obj) {
+                    self.warnings_count = 0;
+                    pole.has_been_saluted = false;
+               }
+               if (noun == n_obj) {
+                    if (pole.has_been_saluted == true) {
+                        print "^~Be sure to have a nice day.~^";
+                        return false;
+                    }   ! end of (pole has_been_saluted)
+                    else {
+                        self.warnings_count = self.warnings_count + 1;
+                        switch (self.warnings_count) {
+                          1: print_ret "A soldier bars your way. ^^
+                                 ~Oi, you, lofty; forgot yer manners, didn't you?
+                                 How's about a nice salute for the vogt's hat?~";
+                          2: print_ret "^~I know you, Tell, yer a troublemaker,
+                                 ain't you? Well, we don't want no bovver here,
+                                 so just be a good boy and salute the friggin'
+                                 hat. Do it now: I ain't gonna ask you again...~";
+                          default:
+                             print "^~OK, ";
+                             style underline; print "Herr"; style roman;
+                             print " Tell, now you're in real trouble. I asked you
+                                 nice, but you was too proud and too stupid. I
+                                 think it's time that the vogt had a little word
+                                 with you.~
+                                 ^^
+                                 And with that the soldiers seize you and Walter
+                                 and, while the sergeant hurries off to fetch
+                                 Gessler, the rest drag you roughly towards the
+                                 old lime tree growing in the marketplace.^";
+                             move apple to son;
+                             PlayerTo(marketplace);
+                             return true;
+                        }    ! end of switch
+                    }   ! end of (pole has_NOT_been_saluted)
+               }    ! end of (noun == n_obj)
+          ];
+
+The north side of the square
+============================
+
+The only way to get here is by saluting the pole and then moving north; not
+very likely, but good game design is about predicting the unpredictable. ::
+
+  Room     north_square "North side of the square"
+    with   description
+               "A narrow street leads north from the cobbled square. In its
+                centre, a little way south, you catch a last glimpse of the pole
+                and hat.",
+           n_to [;
+               deadflag = 3;
+               print_ret "With Walter at your side, you leave the square by the
+                   north street, heading for Johansson's tannery.";
+           ],
+           s_to "You hardly feel like going through all that again.";
+
+There's one new feature in this room: the value of the ``n_to`` property is
+a routine, which the interpreter runs when Wilhelm tries to exit the square
+northwards.  All that the routine does is set the value of the library
+variable ``deadflag`` to 3, print a confirmation message, and ``return
+true``, thus ending the action.
+
+At this point, the interpreter notices that ``deadflag`` is no longer zero,
+and terminates the game.  In fact, the interpreter checks ``deadflag`` at
+the end of every turn; these are the values that it's expecting to find:
+
+* 0 -- this is the normal state; the game continues.
+* 1 -- the game is over. The interpreter displays "You have died".
+* 2 -- the game is over. The interpreter displays "You have won".
+* any other value -- the game is over, but there aren't any appropriate
+  messages built into the library.  Instead, the interpreter looks for an
+  **entry point** routine called ``DeathMessage`` -- which we must provide
+  -- where we can define our own tailored "end messages".
+
+In this game, we never set ``deadflag`` to 1, but we do use values of 2
+and 3.  So we'd better define a ``DeathMessage`` routine to tell players
+what they've done::
+
+    [ DeathMessage; print "You have screwed up a favourite folk story"; ];
+
+Our game has only one customised ending, so the simple ``DeathMessage``
+routine we've written is sufficient for our purposes.  Were you to conceive
+multiple endings for a game, you could specify suitable messages by
+checking for the current value of the ``deadflag`` variable::
+
+    [ DeathMessage;
+        if (deadflag == 3) print "You leave Scarlett O'Hara for good";
+        if (deadflag == 4) print "You crush Scarlett with a passionate embrace";
+        if (deadflag == 5) print "You've managed to divorce Scarlett";
+        ...
+    ];
+
+Of course, you must assign the appropriate value to ``deadflag`` at the
+point when the game arrives at each of those possible endings.
+
+We've nearly finished.  In the concluding chapter of this game, we'll talk
+about the fateful shooting of the arrow.
