@@ -1,0 +1,573 @@
+====================
+Captain Fate: take 3
+====================
+
+.. epigraph::
+
+   | *W was a watchman, and guarded the door;*
+   | *X was expensive, and so became poor.*
+
+.. only:: html
+
+   .. image:: /images/picW.png
+      :align: left
+
+.. raw:: latex
+
+   \dropcap{w}
+
+e've given ourselves an interesting challenge by overusing that 
+convenient word "toilet", and here we show you how we resolve the 
+ambiguities that have been introduced. Also, it's time for the eponymous 
+owner of Benny's café to be developed in full.
+
+Too many toilets
+================
+
+If you check the ``name`` properties of the toilet door, the toilet key 
+and the toilet room, you’ll see that the dictionary word ``'toilet'`` 
+occurs in all of them. There won't be any problems if players mention 
+the words DOOR or KEY, but we reach a strange impasse should they try to 
+perform some action with just the word TOILET. The interpreter has to 
+think fast: is the player talking about the key? About the door? Or 
+about the toilet? Unable to decide, it asks: "Which do you mean, the 
+door to the toilet, the toilet key or the toilet?"
+
+And guess what? Players will never be able to refer to the toilet object 
+(unless they type BATH ROOM or REST ROOM, not an obvious choice since we 
+haven't used those phrases anywhere visible). If the player answers 
+TOILET the parser will still have three objects with that dictionary 
+word as a possible name, so it will ask again, and again -- until we 
+give it some dictionary word which is not ambiguous. A human reader 
+would be able to understand that the word TOILET alone refers to the 
+room, but the interpreter won't -- unless we help it a little.
+
+We could work around this problem in more than one way, but we'll take 
+this opportunity of demonstrating the use of a third-party library 
+package.
+
+When experienced designers find a problem which is not easily solvable, 
+they may come up with a smart solution and then consider that others 
+could benefit from the effort. The product of this generosity takes the 
+form of a library extension: the solution neatly packaged as a file that 
+other designers can incorporate into their source code. These files can 
+be found in the IF Archive: go to 
+``http://mirror.ifarchive.org/indexes/if-archive.html`` and then select 
+"``.../infocom``", "``.../compilers``", "``.../inform6``", 
+"``.../library``", and "``.../contributions``". All of these files 
+contain Inform code. To use a library extension (also known as a library 
+contribution), you should download it and read the instructions (usually 
+embedded as comments in the file, but occasionally supplied separately) 
+to discover what to do next. Normally, you ``Include`` it (as we have 
+already done with ``Parser``, ``VerbLib`` and ``Grammar``), but often 
+there are rules about where exactly this Include should be placed in 
+your source code. It is not unusual to find other suggestions and 
+warnings.
+
+To help us out of the disambiguation problem with the word TOILET, we 
+are going to use Neil Cerutti's extension ``pname.h``, which is designed 
+for situations precisely like this. First, we follow the link to the IF 
+archive and download the compressed file ``pname.zip``, which contains 
+two more files: ``pname.h`` and ``pname.txt``. We place these files in 
+the folder where we are currently developing our game or, if using the 
+environment we proposed in "Tools of the trade" on page 17, in the 
+``Inform\Lib\Contrib`` folder. The text file offers instructions about 
+installation and usage. Here we find a warning:
+
+  This version of pname.h is recommended for use only with version 6/10 
+  of the Inform Library.
+
+We're actually using a later version, but this doesn't seem to cause a 
+problem. Most extensions aren't so fussy, but ``pname.h`` fiddles with 
+some routines at the heart of the standard library; these may not be 
+identical in other Inform versions.
+
+The introduction explains what ``pname.h`` does for you; namely, it lets 
+you avoid using complicated ``parse_name`` routines to disambiguate the 
+player's input when the same dictionary word refers to more than one 
+item. A ``parse_name`` routine would have been the solution to our 
+problem before the existence of this file, and it qualifies as an 
+advanced programming topic, difficult to master on a first approach. 
+Fortunately, we don't need to worry. Neil Cerutti explains:
+
+  The ``pname.h`` package defines a new object property, ``pname`` 
+  (short for phrase name), with a similar look and feel to the standard 
+  ``name`` property: both contain a list of dictionary words. However, 
+  in a ``pname`` property the order of the words is significant, and 
+  special operators ``'.p'`` ``'.or'`` and ``'.x'`` enable you to embed 
+  some intelligence into the list. In most cases where the standard 
+  ``name`` property isn't enough, you can now just replace it with a 
+  ``pname`` property, rather than write a ``parse_name`` property 
+  routine.
+
+We'll soon see how it works. Let's take a look at the installation 
+instructions:
+
+  To incorporate this package into your program, do three things:
+
+  #.  Add four lines near the head of the program (before you include 
+      ``Parser.h``).
+
+      ``Replace MakeMatch;``
+      ``Replace Identical;``
+      ``Replace NounDomain;``
+      ``Replace TryGivenObject;``
+
+  #.  Include the ``pname.h`` header just after you include ``Parser.h``.
+      ``Include "Parser";``
+      ``Include "pname";``
+
+  #.  Add ``pname`` properties to those objects which require phrase 
+      recognition.
+
+It seems simple enough. So, following steps one and two, we add those 
+``Replace...`` lines before the inclusion of ``Parser``, and we include 
+``pname.h`` right after it. ``Replace`` tells the compiler that we're 
+providing replacements for some standard routines.
+
+.. code-block:: inform6
+
+  Constant Story "Captain Fate";
+  Constant Headline
+              "^A simple Inform example
+               ^by Roger Firth and Sonja Kesserich.^";
+  Release 3; Serial "040804";     ! for keeping track of public releases
+
+  Constant MANUAL_PRONOUNS;
+
+  Replace MakeMatch;              ! requited by pname.h
+  Replace Identical;
+  Replace NounDomain;
+  Replace TryGivenObject;
+
+  Include "Parser";
+  Include "pname";
+  !...
+
+Now our source code is ready to benefit from the library package. How 
+does it work? We have acquired a new property -- ``pname`` -- which can 
+be added to some of our objects, and which works pretty much like a 
+``name`` property. In fact, it should be used *instead* of a ``name`` 
+property where we have a disambiguation problem. Let’s change the 
+relevant lines for the toilet door and the toilet key:
+
+.. todo::
+
+  Maybe specially highlight the lines using pname?
+
+.. code-block:: inform6
+
+  Object  toilet_door
+    with  pname '.x' 'red' '.x' 'toilet' 'door',
+          short_name [;
+          !...
+
+  Object  toilet_key "toilet key" benny
+    with  pname '.x' 'toilet' 'key',
+          article "the",
+          !...
+
+while leaving the ``outside_of_toilet`` unchanged:
+
+.. code-block:: inform6
+
+  Object  outside_of_toilet "toilet" cafe
+    with  name 'toilet' 'bath' 'rest' 'room' 'bathroom' 'restroom',
+          before [;
+          !...
+
+We are now using a new operator -- ``'.x'`` -- in our ``pname`` word 
+lists. explains
+
+  The first dictionary word to the right of a ``'.x'`` operator is 
+  interpreted as optional.
+
+and this makes the dictionary word ``'toilet'`` of lesser importance for 
+these objects, so that at run-time players could refer to the DOOR or 
+TOILET DOOR or the KEY or TOILET KEY -- but not simply to the TOILET -- 
+when referring to either the door or the key. And, by leaving unchanged 
+the name property of the outside_of_toilet object – where there is also 
+another ``'toilet'`` entry -- the ``pname`` properties will tell the 
+interpreter to discard the key and the door as possible objects to be 
+considered when players refer just to TOILET. Looking at it in terms of 
+the English language, we've effectively said that "TOILET" is an 
+adjective in the phrases "TOILET DOOR" and "TOILET KEY", but a noun when 
+used on its own to refer to the room.
+
+The ``pname.h`` package has additional functionality to deal with more 
+complex phrases, but we don't need it in our example game. Feel free, 
+however, to read ``pname.txt`` and discover what this fine library 
+extension can do for you: it's an easy answer to many a disambiguation 
+headache.
+
+
+Don't shoot! I'm only the barman
+================================
+
+A lot of the action of the game happens around Benny, and his definition 
+needs a little care. Let's explain what we want to happen.
+
+  So the door is locked and the player, after discovering what the note 
+  stuck on the toilet door said, will eventually ask Benny for the key. 
+  Sadly, Benny allows use of the toilet only to customers, a remark 
+  he'll make looking pointedly at the menu board behind him. The player 
+  will have to ask for a coffee first, thereby qualifying as a customer 
+  in Benny's eyes and thus entitled to make use of the toilet. At last! 
+  Rush inside, change into Captain Fate’s costume and fly away to save 
+  the day!
+
+Except that the player neither paid for the coffee, nor returned the 
+toilet key. Benny will have to stop the player from leaving the café in 
+these circumstances. To prevent unnecessary complication, there will be 
+a coin near the lavatory, enough cash to pay for the coffee. And that 
+about sums it all up; pretty simple to describe -- not so simple to 
+code. Remember Benny's basic definition from the previous chapter:
+
+.. code-block:: inform6
+
+  Object  benny "Benny" cafe
+    with  name 'benny',
+          description
+              "A deceptively FAT man of uncanny agility, Benny entertains his
+               customers crushing coconuts against his forehead when the mood
+               strikes him.",
+    has   scenery animate male proper transparent;
+
+We can now add some complexity, beginning with a ``life`` property. In 
+generic form:
+
+.. code-block:: inform6
+
+  life [;
+    Give:             !... code for giving objects to Benny
+    Attack:           !... code to deal with player's aggressive moves
+    Kiss:             !... code about the player getting tender on Benny
+    Ask,Tell,Answer:  !... code to handle conversation
+  ],
+
+We have seen some of these actions before. We'll take care of the easier 
+ones:
+
+  Attack:
+    if (costume has worn) {
+        deadflag = 4;
+        print "Before the horror-stricken eyes of the surrounding
+               people, you MAGNIFICENTLY jump OVER the counter and
+               attack Benny with REMARKABLE, albeit NOT sufficient,
+               speed. Benny receives you with a TREACHEROUS upper-cut
+               that sends your GRANITE JAW flying through the cafe.^^
+               ~These guys in pyjamas think they can bully innocent
+               folk,~ snorts Benny, as the EERIE hands of DARKNESS
+               engulf your vision and you lose consciousness.";
+    }
+    else
+        "That would be an unlikely act for MEEK John Covarth.";
+
+    Kiss:
+      "This is no time for MINDLESS infatuation.";
+
+    Ask,Tell,Answer:
+      "Benny is too busy for idle chit-chat.";
+
+Attacking Benny is not wise. If the player is still dressed as John 
+Covarth, the game displays a message refusing to use violence by reason 
+of staying in character as a worthless wimp. However, if Captain Fate 
+attempts the action, we'll find that there is more to Benny than meets 
+the eye, and the game is lost. Kissing and conversation are disallowed 
+by a couple of tailored responses.
+
+The Give action is a bit more complicated, since Benny reacts to certain 
+objects in a special and significant way. Bear in mind that Benny's 
+definition needs to keep track of whether the player has asked for a 
+coffee (thereby becoming a customer and thus worthy of the key), whether 
+the coffee has been paid for, and whether the toilet key has been 
+returned. The solution, yet again (this really is a most useful 
+capability), is more local property variables:
+
+.. code-block:: inform6
+
+  Object  benny "Benny" cafe
+    with  name 'benny',
+          description
+              "A deceptively FAT man of uncanny agility, Benny entertains his
+               customers crushing coconuts against his forehead when the mood
+               strikes him.",
+          coffee_asked_for false,          ! has player asked for a coffee?
+          coffee_not_paid  false,          ! is Benny waiting to be paid?
+          key_not_returned false,          ! is Benny waiting for the key?
+          live [;
+          !...
+
+Now we are ready to tackle the ``Give`` action of the ``life`` property, 
+which deals with commands like GIVE THE KEY TO BENNY (in a moment, we'll 
+come to the ``Give`` action of the ``orders`` property, which deals with 
+commands like BENNY, GIVE ME THE KEY):
+
+.. code-block:: inform6
+
+  Give:
+    switch (noun) {
+      clothes:
+        "You NEED your unpretentious John Covarth clothes.";
+      costume:
+        "You NEED your stupendous ACID-PROTECTIVE suit.";
+      toilet_key:
+        self.key_not_returned = false;
+        move toilet_key to benny;
+        "Benny nods as you ADMIRABLY return his key.";
+      coin:
+        remove coin;
+        self.coffee_not_paid = false;
+        print "With marvellous ILLUSIONIST gestures, you produce the
+               coin from the depths of your ";
+        if (costume has worn) print "BULLET-PROOF costume";
+        else                  print "ordinary street clothes";
+        " as if it had dropped on the counter from Benny's ear!
+         People around you clap politely. Benny takes the coin
+         and gives it a SUSPICIOUS bite. ~Thank you, sir. Come
+         back anytime,~ he says.";
+    }
+
+The Give action in the ``life`` property holds the variable ``noun`` as 
+the object offered to the NPC. Remember that we can use the ``switch`` 
+statement as shorthand for:
+
+.. code-block:: inform6
+
+  if (noun == costume) { whatever };
+  if (noun == clothes) { whatever };
+  !...
+
+We won't let players give away their clothes or their costume (yes, an 
+improbable action, but you never know). The toilet key and the coin are 
+successfully transferred. The property ``key_not_returned`` will be set 
+to true when we receive the toilet key from Benny (we have not coded 
+that bit yet), and now, when we give it back, it's reset to ``false``. 
+The ``move`` statement is in charge of the actual transfer of the object 
+from the player's inventory to Benny, and we finally display a 
+confirmation message. With the coin, we find a new statement: 
+``remove``. This extracts the object from the object tree, so that it 
+now has no parent. The effect is to make it disappear from the game 
+(though you are not destroying the object permanently -- and indeed you 
+could return it to the object tree using the ``move`` statement); as far 
+as the player is concerned, there isn’t a COIN to be found anywhere. The 
+``coffee_not_paid`` property will be set to true when Benny serves us 
+the cup of coffee (again, we’ll see that in a moment); now we reset it 
+to ``false``, which liberates the player from debt. This culminates with 
+the ``"..."`` print-and-return statement, telling the player that the 
+action was successful. In passing, remember that in "A homely 
+atmosphere" on page 131 we defined the counter such that PUT KEY ON 
+COUNTER is automatically translated into GIVE KEY TO BENNY .
+
+Why move the key to Benny but remove the coin instead? Once players 
+qualify as customers by ordering a coffee, they will be able to ask for 
+the key and return it as many times as they like, so it seems sensible 
+to keep the key around. The coin, however, will be a one-shot. We won't 
+let players ask for more than one coffee, to prevent their debt from 
+growing ad infinitum -- besides, they came in here to change, not to 
+indulge in caffeine. Once the coin is paid, it disappears for good, 
+supposedly into Benny's greedy pockets. No need to worry about it any 
+more.
+
+The benny object needs also an ``orders`` property, just to take care of 
+the player's requests for coffee and the key, and to fend off any other 
+demands. The ``Give`` action in an ``orders`` property deals with inputs 
+like ASK BENNY FOR THE KEY or BENNY, GIVE ME THE KEY. The syntax is 
+similar to that of the ``life`` property:
+
+.. code-block:: inform6
+
+  orders [;   ! handles ASK BENNY FOR X and BENNY, GIVE ME XXX
+    Give:
+      if (second ~= player or nothing) "Benny looks at you strangely.";
+      switch (noun) {
+        toilet_key:
+          if (toilet_key in player) "But you DO have the key already.";
+          if (self.coffee_asked_for == true)
+              if (toilet_key in self) {
+                  move toilet_key to player;
+                  self.key_not_returned = true;
+                  "Benny tosses the key to the rest rooms on the
+                   counter, where you grab it with a dextrous and
+                   precise movement of your HYPER-AGILE hand.";
+              }
+              else
+                  "~Last place I saw that key, it was in YOUR
+                   possession,~ grumbles Benny. ~Be sure to return it
+                   before you leave.~";
+          else
+              "~Toilet is only fer customers,~ he grumbles, looking
+               pointedly at a menu board behind him.";
+        coffee:
+          if (self.coffee_asked_for == true)
+              "One coffee should be enough.";
+          move coffee to counter;
+          self.coffee_asked_for = self.coffee_not_paid = true;
+          "With two gracious steps, Benny places his world-famous
+           Cappuccino in front of you.";
+        food:         
+          "Food will take too much time, and you must change NOW.";
+        menu:
+          "With only the smallest sigh, Benny nods towards the menu
+           on the wall behind him.";
+        default:
+          "~I don't think that's on the menu, sir.~";
+      }
+  ],
+
+* We test the value of ``second`` in order to trap over-generous 
+  gestures such as BENNY, GIVE COFFEE TO CUSTOMERS . Then we consider 
+  potential requests.
+
+* **Toilet key:** first, we check whether players already have the key 
+  or not, and complain if they do, stopping execution thanks to the 
+  implicit ``return true`` of the ``"..."`` statement. If players don’t 
+  have the  key, we proceed to check whether they've asked for a coffee 
+  yet, by testing the ``coffee_asked_for`` property. If this is true , 
+  we should also check if the key is actually one of Benny’s 
+  possessions -- a perverse player could get the key, then drop it 
+  somewhere and ask for it again; if this should happen, we indicate 
+  that Benny is nobody's fool with the message ``"~Last place I saw 
+  that key..."``. Once all these fitting conditions are ``true``, 
+  players will get the key, which means that they have to return it -- 
+  the ``key_not_returned`` property becomes ``true`` -- and we display 
+  a suitable message. However, if the player didn't ask for a coffee, 
+  Benny refuses to oblige, mentioning for the first time the menu board 
+  where players will be able to see a picture of a cup of coffee when 
+  they EXAMINE it. Take care to see how all the ``else`` clauses pair 
+  up with the appropriate if statements, triggering responses for each 
+  of the conditions that wasn't met.
+
+* **Coffee:** we check whether players have already asked for a coffee, 
+  by testing the ``coffee_asked_for`` property, and refuse to serve 
+  another one if ``true``. If ``false``, we place the coffee on the 
+  counter, and set the properties ``coffee_asked_for`` and 
+  ``coffee_not_paid`` to ``true``. The message bit you know about.
+
+* **Food:** we'll provide an object to deal with all of the delicious 
+  comestibles to be found in the café, specifically those (such as 
+  "pastries and sandwiches") mentioned in our descriptions. Although 
+  that object is not yet defined, we code ahead to thwart player's 
+  gluttony in case they choose to ask Benny for food.
+
+* **Menu:** our default response -- "I don’t think that’s on the menu, 
+  sir" -- isn’t very appropriate if the player asks for a menu, so we 
+  provide a better one.
+
+* **Default:** this takes care of anything else that the player asks 
+  Benny for, displaying his curt response.
+
+And before you know it, Benny's object is out of the way; however, don't
+celebrate too soon. There’s still some Benny-related behaviour that, 
+curiously enough, doesn’t happen in Benny's object; we're talking about 
+Benny's reaction if the player tries to leave without paying or 
+returning the key. We promised you that Benny would stop the player, and 
+indeed he will. But where?
+
+We must revisit the café room object:
+
+.. code-block:: inform6
+
+  Room     cafe "Inside Benny's cafe"
+    with   description
+               "Benny's offers the FINEST selection of pastries and sandwiches.
+                Customers clog the counter, where Benny himself manages to
+                serve, cook and charge without missing a step. At the north side
+                of the cafe you can see a red door connecting with the toilet.",
+           before [;
+             Go:   ! The player is about to depart. Is he making for the street?
+               if (noun ~= s_obj) return false;
+               if (benny.coffee_not_paid == true ||
+                   benny.key_not_returned == true) {
+                   print "Just as you are stepping into the street, the big hand
+                          of Benny falls on your shoulder.";
+                   if (benny.coffee_not_paid == true &&
+                       benny.key_not_returned == true)
+                       "^^~Hey! You've got my key and haven't paid for the
+                        coffee. Do I look like a chump?~ You apologise as only a
+                        HERO knows how to do and return inside.";
+                   if (benny.coffee_not_paid == true)
+                       "^^~Just waidda minute here, Mister,~ he says.
+                        ~Sneaking out without paying, are you?~ You quickly 
+                        mumble an excuse and go back into the cafe. Benny
+                        returns to his chores with a mistrusting eye.";
+                   if (benny.key_not_returned == true)
+                       "^^~Just where you think you're going with the toilet
+                        key?~ he says. ~You a thief?~ As Benny forces you back
+                        into the cafe, you quickly assure him that it was only
+                        a STUPEFYING mistake.";
+               }     
+               if (costume has worn) {
+                   deadflag = 5;           ! you win!
+                   "You step onto the sidewalk, where the passing pedestrians
+                    recognise the rainbow EXTRAVAGANZA of Captain FATE's costume
+                    and cry your name in awe as you JUMP with sensational
+                    momentum into the BLUE morning skies!";
+               }
+           ],
+           first_time_out false,           ! Captain Fate's first appearance?
+           after [;
+             Go:   ! The player has just arrived. Did he come from the toilet?
+               if (noun ~= s_obj) return false;
+               if (costume has worn && self.first_time_out == false) {
+                   self.first_time_out = true;
+                   StartDaemon(customers);
+               }
+           ],
+           s_to  street,
+           n_to  toilet_door;
+
+Once again, we find that the solution to a design problem is not 
+necessarily unique. Remember what we saw when dealing with the player's 
+description: we could have assigned a new value to the 
+``player.description`` variable, but opted to use the 
+``LibraryMessages`` object instead. This is a similar case. The code 
+causing Benny to intercept the forgetful player could have been added, 
+perhaps, to a ``daemon`` property in Benny’s definition. However, since 
+the action to be intercepted is always the same one and happens to be a 
+movement action when the player tries to leave the café room, it is also 
+possible to code it by trapping the ``Go`` action of the room object. 
+Both would have been right, but this is somewhat simpler.
+
+We have added a ``before`` property to the room object (albeit a longish 
+one), just dealing with the ``Go`` action. As we mentioned in an earlier 
+chapter, this technique lets you trap the player who is about to exit a 
+room before the movement actually takes place, a good moment to 
+interfere if we want to prevent escape. The first line:
+
+.. code-block:: inform6
+
+  if (noun ~= s_obj) return false;
+
+is telling the interpreter that we want to tamper only with southwards 
+movement, allowing the interpreter to apply normal rules for the other 
+available directions.
+
+From here on, it's only conditions and more conditions. The player may 
+attempt to leave:
+
+* without paying for the coffee and without returning the key,
+
+* having paid for the coffee, but without returning the key,
+
+* having returned the key, but not paid for the coffee, or
+
+* free of sin and accountable for nothing in the eyes of all men (well, 
+  in the eye of Benny, at least).
+
+The first three are covered by the test:
+
+.. code-block:: inform6
+
+  if (benny.coffee_not_paid == true || benny.key_not_returned == true) ...
+
+that is, if either the coffee is not paid for *or* if the key is not 
+returned. When this condition is ``false``, it means that both 
+misdemeanours have been avoided and that the player is free to go. 
+However, when this condition is ``true``, the hand of Benny falls on the 
+player's shoulder and then the game displays a different message 
+according to which fault or faults the player has committed.
+
+If the player is free to go, and is wearing the crime-fighting costume, 
+the game is won. We tell you how that's reported in the next chapter, 
+where we finish off the design.
