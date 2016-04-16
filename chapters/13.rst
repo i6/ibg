@@ -1,0 +1,912 @@
+===========================
+Captain Fate: the final cut
+===========================
+
+.. epigraph::
+
+   | *Y was a youth, that did not love school;*
+   | *Z was a zany, a poor harmless fool.*
+
+.. only:: html
+
+   .. image:: /images/picY.png
+      :align: left
+
+.. raw:: latex
+
+   \dropcap{y}
+
+ou'll probably be pleased to hear that Captain Fate has almost run his 
+allotted span. There are some minor objects still to be defined -- the 
+toilet, our hero’s clothes, the all-important costume -- but first we 
+need to decorate the café a little more.
+
+Additional catering garnish
+===========================
+
+We must not forget a couple of tiny details in the café room:
+
+.. code-block:: inform6
+
+  Object   food "Benny's snacks" cafe
+    with   name 'food' 'pastry' 'pastries' 'sandwich' 'sandwiches' 'snack'
+           before [; "There is no time for FOOD right now."; ],
+    has    scenery proper;
+
+  Object   menu "menu" cafe
+    with   name 'informative' 'menu' 'board' 'picture' 'writing',
+           description
+               "The menu board lists Benny's food and drinks, along with their
+                prices. Too bad you've never learnt how to read, but luckily
+                there is a picture of a big cup of coffee among the
+                incomprehensible writing.",
+           before [;
+             Take:
+               "The board is mounted on the wall behind Benny. Besides, it's
+                useless WRITING.";
+           ],
+    has    scenery;
+
+And a not-so-trivial object:
+
+.. code-block:: inform6
+
+  Object  coffee "cup of coffee" benny
+    with  name 'cup' 'of' 'coffee' 'steaming' 'cappuccino'
+               'cappucino' 'capuccino' 'capucino',
+          description [;
+              if (self in benny)
+                  "The picture on the menu board SURE looks good.";
+              else
+                  "It smells delicious.";
+          ],
+          before [;
+            Take,Drink,Taste:
+              if (self in benny) "You should ask Benny for one first.";
+              else {
+                  move self to benny;
+                  print "You pick up the cup and swallow a mouthful. Benny's
+                         WORLDWIDE REPUTATION is well deserved. Just as you
+                         finish, Benny takes away the empty cup.";
+                  if (benny.coffee_not_paid == true)
+                      " ~That will be one quidbuck, sir.~";
+                  else
+                      "";
+              }
+            Buy:
+              if (coin in player) <<Give coin benny>>;
+              else                "You have no money.";
+            Smell:
+              "If your HYPERACTIVE pituitary glands are to be trusted,
+               it's Colombian.";
+          ];
+
+There's nothing really new in this object (other than that the ``name`` 
+property caters for orthographically challenged players), but notice how 
+we don't ``remove`` it after the player drinks it. In an apparently 
+absurd whim, the coffee returns to Benny magically (although this is not 
+information that the player needs to know). Why? After you remove an 
+object from the game, if the player attempts, say, to EXAMINE it, the 
+interpreter will impertinently state that "You can't see any such 
+thing". Moreover, if the player asks Benny for a second coffee, once the 
+first one has been removed, Benny will complain "I don’t think that’s on 
+the menu, sir" -- a blatant lie -- which was the default in Benny’s 
+orders property. Since the removed coffee object does not belong to 
+Benny, it's not a noun that the player can ASK Benny FOR. By making it a 
+child of the barman (who has the ``transparent`` attribute set), the 
+coffee is still an object that players can refer to. We ensure that they 
+don't get more cups thanks to Benny's ``coffee_asked_for property``, 
+which will remain ``true`` after the first time.
+
+We also ensure that Benny doesn't ask for money from players who have 
+already paid, by first printing a "You pick up the cup..." message and 
+then testing Benny's ``coffee_not_paid`` property. If its value is 
+``true``, we can finish the message with the "quidbuck" print-and-return 
+statement. If its value is ``false``, the player has previously paid, 
+and so there's nothing else to say. However, we still need to terminate 
+the incomplete message with a newline, and to return ``true`` from the 
+property routine; we *could* have used the statements ``{ print "^"; 
+return true; }``, but an empty ``""`` statement does the same thing more 
+neatly.
+
+
+Toilet or dressing room?
+========================
+
+Rather more of the latter, actually, since it's the only place away from 
+curious eyes where our hero will be able to metamorphose from weakling 
+into the bane of all evildoers. And we *really* don't want to become, 
+erm, bogged down with details of the room's function or plumbing.
+
+There's not a lot about the toilet room and its contents, though there 
+will be some tricky side effects:
+
+.. code-block:: inform6
+
+  Room    toilet "Unisex toilet"
+    with  description
+              "A surprisingly CLEAN square room covered with glazed-ceramic
+               tiles, featuring little more than a lavatory and a light switch.
+               The only exit is south, through the door and into the cafe.",
+          s_to toilet_door,
+    has   ~light scored;
+
+  Appliance lavatory "lavatory" toilet
+    with name 'lavatory' 'wc' 'toilet' 'loo' 'bowl' 'can' 'john' 'bog',
+         before [;
+           Examine,Search,LookUnder:
+             if (coin in self) {
+                 move coin to parent(self);
+                 "The latest user CIVILLY flushed it after use, but failed to
+                  pick up the VALUABLE coin that fell from his pants.";
+             }
+           Receive:
+             "While any other MORTALS might unwittingly throw just about
+              ANYTHING into ", (the) self, ", you remember the WISE teachings
+              of your mentor, Duke ELEGANT, about elderly plumbing and rising
+              waters.";
+         ];
+
+  Object  coin "valuable coin" lavatory
+    with  name 'valuable' 'coin' 'silver' 'quidbuck',
+          description "It's a genuine SILVER QUIDBUCK.",
+          before [;
+            Drop:
+              if (self notin player) return false;
+              "Such a valuable coin? Har, har! This must be a demonstration of
+               your ULTRA-FLIPPANT jesting!";
+          ],
+          after [;
+            Take:
+              "You crouch into the SLEEPING DRAGON position and deftly, with
+               PARAMOUNT STEALTH, you pocket the lost coin.";
+          ],
+    has   scored;
+
+We initially place the coin as a child of the lavatory (just so that we 
+can easily make the ``if (coin in self)`` one-time test). Since the 
+lavatory does not have the ``transparent`` attribute set, the coin will 
+be invisible to players until they try to inspect the lavatory, an 
+action that will move the coin into the toilet room. Once taken, the 
+coin will remain in the inventory until the player gives it to Benny, 
+because we trap any ``Drop`` actions to help the player to Do the Right 
+Thing.
+
+The lavatory object includes a load of helpful synonyms in its name 
+property, including our favourite word ``'toilet'`` . That won't be a 
+problem: the other objects here which may have TOILET in their names -- 
+the key and the door -- both use the ``pname`` property to turn their 
+use of ``'toilet'`` into a lower-priority adjective.
+
+See that here we have the only two ``scored`` attributes of the game. 
+The player will be awarded one point for entering the toilet room, and 
+another for finding and picking up the coin.
+
+You might have noticed that we are forcefully clearing the ``light`` 
+attribute, inherited from the ``Room`` class. This will be a windowless 
+space and, to add a touch of realism, we'll make the room a dark one, 
+which will enable us to tell you about Inform's default behaviour when 
+there's no light to see by. However, let's define first the light switch 
+mentioned in the room's description to aid players in their dressing 
+duties.
+
+.. code-block:: inform6
+
+  Appliance  light_switch "light switch" toilet
+    with     name 'light' 'switch',
+             description
+                 "A notorious ACHIEVEMENT of technological SCIENCE, elegant yet
+                  EASY to use.",
+             before [;
+               Push:
+                 if (self has on) <<SwitchOff self>>;
+                 else             <<SwitchOn  self>>;
+             ],
+             after [;
+               SwitchOn:
+                 give self light;
+                 "You turn on the light in the toilet.";
+               SwitchOff:
+                 give self ~light;
+                 "You turn off the light in the toilet.";
+             ],
+    has      switchable ~on;
+
+Please notice the appearance of new attributes ``switchable`` and 
+``on``. switchable enables the object to be turned on and off, and is 
+typical of lanterns, computers, television sets, radios, and so on. The 
+library automatically extends the description of these objects by 
+indicating if they are currently on or off::
+
+  > X LIGHT SWITCH
+  A notorious ACHIEVEMENT of technological SCIENCE, elegant yet EASY to use.
+  The light switch is currently switched on.
+
+Two new actions are ready to use, ``SwitchOn`` and ``SwitchOff``. Left 
+to themselves, they toggle the object's state between ON and OFF and 
+display a message like::
+
+  You switch the brass lantern on.
+
+They also take care of checking if the player fumbled and tried to turn 
+on (or off) an object which was already on (or off). How does the 
+library know the state of the object? This is thanks to the ``on`` 
+attribute, which is set or cleared automatically as needed. You can, of 
+course, set or clear it manually like any other attribute, with the 
+``give`` statement:
+
+.. code-block:: inform6
+
+  give self on;
+
+  give self ~on;
+
+and check if a ``switchable`` object is on or off with the test:
+
+.. code-block:: inform6
+
+  if (light_switch has on) ...
+
+  if (light_switch hasnt on) ...
+
+A ``switchable`` object is OFF by default. However, you’ll notice that 
+the has line of the object definition includes ``~on`` :
+
+.. code-block:: inform6
+
+  has    switchable ~on;
+
+Surely that’s saying "not-on"? Surely that's what would have happened 
+anyway if the line hadn't mentioned the attribute at all?
+
+.. code-block:: inform6
+
+  has    switchable;
+
+Absolutely true. Adding that ``~on`` attribute has no effect whatsoever 
+on the game -- but nevertheless it's a good idea. It's an aide-mémoire, 
+a way of reminding ourselves that we start with the attribute clear, and 
+that at some point we'll be setting it for some purpose. Trust us: it's 
+worthwhile taking tiny opportunities like this to help yourself.
+
+Let’s see how our light switch works. We trap the ``SwitchOn`` and 
+``SwitchOff`` actions in the ``after`` property (when the switching has 
+successfully taken place) and use them to give ``light`` to the light 
+switch.
+
+Uh, wait. To the light switch? Why not to the toilet room? Well, there's 
+a reason and we'll see it in a minute. For now, just remember that, in 
+order for players to see their surroundings, you need only one object in 
+a room with the ``light`` attribute set. It doesn't have to be the room 
+itself (though this is usually convenient).
+
+After setting the ``light`` attribute, we display a customised message, 
+to avoid the default::
+
+  You switch the light switch on.
+
+which, given the name of the object, doesn't read very elegantly. We 
+foresee that players might try to PUSH SWITCH, so we trap this attempt 
+in a ``before`` property and redirect it to ``SwitchOn`` and 
+``SwitchOff`` actions, checking first which one is needed by testing the 
+``on`` attribute. Finally, we have made the switch a member of the class 
+``Appliance``, so that the player doesn't walk away with it.
+
+.. note::
+
+  remember what we said about class inheritance? No matter what you 
+  define in the class, the object’s definition has priority. The class 
+  ``Appliance`` defines a response for the ``Push`` action, but we 
+  override it here with a new behaviour.
+
+
+And there was light
+===================
+
+So the player walks into the toilet and
+
+.. code-block:: transcript
+
+  Darkness
+  It is pitch dark, and you can't see a thing.
+
+Oops! No toilet description, no mention of the light switch, nothing. It 
+is reasonable to think that if we have opened the toilet door to access 
+the toilet, some light coming from the café room will illuminate our 
+surroundings -- at least until the player decides to close the door. So 
+perhaps it would be a good idea to append a little code to the door 
+object to account for this. A couple of lines in the after property will 
+suffice:
+
+.. code-block:: inform6
+
+  after [ ks;
+    Unlock:
+      if (self has locked) return false;
+      print "You unlock ", (the) self, " and open it.^";
+      ks = keep_silent; keep_silent = true;
+      <Open self>; keep_silent = ks;
+      return true;
+    Open:
+      give toilet light;
+    Close:
+      give toilet ~light;
+
+  ],
+
+And this is the reason why the light switch didn't set the ``light`` 
+attribute of the toilet room, but did it to itself. We avoid running 
+into trouble if we let the open/closed states of the door control the 
+light of the room object, and the on/off states of the switch control 
+the light of the switch. So it is one shiny light switch. Fortunately, 
+players are never aware of this glowing artefact.
+
+.. note::
+
+  now, could they? Well, if players could TAKE the light switch (which
+  we have forbidden) and then did INVENTORY, the trick would be given
+  away, because all objects with the ``light`` attribute set are listed 
+  as ``(providing light)`` .
+
+So the player walks into the toilet and
+
+.. code-block:: transcript
+
+  Unisex toilet
+  A surprisingly CLEAN square room covered with glazed-ceramic tiles, featuring
+  little more than a lavatory and a light switch. The only exit is south, through
+  the door and into the cafe.
+
+  [Your score has just gone up by one point.]
+
+Better. Now, suppose the player closes the door.
+
+.. code-block:: transcript
+
+  >CLOSE DOOR
+  You close the door to the cafe.
+
+  It is now pitch dark in here!
+
+The player might try then to LOOK:
+
+Well, no problem. We have mentioned that there is a light switch. Surely 
+the player will now try to:
+
+.. code-block:: transcript
+
+  >TURN ON LIGHT SWITCH
+  You can't see any such thing.
+
+Oops! Things are getting nasty here in the dark. It's probably time to 
+leave this place and try another approach:
+
+.. code-block:: transcript
+
+  >OPEN DOOR
+  You can't see any such thing.
+
+And this illustrates one of the terrible things about darkness in a 
+game. You can't see anything; you can do very little indeed. All objects 
+except those in your inventory are out of scope, unreachable, as if 
+non-existent. Worse, if you DROP one of the objects you are carrying, it 
+will be swallowed by the dark, never to be found until there is light to 
+see by.
+
+The player, who is doubtless immersed in the fantasy of the game, will 
+now be a little annoyed. "I am in a small bathroom and I can't even 
+reach the door I have just closed?" The player's right, of 
+course [#dark]_.  Darkened rooms are one cliché of traditional games. 
+Usually you move in one direction while looking for treasure in some 
+underground cave, and suddenly arrive at a pitch black place. It's good 
+behaviour of the game to disallow exploration of unknown dark territory, 
+and it's a convention to bar passage to players until they return with a 
+light source. However, if the scenario of the game features, say, the 
+player character's home, a little apartment with two rooms, and there’s 
+no light in the kitchen, we could expect the owner of the house to know 
+how to move around a little, perhaps groping for the light switch or 
+even going to the refrigerator in the dark.
+
+We are in a similar situation. The inner logic of the game demands that 
+blind players should be able to open the door and probably operate the 
+light switch they've just encountered. We have been telling you that an 
+object is in scope when it’s in the same room as the player. Darkness 
+changes that rule. All objects not directly carried by the player become 
+out of scope.
+
+One of the advantages of an advanced design system like Inform is the 
+flexibility to change all default behaviours to suit your particular 
+needs. Scope problems are no different. There is a set of routines and 
+functions to tamper with what's in scope when. We'll see just a tiny 
+example to fix our particular problem. In the section "``Entry point 
+routines``" of our game -- after the ``Initialise`` routine, for 
+instance -- include the following lines:
+
+.. code-block:: inform6
+
+  [ InScope person;
+      if (person == player && location == thedark && real_location == toilet) {
+          PlaceInScope(light_switch);
+          PlaceInScope(toilet_door);
+      }
+      return false;
+  ];
+
+``InScope(actor_obj_id)`` is an entry point routine that can tamper with 
+the scope rules for the given ``actor_obj_id`` (either the player 
+character or a NPC). We define it with one variable (which we name as we 
+please; it's also a good idea to name variables in an intuitive way to 
+remind us of what they represent), ``person`` , and then we make a 
+complex test to see if the player is actually in the toilet and in the 
+dark.
+
+We have told you that the library variable ``location`` holds the 
+current 
+room that the player is in. However, when there is no light, the 
+variable location gets assigned to the value of the special library 
+object thedark . It doesn't matter if we have ten dark rooms in our 
+game; location will be equal to thedark in all of them. There is yet 
+another variable, called ``real_location``, which holds the room the 
+player is in *even when there is no light to see by*.
+
+So the test:
+
+.. code-block:: inform6
+
+  if (person == player && location == thedark && real_location == toilet) ...
+
+is stating: if the specified actor is the ``player`` character *and* he 
+finds himself in the dark *and* he actually happens to be in the 
+toilet...
+
+Then we make a call to one of the library routines, 
+``PlaceInScope(obj_id)``, which has a very descriptive name: it places 
+in scope the given object. In our case, we want both the door and the 
+light switch to be within reach of the player, hence both additional 
+lines. Finally, we must ``return false``, because we want the normal 
+scope rules for the defined actor -- the player -- to apply to the rest 
+of the objects of the game (if we returned ``true``, players would find 
+that they are able to interact with very little indeed). Now we get a 
+friendlier and more logical response:
+
+.. code-block:: transcript
+
+  Darkness
+  It is pitch dark, and you can't see a thing.
+
+  >TURN ON SWITCH
+  You turn on the light in the toilet.
+
+  Unisex toilet
+  A surprisingly CLEAN square room covered with glazed-ceramic tiles, featuring
+  little more than a lavatory and a light switch. The only exit is south, through
+  the door and into the cafe.
+
+And the same would happen with the door. Notice how the room description 
+gets displayed after we pass from dark to light; this is the normal 
+library behaviour.
+
+There is still one final problem which, admittedly, might originate from 
+an improbable course of action; however, it could be a nuisance. Suppose 
+that the player enters the toilet, locks the door -- which is possible 
+in the dark now that the door is in scope -- and then drops the key. 
+There's no way to exit the toilet -- because the door is locked and the 
+key has disappeared, engulfed by the darkness -- unless the player 
+thinks to turn on the light switch, thereby placing the key in scope 
+once more.
+
+Why don't we add a ``PlaceInScope(toilet_key)`` to the above routine? 
+Well, for starters, the key can be moved around (as opposed to the door 
+or the light switch, which are fixed items in the toilet room). Suppose 
+the player opens the door of the toilet, but drops the key in the café, 
+then enters the toilet and closes the door. The condition is met and the 
+key is placed in scope, when it's in another room. Second, this is a 
+simple game with just a few objects, so you can define a rule for each 
+of them; but in any large game, you might like to be able to refer to 
+objects in bunches, and make general rules that apply to all (or some) 
+of them.
+
+We need to add code to the ``InScope`` routine, telling the game to 
+place in scope all objects that we drop in the dark, so that we might 
+recover them (maybe going on all fours and groping a little, but it’s a 
+possible action). We don’t want the player to have other objects in 
+scope (like the coin, for instance), so it might be good to have a way 
+of testing if the objects have been touched and carried by the player. 
+The attribute ``moved`` is perfect for this. The library sets it for 
+every object that the player has picked up at one time in the game; 
+``scenery`` and ``static`` objects, and those we have not yet seen don't 
+have ``moved``. Here is the reworked ``InScope`` routine. There are a 
+couple of new concepts to look at:
+
+.. code-block:: inform6
+
+  [ InScope person item;
+      if (person == player && location == thedark && real_location == toilet) {
+          PlaceInScope(light_switch);
+          PlaceInScope(toilet_door);
+      }
+      if (person == player && location == thedark)
+          objectloop (item in parent(player))
+              if (item has moved) PlaceInScope(item);
+      return false;
+  ];
+
+We have added one more local variable to the routine, ``item`` -- again, 
+this is a variable we have created and named on our own; it is not part 
+of the library. We make now a new test: if the actor is the player and 
+the location is any dark room, then perform a certain action. We don't 
+need to specify the toilet, because we want this rule to apply to all 
+dark rooms (well, the only dark room in the game *is* the toilet, but we 
+are trying to provide a general rule).
+
+.. todo::
+
+  Lots of italicized typewriter stuff here...
+
+.. code-block:: inform6
+
+  objectloop (variable) statement;
+
+is a loop statement, one of the four defined in Inform. A loop statement 
+is a construct that allows you to run several times through a statement 
+(or a statement block). ``objectloop`` performs the ``statement`` once 
+for every object defined in the (``variable``) . If we were to code:
+
+.. code-block:: inform6
+
+  objectloop (item) statement;
+
+then the ``statement`` would be executed once for each object in the 
+game. However, we want to perform the statement only for those objects 
+whose parent object is the same as the player's parent object: that is, 
+for objects in the same room as the player, so we instead code:
+
+.. code-block:: inform6
+
+  objectloop (item in parent(player)) statement;
+
+What is the actual ``statement`` that we'll repeatedly execute?
+
+.. code-block:: inform6
+
+  if (item has moved)
+      PlaceInScope(item);
+
+The test: ``if (item has moved)`` ensures that ``PlaceInScope(item)`` 
+deals only with objects with the ``moved`` attribute set. So: if the 
+player is in the dark, let’s go through the objects which are in the 
+same room, one at a time. For each of them, check if it's an item that 
+the player has at some time carried, in which case, place it in scope. 
+All dropped objects within the room were carried at one time, so we let 
+players recollect them even if they can’t see them.
+
+As you see, darkness has its delicate side. If you plan to have dark 
+rooms galore in your games, bear in mind that you are in for some 
+elaborate code (unless you let the library carry on with default rules, 
+in which case there won't be much for your players to do).
+
+
+Amazing techicolour dreamcoats
+==============================
+
+This leaves us the clothing items themselves, which will require a few 
+tailored actions. Let's see first the ordinary garments of John Covarth:
+
+.. code-block:: inform6
+
+  Object  clothes "your clothes"
+    with  name 'ordinary' 'street' 'clothes' 'clothing',
+          description
+              "Perfectly ORDINARY-LOOKING street clothes for a NOBODY like
+               John Covarth.",
+          before [;
+            Wear:
+              if (self has worn)
+                  "You are already dressed as John Covarth.";
+              else
+                  "The town NEEDS the power of Captain FATE, not the anonymity
+                   of John Covarth.";
+            Change,Disrobe:
+              if (self hasnt worn)
+                 "Your KEEN eye detects that you're no longer wearing them.";
+              switch (location) {
+                street:
+                  if (player in booth)
+                      "Lacking Superman's super-speed, you realise that it
+                       would be awkward to change in plain view of the passing
+                       pedestrians.";          
+                  else
+                      "In the middle of the street? That would be a PUBLIC
+                       SCANDAL, to say nothing of revealing your secret
+                       identity.";
+                cafe:
+                      "Benny allows no monkey business in his establishment.";
+                toilet:
+                  if (toilet_door has open)
+                      "The door to the bar stands OPEN at tens of curious eyes.
+                       You'd be forced to arrest yourself for LEWD conduct.";
+                  print "You quickly remove your street clothes and bundle them
+                         up together into an INFRA MINUSCULE pack ready for easy
+                         transportation. ";
+                  if (toilet_door has locked) {
+                      give clothes ~worn; give costume worn;
+                      "Then you unfold your INVULNERABLE-COTTON costume and
+                       turn into Captain FATE, defender of free will, adversary
+                       of tyranny!";
+                  }
+                  else {
+                      deadflag = 3;
+                      "Just as you are slipping into Captain FATE's costume,
+                       the door opens and a young woman enters. She looks at
+                       you and starts screaming, ~RAPIST! NAKED RAPIST IN THE
+                       TOILET!!!~^^
+                       Everybody in the cafe quickly comes to the rescue, only
+                       to find you ridiculously jumping on one leg while trying
+                       to get dressed. Their laughter brings a QUICK END to
+                       your crime-fighting career!";
+                  }
+                thedark:
+                  "Last time you changed in the dark, you wore the suit inside
+                   out!";
+                default:                  ! this _should_ never happen...
+                  "There must be better places to change your clothes!";
+              }
+          ],
+    clothing proper pluralname;
+
+See how the object deals only with ``Wear``, ``Disrobe`` and ``Change``. 
+``Wear`` and ``Disrobe`` are standard library actions already defined in 
+Inform, but we'll have to make a new verb to allow for CHANGE CLOTHES. 
+In this game, ``Disrobe`` and ``Change`` are considered synonymous for 
+all purposes; we'll deal with them first.
+
+The goal of the game is for players to change their clothes, so we might 
+expect them to try this almost anywhere; but first of all we have to 
+check that the ``clothes`` object is actually being worn. If not, we 
+display a message reminding the player that this action has become 
+irrelevant. What we do with the ``switch`` statement is to offer a 
+variety of responses according to the ``location`` variable. The street 
+(in or out of the booth) and the café all display refusals of some kind, 
+until the player character manages to enter the toilet, where we 
+additionally require that he locks the door before taking off his 
+clothes. If the door is closed but not locked, he is interrupted in his 
+naked state by a nervous woman who starts shouting, and the game is lost 
+(this is not as unfair as it seems, because the player may always revert 
+to the previous state with UNDO). If the door is locked, he succeeds in 
+his transformation (we take away the ``worn`` attribute from the 
+``clothes`` and give it to the ``costume`` instead). We add a special 
+refusal to change in the dark, forcing players to turn on the light and 
+then, we hope, to find the coin. And finally we code a ``default`` 
+entry; you'll remember that, in a ``switch`` statement, this is supposed 
+to cater for any value not explicitly listed for the expression under 
+control -- in this case, for the variable ``location``. Since we have 
+already gone through all the possible locations of the game, this entry 
+appears only as a defensive measure, just in case something unexpected 
+happens (for instance, we might extend the game with another room and 
+forget about this ``switch`` statement). In normal and controlled 
+conditions, it should never be reached, but it doesn't hurt one bit to 
+have it there.
+
+The ``Wear`` action just checks if these clothes are already being worn, 
+to offer two different rejection responses: the goal of the game is to 
+change into the hero's suit, after which we'll prevent a change back 
+into ordinary clothes. So now we are dealing with a Captain Fate in full 
+costume:
+
+.. code-block:: inform6
+
+  Object   costume "your costume"
+    with   name 'captain' 'captain^s' 'fate' 'fate^s' 'costume' 'suit',
+           description
+               "STATE OF THE ART manufacture, from chemically reinforced 100%
+                COTTON-lastic(tm).",
+           before [;
+             Wear:
+               if (self has worn)
+                   "You are already dressed as Captain FATE.";
+               else
+                   "First you'd have to take off your commonplace unassuming
+                    John Covarth INCOGNITO street clothes.";
+             Change,Disrobe:
+               if (self has worn)
+                   "You need to wear your costume to FIGHT crime!";
+               else
+                   "But you're not yet wearing it!";
+             Drop:
+               "Your UNIQUE Captain FATE multi-coloured costume? The most
+                coveted clothing ITEM in the whole city? Certainly NOT!";
+           ],
+    has    clothing proper;
+
+Note that we intercept the action WEAR COSTUME and hint that players 
+should try TAKE OFF CLOTHES instead. We don't let them take off the 
+costume once it’s being worn, and we certainly don't let them misplace 
+it anywhere, by refusing to accept a ``Drop`` action.
+
+
+It's a wrap
+===========
+
+Nearly there; just a few minor odds and ends to round things off.
+
+.. rubric:: Initialise routine
+
+All the objects of our game are defined. Now we must add a couple of 
+lines to the ``Initialise`` routine to make sure that the player does 
+not start the game naked:
+
+
+
+
+.. rubric:: Footnotes
+
+.. [#dark]
+
+  We're alluding here to the Classical concept of mimesis. In an 
+  oft-quoted essay from 1996, Roger Giner-Sorolla wrote: "I see 
+  successful fiction as an imitation or 'mimesis' of reality, be it 
+  this world's or an alternate world's. Well-written fiction leads the 
+  reader to temporarily enter and believe in the reality of that world. 
+  A crime against mimesis is any aspect of an IF game that breaks the 
+  coherence of its fictional world as a representation of reality."
+
+.. code-block:: inform6
+
+  [ Initialise;
+      #Ifdef DEBUG; pname_verify(); #Endif;       ! suggested by pname.h
+      location = street;
+      move costume to player;
+      move clothes to play; give clothes worn;
+      lookmode = 2;
+      "^^Impersonating mild mannered John Covarth, assistant help boy at an
+       insignificant drugstore, you suddenly STOP when your acute hearing
+       deciphers a stray radio call from the POLICE. There's some MADMAN
+       attacking the population in Granary Park! You must change into your
+       Captain FATE costume fast...!^^";
+  ];
+
+Remember that we included a disambiguation package, ``pname.h``? There 
+were some additional comments in the accompanying text file that should 
+be taken in consideration:
+
+  pname.h provides a pname_verify routine. When DEBUG is defined, you 
+  may call pname_verify() in your Initialise() routine to verify the pname 
+  properties in your objects.
+
+The designer of the package has made a debugging tool (a routine) to 
+check for errors when using his library, and he tells us how to use it. 
+So we include the suggested lines into our ``Initialise`` routine:
+
+.. code-block:: inform6
+
+  #Ifdef DEBUG; pname_verify(); #Endif;
+
+As the text explains, what this does is: first check whether the game is 
+being compiled in Debug mode; if this is the case, run the 
+``pname_verify`` routine, so that it tests all ``pname`` properties to 
+see if they are written correctly.
+
+.. rubric:: Demise of our hero
+
+We have made three possible endings:
+
+#.  The player attempts to change in the toilet with an unlocked door.
+
+#.  The player tries to attack Benny while wearing the costume.
+
+#.  The player manages to exit the café dressed as Captain Fate.
+
+(1) and (2) lose the game, (3) wins it. The library defaults for these 
+two states display, respectively,
+
+.. code-block:: transcript
+
+  *** You have died ***
+
+  *** You have won ***
+
+These states correspond to the values of the ``deadflag`` variable: 1 
+for losing, 2 for winning. However, we have made up different messages, 
+because our hero does not really die -- ours suffers a FATE worse than 
+death -- and because we want to give him a more descriptive winning 
+line. Therefore, we must define a ``DeathMessage`` routine as we did in 
+"William Tell", to write our customised messages and assign them to 
+``deadflag`` values greater than 2.
+
+.. code-block:: inform6
+
+  [ DeathMessage;
+      if (deadflag == 3) print "Your secret identity has been revealed";
+      if (deadflag == 4) print "You have been SHAMEFULLY defeated";
+      if (deadflag == 5) print "You fly away to SAVE the DAY";
+  ];
+
+.. rubric:: Grammar
+
+Finally, we need to extend the existing grammar, to allow for a couple 
+of things. We have already seen that we need a verb CHANGE. We'll make 
+it really simple:
+
+.. code-block:: inform6
+
+  [ ChangeSub;
+      if (noun has pluralname) print "They're";
+      else                     print "That's";
+      " not something you must change to save the day.";
+  ];
+
+  Verb 'change' 'exchange' 'swap' 'swop'
+      * noun                     -> Change;
+
+Just notice how the verb handler checks whether the noun given is plural 
+or singular, to display a suitable pronoun.
+
+A further detail: when players are in the café, they might ask Benny for 
+the coffee (as we intend and heavily hint), for a sandwich or a pastry 
+(both mentioned in the café description), for food or a snack (mentioned 
+here and there, and we have provided for those); but what if they try a 
+meat pie? Or scrambled eggs? There’s just so much decoration one can 
+reasonably insert in a game, and loading the dictionary with Benny’s 
+full menu would be overdoing it a bit.
+
+One might reasonably imagine that the ``default`` line at the end of the 
+``Give`` action in the orders property handles every input not already 
+specified:
+
+.. code-block:: inform6
+
+  orders [;
+    Give:
+      switch (noun) {
+        toilet_key:  ! code for the key...
+        coffee:      ! code for the coffee...
+        food:        ! code for the food...
+        menu:        ! code for the menu...
+        default:
+          "~I don't
+      }
+  ],
+
+Not so. The library grammar that deals with ASK BENNY FOR... is this
+(specifically, the last line):
+
+.. code-block:: inform6
+
+  Verb 'ask'
+      * creature 'about' topic    -> Ask
+      * creature 'for' noun       -> AskFor
+
+You'll see the ``noun`` token, which means that whatever the player asks 
+him for must be a real game object, visible at that moment. Assuming 
+that the player mentions such an object, the interpreter finds it in the 
+dictionary and places its internal ID in the ``noun`` variable, where 
+our ``switch`` statement can handle it. So, ASK BENNY FOR KEY assigns 
+the ``toilet_key`` object to the noun variable, and Benny responds. ASK 
+BENNY FOR CUSTOMERS also works; the ``default`` case picks that one up. 
+But, ASK BENNY FOR SPAGHETTI BOLOGNESE won't work: we have no object for 
+Spaghetti Bolognese (or any other delicacy from Benny's kitchen) -- the 
+words ``'spaghetti'`` and ``'bolognese'`` simply aren't in the 
+dictionary. This is perhaps not a major deficiency in our game, but it 
+takes very little to allow Benny to use his default line for *any* 
+undefined input from the player. We need to extend the existing ASK 
+grammar:
+
+.. code-block:: inform6
+
+  Extend 'ask'
+      * creature 'for' topic    -> AskFor;
+
+This line will be added to the end of the existing grammar for Ask, so 
+it doesn’t override the conventional noun-matching line. ``topic`` is a 
+token that roughly means “any input at all”; the value of noun isn't 
+important, because it'll be handled by the default case. Now players may 
+ask Benny for a tuna sandwich or a good time; they'll get: "I don’t 
+think that’s on the menu, sir", which makes Benny a barman with 
+attitude.
+
+And that's it; on the slightly surreal note of ASK BENNY FOR A GOOD TIME 
+we've taken "Captain Fate" as far as we intend to. The guide is nearly 
+done. All that's left is to recap some of the more important issues, 
+talk a little more about compilation and debugging, and send you off 
+into the big wide world of IF authorship.
+
