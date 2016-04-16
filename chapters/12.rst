@@ -248,6 +248,8 @@ generic form:
 We have seen some of these actions before. We'll take care of the easier 
 ones:
 
+.. code-block:: inform6
+
   Attack:
     if (costume has worn) {
         deadflag = 4;
