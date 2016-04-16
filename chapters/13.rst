@@ -735,21 +735,6 @@ All the objects of our game are defined. Now we must add a couple of
 lines to the ``Initialise`` routine to make sure that the player does 
 not start the game naked:
 
-
-
-
-.. rubric:: Footnotes
-
-.. [#dark]
-
-  We're alluding here to the Classical concept of mimesis. In an 
-  oft-quoted essay from 1996, Roger Giner-Sorolla wrote: "I see 
-  successful fiction as an imitation or 'mimesis' of reality, be it 
-  this world's or an alternate world's. Well-written fiction leads the 
-  reader to temporarily enter and believe in the reality of that world. 
-  A crime against mimesis is any aspect of an IF game that breaks the 
-  coherence of its fictional world as a representation of reality."
-
 .. code-block:: inform6
 
   [ Initialise;
@@ -909,4 +894,17 @@ we've taken "Captain Fate" as far as we intend to. The guide is nearly
 done. All that's left is to recap some of the more important issues, 
 talk a little more about compilation and debugging, and send you off 
 into the big wide world of IF authorship.
+
+
+.. rubric:: Footnotes
+
+.. [#dark]
+
+  We're alluding here to the Classical concept of mimesis. In an 
+  oft-quoted essay from 1996, Roger Giner-Sorolla wrote: "I see 
+  successful fiction as an imitation or 'mimesis' of reality, be it 
+  this world's or an alternate world's. Well-written fiction leads the 
+  reader to temporarily enter and believe in the reality of that world. 
+  A crime against mimesis is any aspect of an IF game that breaks the 
+  coherence of its fictional world as a representation of reality."
 
