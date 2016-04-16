@@ -1,0 +1,706 @@
+===============================
+ William Tell: the early years
+===============================
+
+.. highlight:: inform6
+
+.. epigraph::
+
+   | *M was a miser, and hoarded up gold;*
+   | *N was a nobleman, gallant and bold.*
+
+.. only:: html
+
+   .. image:: /images/picM.png
+      :align: left
+
+.. raw:: latex
+
+   \dropcap{m}
+
+oving along swiftly, we'll define the first two rooms and populate them
+with assorted townspeople and street furniture, we'll equip Wilhelm with
+his trusty bow and quiver of arrows, and we'll introduce Helga the friendly
+stallholder.
+
+Defining the street
+===================
+
+This is the street room, the location where the game starts::
+
+   Room     street "A street in Altdorf"
+     with   description [;
+                 print "The narrow street runs north towards the town square.
+                     Local folk are pouring into the town through the gate to the
+                     south, shouting greetings, offering produce for sale,
+                     exchanging news, enquiring with exaggerated disbelief about
+                     the prices of the goods displayed by merchants whose stalls
+                     make progress even more difficult.^";
+                 if (self hasnt visited)
+                     print "^~Stay close to me, son,~ you say,
+                         ~or you'll get lost among all these people.~^";
+            ],
+            n_to below_square,
+            s_to
+                 "The crowd, pressing north towards the square,
+                  makes that impossible.";
+
+We're using our new ``Room`` class, so there's no need for a ``light``
+attribute.  The ``n_to`` and ``s_to`` properties, whose values are an
+internal ID and a string respectively, are techniques we've used before.
+The only innovation is that the ``description`` property has an embedded
+routine as its value.
+
+The first thing in that routine is a ``print`` statement, displaying
+details of the street surroundings.  If that was all that we wanted to do,
+we could have supplied those details by making the ``description`` value a
+string; that is, these two examples behave identically::
+
+   description [;
+       print "The narrow street runs north towards the town square.
+           Local folk are pouring into the town through the gate to the
+           south, shouting greetings, offering produce for sale,
+           exchanging news, enquiring with exaggerated disbelief about
+           the prices of the goods displayed by merchants whose stalls
+           make progress even more difficult.^";
+   ],
+
+   description
+       "The narrow street runs north towards the town square.
+        Local folk are pouring into the town through the gate to the
+        south, shouting greetings, offering produce for sale,
+        exchanging news, enquiring with exaggerated disbelief about
+        the prices of the goods displayed by merchants whose stalls
+        make progress even more difficult.",
+
+However, that *isn't* all that we want to do.  Having presented the basic
+description, we're going to display that little line of dialogue, where
+Wilhelm tells his son to be careful.  And we want to do that only once, the
+very first time that the street's description is displayed.  If the player
+types LOOK a few times, or moves north and then returns south to the
+street, we're happy to see the surroundings described -- but we don't want
+that dialogue again.  This is the pair of statements that makes it happen::
+
+   if (self hasnt visited)
+       print "^~Stay close to me, son,~ you say,
+           ~or you'll get lost among all these people.~^";
+
+The line of dialogue is produced by the ``print`` statement, the ``print``
+statement is controlled by the ``if`` statement, and the ``if`` statement
+is performing the test ``self hasnt visited``.  In detail:
+
+* ``visited`` is an attribute, but not one that you'd normally give to an
+  object yourself.  It's automatically applied to a room object by the
+  interpreter, but only after that room has been visited for the first
+  time by the player.
+
+* ``hasnt`` (and ``has``) are available for testing whether a given
+  attribute is currently set for a given object.  :samp:`{X} has {Y}` is
+  true if object :samp:`{X}` currently has attribute :samp:`{Y}`, false if
+  it doesn't.  To make the test in reverse, :samp:`{X} hasnt {Y}` is true
+  if object :samp:`{X}` currently does not have attribute :samp:`{Y}`,
+  false if it does.
+
+* ``self``, which we met in the previous chapter, is that useful variable
+  which, within an object, always refers to that object.  Since we're using
+  it in the middle of the ``street`` object, that's what it refers to.
+
+So, putting it all together, ``self hasnt visited`` is true (and therefore
+the ``print`` statement is executed) only while the ``street`` object has
+*not* got a ``visited`` attribute.  Because the interpreter automatically
+gives rooms a ``visited`` attribute as soon as the player has been there
+once, this test will be true only for one turn.  Therefore, the line of
+dialogue will be displayed only once: the first time the player visits the
+street, at the very start of the game.
+
+Although the primary importance of ``self`` is within class definitions, it
+can also be convenient to use it simply within an object.  Why didn't we
+just write this? ::
+
+   if (street hasnt visited)
+       print "^~Stay close to me, son,~ you say,
+           ~or you'll get lost among all these people.~^";
+
+It's true that the effect is identical, but there are a couple of good
+reasons for using ``self``.  One: it's an aid to understanding your code
+days or weeks after writing it.
+
+If you read the line ``if (street hasnt visited)``, you need to think for a
+moment about which object is being tested; oh, it's this one.  When you
+read ``if (self hasnt visited)``, you immediately *know* which object we're
+talking about.
+
+Another reason is auto-plagiarism.  Many times you'll find that a chunk of
+code is useful in different situations (say, you want to repeat the
+mechanics of the street description in another room).  Rather than writing
+everything from scratch, you'll typically use copy-and-paste to repeat the
+routine, and then all you have to do is compose the appropriate descriptive
+strings for the new room.  If you've used ``self``, the line ``if (self
+hasnt visited)`` is still good; if you've written instead ``if (street
+hasnt visited)``, you'll have to change that as well.  Worse, if you
+*forget* to change it, the game will still work -- but not in the way you'd
+intended, and the resulting bug will be quite difficult to track down.
+
+Adding some props
+=================
+
+The street's description mentions various items -- the gate, the people,
+etc. -- which ought to exist within the game (albeit only in minimal form)
+to sustain the illusion of hustle and bustle.  Our ``Prop`` class is ideal
+for this::
+
+   Prop     "south gate" street
+     with   name 'south' 'southern' 'wooden' 'gate',
+            description "The large wooden gate in the town walls is wide open.";
+
+   Prop     "assorted stalls"
+     with   name 'assorted' 'stalls',
+            description "Food, clothing, mountain gear; the usual stuff.",
+            found_in street below_square,
+     has    pluralname;
+
+   Prop     "produce"
+     with   name 'goods' 'produce' 'food' 'clothing' 'mountain' 'gear' 'stuff',
+            description "Nothing special catches your eye.",
+            found_in street below_square,
+     has    pluralname;
+
+   Prop     "merchants"
+     with   name 'merchant' 'merchants' 'trader' 'traders',
+            description
+                "A few crooks, but mostly decent traders touting their wares
+                 with raucous overstatement.",
+            found_in street below_square,
+     has    animate pluralname;
+
+   Prop     "local people"
+     with   name 'people' 'folk' 'local' 'crowd',
+            description "Mountain folk, just like yourself.",
+            found_in [; return true; ],
+     has    animate pluralname;
+
+.. note:: 
+
+   Because these objects are not referenced by other objects, we haven't
+   bothered to given them internal :samp:`{obj_ids}` (though we could have;
+   it wouldn't make any difference).  However, we *have* provided
+   :samp:`{external_names}`, because these are used by the ``Prop`` class's
+   ``print_ret ... (the) self`` statement.
+
+You'll see a couple of new attributes: ``animate`` marks an object as being
+"alive", while ``pluralname`` specifies that its external name is plural
+rather than singular.  The interpreter uses these attributes to ensure that
+messages about such objects are grammatical and appropriate (for example,
+it will now refer to "some merchants" rather than "a merchants").  Because
+the library handles so many situations automatically, it's hard to be sure
+exactly what messages players may trigger; the best approach is to play
+safe and always give an object the relevant set of attributes, even when,
+as here, they probably won't be needed.
+
+You'll also see a new ``found_in`` property, which specifies the rooms --
+and only the rooms; ``found_in`` shouldn't be used to place objects inside
+containers or supporters -- where this object is to appear.  The stalls,
+for example, can be EXAMINEd both in the street and below the square, so we
+*could* have created a ``Prop`` object in each room::
+
+   Prop       "assorted stalls" street
+     with     name 'assorted' 'stalls',
+              description "Food, clothing, mountain gear; the usual stuff.",
+      has     pluralname;
+
+   Prop       "assorted stalls" below_square
+     with     name 'assorted' 'stalls',
+              description "Food, clothing, mountain gear; the usual stuff.",
+      has     pluralname;
+
+but ``found_in`` does the same job more neatly -- there's only one object,
+but it appears in both the ``street`` and ``below_square`` rooms while the
+player's there.  The local people are even more ubiquitous.  In this case
+the ``found_in`` value is an embedded routine rather than a list of rooms;
+such a routine would generally test the value of the current location and
+``return true`` if it wants to be present here, or ``false`` if not.  Since
+we'd like the local people *always* to be present, in every room, we
+``return true`` without bothering to examine ``location``.  It's as though
+we'd written any of these, but simpler and less error prone::
+
+   Prop       "local people"
+     with     name 'people' 'folk' 'local' 'crowd',
+              description "Mountain folk, just like yourself.",
+              found_in street below_square south_square mid_square north_square
+                  marketplace,
+      has     animate pluralname;
+
+   Prop       "local people"
+     with     name 'people' 'folk' 'local' 'crowd',
+              description "Mountain folk, just like yourself.",
+              found_in [;
+                  if (location == street       || location == below_square ||
+                      location == south_square || location == mid_square ||
+                      location == north_square || location == marketplace)
+                      return true;
+                  return false;
+              ],
+      has     animate pluralname;
+
+   Prop     "local people"
+     with   name 'people' 'folk' 'local' 'crowd',
+            description "Mountain folk, just like yourself.",
+            found_in [;
+                if (location == street or below_square or south_square or
+                    mid_square or north_square or marketplace) return true;
+                return false;
+            ],
+     has    animate pluralname;
+
+In the second example, you'll see the ``||`` operator, to be read as "or",
+which we mentioned near the end of "Heidi"; it combines the various
+:samp:`location == {some_room}` comparisons so that the ``if`` statement is
+true if *any* of those individual tests is true.  And in the third example
+we introduce the ``or`` keyword, which is a more succinct way of achieving
+exactly the same result.
+
+The player's possessions
+========================
+
+Since our ``Initialise`` routine has already mentioned them, we might as
+well define Wilhelm's bow and arrows::
+
+   Object   bow "bow"
+     with   name 'bow',
+            description "Your trusty yew bow, strung with flax.",
+            before [;
+               Drop,Give,ThrowAt:
+                 print_ret "You're never without your trusty bow.";
+            ],
+     has    clothing;
+
+   Object   quiver "quiver"
+     with   name 'quiver',
+            description
+                 "Made of goatskin, it usually hangs over your left shoulder.",
+            before [;
+               Drop,Give,ThrowAt:
+                 print_ret "But it was a present from Hedwig, your wife.";
+            ],
+     has    container open clothing;
+
+Both of these are straightforward objects, with the ``Drop``, ``Give`` and
+``ThrowAt`` actions being intercepted to ensure that Wilhelm is never
+without them.  The ``clothing`` attribute makes its first appearance,
+marking both the quiver and the bow as capable of being worn (as the result
+of a WEAR BOW command, for instance); you'll remember that our
+``Initialise`` routine goes on to add a ``worn`` attribute to the quiver.
+
+An empty quiver is pretty useless, so here's the class used to define
+Wilhelm's stock of arrows.  This class has some unusual features::
+
+   Class    Arrow
+     with   name 'arrow' 'arrows//p',
+            article "an",
+            plural "arrows",
+            description "Just like all your other arrows -- sharp and true.",
+            before [;
+               Drop,Give,ThrowAt:
+                 print_ret "Your arrows are sharp, and you guard them carefully.";
+            ];
+
+The classes we've created so far -- ``Room``, ``Prop`` and ``Furniture`` --
+are intended for objects which behave the same but are otherwise clearly
+separate.  For example, a table, a bed and a wardrobe would generally have
+their own individual characteristics -- a name, a description, maybe some
+specialised properties -- while still inheriting the general behaviour of
+``Furniture`` objects.  The arrows aren't like this: not only do they
+behave the same, but also they are indistinguishable one from another.
+We're trying for this effect:
+
+.. code-block:: transcript
+
+   >INVENTORY
+   You are carrying:
+     a quiver (being worn)
+       three arrows
+     a bow
+
+where the interpreter lumps together our stock of three arrows, rather than
+listing them individually in this clumsy fashion:
+
+.. code-block:: transcript
+
+   >INVENTORY
+   You are carrying:
+     a quiver (being worn)
+       an arrow
+       an arrow
+       an arrow
+     a bow
+
+The interpreter will do this for us if our objects are "indistinguishable",
+best achieved by making them members of a class which includes both
+``name`` and ``plural`` properties.  We define the actual arrows very
+simply, like this::
+
+   Arrow "arrow" quiver;
+   Arrow "arrow" quiver;
+   Arrow "arrow" quiver;
+
+and you can see that we provide only two pieces of information for each
+``Arrow`` object: an external name in double quotes ("arrow" in each case)
+which the interpreter uses when referring to the object, and an initial
+location (in the quiver).  That's all: no block of properties, no set of
+attributes, and no internal identifier, because we never need to refer to
+the individual ``Arrow`` objects within the game.
+
+The name property of the class definition has an odd-looking dictionary
+word::
+
+   name 'arrow' 'arrows//p',
+
+The word ``'arrow'`` refers to a single arrow.  So also would the word
+``'arrows'``, unless we specifically tell the interpreter that it's a
+plural reference.  That ``//p`` marks ``'arrows'`` as being a potential
+reference to more than one object at once, thus enabling players to type
+TAKE ARROWS and thereby pick up as many arrows as happened to be available
+(without it, TAKE ARROWS would have picked up one at random).
+
+There are two other properties not seen previously::
+
+   article "an",
+   plural "arrows",
+
+The ``article`` property lets you define the object's indefinite article --
+usually something like "a", "an" or "some" -- instead of letting the
+library assign one automatically.  It's a belt-and-braces (OK,
+belt-and-suspenders) precaution: because "arrow" starts with a vowel, we
+need to display "an arrow" not "a arrow".  Most interpreters automatically
+get this right, but just to be on the safe side, we explicitly define the
+appropriate word.  And the ``plural`` property defines the word to be used
+when lumping several of these objects together, as in the "three arrows"
+inventory listing.  The interpreter can't just automatically slap an "s" on
+the end; the plural of "slice of cake", for example, isn't "slice of
+cakes".
+
+Moving further along the street
+===============================
+
+As Wilhelm moves north towards the square, he comes to this room::
+
+   Room     below_square "Further along the street"
+     with   description
+                "People are still pushing and shoving their way from the southern
+                 gate towards the town square, just a little further north.
+                 You recognise the owner of a fruit and vegetable stall.",
+            n_to south_square,
+            s_to street;
+
+No surprises there, nor in most of the supporting scenery objects. ::
+
+   Furniture   stall "fruit and vegetable stall" below_square
+     with name 'fruit' 'veg' 'vegetable' 'stall' 'table',
+           description
+               "It's really only a small table, with a big heap of potatoes,
+                some carrots and turnips, and a few apples.",
+           before [; Search: <<Examine self>>; ],
+     has   scenery;
+
+   Prop     "potatoes" below_square
+     with   name 'potato' 'potatoes' 'spuds',
+            description
+                "Must be a particularly early variety... by some 300 years!",
+     has    pluralname;
+
+   Prop     "fruit and vegetables" below_square
+     with   name 'carrot' 'carrots' 'turnip' 'turnips' 'apples' 'vegetables',
+            description "Fine locally grown produce.",
+     has    pluralname;
+
+The only new thing here is the ``before`` property of the fruit'n'veg
+stall.  The stall's description -- lots of items on a table -- may suggest
+to players that they can SEARCH through the produce, maybe finding a lucky
+beetroot or something else interesting.  No such luck -- and we might as
+well trap the attempt.
+
+Having intercepted a ``Search`` action, our plan is to respond with the
+stall's description, as though the player has typed EXAMINE THE STALL.
+There isn't an easy way for us to stealthily slide those literal words into
+the interpreter, but we *can* simulate the effect which they'd cause: an
+action of ``Examine`` applied to the object stall.  This rather cryptic
+statement does the job::
+
+   <Examine stall>;
+
+Having diverted the ``Search`` action into an ``Examine`` action, we must
+tell the interpreter that it doesn't need to do anything else, because
+we've handled the action ourselves.  We've done that before -- using
+``return true`` -- and so a first stab at the ``before`` action looks like
+this::
+
+   before [; Search: <Examine stall>; return true; ],
+
+The two-statement sequence ``<...>; return true`` is so common that there's
+a single statement shortcut: ``<<...>>``.  Also, for exactly the same
+reason as before, our code is clearer if we use ``self`` instead of
+``stall``.  So this is how the property finally stands::
+
+   before [; Search: <<Examine self>>; ],
+
+A couple of final observations before we leave this topic.  The example
+here is of an action (``Examine``) applied to an object (``self``, though
+``stall`` or ``noun`` would also work at this point).  You can also use the
+``<...>`` and ``<<...>>`` statements for actions which affect no objects::
+
+   <<Look>>;
+
+(representing the command LOOK), or which affect two.  For example, the
+command PUT THE BIRD IN THE NEST can be simulated with this statement::
+
+   <<Insert bird nest>>;
+
+Introducing Helga
+=================
+
+One of the trickiest aspects of designing a good game is to provide
+satisfying interaction with other characters.  It's hard enough to code
+inanimate objects which provoke appropriate responses to whatever actions
+the player character (PC) might attempt.  That all gets much worse once
+those "other objects" are living creatures -- non-player characters (NPCs)
+-- with, supposedly, minds of their own.  A good NPC might move around
+independently, perform actions with a purpose, initiate conversations,
+respond to what you say and do (and even to what you *don't* say or do); it
+can be a real nightmare.
+
+But not here: we've kept our three NPCs -- Helga, Walter and the vogt -- as
+simple as possible.  Nevertheless, we can establish some fundamental
+principles; here's the class upon which we base our NPCs::
+
+   Class    NPC
+     with   life [;
+               Answer,Ask,Order,Tell:
+                 print_ret "Just use T[ALK] [TO ", (the) self, "].";
+            ],
+     has    animate;
+
+The most important thing here is the ``animate`` attribute -- that's what
+defines an object as an NPC, and causes the interpreter to treat it a
+little differently -- for example, TAKE HELGA results in "I don't suppose
+Helga would care for that".
+
+The ``animate`` attribute also brings into play nine extra actions which
+can be applied only to animate objects: ``Answer``, ``Ask``, ``Order`` and
+``Tell`` are all associated with speech, and ``Attack``, ``Kiss``,
+``Show``, ``ThrowAt`` and ``WakeOther`` are associated with non-verbal
+interaction.  Additionally, a new ``life`` property -- very similar to
+``before`` -- can be defined to intercept them.  Here we use it to trap
+speech-related commands such as ASK HELGA ABOUT APPLE and TELL WALTER ABOUT
+BABIES, telling players that in this game we've implemented only a simpler
+TALK verb (which we describe in "Verbs, verbs, verbs" on page 111).
+
+Based on the NPC class we've created, here's Helga::
+
+   NPC      stallholder "Helga" below_square
+     with   name 'stallholder' 'greengrocer' 'monger' 'shopkeeper' 'merchant'
+                 'owner' 'Helga' 'dress' 'scarf' 'headscarf',
+            description
+                 "Helga is a plump, cheerful woman,
+                   concealed beneath a shapeless dress and a spotted headscarf.",
+            initial [;
+                 print "Helga pauses from sorting potatoes
+                      to give you a cheery wave.^";
+                 if (location hasnt visited) {
+                      move apple to player;
+                      print "^~Hello, Wilhelm, it's a fine day for trade! Is this
+                          young Walter? My, how he's grown. Here's an apple for him
+                          -- tell him to mind that scabby part, but the rest's good
+                          enough. How's Frau Tell? Give her my best wishes.~^";
+                 }
+            ],
+            times_spoken_to 0,         ! for counting the conversation topics
+            life [;
+               Talk:
+                 self.times_spoken_to = self.times_spoken_to + 1;
+                 switch (self.times_spoken_to) {
+                   1: score = score + 1;
+                      print_ret "You warmly thank Helga for the apple.";
+                   2: print_ret "~See you again soon.~";
+                   default:
+                      return false;
+                 }
+            ],
+     has    female proper;
+
+The new attributes are ``female`` -- because we want the interpreter to
+refer to Helga with the appropriate pronouns -- and ``proper``.  The latter
+signifies that this object's external name is a proper noun, and so
+references to it should not be preceded by "a" or "the": you wouldn't want
+to display "You can see a Helga here" or "I don't suppose the Helga would
+care for that".  You may notice the library variable ``score`` being
+incremented.  This variable holds the number of points that the player has
+scored; when it changes like this, the interpreter tells the player that
+"Your score has just gone up by one point".
+
+There are also ``life`` and ``times_spoken_to`` properties (which we'll
+talk about in "William Tell: the end is nigh" on page 103) and an
+``initial`` property.
+
+``initial`` is used when the interpreter is describing a room and listing
+the objects initial you can see there.  If we *didn't* define it, you'd get
+this:
+
+.. code-block:: transcript
+
+   Further along the street
+   People are still pushing and shoving their way from the southern gate towards
+   the town square, just a little further north.  You recognise the owner of a fruit
+   and vegetable stall.
+
+   You can see Helga here.
+
+   >
+
+but we want to introduce Helga in a more interactive manner, and that's
+what the ``initial`` property is for: it replaces the standard "You can see
+*object* here" with a tailored message of your own design.  The value of an
+``initial`` property can be either a string which is to be displayed or, as
+here, an embedded routine.  This one is pretty similar to the
+``description`` property that we defined for the street: something that's
+*always* printed (Helga pauses...) and something that's printed only on the
+first occasion ("Hello, Wilhelm, it's a fine day... "):
+
+.. code-block:: transcript
+
+   Further along the street
+   People are still pushing and shoving their way from the southern gate towards
+   the town square, just a little further north. You recognise the owner of a fruit
+   and vegetable stall.
+
+   Helga pauses from sorting potatoes to give you a cheery wave.
+
+   "Hello, Wilhelm, it's a fine day for trade! Is this young Walter? My, how he's
+   grown. Here's an apple for him -- tell him to mind that scabby part, but the
+   rest's good enough. How's Frau Tell? Give her my best wishes."
+
+   >
+
+But it's not quite the same as the street's description routine.  First, we
+need a slightly different ``if`` test: ``self hasnt visited`` works fine
+for a room object, but this routine is part of an object *in* a room;
+instead we could use either ``below_square hasnt visited`` or (better)
+``location hasnt visited`` -- since ``location`` is the library variable
+that refers to the room where the player currently is.  And second, some
+curly braces ``{...}`` have appeared: why?
+
+On Wilhelm's first visit to this room, we need to do two things:
+
+* ensure that Wilhelm is in possession of an apple, because that's
+  mentioned when we...
+
+* display Helga's cheery greeting.
+
+The ``move`` statement does the first of those, and the ``print`` statement
+does the second.  And both statements need to be controlled by the ``if``
+statement.  So far, we've used an ``if`` statement twice, in both cases to
+control a single following statement. ::
+
+  if (nest in branch) deadflag = 2;
+
+  if (self hasnt visited)
+      print "^~Stay close to me, son,~ you say,
+          ~or you'll get lost among all these people.~^";
+
+That's what an ``if`` does -- it controls whether the following statement
+is executed or not.  So how can we control two statements at once?  Well,
+we *could* write two ``if`` statements::
+
+  if (location hasnt visited)
+      move apple to player;
+  if (location hasnt visited)
+      print "^~Hello, Wilhelm, it's a fine day for trade! Is this
+          young Walter? My, how he's grown. Here's an apple for him
+          -- tell him to mind that scabby part, but the rest's good
+          enough. How's Frau Tell? Give her my best wishes.~^";
+
+but that's unbearably clumsy; instead, we use the braces to group the
+``move`` and ``print`` statement into a **statement block** (sometimes
+known as a code block) which counts as a single statement for the purposes
+of control by the ``if`` statement. ::
+
+  if (location hasnt visited) {
+      move apple to player;
+      print "^~Hello, Wilhelm, it's a fine day for trade! Is this
+          young Walter? My, how he's grown. Here's an apple for him
+          -- tell him to mind that scabby part, but the rest's good
+          enough. How's Frau Tell? Give her my best wishes.~^";
+  }
+
+A statement block can contain one, two, ten, a hundred statements; it
+doesn't matter -- they're all treated as one unit by ``if`` (and by
+``objectloop``, which we meet later, and by ``do``, ``for`` and ``while``,
+all of them loop statements that we don't encounter in this guide).
+
+.. note::
+
+   The exact positioning of the braces is a matter of personal choice.  We
+   use this style::
+
+      if (condition) {
+	  statement;
+	  statement;
+	  ! ...
+      }
+
+   but other designers have their own preferences, including::
+
+      if (condition) {
+	  statement;
+	  statement;
+	  ! ...
+	  }
+
+      if (condition)
+      {   statement;
+	  statement;
+	  ! ...
+      }
+
+      if (condition)
+	  {
+	  statement;
+	  statement;
+	  ! ...
+	  }
+
+Although we've not yet needed to use it, now would probably be a good time
+to mention the ``else`` extension to the ``if`` statement.  Sometimes we
+want to execute one statement block if a certain condition is true, and a
+different statement block if it's not true.  Again, we *could* write two
+``if`` statements::
+
+   if (location has visited) {
+       statement;
+       statement;
+       ...
+   }
+   if (location hasnt visited) {
+       statement;
+       statement;
+       ...
+   };
+
+but that's hardly an elegant approach; an ``else`` clause does the job more
+neatly::
+
+   if (location has visited) {
+       statement;
+       statement;
+       ...
+   }
+   else {
+       statement;
+       statement;
+       ...
+   };
+
+We've done a lot of scene-setting, but the real action is still to come.
+Next, it's time to define the town square, and create a confrontation
+between Wilhelm and the vogt's soldiers.  (But first, see again
+"Compile-as-you-go" on page 233 if you're typing in the game as you read
+through the guide.)
