@@ -1,0 +1,938 @@
+======================
+Some last lousy points
+======================
+
+.. only:: html
+
+  .. image:: /images/picF.png
+     :align: left
+
+.. raw:: latex
+
+   \dropcap{f}
+
+inally our three example games are written; we've shown you as much of 
+the Inform language as we've needed to, and made a lot of observations 
+about how and why something should be done. Despite all that, there's 
+much that we've left unsaid, or touched on only lightly. In this chapter 
+we'll revisit key topics and review some of the more significant 
+omissions, to give you a better feel for what's important, and what can 
+be ignored for the time being; when you become an accomplished designer, 
+you will decide what matters and what can be left on the shelf.
+
+We'll also talk, in "Reading other people's code" on page 181, about a 
+few ways of doing things that we've chosen not to tell you about, but 
+which you're quite likely to encounter if you look at Inform code 
+written by other designers.
+
+The tone here is perhaps a little dry, but trust us: in walking this 
+dusty ground we touch on just about everything that is fundamental in 
+your overall understanding of Inform. And as always, the *Inform 
+Designer's Manual* provides rounder and more comprehensive coverage.
+
+
+Expressions
+===========
+
+In this guide we’ve used the placeholder ``expression`` a few times; 
+here's roughly what we mean.
+
+* An ``expression`` is a single ``value``, or several ``values`` 
+  combined using ``operators`` and sometimes parentheses ``(...)``.
+
+* Possible ``values`` include:
+
+  * a literal number (-32768 to 32767)
+
+  * something that's represented as a number (a character ``'a'`` , a 
+    dictionary word ``'aardvark'`` , a string ``"aardvark's adventure"`` 
+    or an action ``##Look`` )
+
+  * the internal identifier of a constant, an object, a class or a routine
+
+  * (only in a run-time statement, not in a compile-time directive) the
+    contents of a variable, or the return value from a routine.
+
+* Possible ``operators`` include:
+
+  * an arithmetic operator: ``+ - * / % ++``
+  * a bitwise logical operator: ``& | ~``
+  * a numeric comparison operator: ``== ~= > < >= <=``
+  * an object conditional operator: ``ofclass in notin provides has hasnt``
+  * a boolean combinational operator: ``&& || ~~``
+
+
+Internal IDs
+============
+
+Many of the items which you define in your source file -- objects, 
+variables, routines, etc. -- need to be given a name so that other items 
+can refer to them. We call this name an item's internal identifier 
+(because it's used only within the source file and isn't visible to the 
+player), and we use the placeholders ``obj_id``, ``var_id``, 
+``routine_id``, etc. to represent where it's used. An internal ID
+
+* can be up to thirty-two characters long
+
+* must start with a letter or underscore, and then continue with letters 
+  ``A-Z`` , underscore ``_`` and digits ``0-9`` (where upper-case and 
+  lower-case letters are treated as indistinguishable)
+
+* should generally be unique across all files: your source file, the 
+  standard library files, and any library contributions which you've 
+  used (except that a routine's local variables are not visible outside 
+  that routine).
+
+
+Statements
+==========
+
+A **statement** is an instruction intended for the interpreter, telling 
+it what to do at run-time. It *must* be given in lower-case, and always 
+ends with a semicolon.
+
+Some statements, like ``if``, control one or more other statements. We 
+use the placeholder ``statement_block`` to represent either a single 
+``statement``, or any number of ``statements`` enclosed in braces:
+
+.. todo::
+
+  We might need some custom syntax highlighting here
+
+.. code-block:: inform6
+
+  statement;
+
+  { statement; statement; ... statement; }
+
+.. rubric:: Statements that we've met
+
+Our games have used these statements, about half of the Inform 
+possibilities:
+
+.. code-block:: inform6
+
+  give obj_id attribute;
+  give obj_id attribute attribute ... attribute;
+
+  if (expression) statement_block
+  if (expression) statement_block else statement_block
+
+  move obj_id to parent_obj_id;
+
+  objectloop (var_id) statement_block
+
+  print value;
+  print value, value, ... value;
+
+  print_ret value;
+  print_ret value, value, ... value;
+
+  remove obj_id;
+
+  return false;
+  return true;
+
+  style underline; print...; style roman;
+
+  switch (expression) {
+      value: statement; statement; ... statement;
+      ...
+      default: statement; statement; ... statement;
+  }
+
+  "string";
+  "string", value, ... value;
+
+  <action>;
+  <action noun>;
+  <action noun second>;
+
+  <<action>>;
+  <<action noun>>;
+  <<action noun second>>;
+
+
+.. rubric:: Statements that we've not met
+
+Although our example games haven't needed to use them, these looping
+statements are sometimes useful:
+
+.. code-block:: inform6
+
+  break;
+  continue;
+
+  do statement_block until (expression)
+
+  for (set_var : loop_while_expression : update_var) statement_block
+
+  while (expression) statement_block
+
+On the other hand, we suggest that you put the following statements on 
+hold for now; they're not immediately relevant to everyday code and have 
+mostly to do with printing and formatting:
+
+.. code-block:: inform6
+
+  box
+  font
+  jump
+  new_line
+  spaces
+  string
+
+In particular, avoid using the deprecated jump statement if you possibly can.
+
+
+..rubric:: Print rules
+
+In ``print`` and ``print_ret`` statements, each ``value`` can be:
+
+* a numeric ``expression``, displayed as a signed decimal number,
+
+* a ``"string"``, displayed literally, or
+
+* a print rule. You can create your own, or use a standard one, including:
+
+
+  .. tabularcolumns:: ll
+
+  +-------------------------+---------------------------------------------------+
+  | ``(a) obj_id``          | the object's name, preceded by "a", "an" or "some"|
+  +-------------------------+---------------------------------------------------+
+  | ``(A) obj_id``	    | as ``(a)`` but using "A", "An" or "Some"		|
+  +-------------------------+---------------------------------------------------+
+  | ``(the) obj_id``	    | the object's name, preceded by "the"		|
+  +-------------------------+---------------------------------------------------+
+  | ``(The) obj_id``	    | as ``(the)`` but using "The"			|	
+  +-------------------------+---------------------------------------------------+
+  | ``(number) expression`` | the numeric expression's value in words		|
+  +-------------------------+---------------------------------------------------+
+
+
+Directives
+==========
+
+A **directive** is an instruction intended for the compiler, telling it 
+what to do at compile-time, while the source file is being translated 
+into Z-code. By convention it's given an initial capital letter (though 
+the compiler doesn't enforce this) and always ends with a semicolon.
+
+.. rubric:: Directives that we've met
+
+We've used all of these directives; note that for ``Class``, ``Extend``, 
+``Object`` and ``Verb`` the full supported syntax is more sophisticated 
+than the basic form presented here:
+
+.. code-block:: inform6
+
+  Class   class_id
+    with  property  value,
+          property  value,
+          ...
+          property  value,
+    has   attribute  attribute  ...  attribute;
+
+  Constant  const_id:
+  Constant  const_id = expression;
+  Constant  const_id expression;
+
+  Extend 'verb'
+      * token  token  ...  token -> action
+      * token  token  ...  token -> action
+      ...
+      * token  token  ...  token -> action
+
+  Include "filename";
+
+  Object  obj_id  "external_name"  parent_obj_id
+    with  property  value,
+          property  value,
+          ...
+          property  value,
+    has   attribute  attribute  ... attribute;
+
+  Release  expression;
+
+  Replace  routine_id;
+
+  Serial "yymmdd";
+
+  Verb  'verb'
+      * token  token  ...  token -> action
+      * token  token  ...  token -> action
+      ...
+      * token  token  ...  token -> action;
+
+  ! comment text which the compiler ignores
+
+  [ routine_id;  statement;  statement; ... statement;  ];
+
+  #Ifdef  any_id;  ... #Endif;
+
+.. rubric:: Directives that we've not met
+
+There's only a handful of useful directives which we haven't needed to 
+use:
+
+.. code-block:: inform6
+
+  Attribute attribute;
+
+  Global var_id;
+  Global var_id = expression;
+
+  Property property;
+
+  Statusline score;
+  Statusline time;
+
+but there's a whole load which are of fairly low importance for now:
+
+.. code-block:: inform6
+
+  Abbreviate
+  Array
+  Default
+  End
+  Ifndef
+  Ifnot
+  Iftrue
+  Iffalse
+  Import
+  Link
+  Lowstring
+  Message
+  Switches
+  System_file
+  Zcharacter
+
+Objects
+=======
+
+An object is really just a collection of variables which together 
+represent the capabilities and current status of some specific component 
+of the model world. Full variables are called properties; simpler 
+two-state variables are attributes.
+
+.. rubric:: Properties
+
+The library defines around forty-eight standard property variables (such 
+as ``before`` or ``name``), but you can readily create further ones just 
+by using them within an object definition.
+
+You can create and initialise a property in an object's ``with`` segment:
+
+.. code-block:: inform6
+
+  property,				! set to zero / false
+
+  property value,			! set to a single value
+
+  property value value ... value,	! set to a list of values
+
+In each case, the ``value`` is either a compile-time ``expression``, or 
+an embedded routine:
+
+.. code-block:: inform6
+
+  property expression,
+
+  property [; statement; statement; ... statement; ],
+
+
+You can refer to the value of a property:
+
+.. code-block:: inform6
+
+  self.property				! only within that same object
+
+  obj_id.property			! everywhere
+
+and you can test whether an object definition includes a given property:
+
+.. code-block:: inform6
+
+  (obj_id provides property)		! is true or false
+
+
+Routines
+========
+
+Inform provides standalone routines and embedded routines.
+
+.. rubric:: Standalone routines
+
+Standalone routines are defined like this:
+
+.. code-block:: inform6
+
+  [ routine_id; statement; statement; ... statement; ];
+
+and called like this:
+
+.. code-block:: inform6
+
+  routine_id()
+
+.. rubric:: Embedded routines
+
+These are embedded as the value of an object's property:
+
+.. code-block:: inform6
+
+  property [; statement; statement; ... statement; ],
+
+and are usually called automatically by the library, or manually by:
+
+.. code-block:: inform6
+
+  self.property()			! only within that same object
+
+  obj_id.property()			! everywhere
+
+.. rubric:: Arguments and local variables
+
+Both types of routine support up to fifteen local variables -- variables 
+which can be used only by the statements within the routine, and which 
+are automatically initialised to zero every time that the routine is 
+called:
+
+.. code-block:: inform6
+
+  [ routine_id var_id var_id ... var_id; statement; statement; ... statement; ];
+
+  property [ var_id var_id ... var_id; statement; statement; ... statement; ],
+
+You can pass up to seven arguments to a routine, by listing those 
+arguments within the parentheses when you call the routine. The effect 
+is simply to initialise the matching local variables to the argument 
+values rather than to zero:
+
+.. code-block:: inform6
+
+  routine_id(expression, expression, ... expression)
+
+Although it works, this technique is rarely used with embedded routines, 
+because there is no mechanism for the library to supply argument values 
+when calling the routine.
+
+
+.. rubric:: Return values
+
+Every routine returns a single value, which is supplied either 
+explicitly by some form of return statement:
+
+.. code-block:: inform6
+
+  [ routine_id; statement; statement; ... return expr; ]; ! returns expr
+
+  property [; statement; statement; ... return expr; ], ! returns expr
+
+or implicitly when the routine runs out of statements. If none of these 
+``statements`` is one -- ``return``, ``print_ret``, ``"..."` or 
+``<<...>>`` -- that causes an explicit return, then:
+
+.. code-block:: inform6
+
+  [ routine_id; statement; statement; ... statement; ];
+
+returns ``true`` and
+
+.. code-block:: inform6
+
+  property [; statement; statement; ... statement; ]
+
+return ``false``.
+
+This difference is *important*. Remember it by the letter pairs STEF: 
+left to themselves, Standalone routines return True, Embedded routines 
+return False.
+
+Here's an example standalone routine which returns the larger of its two
+argument values:
+
+.. code-block:: inform6
+
+  [ Max a b; if (a > b) return a; else return b; ];
+
+and here are some examples of its use (note that the first example, 
+though legal, does nothing useful whatsoever):
+
+.. code-block:: inform6
+
+  Max(x,y);
+
+  x = Max(2,3);
+
+  if (Max(x,7) == 7) ...
+
+  switch (Max(3,y)) { ...
+
+
+.. rubric:: Library routines versus entry points
+
+
+A library routine is a standard routine, included within the library 
+files, which you can optionally call from your source file if you 
+require the functionality which the routine provides. We've mentioned 
+these library routines:
+
+.. code-block:: inform6
+
+  IndirectlyContains(parent_obj_id, obj_id)
+
+  PlaceInScope(obj_id)
+
+  PlayerTo(obj_id, flag)
+
+  StartDaemon(obj_id)
+
+  StopDaemon(obj_id)
+
+
+By contrast, an entry point routine is a routine which you can provide 
+in your source file, in which case the library calls it at an 
+appropriate time. We've mentioned these optional entry point routines:
+
+.. code-block:: inform6
+
+  DeathMessage()
+
+  InScope(actor_obj_id)
+
+And this, the only mandatory one:
+
+.. code-block:: inform6
+
+  Initialise()
+
+There are full lists in "Library routines" on page 264 and "Optional 
+entry points" on page 270.
+
+
+Reading other people's code
+===========================
+
+Right at the start of this guide, we warned you that we weren't setting 
+out to be comprehensive; we've concentrated on presenting the most 
+important aspects of Inform, as clearly as we can. However, when you 
+read the *Inform Designer's* Manual, and more especially when you look 
+at complete games or library extensions which other designers have 
+produced, you'll come across other ways of doing things -- and it might 
+be that you, like other authors, prefer them over our methods. Just try 
+to find a style that suits you and, this is the important bit, be 
+*consistent* about its use. In this section, we highlight some of the 
+more obvious differences which you may encounter.
+
+.. rubric:: Code layout
+
+Every designer has his or her own style for laying out their source 
+code, and they're all worse than the one you adopt. Inform's flexibility 
+makes it easy for designers to choose a style that suits them; 
+unfortunately, for some designers this choice seems influenced by the 
+Jackson Pollock school of art. We've advised you to be consistent, to 
+use plenty of white space and indentation, to choose sensible names, to 
+add comments at difficult sections, to actively *think*, as you write 
+your code, about making it as readable as you can.
+
+This is doubly true if you ever contemplate sharing a library extension 
+with the rest of the community. This example, with the name changed, is 
+from a file in the Archive:
+
+.. code-block:: inform6
+
+  [xxxx i j;
+  if (j==0) rtrue;
+  if (i in player) rtrue;
+  if (i has static || (i has scenery)) rtrue;
+  action=##linktake;
+  if (runroutines(j,before) ~= 0 || (j has static || (j has scenery))) {
+  print "You'll have to disconnect ",(the) i," from ",(the) j," first.^";
+  rtrue;
+  }
+  else {
+  if (runroutines(i,before)~=0 || (i has static || (i has scenery))) {
+  print "You'll have to disconnect ",(the) i," from ",(the) j," first.^";
+  rtrue;
+  }
+  else
+  if (j hasnt concealed && j hasnt static) move j to player;
+  if (i hasnt static && i hasnt concealed) move i to player;
+  action=##linktake;
+  if (runroutines(j,after) ~= 0) rtrue;
+  print "You take ",(the) i," and ",(the) j," connected to it.^";
+  rtrue;
+  }
+  ];
+
+Here's the same routine after a few minutes spent purely on making it 
+more comprehensible; we haven't actually tested that it (still) works, 
+though that second ``else`` looks suspicious:
+
+.. code-block:: inform6
+
+  [ xxxx i j;
+      if (i in player || i has static or scenery || j == nothing) return true;
+      action = ##LinkTake;
+      if (RunRoutines(j,before) || j has static or scenery)
+          "You'll have to disconnect ", (the) i, " from ", (the) j, " first.";
+      else {
+          if (RunRoutines(i,before) || i has static or scenery)
+              "You'll have to disconnect ", (the) i, " from ", (the) j, " first.";
+          else
+              if (j hasnt static or concealed) move j to player;
+          if (i hasnt static or concealed) move i to player;
+          if (RunRoutines(j,after)) return true;
+          "You take ", (the) i, " and ", (the) j, " connected to it.";
+      }
+  ];
+
+We hope you'll agree that the result was worth the tiny extra effort. 
+Code gets written once; it gets read dozens and dozens of times.
+
+.. rubric:: Shortcuts
+
+There are a few statement shortcuts, some more useful than others, which 
+you'll come across.
+
+* These five lines all do the same thing:
+
+  .. code-block:: inform6
+
+    return true;
+    return 1;
+    return;
+    rtrue;
+    ];		! at the end of a standalone routine
+
+* These four lines all do the same thing:
+
+  .. code-block:: inform6
+
+    return false;
+    return 0;
+    rfalse;
+    ];		! at the end of an embedded routine
+
+* These four lines all do the same thing:
+
+  .. code-block:: inform6
+
+    print "string"; new_line; return true;
+    print "string^"; return true;
+    print_ret "string";
+    "string";
+
+* These lines are the same:
+
+  .. code-block:: inform6
+
+    print value1; print value2; print value3;
+    print value1, value2, value3;
+
+* These lines are the same:
+
+  .. code-block:: inform6
+
+    <action noun second>; return true;
+    <<action noun second>>;
+
+* These lines are also the same:
+
+  .. code-block:: inform6
+
+    print "^";
+    new_line;
+
+* These ``if`` statements are equivalent:
+
+  .. code-block:: inform6
+
+    if (MyVar == 1 || MyVar == 3 || MyVar == 7) ...
+
+    if (MyVar == 1 or 3 or 7) ...
+
+* These ``if`` statements are equivalent as well:
+
+  .. code-block:: inform6
+
+    if (MyVar ~= 1 && MyVar ~= 3 && MyVar ~= 7) ...
+    if (MyVar ~= 1 or 3 or 7) ...
+
+* In an ``if`` statement, the thing in parentheses can be *any* 
+  expression; all that matters is its value: zero (false) or anything 
+  else (true). For example, these statements are equivalent:
+
+  .. code-block:: inform6
+
+    if (MyVar ~= false) ...
+    if (~~(MyVar == false)) ...
+    if (MyVar ~= 0) ...
+    if (~~(MyVar == 0)) ...
+    if (MyVar) ...
+
+  Note that the following statement specifically tests whether ``MyVar`` 
+  contains ``true`` (1), *not* whether its value is anything other than 
+  zero.
+
+  .. code-block:: inform6
+
+    if (MyVar == true) ...
+
+* If ``MyVar`` is a variable, the statements ``MyVar++;`` and 
+  ``++MyVar;`` work the same as ``MyVar = MyVar + 1;`` For example, 
+  these lines are equivalent:
+
+  .. code-block:: inform6
+
+    MyVar = MyVar + 1; if (MyVar == 3) ...
+    if (++MyVar == 3) ...
+    if (MyVar++ == 2) ...
+
+  What's the same about ``MyVar++`` and ``++MyVar`` is that they both 
+  add one to ``MyVar``. What's different about them is the value to 
+  which the construct itself evaluates: ``MyVar++`` returns the current 
+  value of ``MyVar`` and then performs the increment, whereas 
+  ``++MyVar`` does the "+1" first and then returns the incremented 
+  value. In the example, if ``MyVar`` currently contains 2 then 
+  ``++MyVar`` returns 3 and ``MyVar++`` returns 2, even though in both 
+  cases the value of ``MyVar`` afterwards is 3. As another example, 
+  this code (from Helga in "William Tell"):
+
+  .. code-block:: inform6
+
+    Talk: self.times_spoken_to = self.times_spoken_to + 1;
+        switch (self.times_spoken_to) {
+            1: score = score + 1;
+               print_ret "You warmly thank Helga for the apple.";
+            2: print_ret "~See you again soon.~";
+            default: return false;
+        }
+    ],
+
+  could have been written more succinctly like this:
+
+  .. code-block:: inform6
+
+    Talk: switch (++self.times_spoken_to) {
+        1: score++;
+           print_ret "You warmly thank Helga for the apple.";
+        2: print_ret "~See you again soon.~";
+        default: return false;
+        }
+    ],
+
+* Similarly, the statements ``MyVar--;`` and ``--MyVar;`` work the same 
+  as ``MyVar = MyVar - 1;`` Again, these lines are equivalent:
+
+  .. code-block:: inform6
+
+    MyVar = MyVar - 1; if (MyVar == 7) ...
+    if (--MyVar == 7) ...
+    if (MyVar-- == 8) ...
+
+.. rubric:: "number" property and "general" attribute
+
+The library defines a standard ``number`` property and a standard 
+``general`` attribute, whose roles are undefined: they are 
+general-purpose variables available within every object to designers as 
+and when they desire.
+
+We recommend that you avoid using these two variables, primarily because 
+their names are, by their very nature, so bland as to be largely 
+meaningless. Your game will be clearer and easier to debug if you 
+instead create new property variables -- with appropriate names -- as 
+part of your ``Object`` and ``Class`` definitions.
+
+.. rubric:: Common properties and attributes
+
+As an alternative to creating new individual properties which apply only 
+to a single object (or class of objects), it's possible to devise 
+properties and new attributes which, like those defined by the library, 
+are available on *all* objects. The need to do this is actually quite 
+rare, and is mostly confined to library extensions (for example, the 
+``pname.h`` extension which we encountered in "Captain Fate: take 3" on 
+page 147 gives every object a ``pname`` property and a 
+``phrase_matched`` attribute). To create them, you would use these 
+directives near the start of your source file:
+
+.. code-block:: inform6
+
+  Attribute attribute;
+
+  Property property;
+
+We recommend that you avoid using these two directives unless you really 
+do need to affect every object -- or at least the majority of them -- in 
+your game. There is a limit of forty-eight attributes (of which the 
+library currently defines around thirty) and sixty-two of these common 
+properties (of which the library currently defines around forty-eight). 
+On the other hand, the number of individual properties which you can add 
+is virtually unlimited.
+
+.. rubric:: Setting up the object tree
+
+Throughout this guide, we've defined the initial position of each object 
+within the overall object tree either by explicitly mentioning its 
+parent's ``obj_id`` (if any) in the first line of the object definition 
+-- what we've been calling the header information -- or, for a few 
+objects which crop up in more than one place, by using their 
+``found_in`` properties. For example, in "William Tell" we defined 
+twenty-seven objects; omitting those which used ``found_in`` to define 
+their placement at the start of the game, we're left with object 
+definitions starting like this:
+
+.. code-block:: inform6
+
+  Room    street "A street in Altdorf"        
+
+  Room    below_square "Further along the street"
+  Furniture   stall "fruit and vegetable stall" below_square
+  Prop    "potatoes" below_square
+  Prop    "fruit and vegetables" below_square
+  NPC     stallholder "Helga" below_square
+
+  Room    south_square "South side of the square"
+
+  Room    mid_square "Middle of the square"
+  Furniture   pole "hat on a pole" mid_square
+
+  Room    north_square "North side of the square"
+
+  Room    marketplace "Marketplace near the square"
+  Object  tree "lime tree" marketplace
+  NPC     governor "governor" marketplace
+
+  Object  bow "bow"
+
+  Object  quiver "quiver"
+  Arrow   "arrow" quiver
+  Arrow   "arrow" quiver
+  Arrow   "arrow" quiver
+
+  Object  apple "apple"
+
+You'll see that several of the objects begin the game as parents: 
+``below_square``, ``mid_square``, ``marketplace`` and ``quiver`` all 
+have child objects beneath them; those children mention their parent as 
+the last item of header information.
+
+There's an alternative object syntax which is available to achieve the 
+same object tree, using "arrows". That is, we could have defined those 
+parent-and-child objects as:
+
+.. code-block:: inform6
+
+  Room    below_square "Further along the street"
+  Furniture -> stall "fruit and vegetable stall"
+  Prop      -> "potatoes"
+  Prop      -> "fruit and vegetables"
+  NPC       -> stallholder "Helga"
+
+  Room      mid_square "Middle of the square"
+  Furniture   -> pole "hat on a pole"
+
+  Room      marketplace "Marketplace near the square"
+  Object    -> tree "lime tree"
+  NPC       -> governor "governor"
+
+  Object    quiver "quiver"
+  Arrow     -> "arrow"
+  Arrow     -> "arrow"
+  Arrow     -> "arrow"
+
+The idea is that an object's header information *either* starts with an 
+arrow, or ends with an ``obj_id``, or has neither (having both isn’t 
+permitted). An object with neither has no parent: in this example, 
+that's all the ``Rooms``, and also the ``bow`` and the ``quiver`` (which 
+are moved to the player ``object`` in the ``Initialise`` routine) and 
+the apple (which remains without a parent until Helga gives it to 
+William).
+
+An object which starts with a single arrow ``->`` is defined to be a 
+child of the nearest previous object without a parent. Thus, for 
+example, the ``tree`` and ``governor`` objects are both children of the 
+``marketplace``. To define a child of a child, you'd use two arrows
+``-> ->``, and so on. In "William Tell", that situation doesn't occur; 
+to illustrate how it works, imagine that at the start of the game the 
+potatoes and the other fruit and vegetables where actually *on* the 
+stall. Then we might have used:
+
+.. code-block:: inform6
+
+  Room    below_square "Further along the street"
+  Furniture ->  stall "fruit and vegetable stall"
+  Prop    ->  -> "potatoes"
+  Prop    ->  -> "fruit and vegetables"
+  NPC     -> stallholder "Helga"
+  ...
+
+That is, the objects with one arrow (the ``stall`` and ``stallholder``) 
+are children of the nearest object without a parent (the ``Room``), and 
+the objects with two arrows (the produce) are children of the nearest 
+object defined with a single arrow (the ``stall``).
+
+The advantages of using arrows include:
+
+* You're forced to define your objects in a "sensible" order.
+
+* Fewer ``obj_ids`` may need to be used (though in this game it would 
+  make no difference).
+
+The disadvantages include:
+
+* The fact that objects are related by the physical juxtaposition of 
+  their definitions is not necessarily intuitive to all designers.
+
+* Especially in a crowded room, it’s harder to be certain exactly how 
+  the various parent–child relationships are initialised, other than by 
+  carefully counting lots of arrows.
+
+* If you relocate the parent within the initial object hierarchy to a 
+  higher or lower level, you'll need also to change its children by 
+  adding or removing arrows; this isn't necessary when the parent is 
+  named in the child headers.
+
+We prefer to explicitly name the parent, but you'll encounter both forms 
+very regularly.
+
+.. rubric:: Quotes in "name" properties
+
+We went to some lengths, way back in "Things in quotes" on page 55, to 
+explain the difference between double quotes ``"..."`` (strings to be 
+output) and single quotes ``'...'`` (input tokens -- dictionary words). 
+Perhaps somewhat unfortunately, Inform allows you to blur this clean 
+distinction: you can use double quotes in name properties and Verb 
+directives:
+
+.. code-block:: inform6
+
+  NPC     stallholder "Helga" below_square
+    with  name "stallholder" "greengrocer" "monger" "shopkeeper" "merchant"
+              "owner" "Helga" "dress" "scarf" "headscarf",
+  ...
+
+  Verb "talk" "t//" "converse" "chat" "gossip"
+      * "to"/"with" creature          -> Talk
+      * creature                      -> Talk;
+
+*Please* don't do this. You'll just confuse yourself: those are 
+dictionary words, not strings; it's just as easy -- and far clearer -- 
+to stick rigidly to the preferred punctuation.
+
+.. rubric:: Obsolete usages
+
+Finally, remember that Inform has been evolving since 1993. Over that 
+time, Graham has taken considerable care to maintain as much 
+compatibility as possible, so that games written years ago, for earlier 
+versions of the compiler and the library, will still compile today. 
+While generally a good thing, this brings the disadvantage that a 
+certain amount of obsolete baggage is still lying around. You may, for 
+example, see games using ``Nearby`` directives (denotes parentage, 
+roughly the same as ``->``) and ``near`` conditions (roughly, having the 
+same parent), or with ``" \ "`` controlling line breaks in long 
+``print`` statements. Try to understand them; try *not* to use them.
+
+
