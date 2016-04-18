@@ -1,0 +1,866 @@
+===============================
+ William Tell: the end is nigh
+===============================
+
+.. highlight:: inform6
+
+.. epigraph::
+
+   | *Q was a queen, who wore a silk slip;*
+   | *R was a robber, and wanted a whip.*
+
+.. only:: html
+
+   .. image:: /images/picQ.png
+      :align: left
+
+.. raw:: latex
+
+   \dropcap{q}
+
+uite a few objects still remain undefined, so we'll talk about them first.
+Then, we'll explain how to make additions to Inform's standard repertoire
+of verbs, and how to define the actions which those verbs trigger.
+
+The marketplace
+===============
+
+The ``marketplace`` room is unremarkable, and the ``tree`` growing there
+has only one feature of interest::
+
+   Room      marketplace "Marketplace near the square"
+     with    description
+		 "Altdorf's marketplace, close by the town square, has been hastily
+		  cleared of stalls. A troop of soldiers has pushed back the crowd
+		  to leave a clear space in front of the lime tree, which has been
+		  growing here for as long as anybody can remember. Usually it
+		  provides shade for the old men of the town, who gather below to
+		  gossip, watch the girls, and play cards. Today, though, it
+		  stands alone... apart, that is, from Walter, who has been lashed
+		  to the trunk. About forty yards away, you are restrained by two
+		  of the vogt's men.",
+	     cant_go "What? And leave your son tied up here?";
+
+   Object    tree "lime tree" marketplace
+     with    name 'lime' 'tree',
+	     description "It's just a large tree.",
+	     before [;
+		FireAt:
+		  if (BowOrArrow(second) == true) {
+		      deadflag = 3;
+		      print_ret "Your hand shakes a little, and your arrow flies
+			  high, hitting the trunk a few inches above Walter's
+			  head.";
+		  }
+		  return true;
+	     ],
+     has     scenery;
+
+The tree's ``before`` property is intercepting a ``FireAt`` action, which
+we'll define in a few moments.  This action is the result of a command like
+SHOOT AT TREE WITH BOW -- we could simulate it with the statement
+``<<FireAt tree bow>>`` -- and it needs extra care to ensure that the
+``second`` object is a feasible weapon.  To deal with silly commands like
+SHOOT AT TREE WITH HELGA, we must test that ``second`` is the bow, one of
+the arrows, or ``nothing`` (from just SHOOT AT TREE).  Since this is quite
+a complex test, and one that we'll be making in several places, it's
+sensible to write a routine to do the job.  Which we'll do shortly -- but
+first, a general introduction to working with routines.
+
+A diversion: working with routines
+==================================
+
+A standalone routine, like the familiar routines embedded as the value of a
+property such as ``before`` or ``each_turn``, is simply a set of statements
+to be executed.  The major differences are in content, in timing, and in
+the default return value:
+
+* Whereas an embedded routine has to contain statements which do something
+  appropriate for that associated property variable, a standalone routine
+  can contain statements which do anything you wish.  You have total
+  freedom as to what the routine actually does and what value it returns.
+
+* An embedded routine is called when the interpreter is dealing with that
+  property of that object; you provide the routine, but you don't directly
+  control when it's called.  A standalone routine, however, is completely
+  under your control; it runs only when you explicitly call it.
+
+* If an embedded routine executes all of its statements and reaches the
+  final ``];`` without encountering some form of ``return`` statement, it
+  returns the value ``false``.  In the same circumstances, a standalone
+  routine returns the value ``true``.  There's a good reason for this
+  difference -- it usually turns out to be the natural default behaviour --
+  but it can sometimes baffle newcomers.  To avoid confusion, we've always
+  included explicit ``return`` statements in our routines.
+
+What this generally boils down to is: *if* you have a collection of
+statements which perform some specific task *and* you need to execute those
+same statements in more than one place in your game, *then* it often makes
+sense to turn those statements into a standalone routine.  The advantages
+are: you write the statements only once, so any subsequent changes are
+easier to make; also, your game becomes simpler and easier to read.  We'll
+look at some simple examples; first consider these unexciting foodstuffs::
+
+   Object     "stale ham sandwich"
+     with     name 'stale' 'ham' 'sandwich',
+	      description "It doesn't look at all appetising.",
+	      ...
+
+   Object     "elderly jam doughnut"
+     with     name 'elderly' 'jam' 'jelly' 'doughnut' 'donut',
+	      description "It doesn't look at all appetising.",
+	      ...
+
+The ``description``\s are identical: perhaps we could display them using a
+routine?  ::
+
+   [ Inedible; print_ret "It doesn't look at all appetising."; ];
+
+   Object     "stale ham sandwich"
+     with     name 'stale' 'ham' 'sandwich',
+	      description [; Inedible(); ],
+	      ...
+
+   Object     "elderly jam doughnut"
+     with     name 'elderly' 'jam' 'jelly' 'doughnut' 'donut',
+	      description [; Inedible(); ],
+	      ...
+
+This isn't a very realistic approach -- there are more elegant ways of
+avoiding typing the same string twice -- but it works, and it illustrates
+how we can define a routine to do something useful, and then call it
+wherever we need to.
+
+Here's another simple example showing how, by returning a value, a routine
+can report back to the piece of code which called it.  We've once or twice
+used the test ``if (self has visited) ...``; we could create a routine
+which performs that same check and then returns ``true`` or ``false`` to
+indicate what it discovered::
+
+    [ BeenHereBefore;
+        if (self has visited) return true;
+        else                  return false;
+    ];
+
+Then, we'd rewrite our test as ``if (BeenHereBefore() == true) ...``; no
+shorter or quicker, but maybe more descriptive of what's going on.  One
+more example of using routines.  As well as testing ``if (self has visited)
+...`` we've also tested ``if (location has visited) ...`` a few times, so
+we *could* write another routine to perform that check::
+
+    [ BeenThereBefore;
+        if (location has visited) return true;
+        else                      return false;
+    ];
+
+However, the two routines are very similar; the only difference is the name
+of the variable -- ``self`` or ``location`` -- which is being checked.  A
+better approach might be to rework our ``BeenHereBefore`` routine so that
+it does both jobs, but we somehow need to tell it which variable's value is
+to be checked.  That's easy: we design the routine so that it expects an
+**argument**::
+
+    [ BeenToBefore this_room;
+        if (this_room has visited) return true;
+        else                       return false;
+    ];
+
+Notice that the argument's name is one that we've invented to be
+descriptive of its content; it doesn't matter if we define it as "``x``",
+"``this_room``" or "``hubba_hubba``".  Whatever its name, the argument acts
+as a placeholder for a value (here, one of the variables ``self`` or
+``location``) which we must supply when calling the routine::
+
+    if (BeenToBefore(self) == true) ...
+
+    if (BeenToBefore(location) == true) ...
+
+In the first line, we supply ``self`` as the routine's argument.  The
+routine doesn't care where the argument came from; it just sees a value
+which it knows as ``this_room``, and which it then uses to test for the
+``visited`` attribute.  On the second line we supply ``location`` as the
+argument, but the routine just sees another value in its ``this_room``
+variable.  ``this_room`` is called a **local variable** of the
+``BeenToBefore`` routine, one that must be set to a suitable value each
+time that the routine is called.  In this example routine, the value needs
+to be a room object; we could also check an explicit named room::
+
+    if (BeenToBefore(mid_square) == true) ...
+
+Remember that:
+
+#. All routines terminate sooner or later, either because you explicitly
+   write a ``return``, ``rtrue`` or ``rfalse`` statement, or because
+   execution reaches the ``]`` marking the routine's end.
+
+#. All routines return a value, which can be ``true``, or ``false``, or any
+   other number.  This value is determined by the ``return``, ``rtrue`` or
+   ``rfalse`` statement, or by the the ``]`` marking the routine's end (in
+   which case the default STEF rule applies: Standalone routines return
+   True, Embedded routines return False).  We gave this example of an
+   embedded routine in "Adding some props" on page 81.  The ``return
+   false`` statement is redundant: we could remove it without affecting the
+   routine's behaviour, because the ``]`` acts like a ``return false``::
+
+	found_in [;
+	    if (location == street or below_square or south_square or
+		mid_square or north_square or marketplace) return true;
+	    return false;
+	],
+
+   On the other hand, just because a routine returns a value doesn't mean
+   you always *have* to use it; you can simply ignore the value if you want
+   to.  The ``TooFarAway`` routine that we showed you earlier in this
+   chapter contains a ``print_ret`` statement and so always returns
+   ``true``, but we didn't take any notice; the sole purpose of the routine
+   was to display some text.  Compare this with the ``BeenToBefore``
+   routine, which does nothing *except* return a value; if we'd ignored
+   that, then calling the routine would have been a waste of time.
+
+For some embedded routines, the value returned by the routine is important;
+for others it doesn't matter.  We've so far seen the following properties
+whose value can be an embedded routine:
+
+=========================   ===========================
+Return value is important   Return value doesn't matter
+=========================   ===========================
+``after [; ... ],``         ``cant_go [; ... ],``
+``before [; ... ],``        ``description [; ... ],``
+``found_in [; ... ],``      ``each_turn [; ... ],``
+``n_to [; ... ]``, et al    ``initial [; ... ],``
+=========================   ===========================
+
+For full details on which library property values can be embedded routines,
+and which return values are significant, see "Object properties" on page
+266 and Appendix §A2 of the *Inform Designer's Manual*.
+
+Return to the marketplace
+=========================
+
+After all that introduction, finally back to the ``FireAt`` action.  We
+want to check on the characteristics of an object, possibly then displaying
+a message.  We don't know exactly *which* object is to be checked, so we
+need to write our routine in a generalised way, capable of checking any
+object which we choose; that is, we'll supply the object to be checked as
+an argument.  Here's the routine::
+
+     [ BowOrArrow o;
+         if (o == bow or nothing || o ofclass Arrow) return true;
+         print "That's an unlikely weapon, isn't it?^";
+         return false;
+     ];
+
+The routine is designed to inspect any object which is passed to it as its
+argument ``o``; that is, we could call the routine like this::
+
+     BowOrArrow(stallholder)
+     BowOrArrow(tree)
+     BowOrArrow(bow)
+
+Given the ``bow`` object, or any object which we defined as class
+``Arrow``, it will silently ``return true`` to signify agreement that this
+object can be fired.  However, given an object like Helga, the apple or the
+tree, it will print a message and ``return false`` to signify that this
+object is not a suitable weapon.  The test that we make is::
+
+     if (o == bow or nothing || o ofclass Arrow) ...
+
+which is merely a slightly shorter way of saying this::
+
+     if (o == bow || o == nothing || o ofclass Arrow) ...
+
+The result is that we ask three questions: Is ``o`` the ``bow`` object?
+*Or* is it ``nothing``?  Or, using the ``ofclass`` test, is it any object
+which is a member of the ``Arrow`` class?
+
+What this means is that the value returned by the call ``BowOrArrow(bow)``
+is ``true``, while the value returned by the call ``BowOrArrow(tree)`` is
+``false``.  Or, more generally, the value returned by the call
+``BowOrArrow(second)`` will be either ``true`` or ``false``, depending on
+the characteristics of the object defined by the value of the variable
+``second``.  So, we can write this set of statements in an object's
+``before`` property::
+
+     if (BowOrArrow(second) == true) {
+         This object deals with having an arrow fired at it
+     }
+     return true;
+
+and the effect is either
+
+* ``second`` is a weapon: ``BowOrArrow`` displays nothing and returns a
+  value of ``true``, the ``if`` statement reacts to that value and executes
+  the following statements to produce an appropriate response to the
+  fast-approaching arrow; or
+
+* ``second`` isn't a weapon: ``BowOrArrow`` displays a standard "don't be
+  silly" message and returns a value of ``false``, the ``if`` statement
+  reacts to that value and ignores the following statements.  Then
+
+* in both cases, the ``return true`` statement terminates the object's
+  interception of the ``FireAt`` action.
+
+That whole ``BowOrArrow()`` bit was rather complex, but the rest of the
+``FireAt`` action is straightforward.  Once the tree has determined that
+it's being shot at by something sensible, it can just set ``deadflag`` to 3
+-- the "You have screwed up" ending, display a message, and be done.
+
+Gessler the governor
+====================
+
+There's nothing in Gessler's definition that we haven't already encountered::
+
+   NPC      governor "governor" marketplace
+     with   name 'governor' 'vogt' 'Hermann' 'Gessler',
+            description
+                 "Short, stout but with a thin, mean face, Gessler relishes the
+                   power he holds over the local community.",
+            initial [;
+                 print "Gessler is watching from a safe distance,
+                      a sneer on his face.^";
+                 if (location hasnt visited)
+                      print_ret "^~It appears that you need to be taught a lesson,
+                          fool. Nobody shall pass through the square without paying
+                          homage to His Imperial Highness Albert; nobody, hear me?
+                          I could have you beheaded for treason, but I'm going to
+                          be lenient. If you should be so foolish again, you can
+                          expect no mercy, but this time, I'll let you go free...
+                          just as soon as you demonstrate your archery skills by
+                          hitting this apple from where you stand. That shouldn't
+                          prove too difficult; here, sergeant, catch. Balance it on
+                          the little bastard's head.~";
+            ],
+            life [;
+               Talk:
+                 print_ret "You cannot bring yourself to speak to him.";
+            ],
+            before [;
+               FireAt:
+                 if (BowOrArrow(second) == true) {
+                      deadflag = 3;
+                      print_ret "Before the startled soldiers can react, you turn
+                          and fire at Gessler; your arrow pierces his heart,
+                          and he dies messily. A gasp, and then a cheer,
+                          goes up from the crowd.";
+                 }
+                 return true;
+            ],
+     has    male;
+
+Like most NPCs, Gessler has a ``life`` property which deals with actions
+applicable only to animate objects.  This one responds merely to ``Talk``
+(as in TALK TO THE GOVERNOR).
+
+Walter and the apple
+====================
+
+Since he's been with you throughout, it's really about time we defined
+Walter::
+
+  NPC      son "your son"
+    with   name 'son' 'your' 'boy' 'lad' 'Walter',
+           description [;
+                if (location == marketplace)
+                    print_ret "He stares at you, trying to appear brave and
+                        remain still. His arms are pulled back and tied behind
+                        the trunk, and the apple nestles amid his blond hair.";
+                else
+                    print_ret "A quiet, blond lad of eight summers, he's fast
+                        learning the ways of mountain folk.";
+           ],
+           life [;
+              Give:
+                score = score + 1;
+                move noun to self;
+                print_ret "~Thank you, Papa.~";
+              Talk:
+                if (location == marketplace)
+                    print_ret "~Stay calm, my son, and trust in God.~";
+                else
+                    print_ret "You point out a few interesting sights.";
+           ],
+           before [;
+              Examine,Listen,Salute,Talk:
+                return false;
+              FireAt:
+                if (location == marketplace) {
+                    if (BowOrArrow(second) == true) {
+                        deadflag = 3;
+                        print_ret "Oops! Surely you didn't mean to do that?";
+                    }
+                    return true;
+                }
+                else
+                    return false;
+              default:
+                if (location == marketplace)
+                    print_ret "Your guards won't permit it.";
+                else
+                    return false;
+           ],
+           found_in [; return true; ],
+    has    male proper scenery transparent;
+
+His attributes are ``male`` (he's your son, after all), ``proper`` (so the
+interpreter doesn't mention "the your son"), ``scenery`` (so he's not
+listed in every room description), and ``transparent`` (because you see
+right through him).  No, that's wrong: a ``transparent`` object isn't made
+of glass; it's one whose possessions are visible to you.  We've done that
+because we'd still like to be able to EXAMINE APPLE even when Walter is
+carrying it.  Without the ``transparent`` attribute, it would be as though
+the apple was in his pocket or otherwise out of sight; the interpreter
+would reply "You can't see any such thing".
+
+Walter has a ``found_in`` property which automatically moves him to the
+player's location on each turn.  We can get away with this because in such
+a short and simple game, he does indeed follow you everywhere.  In a more
+realistic model world, NPCs often move around independently, but we don't
+need such complexity here.
+
+Several of Walter's properties test whether ``(location == marketplace)``;
+that is, is the player (and hence Walter) currently in that room?  The
+events in the marketplace are such that specialised responses are more
+appropriate there than our standard ones.
+
+Walter's ``life`` property responds to ``Give`` (as in GIVE APPLE TO
+WALTER) and Talk (as in TALK TO YOUR SON); during ``Give``, we increment
+the library variable ``score``, thus rewarding the player's generous good
+nature.  His ``before`` property is perhaps a little confusing.  It's
+saying:
+
+#. The ``Examine``, ``Listen``, ``Salute`` and ``Talk`` actions are always
+   available (a ``Talk`` action then gets passed to Walter's ``life``
+   property).
+
+#. The ``FireAt`` action is permitted in the ``marketplace``, albeit with
+   unfortunate results.  Elsewhere, it triggers the standard ``FireAt``
+   response of "Unthinkable!"
+
+#. All other actions are prevented in the ``marketplace``, and allowed to
+   run their standard course (thanks to the ``return false``) elsewhere.
+
+The apple's moment of glory has arrived!  Its ``before`` property responds
+to the ``FireAt`` action by setting ``deadflag`` to 2.  When that happens,
+the game is over; the player has won. ::
+
+  Object   apple "apple"
+    with   name 'apple',
+           description [;
+                if (location == marketplace)
+                    print_ret "At this distance you can barely see it.";
+                else
+                    print_ret "The apple is blotchy green and brown.";
+           ],
+           before [;
+              Drop:
+                print_ret "An apple is worth quite a bit --
+                    better hang on to it.";
+              Eat:
+                print_ret "Helga intended it for Walter...";
+              FireAt:
+                if (location == marketplace) {
+                    if (BowOrArrow(second) == true) {
+                        score = score + 1;
+                        deadflag = 2;
+                        print_ret "Slowly and steadily, you place an arrow in
+                            the bow, draw back the string, and take aim with
+                            more care than ever in your life. Holding your
+                            breath, unblinking, fearful, you release the
+                            arrow. It flies across the square towards your
+                            son, and drives the apple against the trunk of
+                            the tree. The crowd erupts with joy;
+                            Gessler looks distinctly disappointed.";
+                    }
+                    return true;
+                }
+                else
+                    return false;
+           ];
+
+And with that, we've defined all of the objects.  In doing so, we've added
+a whole load of new nouns and adjectives to the game's dictionary, but no
+verbs.  That's the final task.
+
+Verbs, verbs, verbs
+===================
+
+The Inform library delivers a standard set of nearly a hundred actions
+which players can perform; around twenty of those are "meta-actions" (like
+SAVE and QUIT) aimed at the interpreter itself, and the remainder operate
+within the model world.  Having such a large starting set is a great
+blessing; it means that many of the actions which players might attempt are
+already catered for, either by the interpreter doing something useful, or
+by explaining why it's unable to.  Nevertheless, most games find the need
+to define additional actions, and "William Tell" is no exception.  We'll be
+adding four actions of our own: ``Untie``, ``Salute`` (see page 113),
+``FireAt`` (see page 115) and ``Talk`` (see page 116).
+
+.. rubric:: Untie
+
+It's not the most useful action, but it is the simplest.  In the
+marketplace, when Walter is lashed to the tree, it's possible that players
+might be tempted to try to UNTIE WALTER; unlikely, but as we've said
+before, anticipating the improbable is part of the craft of IF.  For this,
+and for all new actions, two things are required.  We need a grammar
+definition, spelling out the structure of the English sentences which we're
+prepared to accept::
+
+      Verb 'untie' 'unfasten' 'unfix' 'free' 'release'
+          * noun                          -> Untie;
+
+and we need a routine to handle the action in the default situation (where
+the action isn't intercepted by an object's ``before`` property). ::
+
+      [ UntieSub; print_ret "You really shouldn't try that."; ];
+
+The grammar is less complex than it perhaps at first appears:
+
+#. The English verbs UNTIE, UNFASTEN, UNFIX, FREE and RELEASE are
+   synonymous.
+
+#. The asterisk ``*`` indicates the start of a pattern defining what
+   word(s) might follow the verb.
+
+#. In this example, there's only one pattern: the "``noun``" token
+   represents an object which is currently in scope -- in the same room as
+   the player.
+
+#. The ``->`` indicates an action to be triggered.
+
+#. If players type something that matches the pattern -- one of those five
+   verbs followed by an object in scope -- the interpreter triggers an
+   ``Untie`` action, which by default is handled by a routine having the
+   same name as the action, with ``Sub`` appended.  In this example, that's
+   the ``UntieSub`` routine.
+
+#. The grammar is laid out this way just to make it easier to read.  All those
+   spaces aren't important; we could equally have typed::
+
+       Verb 'untie' 'unfasten' 'unfix' 'free' 'release' * noun -> Untie;
+
+We can illustrate how this works in the Altdorf street:
+
+.. code-block:: transcript
+
+   A street in Altdorf
+   The narrow street runs north towards the town square. Local folk are pouring
+   into the town through the gate to the south, shouting greetings, offering
+   produce for sale, exchanging news, enquiring with exaggerated disbelief about
+   the prices of the goods displayed by merchants whose stalls make progress even
+   more difficult.
+
+   "Stay close to me, son," you say, "or you'll get lost among all these people."
+
+   >UNTIE
+   What do you want to untie?
+
+   >UNFASTEN THE DOG
+   You can't see any such thing.
+
+   >UNTIE THE PEOPLE
+   You don't need to worry about the local people.
+
+   >UNFIX YOUR SON
+   You really shouldn't try that.
+
+The illustration shows four attempted usages of the new action.  In the
+first, the player omits to mention an object; the interpreter knows (from
+that ``noun`` in the grammar which implies that the action needs a direct
+object) that something is missing, so it issues a helpful prompt.  In the
+second, the player mentions an object that isn't in scope (in fact, there's
+no dog anywhere in the game, but the interpreter isn't about to give *that*
+away to the player).  In the third, the object is in scope, but its
+``before`` property intercepts the ``Untie`` action (and indeed, since this
+object is of the class ``Prop``, all actions apart from ``Examine``) to
+display a customised rejection message.  Finally, the fourth usage refers
+to an object which *doesn't* intercept the action, so the interpreter calls
+the default action handler -- ``UntieSub`` -- which displays a
+general-purpose refusal to perform the action.
+
+The principles presented here are those that you should generally employ:
+write a generic action handler which either refuses to do anything (see,
+for example SQUASH or HIT), or performs the action without affecting the
+state of the model world (see, for example, JUMP or WAVE); then, intercept
+that non-action (generally using a ``before`` property) for those objects
+which might make a legitimate target for the action, and instead provide a
+more specific response, either performing or rejecting the action.
+
+In the case of ``Untie``, there are no objects which can be untied in this
+game, so we always generate a refusal of some sort.
+
+.. rubric:: Salute
+
+The next action is ``Salute``, provided in case Wilhelm chooses to defer to
+the hat on the pole.  Here's the default action handler::
+
+     [ SaluteSub;
+         if (noun has animate) print_ret (The) noun, " acknowledges you.";
+         print_ret (The) noun, " takes no notice.";
+     ];
+
+You'll notice that this is slightly more intelligent than our ``Untie``
+handler, since it produces different responses depending on whether the
+object being saluted -- stored in the ``noun`` variable -- is ``animate``
+or not.  But it's basically doing the same job.  And here's the grammar::
+
+     Verb 'bow' 'nod' 'kowtow' 'genuflect'
+         * 'at'/'to'/'towards' noun      -> Salute;
+
+     Verb 'salute' 'greet' 'acknowledge'
+         * noun                          -> Salute;
+
+This grammar says that:
+
+#. The English verbs BOW, NOD, KOWTOW, GENUFLECT, SALUTE, GREET and
+   ACKNOWLEDGE are synonymous.
+
+#. The first four (but not the last three) can then be followed by any of
+   the prepositions AT, TO or TOWARDS: words in apostrophes ``'...'`` are
+   matched literally, with the slash ``/`` separating alternatives.
+
+#. After that comes the name of an object which is currently in scope -- in
+   the same room as the player.
+
+#. If players type something that matches one of those patterns, the
+   interpreter triggers a ``Salute`` action, which by default is dealt with
+   by the ``SaluteSub`` routine.
+
+So, we're allowing BOW AT HAT and KOWTOW TOWARDS HAT, but not simply NOD
+HAT.  We're allowing SALUTE HAT but not GREET TO HAT.  It's not perfect,
+but it's a fair attempt at defining some new verbs to handle salutation.
+
+But suppose that we think of still other ways in which players might
+attempt this (remember, they don't know which verbs we've defined; they're
+just stabbing in the dark, trying out things that seem as though they ought
+to work).  How about PAY HOMAGE TO HAT, or maybe WAVE AT HAT?  They sound
+pretty reasonable, don't they?  Except that, if we'd written::
+
+    Verb 'bow' 'nod' 'kowtow' 'genuflect' 'wave'
+        * 'at'/'to'/'towards' noun      -> Salute;
+
+we'd have caused a compilation error: two different verb definitions refer
+to "wave".  ``Grammar.h``, one of the library files whose contents a
+beginner might find useful to study, contains these lines::
+
+    Verb 'give' 'pay' 'offer' 'feed'
+        * held 'to' creature              -> Give
+        * creature held                   -> Give reverse
+        * 'over' held 'to' creature       -> Give;
+
+    Verb 'wave'
+        *                                 -> WaveHands
+        * noun                            -> Wave;
+
+The problem is that the verbs PAY and WAVE are already defined by the
+library, and Inform's rule is that a verb can appear in only one ``Verb``
+definition.  The wrong solution: edit ``Grammar.h`` to *physically* add
+lines to the existing definitions (it's almost never a good idea to make
+changes to the standard library files).  The right solution: use ``Extend``
+to *logically* add those lines.  If we write this in our source file::
+
+    Extend 'give'
+        * 'homage' 'to' noun              -> Salute;
+
+    Extend 'wave'
+        * 'at' noun                       -> Salute;
+
+then the effect is exactly as if we'd edited ``Grammar.h`` to read like
+this::
+
+    Verb 'give' 'pay' 'offer' 'feed'
+        * held 'to' creature             ->   Give
+        * creature held                  ->   Give reverse
+        * 'over' held 'to' creature      ->   Give
+        * 'homage' 'to' noun             ->   Salute;
+
+    Verb 'wave'
+        *                                -> WaveHands
+        * noun                           -> Wave
+        * 'at' noun                      -> Salute;
+
+and now players can PAY (or GIVE, or OFFER) HOMAGE to any object.  (Because
+GIVE, PAY, OFFER and FEED are defined as synonyms, players can also FEED
+HOMAGE, but it's unlikely that anybody will notice this minor aberration;
+players are usually too busy trying to figure out *logical* possibilities.)
+
+.. rubric:: FireAt
+
+As usual, we'll first show you the default handler for this action::
+
+     [ FireAtSub;
+         if (noun == nothing)
+             print_ret "What, just fire off an arrow at random?";
+         if (BowOrArrow(second) == true)
+             print_ret "Unthinkable!";
+     ];
+
+.. note::
+
+   Some designers frown on the use of a rhetorical question like that,
+   since it may provoke a reply from the player.  Admittedly the default
+   response from YES and NO covers the situation, but it might be better
+   design practice to reword the message as a statement rather than a
+   question.
+
+Here is the associated grammar::
+
+     Verb 'fire' 'shoot' 'aim'
+         *                                ->   FireAt
+         * noun                           ->   FireAt
+         * 'at' noun                      ->   FireAt
+         * 'at' noun 'with' noun          ->   FireAt
+         * noun 'with' noun               ->   FireAt
+         * noun 'at' noun                 ->   FireAt reverse;
+
+This is the most complex grammar that we'll write, and the first one
+offering several different options for the words which follow the initial
+verb.  The first line of grammar::
+
+         *                                -> FireAt
+
+is going to let us type FIRE (or SHOOT, or AIM) by itself.  The second
+line::
+
+         * noun                           -> FireAt
+
+supports FIRE BOW or FIRE ARROW (or something less sensible like
+FIRE TREE).  The third line::
+
+         * 'at' noun                      -> FireAt
+
+accepts FIRE AT APPLE, FIRE AT TREE, and so on.  Note that there's only one
+semicolon in all of the grammar, right at the very end.
+
+The first two statements in ``FireAtSub`` deal with the first line of
+grammar: FIRE (or SHOOT, or AIM) by itself.  If the player types just that,
+both ``noun`` and ``second`` will contain ``nothing``, so we reject the
+attempt with the "at random?" message.  Otherwise, we've got at least a
+``noun`` value, and possibly a ``second`` value also, so we make our
+standard check that ``second`` is something that can be fired, and then
+reject the attempt with the "Unthinkable!"  message.
+
+There are a couple of reasons why you might find this grammar a bit tricky.
+The first is that on some lines the word ``noun`` appears twice: you need
+to remember that in this context ``noun`` is a parsing token which matches
+any single object visible to the player.  Thus, the line::
+
+     * 'at' noun 'with' noun        -> FireAt
+
+is matching FIRE AT :samp:`{some_visible_target}` WITH
+:samp:`{some_visible_weapon}`; perhaps confusingly, the value of the target
+object is then stored in variable ``noun``, and the value of the weapon
+object in variable ``second``.
+
+The second difficulty may be the final grammar line.  Whereas on the
+preceding lines, the first ``noun`` matches a target object and the second
+``noun``, if present, matches a weapon object, that final line matches FIRE
+:samp:`{some_visible_weapon}` AT :samp:`{some_visible_target}` -- the two
+objects are mentioned in the wrong sequence.  If we did nothing, our
+``FireAtSub`` would get pretty confused at this point, but we can swap the
+two objects back into the expected order by adding that ``reverse`` keyword
+at the end of the line, and then ``FireAtSub`` will work the same in all
+cases.
+
+Before leaving the ``FireAt`` action, we'll add one more piece of grammar::
+
+      Extend 'attack' replace
+          * noun                          -> FireAt;
+
+This uses the ``Extend`` directive which we've just met, this time with a
+``replace`` keyword.  The effect is to substitute the new grammar defined
+here for that contained in ``Grammar.h``, so that ATTACK, KILL, MURDER and
+all the other violent synonyms now trigger our ``FireAt`` action instead of
+the Library's standard ``Attack`` action.  We're doing this so that, in the
+Marketplace, KILL GESSLER and MURDER WALTER have the same unfortunate
+results as FIRE AT GESSLER and SHOOT WALTER.
+
+.. rubric:: Talk
+
+The final action that we define -- ``Talk`` -- provides a simple system of
+canned conversation, a low-key replacement for the standard ``Answer``,
+``Ask`` and ``Tell`` actions.  The default ``TalkSub`` handler is closely
+based on ``TellSub`` (defined in library file ``verblibm.h``, should you be
+curious), and does three things:
+
+#. Deals with TALK TO ME or TALK TO MYSELF.
+
+#. Checks (a) whether the creature being talked to has a ``life``
+   property, (b) whether that property is prepared to process a ``Talk``
+   action, and (c) if the ``Talk`` processing returns ``true``.  If all
+   three checks succeed then ``TalkSub`` need do nothing more; if one or
+   more of them fails then ``TalkSub`` simply...
+
+#. Displays a general "nothing to say" refusal to talk. ::
+
+     [ TalkSub;
+         if (noun == player) print_ret "Nothing you hear surprises you.";
+         if (RunLife(noun,##Talk) ~= false) return;
+         print_ret "At the moment, you can't think of anything to say.";
+     ];
+
+   .. note::
+
+      That second condition ``(RunLife(noun,##Talk) ~= false)`` is a bit of
+      a stumbling block, since it uses ``RunLife`` -- an undocumented
+      internal library routine -- to offer the ``Talk`` action to the NPC's
+      ``life`` property.  We've decided to use it in exactly the same way
+      as the ``Tell`` action does, without worrying too much about how it
+      works (though it looks as though ``RunLife`` returns some ``true``
+      value if the ``life`` property has intercepted the action, ``false``
+      if it hasn't).  The ``~=`` operator means "not equal to".
+
+The grammar is straightforward::
+
+     Verb 'talk' 't//' 'converse' 'chat' 'gossip'
+         * 'to'/'with' creature          -> Talk
+         * creature                      -> Talk;
+
+Notice the use of ``'t//'`` to define T as a synonym for TALK, another way
+to make life a little easier for the player.  (Actually, doing this
+introduces a minor problem: if the player types just T then the library
+prompts "Whom do you want to t to?"  The fix for this involves enhancing an
+internal library routine called ``LanguageVerb`` -- not complex, but a
+little too heavy for our second game.)
+
+Here's the simplest ``Talk`` handler that we've seen -- it's from Gessler
+the governor.  Any attempt to TALK TO GESSLER will provoke "You cannot
+bring yourself to speak to him". ::
+
+     life [;
+         Talk: print_ret "You cannot bring yourself to speak to him.";
+     ],
+
+Walter's ``Talk`` handler is only slightly more involved::
+
+     life [;
+         Talk:
+             if (location == marketplace)
+                 print_ret "~Stay calm, my son, and trust in God.~";
+         print_ret "You point out a few interesting sights.";
+     ],
+
+And Helga's is the most sophisticated (though that isn't saying much)::
+
+   times_spoken_to 0,         ! for counting the conversation topics
+   life [;
+      Talk:
+        self.times_spoken_to = self.times_spoken_to + 1;
+        switch (self.times_spoken_to) {
+          1: score = score + 1;
+             print_ret "You warmly thank Helga for the apple.";
+          2: print_ret "~See you again soon.~";
+          default:
+             return false;
+        }
+   ],
+
+This handler uses Helga's ``times_spoken_to`` property -- not a library
+property, it's one that we invented, like the ``mid_square.warnings_count``
+and ``pole.has_been_saluted`` properties -- to keep track of what's been
+said, permitting two snatches of conversation (and awarding a point) before
+falling back on the embarrassing silences implied by "You can't think of
+anything to say".
+
+That's the end of our little fable; you'll find a transcript and the full
+source in "William Tell" story on page 219.  And now, it's time to meet --
+Captain Fate!
