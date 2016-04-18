@@ -539,33 +539,23 @@ need to specify the toilet, because we want this rule to apply to all
 dark rooms (well, the only dark room in the game *is* the toilet, but we 
 are trying to provide a general rule).
 
-.. todo::
+   :samp:`objectloop (variable) {statement};`
 
-  Lots of italicized typewriter stuff here...
+is a loop statement, one of the four defined in Inform. A loop statement is
+a construct that allows you to run several times through a statement (or a
+statement block). ``objectloop`` performs the :samp:`{statement}` once for
+every object defined in the (``variable``) . If we were to code:
 
-.. code-block:: inform6
+   :samp:`objectloop (item) {statement};`
 
-  objectloop (variable) statement;
+then the :samp:`{statement}` would be executed once for each object in the
+game. However, we want to perform the statement only for those objects
+whose parent object is the same as the player's parent object: that is, for
+objects in the same room as the player, so we instead code:
 
-is a loop statement, one of the four defined in Inform. A loop statement 
-is a construct that allows you to run several times through a statement 
-(or a statement block). ``objectloop`` performs the ``statement`` once 
-for every object defined in the (``variable``) . If we were to code:
+   :samp:`objectloop (item in parent(player)) {statement};`
 
-.. code-block:: inform6
-
-  objectloop (item) statement;
-
-then the ``statement`` would be executed once for each object in the 
-game. However, we want to perform the statement only for those objects 
-whose parent object is the same as the player's parent object: that is, 
-for objects in the same room as the player, so we instead code:
-
-.. code-block:: inform6
-
-  objectloop (item in parent(player)) statement;
-
-What is the actual ``statement`` that we'll repeatedly execute?
+What is the actual :samp:`{statement}` that we'll repeatedly execute?
 
 .. code-block:: inform6
 
