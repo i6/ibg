@@ -40,71 +40,7 @@ occasionally, IN and OUT.  There is quite an impressive stock of standard
 actions which can generally be relied upon to do something, even if only to
 tell you that you're wasting your time:
 
-.. todo::
-
-  These columns aren't coming through in the PDF version.
-
-.. hlist::
-   :columns: 5
-
-   * ASK
-   * BURN
-   * BUY
-   * CLEAN
-   * CLIMB
-   * CLOSE
-   * CUT
-   * DIG
-   * DISROBE
-   * DRINK
-   * DROP
-   * EAT
-   * EMPTY
-   * ENTER
-   * EXAMINE
-   * EXIT
-   * FILL
-   * GIVE
-   * GO
-   * INSERT
-   * INVENTORY
-   * JUMP
-   * KILL
-   * KISS
-   * LISTEN
-   * LOCK
-   * LOOK
-   * OFF
-   * ON
-   * OPEN
-   * PRAY
-   * PULL
-   * PUSH
-   * PUT
-   * READ
-   * SEARCH
-   * SHOW
-   * SING
-   * SIT
-   * SLEEP
-   * SMELL
-   * STAND
-   * SWIM
-   * SWITCH
-   * SWITCH
-   * TAKE
-   * TASTE
-   * TELL
-   * THINK
-   * THROW
-   * TIE
-   * TOUCH
-   * TRANSFER
-   * TURN
-   * UNLOCK
-   * WAIT
-   * WAVE
-   * WEAR
+.. include:: /tables/actions.rst
 
 You don't have to play IF with a list like this open in front of you; the
 idea is that a good game should understand whatever seems logical for you
