@@ -184,8 +184,7 @@ mostly to do with printing and formatting:
 
 In particular, avoid using the deprecated jump statement if you possibly can.
 
-
-..rubric:: Print rules
+.. rubric:: Print rules
 
 In ``print`` and ``print_ret`` statements, each ``value`` can be:
 
@@ -194,7 +193,6 @@ In ``print`` and ``print_ret`` statements, each ``value`` can be:
 * a ``"string"``, displayed literally, or
 
 * a print rule. You can create your own, or use a standard one, including:
-
 
   .. tabularcolumns:: ll
 

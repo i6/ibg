@@ -2,6 +2,10 @@
  Appendix F -- Inform library
 ==============================
 
+.. |ADD| replace:: **+**
+
+.. The ⊕ symbol doesn't work in LaTeX.
+
 .. default-role:: samp
 
 .. only:: html
@@ -29,6 +33,8 @@ Library objects
   If defined (between Includes of `Parser` and `VerbLib`), changes standard
   library messages:
 
+  .. only:: html
+
     | `Object LibraryMessages`
     |   `with before [;`
     |        `{action}: "{string}";`
@@ -41,6 +47,11 @@ Library objects
     |                `}`
     |            `...`
     |        `];`
+
+  .. todo::
+
+     Get this to work properly in LaTeX.  Currently get a 'too deeply
+     nested' error.
 
 `selfobj`
   The default player object.  Avoid: use instead the `player` variable,
@@ -366,7 +377,7 @@ returns `true`):
   | `{property} [; {routine_id}(); ]`
   | `{property} {routine_id}`
 
-In this appendix, "⊕" marks an additive property.  Where a `Class` and an
+In this appendix, |ADD| marks an additive property.  Where a `Class` and an
 `Object` of that class both define the same property, the value specified
 for the `Object` normally overrides the value inherited from the `Class`.
 However, if the property is additive then both values apply, with the
@@ -377,7 +388,7 @@ Object's value being considered first.
   The `{value}` can be a space-separated list of `{obj_ids}`, or a routine
   which invokes `PlaceInScope()` or `ScopeWithin()` to specify objects.
 
-`after` ⊕
+`after` |ADD|
   For an object: receives every `{action}` and `{fake_action}` for which
   this is the `{noun}`.  For a room: receives every `{action}` which occurs
   here.
@@ -398,7 +409,7 @@ Object's value being considered first.
   For a non-English object: its definite and indefinite articles.  The
   `{value}` is an array of strings.
 
-`before` ⊕
+`before` |ADD|
   For an object: receives every `{action}` and `{fake_action}` for which
   this is the `{noun}`.  For a room: receives every action which occurs
   here.
@@ -435,7 +446,7 @@ Object's value being considered first.
   `StartDaemon({obj_id})` and which then runs once each turn until
   deactivated by `StopDaemon({obj_id})`.
 
-`describe` ⊕
+`describe` |ADD|
   For an object: called before the object's description is output.  For a
   room: called before the room's (long) description is output.
 
@@ -471,7 +482,7 @@ Object's value being considered first.
 `e_to`
   See `d_to`.
 
-`each_turn` ⊕
+`each_turn` |ADD|
   Invoked at the end of each turn (after all appropriate daemons and
   timers) whenever the object is in scope.  The `{value}` can be a string,
   or a routine.
@@ -518,7 +529,7 @@ Object's value being considered first.
   `inventory_stage` has the value 2, and the routine should return `false`
   to continue, or `true` to stop processing and produce no further output.
 
-`life` ⊕
+`life` |ADD|
   For an `animate` object: receives person-to-person actions (`Answer`,
   `Ask`, `Attack`, `Give`, `Kiss`, `Order`, `Show`, `Tell`, `ThrowAt` and
   `WakeOther`) for which this is the `{noun}`.  The `{value}` is a routine
@@ -545,7 +556,7 @@ Object's value being considered first.
 `n_to`
   See `d_to`.
 
-`name` ⊕
+`name` |ADD|
   Defines a space-separated list of words which are added to the Inform
   dictionary.  Each word can be supplied in apostrophes '...'  or quotes
   "..."; in all other cases only words in apostrophes update the
@@ -566,7 +577,7 @@ Object's value being considered first.
 `nw_to`
   See `d_to`.
 
-`orders` ⊕
+`orders` |ADD|
   For an `animate` or `talkable` object: the `{value}` is a routine called
   to carry out the player's orders.  The routine should return `false` to
   continue, or `true` to stop processing the action and produce no further
