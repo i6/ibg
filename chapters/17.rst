@@ -1,0 +1,157 @@
+==========================
+\*\*\* You have won \*\*\*
+==========================
+
+.. epigraph::
+
+   | *I might just as well have saved the labor and sweat I had put into*
+   | *trying to make my reports harmless. They didn't fool the Old Man.*
+   | *He gave me merry hell.*
+
+   -- The Continental Op in Dashiell Hammett's *Red Harvest*.
+
+
+.. only:: html
+
+  .. image:: /images/picJ.png
+     :align: left
+
+.. raw:: latex
+
+    \dropcap{j}
+
+ust a few final words to round things off. All that remains are the 
+appendices, with terse but comprehensive summaries of the Inform 
+language and its IF library, plus the source code and run-time 
+transcripts of the games we have developed here. Our "labor and sweat" 
+have been oriented towards making your introduction to Inform as 
+harmless as possible, but this probably won't fool you for long. 
+Although we believe we have covered the system's basic functionality and 
+given you enough grounding to feel comfortably sure-footed as you roam 
+the designing wilderness, there are still many techniques to be mastered 
+and additional aspects to be learnt, including medium and advanced 
+features at which we have not even hinted.
+
+Before you give us merry hell, however, be reassured that the remaining 
+lore, which may at times feel obscure and enigmatic, is fundamentally 
+constructed around the principles that you have already seen. You should 
+now be ready to browse through other documentation and resources without 
+them seeming full of inscrutable hieroglyphs; on the contrary, you'll be 
+able to focus on those bits you don’t know about (which now, we hope, 
+will be rather less abundant). Inform, like other powerful and flexible 
+IF design tools, is prepared to cope with the needs of demanding 
+authors: "I don't like the way it handles the TAKE ALL command; I wanna 
+change it." And so you can. "I'd prefer the listings of objects 
+organised in a prettier way." Go right ahead. "I want to have a better 
+social life thanks to Inform." No problem, but you'll have to be one 
+damn charming designer. Oh, well.
+
+Inform has been designed to let you do simple things intuitively and 
+quickly. Left to its own devices, it offers a wide range of default 
+functionality, and we’ve seen that it’s also easy to alter some of its 
+standard behaviour. The desirable goal is for you to reach a state of 
+such familiarity with the system that you can concentrate on designing 
+your games. By "such familiarity" we are not implying that you should 
+know the innards of the library inside out; such people exist, but 
+they're few and far between. However, once you become reasonably 
+proficient at typing in code, with a knowledge level similar to the one 
+provided by this guide, a careful look at the appropriate section of the 
+*Inform Designer's Manual* should help you through most difficulties. 
+Admittedly, there are problems and *problems*, from the slap-on-the-head 
+trifle to the teeth-gnashing nightmare. We advise you to put the 
+nightmares on hold for the time being. It may be that one day you 
+discover that their fangs were not as sharp as they seemed.
+
+There are many interesting topics that you could pursue next. Here are a 
+few:
+
+* **Score:** we have seen two ways of scoring a game, but you may decide 
+  that scores have no meaning in your game. And there is yet a third 
+  built-in system for defining "tasks" worthy of reward, from "wearing 
+  the ridiculous bonnet at the Ambassador's party" to "convincing the 
+  unfriendly monkey to play the upright piano". This technique requires 
+  a bit of knowledge about...
+
+* **Arrays:** these are enumerated lists of variables. Instead of having 
+  just one variable to play with, you can have a collection of them, 
+  indexed by number.
+
+* **Lists and inventories:** there are many functions to let you arrange 
+  the way objects are grouped and presented to the player at run-time.
+
+* **Vehicles:** cars, elevators, hot-air balloons, magic carpets, 
+  spaceships -- or any other device in which the player may travel 
+  around.
+
+* **Create verbs and vocabulary:** although we have already nibbled at 
+  this concept, you can fine-tune the parser to allow for all sorts of 
+  amazing commands (from magical utterances that trigger unfathomable 
+  spells, to special actions that affect many objects at once).
+
+* **Changing the player:** who says that the player character must be a 
+  boring human being? Metamorphose the unsuspecting mortal into a 
+  virtual-reality proxy, a fantastic animal, an untouchable ghost, a 
+  powerful telepath or a telekinetic vampire. Undecided about which one? 
+  Make your game with multiple starring characters and switch between 
+  them when you want.
+
+* **Passing of time, timed machines and events:** set a timer that ticks 
+  away, unbeknown to the player and attach it to a bomb; a door which 
+  opens only once every ten turns; a dragon with short fuse and little 
+  patience; a marching patrol of soldiers; a clock that ominously chimes 
+  the arrival of sunset and doom. Change the "turns" count on the status 
+  line into minutes, or days.
+
+* **Mutable directions:** north is north? Not necessarily. Change the 
+  direction objects of the game to "forward", "back", and so on. You are 
+  on a ship? "fore" and "aft", "port" and "starboard" may be the thing 
+  for you. Enter a mirror and have the map and all the directions reflected.
+
+* **Complex NPCs:** how unpredictable can the behaviour of that 
+  impertinent butler be? Can he talk, move, steal your possessions, 
+  poison your tea? Does he react coherently to the player's actions? 
+  Does he have a hidden agenda of his own? Although NPC creation is 
+  indeed a knotty craft, it’s one worth mastering. "Living" NPCs 
+  increase immensely the reality of your games.
+
+* **Techie features:** change the status line, or the command prompt. 
+  Clear the screen, or alter its colour; centre text upon it, and colour 
+  the text as well. Wait for the player to press a key and then trigger 
+  some action. Display a message one letter at a time. Add a tiny 
+  compass showing available exits at all times.
+
+Interactive fiction mixes creativity and narrative skills with coding 
+expertise. Usually, those games which make the biggest impact have a 
+fair amount of both. If you feel yourself lacking one of these qualities 
+at present, contemplate a little teamwork: there are IF collaboration 
+lists on the Internet, where people offer to lend a hand with ideas or 
+programming (and some very good games have come from the mixed efforts 
+of a well-tuned collaboration). Above all, don't forget the importance 
+of beta-testing, which may produce the feedback inspiring you to turn 
+your decent attempt into a killing machine. There's little as obnoxious 
+to players as a game which is obviously under-tested. Getting those bugs 
+out is your responsibility; be sure to clean it as best you can, but 
+never *ever* release a game until it has been kicked around by others. 
+And remember that beta-testers are (almost certainly) experienced 
+players, so their advice beyond the call of bug-hunting is as priceless 
+counsel as you are likely to get. Encourage them to comment on your 
+achievements in both programming *and* design.
+
+Now: where to go, what to do? Allow us to insist one last time on the 
+importance of reading the *Inform Designer's Manual*, an excellent book 
+in all respects. While you are at it, write small games, training 
+exercises; we don't advise you to try an epic saga for your first 
+scenario, but if nothing else will work for you -- the Think Big 
+approach -- don't let us deter you. It's a good idea to play other 
+people's games, because you'll know the average level that players may 
+expect; check the newsgroups for comments on good titles. Be sure around 
+September to keep an eye open for the Interactive Fiction Competition 
+(http://www.ifcomp.org/), an annual showcase for short(ish) works.
+
+And, who knows? It might be that next year we’ll all be smashed by 
+*your* entry.
+
+
+.. todo:: This signoff should be aligned to the right side.
+
+*Sonja and Roger*
