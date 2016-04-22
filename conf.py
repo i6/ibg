@@ -229,7 +229,7 @@ htmlhelp_basename = 'IBG'
 # -- Options for LaTeX output ---------------------------------------------
 
 # Title page information.
-latex_image = "harry1"
+latex_image = "harry_col"
 latex_image_title = "First Steps"
 latex_image_info = "(watercolour and crayon on paper, 2002) Harry Firth (2000-)"
 latex_image_path = os.path.join('images', latex_image + '.png')
