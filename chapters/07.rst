@@ -619,7 +619,7 @@ we *could* write two ``if`` statements::
           enough. How's Frau Tell? Give her my best wishes.~^";
 
 but that's unbearably clumsy; instead, we use the braces to group the
-``move`` and ``print`` statement into a **statement block** (sometimes
+``move`` and ``print`` statement into a :term:`statement block` (sometimes
 known as a code block) which counts as a single statement for the purposes
 of control by the ``if`` statement. ::
 

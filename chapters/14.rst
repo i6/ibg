@@ -87,8 +87,8 @@ player), and we use the placeholders ``obj_id``, ``var_id``,
 Statements
 ==========
 
-A **statement** is an instruction intended for the interpreter, telling 
-it what to do at run-time. It *must* be given in lower-case, and always 
+A :term:`statement` is an instruction intended for the interpreter, telling
+it what to do at run-time. It *must* be given in lower-case, and always
 ends with a semicolon.
 
 Some statements, like ``if``, control one or more other statements. We 
@@ -212,10 +212,10 @@ In ``print`` and ``print_ret`` statements, each ``value`` can be:
 Directives
 ==========
 
-A **directive** is an instruction intended for the compiler, telling it 
-what to do at compile-time, while the source file is being translated 
-into Z-code. By convention it's given an initial capital letter (though 
-the compiler doesn't enforce this) and always ends with a semicolon.
+A :term:`directive` is an instruction intended for the compiler, telling it
+what to do at compile-time, while the source file is being translated into
+Z-code. By convention it's given an initial capital letter (though the
+compiler doesn't enforce this) and always ends with a semicolon.
 
 .. rubric:: Directives that we've met
 

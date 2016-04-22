@@ -34,10 +34,10 @@ beasts.
 
 .. rubric:: Constants
 
-A **constant** is a name to which a value is given once and once only; you
-can't later use that name to stand for a different value.  Think of it as a
-stone tablet on which you carve a number: a carving can't be undone, so
-that you see the same number every time you look at the stone.
+A :term:`constant` is a name to which a value is given once and once only;
+you can't later use that name to stand for a different value.  Think of it
+as a stone tablet on which you carve a number: a carving can't be undone,
+so that you see the same number every time you look at the stone.
 
 So far, we've seen a ``Constant`` being set up with its value as a string
 of characters::
@@ -53,8 +53,8 @@ used in Inform.
 
 .. rubric:: Variables
 
-A **variable** is a name to which a value is given, but that value can be
-changed to a different one at any time.  Think of it as a blackboard on
+A :term:`variable` is a name to which a value is given, but that value can
+be changed to a different one at any time.  Think of it as a blackboard on
 which you mark a number in chalk: whenever you need to, just wipe the board
 and write up a new number.
 
@@ -64,8 +64,8 @@ which the library created like this::
     Global location;
     Global deadflag;
 
-The value of a **global variable** created in this way is initially 0, but
-you can change it at any time.  For example, we used the statement::
+The value of a :term:`global variable` created in this way is initially 0,
+but you can change it at any time.  For example, we used the statement::
 
      location = before_cottage;
 
@@ -76,8 +76,9 @@ to reset the value of the ``location`` variable to the
 
 to reset the value of the ``deadflag`` variable to 2.
 
-Later, we'll talk about the **local variable** (see "Routines" on page 179)
-and about using object properties as variables (see "Objects" on page 177).
+Later, we'll talk about the :term:`local variable` (see "Routines" on
+page 179) and about using object properties as variables (see "Objects" on
+page 177).
 
 Object definitions
 ==================
@@ -93,7 +94,7 @@ defined by the library).
   The set-off below needs to be tweaked or perhaps a custom lexer 
   created to get italics in the right places.
 
-The general model of an **object** definition looks like this::
+The general model of an :term:`object` definition looks like this::
 
         Object      obj_id   "external_name"   parent_obj_id
            with     property    value ,
@@ -107,8 +108,8 @@ The definition starts with the word ``Object`` and ends with a semicolon;
 in between are three major blocks of information:
 
 * immediately after the word ``Object`` is the header information;
-* the word ``with`` introduces the object's **properties**;
-* the word ``has`` introduces the object's **attributes**.
+* the word ``with`` introduces the object's :term:`properties`;
+* the word ``has`` introduces the object's :term:`attributes`.
 
 .. rubric:: Object headers
 
@@ -185,8 +186,8 @@ with the ``description`` property in this particular example is a string of
 characters in double quotes; the value associated with this ``e_to``
 property is the internal identity of an object; the ``name`` property is a
 bit unusual -- its value is a list of dictionary words, each in single
-quotes; the ``each_turn`` property has a value which is an **embedded
-routine** (see "Embedded routines" on page 58).  The only other type of
+quotes; the ``each_turn`` property has a value which is an :term:`embedded
+routine` (see "Embedded routines" on page 58).  The only other type of
 value which is commonly found is a simple number; for example::
 
      capacity 10,
@@ -207,11 +208,12 @@ As with properties, you can think of each attribute as a variable which is
 specifically associated with that object.  However, an attribute is a much
 more limited form of variable, since it can have only two possible states:
 present, and absent (also known as set/clear, on/off, or true/false;
-incidentally, a two-state variable like this is often called a **flag**).
-Initially, an attribute is either present (if you mention its name in the
-list) or absent (otherwise); if necessary, its state can change during play
-(and this is relatively common).  We often say that a certain object
-currently *has* a certain attribute, or that conversely it *hasn't* got it.
+incidentally, a two-state variable like this is often called a
+:term:`flag`).  Initially, an attribute is either present (if you mention
+its name in the list) or absent (otherwise); if necessary, its state can
+change during play (and this is relatively common).  We often say that a
+certain object currently *has* a certain attribute, or that conversely it
+*hasn't* got it.
 
 The attributes that we've come across so far are::
 
@@ -237,9 +239,9 @@ recording exactly where each object is located, relative to the other
 objects in the game.
 
 Despite what we just said, Inform relationships *are* managed in terms of
-**parent** and **child** objects, though in a much broader sense than
-Wilhelm and Walter.  When the player character is in a particular room --
-for example the forest -- we can say that:
+:term:`parent` and :term:`child` objects, though in a much broader sense
+than Wilhelm and Walter.  When the player character is in a particular room
+-- for example the forest -- we can say that:
 
 * the forest object is *the* parent of the player object, or alternatively
 * the player object is *a* child of the forest object.
@@ -345,10 +347,10 @@ parent object at the top of the line, and the child object at the bottom.
 
 In this short example, we've taken a lot of time and space to spell out
 exactly how the objects relationship patterns -- generally known as the
-**object tree** -- appear at each stage.  Normally you wouldn't bother with
-this much detail (a) because the interpreter does most of the work for you,
-and (b) because in a real game there are usually too many objects for you
-to keep track of.  What's important is that you understand the basic
+:term:`object tree` -- appear at each stage.  Normally you wouldn't bother
+with this much detail (a) because the interpreter does most of the work for
+you, and (b) because in a real game there are usually too many objects for
+you to keep track of.  What's important is that you understand the basic
 principles: at any moment in time an object either has no parent (which
 probably means either that it's a room, or that it's floating in hyperspace
 and not currently part of the game) or exactly one parent -- the object
@@ -370,12 +372,12 @@ Inform makes careful distinction between double and single quotes.
 
 .. rubric:: Double quotes
 
-Double quotes ``"..."`` surround a **string** -- a letter, a word, a 
-paragraph, or almost any number of characters -- which you want the 
-interpreter to display while the game is being played.  You can use the 
-tilde ``~`` to represent a double quote inside the string, and the 
-circumflex ``^`` to represent a newline (line break) character.  
-Upper-case and lower-case letters are treated as different.
+Double quotes ``"..."`` surround a :term:`string` -- a letter, a word, a
+paragraph, or almost any number of characters -- which you want the
+interpreter to display while the game is being played.  You can use the
+tilde ``~`` to represent a double quote inside the string, and the
+circumflex ``^`` to represent a newline (line break) character.  Upper-case
+and lower-case letters are treated as different.
 
 A long string can be split over several lines; Inform transforms each 
 line break (and any spaces around it) into a single space (extra spaces 
@@ -413,12 +415,12 @@ Later, you'll find that they're also very common in ``print`` statements.
 
 .. rubric:: Single quotes
 
-Single quotes ``'...'`` surround a **dictionary word**.  This has to be 
-a single word -- no spaces -- and generally contains only letters (and 
-occasionally numbers and hyphens), though you can use ``^`` to represent 
-an apostrophe inside the word.  Upper-case and lower-case letters are 
-treated as identical; also, the interpreter normally looks only at the 
-first nine characters of each word that the player types.
+Single quotes ``'...'`` surround a :term:`dictionary word`.  This has to be
+a single word -- no spaces -- and generally contains only letters (and
+occasionally numbers and hyphens), though you can use ``^`` to represent an
+apostrophe inside the word.  Upper-case and lower-case letters are treated
+as identical; also, the interpreter normally looks only at the first nine
+characters of each word that the player types.
 
 When the player types a command, the interpreter divides what was typed
 into individual words, which it then looks up in the dictionary.  If it
@@ -444,15 +446,15 @@ routine, and about two dozen types of statement (there's a complete list in
 
 .. rubric:: Statements
 
-A **statement** is an instruction telling the interpreter to perform a
+A :term:`statement` is an instruction telling the interpreter to perform a
 particular task -- to "do something" -- while the game is being played.  A
 real game usually has lots and lots of statements, but so far we've
 encountered only a few.  We saw::
 
      location = before_cottage;
 
-which is an example of an **assignment** statement, so-called because the
-equals sign ``=`` assigns a new value (the internal ID of our
+which is an example of an :term:`assignment` statement, so-called because
+the equals sign ``=`` assigns a new value (the internal ID of our
 ``before_cottage`` room) to a variable (the global variable ``location``
 which is part of the library).  Later we saw::
 
@@ -491,9 +493,9 @@ and embedded routines.
 
 .. rubric:: Standalone routines
 
-A **standalone routine** is a series of statements, collected together and
-given a name.  When the routine is "called" -- by its given name -- those
-statements are executed.  Here's the one that we've defined::
+A :term:`standalone routine` is a series of statements, collected together
+and given a name.  When the routine is "called" -- by its given name --
+those statements are executed.  Here's the one that we've defined::
 
     [ Initialise; location = before_cottage; ];
 
@@ -530,7 +532,7 @@ call.
 
 .. rubric:: Embedded routines
 
-An **embedded routine** is much like a standalone routine, though it
+An :term:`embedded routine` is much like a standalone routine, though it
 doesn't have a name and doesn't end in a semicolon.  This is the one that
 we defined::
 

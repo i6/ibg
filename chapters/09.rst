@@ -158,7 +158,7 @@ of the variable -- ``self`` or ``location`` -- which is being checked.  A
 better approach might be to rework our ``BeenHereBefore`` routine so that
 it does both jobs, but we somehow need to tell it which variable's value is
 to be checked.  That's easy: we design the routine so that it expects an
-**argument**::
+:term:`argument`::
 
     [ BeenToBefore this_room;
         if (this_room has visited) return true;
@@ -180,7 +180,7 @@ routine doesn't care where the argument came from; it just sees a value
 which it knows as ``this_room``, and which it then uses to test for the
 ``visited`` attribute.  On the second line we supply ``location`` as the
 argument, but the routine just sees another value in its ``this_room``
-variable.  ``this_room`` is called a **local variable** of the
+variable.  ``this_room`` is called a :term:`local variable` of the
 ``BeenToBefore`` routine, one that must be set to a suitable value each
 time that the routine is called.  In this example routine, the value needs
 to be a room object; we could also check an explicit named room::

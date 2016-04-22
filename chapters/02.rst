@@ -26,10 +26,10 @@ process slightly more complex.
 
 * For IF, you still have to write all of the text, but you also have to
   establish what text gets displayed when.  Once you have written the
-  necessary Inform instructions, you use a **compiler** program to convert
-  them into a playable format.  The resulting information is played by an
-  **interpreter** program, which permits you to interact with your
-  developing world.
+  necessary Inform instructions, you use a :term:`compiler` program to
+  convert them into a playable format.  The resulting information is played
+  by an :term:`interpreter` program, which permits you to interact with
+  your developing world.
 
 With static fiction What You Write Is What You Read, but with IF the format
 in which you initially write the game doesn't bear much resemblance to the
@@ -74,20 +74,21 @@ page 219, the player will see the following::
 Clearly, there's more to writing IF than just laying down the words in the
 right order.  Fortunately, we can make one immediate simplification: the
 translated form produced by the Inform compiler -- those cryptic numbers
-and letters held in what's known as the **story file** -- is designed to be
-read by the interpreter program.  The story file is an example of a
+and letters held in what's known as the :term:`story file` -- is designed
+to be read by the interpreter program.  The story file is an example of a
 "binary" file, containing data intended for use only by a computer program.
 Forget all that unreadable gibberish.
 
 So that leaves just the first form -- the one starting "``Constant Story``"
--- which represents the tale written as a piece of IF.  That's the **source
-file** (so called because it contains the game in its original, source,
-form) which you create on your computer.  The source file is a "text" (or
-"ASCII") file containing words and phrases which can be read -- admittedly
-after a little tuition, which is what this guide is all about -- by humans.
+-- which represents the tale written as a piece of IF.  That's the
+:term:`source file` (so called because it contains the game in its
+original, source, form) which you create on your computer.  The source file
+is a "text" (or "ASCII") file containing words and phrases which can be
+read -- admittedly after a little tuition, which is what this guide is all
+about -- by humans.
 
 How do you create that source file?  Using a third software program: an
-**editor**.  However, unlike the compiler and interpreter, this program
+:term:`editor`.  However, unlike the compiler and interpreter, this program
 isn't dedicated to the Inform system -- or even to IF.  An editor is an
 entirely general tool for creating and modifying text files; you've
 probably already got a basic one on your computer (an IBM PC running
@@ -103,7 +104,7 @@ Tell" story on page 219, you'll notice ``Include "Parser";`` and ``Include
 "VerbLib";`` a few lines down from the top of the file.  These are
 instructions to the Inform compiler to "include" -- that is, to merge in
 the contents -- of files called ``Parser.h`` and ``VerbLib.h``.  These are
-not files which you have to create; they're standard **library files**,
+not files which you have to create; they're standard :term:`library files`,
 part of the Inform system.  All that you have to do is remember to Include
 them in every game that you write.  Until you've a fair understanding of
 how Inform works, you've no need to worry about what they contain (though
@@ -113,20 +114,21 @@ ones this guide will teach you to write).
 So, we've now introduced all of the bits and pieces which you need in order to
 write an Inform adventure game:
 
-* a text **editor** program which can create and modify the **source file**
-  containing the descriptions and definitions of your game.  Although it's
-  not recommended, you can even use a word-processing program to do this,
-  but you have to remember to save your game in Text File format;
+* a text :term:`editor` program which can create and modify the
+  :term:`source file` containing the descriptions and definitions of your
+  game.  Although it's not recommended, you can even use a word-processing
+  program to do this, but you have to remember to save your game in Text
+  File format;
 
-* some Inform **library files** which you Include in your own game source
-  file in order to provide the **model world** -- a basic game 
+* some Inform :term:`library files` which you Include in your own game
+  source file in order to provide the :term:`model world` -- a basic game
   environment and lots of useful standard definitions;
 
-* the Inform **compiler** program, which reads your source file (and the
-  library files) and translates your descriptions and definitions into
-  another format -- the **story file** -- intended only for...
+* the Inform :term:`compiler` program, which reads your source file (and
+  the library files) and translates your descriptions and definitions into
+  another format -- the :term:`story file` -- intended only for...
 
-* an Inform **interpreter** program, which is what players of your game
+* an Inform :term:`interpreter` program, which is what players of your game
   use.  A player doesn't require the source file, library files or compiler
   program, just the interpreter and the game in compiled format (which,
   because it's a binary file not meaningful to human eyes, neatly
@@ -311,7 +313,7 @@ doing.  There are four parts to the first line:
 
    .. note::
 
-      On the command line, you sometimes also see a compiler **switch**
+      On the command line, you sometimes also see a compiler :term:`switch`
       such as ``-S``, used for controlling detailed aspects of how the
       compiler operates.  Rather than do that here, we find it more
       convenient to place any necessary switches at the very top of the
@@ -598,10 +600,10 @@ There are three parts to the second line:
 
    .. note::
 
-      On the command line, you sometimes also see a compiler **switch** 
-      such as ``-S``, used for controlling detailed aspects of how the 
-      compiler operates.  Rather than do that here, we find it more 
-      convenient to place any necessary switches at the very top of the 
+      On the command line, you sometimes also see a compiler :term:`switch`
+      such as ``-S``, used for controlling detailed aspects of how the
+      compiler operates.  Rather than do that here, we find it more
+      convenient to place any necessary switches at the very top of the
       source file, as we'll explain in the next chapter.
 
 Once you've finished editing those lines, ``Save`` the file (not
@@ -707,9 +709,9 @@ silly compilation errors.
 The Inform compiler is a powerful but undramatic software tool; it does an
 awful lot of work, but it does it all at once, without stopping to ask you
 any questions.  Its input is a readable text source file; the output is a
-story file, also sometimes known as a **Z-code file** (because it contains
-the game translated into code for the Z-machine, which we describe in the
-next section).
+story file, also sometimes known as a :term:`Z-code file` (because it
+contains the game translated into code for the Z-machine, which we describe
+in the next section).
 
 If you're lucky, the compiler will translate your source file into Z-code;
 perhaps surprisingly, it doesn't display any form of "success" message when
@@ -732,7 +734,7 @@ That's not just from one PC to another: exactly the same story file will
 run on a PC, a Mac, an Amiga, UNIX workstations, IBM mainframes, PalmOS
 hand-helds, and on dozens of other past, present and future computers.  The
 magic that makes this happen is the interpreter program, a software tool
-which pretends to be a simple computer called a **Z-machine**.  The
+which pretends to be a simple computer called a :term:`Z-machine`.  The
 Z-machine is an imaginary (or "virtual") computer, but its design has been
 very carefully specified, so that an expert programmer can quite easily
 build one.  And that's exactly what has happened: a Macintosh guru has

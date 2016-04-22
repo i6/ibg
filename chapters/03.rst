@@ -167,9 +167,9 @@ looking at the source file.
   source.  The instructions most commonly placed here are compiler
   switches, a way of controlling detailed aspects of how the compiler
   operates.  These particular switches, two of many, are turning on
-  **Strict mode**, which makes the game less likely to misbehave when being
-  played, and **Debug mode**, which provides some extra commands which can
-  be helpful when tracking down problems.
+  :term:`Strict mode`, which makes the game less likely to misbehave when
+  being played, and :term:`Debug mode`, which provides some extra commands
+  which can be helpful when tracking down problems.
 
   .. note::
 
@@ -184,9 +184,9 @@ looking at the source file.
   line is ignored; if the ``!`` is halfway along a line, the compiler takes
   note of the first half, and then ignores the exclamation mark and
   everything after it on that line.  We call material following an
-  exclamation mark, not seen by anybody else, a **comment**; it's often a
-  remark that we write to remind ourselves of how something works or why we
-  tackled a problem in a particular way.  There's nothing special about
+  exclamation mark, not seen by anybody else, a :term:`comment`; it's often
+  a remark that we write to remind ourselves of how something works or why
+  we tackled a problem in a particular way.  There's nothing special about
   those equals signs: they just produce clear lines across the page.
 
   It's always a good idea to comment code as you write it, for later it
@@ -198,7 +198,7 @@ looking at the source file.
   By the way, the compiler *doesn't* give special treatment to exclamation
   marks in quoted text: ``!`` within quotes "..." is treated as a normal
   character.  On this line, the first ``!`` is part of the sequence (or
-  **string**) of characters to be displayed:
+  :term:`string`) of characters to be displayed:
 
   .. code-block:: inform
 
@@ -222,11 +222,12 @@ looking at the source file.
   you've typed, so it's worthwhile taking a bit of care to make it as
   readable as possible.
 
-* Every game should have the **constant** definitions for ``Story`` (the
-  game's name) and ``Headline`` (typically, information on the game's
-  theme, copyright, authorship and so on).  These two **string** values,
-  along with a release number and date, and details of the compiler,
-  compose the **banner** which is displayed at the start of each game.
+* Every game should have the :term:`constant` definitions for ``Story``
+  (the game's name) and ``Headline`` (typically, information on the game's
+  theme, copyright, authorship and so on).  These two :term:`string`
+  values, along with a release number and date, and details of the
+  compiler, compose the :term:`banner` which is displayed at the start of
+  each game.
 
 * Every game needs the three lines which ``Include`` the standard library
   files -- that is, they merge those files' contents into your source file:
@@ -248,9 +249,9 @@ looking at the source file.
 
      [ Initialise; ];
 
-  The **routine** that we've defined here doesn't do anything useful, but
-  it still needs to be present.  Later, we'll come back to ``Initialise``
-  and explain what a routine is and why we need this one.
+  The :term:`routine` that we've defined here doesn't do anything useful,
+  but it still needs to be present.  Later, we'll come back to
+  ``Initialise`` and explain what a routine is and why we need this one.
 
 * You'll notice that each of the items mentioned in the previous three
   rules ends with a semicolon.  Inform is very fussy about its punctuation,
@@ -283,8 +284,8 @@ involved: this sketch map shows the four that we'll use:
 .. image:: /images/heidi1.*
    :align: center
 
-In IF, we talk about each of these locations as a **room**, even though in
-this example none of them has four walls.  So let's use Inform to define
+In IF, we talk about each of these locations as a :term:`room`, even though
+in this example none of them has four walls.  So let's use Inform to define
 those rooms.  Here's a first attempt:
 
 .. code-block:: inform
@@ -351,11 +352,11 @@ Again, we can infer some general principles from these four examples:
   commonly, that light source is the room itself.
 
 A smidgeon of background may help set this into context (there's more in
-the next chapter).  An object can have both **properties** (introduced by
-the keyword ``with``) and **attributes** (written after the word ``has``).
-A property has both a name (like ``description``) and a value (like the
-character string "``You stand outside a cottage.  The forest stretches
-east.``"); an attribute has merely a name.
+the next chapter).  An object can have both :term:`properties` (introduced
+by the keyword ``with``) and :term:`attributes` (written after the word
+``has``).  A property has both a name (like ``description``) and a value
+(like the character string "``You stand outside a cottage.  The forest
+stretches east.``"); an attribute has merely a name.
 
 In a little while, when you play this game, you'll observe that it starts
 like this:
@@ -461,7 +462,7 @@ where the game starts, and we do this in the ``Initialise`` routine::
 
     [ Initialise; location = before_cottage; ];
 
-``location`` is a **variable**, part of the library, which tells the
+``location`` is a :term:`variable`, part of the library, which tells the
 interpreter in which room the player character currently is.  Here, we're
 saying that, at the start of the game, the player character is in the
 ``before_cottage`` room.
@@ -584,18 +585,18 @@ line to each definition:
            name 'bird^s' 'nest' 'twigs' 'moss',
       has  ;
 
-The ``name`` introduces a list in single quotes '...'.  We call each of 
-those quoted things a **dictionary word**, and we do mean "word", not 
-"phrase" (``'baby'``\ ``'bird'`` rather than ``'baby bird'``); you can't 
-uses spaces, commas or periods *in* dictionary words, though there's a 
-space *between* each one, and the whole list ends with a comma.  The 
-idea is that the interpreter decides which object a player is talking 
-about by matching what she types against the full set of all dictionary 
-words.  If the player mentions BIRD, or BABY BIRD, or NESTLING, it's the 
-``baby bird`` that she means; if she mentions NEST, BIRD'S NEST or MOSS, 
-it's the ``bird's nest``. And if she types NEST BABY or BIRD TWIGS, the 
-interpreter will politely say that it doesn't understand what on earth 
-she's talking about.
+The ``name`` introduces a list in single quotes '...'.  We call each of
+those quoted things a :term:`dictionary word`, and we do mean "word", not
+"phrase" (``'baby'``\ ``'bird'`` rather than ``'baby bird'``); you can't
+uses spaces, commas or periods *in* dictionary words, though there's a
+space *between* each one, and the whole list ends with a comma.  The idea
+is that the interpreter decides which object a player is talking about by
+matching what she types against the full set of all dictionary words.  If
+the player mentions BIRD, or BABY BIRD, or NESTLING, it's the ``baby bird``
+that she means; if she mentions NEST, BIRD'S NEST or MOSS, it's the
+``bird's nest``. And if she types NEST BABY or BIRD TWIGS, the interpreter
+will politely say that it doesn't understand what on earth she's talking
+about.
 
 .. note::
 

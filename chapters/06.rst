@@ -267,14 +267,14 @@ We've done four things:
 #. We don't need to explicitly include the ``light`` attribute each time;
    every ``Room`` object has it automatically.
 
-A **class** is a family of closely related objects, all of which behave in
-the same way.  Any properties defined for the class, and any attributes
+A :term:`class` is a family of closely related objects, all of which behave
+in the same way.  Any properties defined for the class, and any attributes
 defined for the class, are automatically given to objects which you specify
 as belonging to that class; this process of acquisition just by being a
-member of a class is called **inheritance**.  In our example, we've defined
-a ``Room`` class with a ``light`` attribute, and then we've specified four
-objects each of which is a member of that class, and each of which gets
-given a ``light`` attribute as a result of that membership.
+member of a class is called :term:`inheritance`.  In our example, we've
+defined a ``Room`` class with a ``light`` attribute, and then we've
+specified four objects each of which is a member of that class, and each of
+which gets given a ``light`` attribute as a result of that membership.
 
 Why have we gone to this trouble?  Three main reasons:
 
@@ -408,7 +408,8 @@ The interesting things that this statement demonstrates are:
   nest", ``(a) nest`` would display "a bird's nest", ``(A) nest`` would
   display "A bird's nest" and ``(name) nest`` would display just "bird's
   nest".  This use of a word in parentheses, telling the interpreter how to
-  display the following object's internal ID, is called a **print rule**.
+  display the following object's internal ID, is called a :term:`print
+  rule`.
 
 * There's a library variable ``self`` which always contains the internal ID
   of the current object, and is really convenient when using a ``Class``.

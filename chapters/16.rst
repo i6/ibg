@@ -56,12 +56,12 @@ you must make the appropriate changes. (There is also the case when you
 can't find the mistake. Don't worry, it's there somewhere. Persistence 
 always pays off in the end.)
 
-To help you out in this daunting task, Inform has a stock of special 
-actions: the debugging verbs. They become available at run-time when the 
-source file is compiled in **Debug mode** (``-D switch``). When you are 
-ready to release your game, you’ll have to recompile, switching off 
-Debug to avoid allowing the players to benefit from the debugging verbs. 
-We'll cover briefly a few of these actions, and tell you what they do.
+To help you out in this daunting task, Inform has a stock of special
+actions: the debugging verbs. They become available at run-time when the
+source file is compiled in :term:`Debug mode` (``-D switch``). When you are
+ready to release your game, you’ll have to recompile, switching off Debug
+to avoid allowing the players to benefit from the debugging verbs.  We'll
+cover briefly a few of these actions, and tell you what they do.
 
 
 Command lists
@@ -237,20 +237,18 @@ TIMERS (or TIMERS ON ) and TIMERS OFF
 
 TRACE (or TRACE ON ), TRACE *number* and TRACE OFF
 
-  If you turn on this powerful verb, you'll be able to follow the 
-  activity of the **parser** -- that part of the library which tries to 
-  make sense of what the player types -- and this will indeed be a 
-  wonderful moment of gratitude that someone else took the trouble of 
-  writing it. Since the parser does so many things, you can decide the 
-  level of detail about the displayed information with the *number* 
-  parameter, which can go from 1 (minimum info) to 5 (maximum info). By 
-  default, TRACE ON and TRACE with no number sets level 1. Trace level 
-  1 shows the grammar line that the parser is thinking about, while 
-  level 2 shows each individual token on each grammar line that it 
-  tries. The information displayed with higher levels may become quite 
-  hacky, and you are advised to use this feature only if nothing else 
-  helps.
-
+  If you turn on this powerful verb, you'll be able to follow the activity
+  of the :term:`parser` -- that part of the library which tries to make
+  sense of what the player types -- and this will indeed be a wonderful
+  moment of gratitude that someone else took the trouble of writing
+  it. Since the parser does so many things, you can decide the level of
+  detail about the displayed information with the *number* parameter, which
+  can go from 1 (minimum info) to 5 (maximum info). By default, TRACE ON
+  and TRACE with no number sets level 1. Trace level 1 shows the grammar
+  line that the parser is thinking about, while level 2 shows each
+  individual token on each grammar line that it tries. The information
+  displayed with higher levels may become quite hacky, and you are advised
+  to use this feature only if nothing else helps.
 
 Super-powers
 ============

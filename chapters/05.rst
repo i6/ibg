@@ -300,9 +300,9 @@ This time, when we intercept the ``Climb`` action applied to the ``tree``
 object, it's not in order to display a better message; it's because we want
 to move the player character to another room, just as if she'd typed UP.
 Relocating the player character is actually quite a complex business, but
-fortunately all of that complexity is hidden: there's a standard **library
-routine** to do the job, not one that we've written, but one that's
-provided as part of the Inform system.
+fortunately all of that complexity is hidden: there's a standard
+:term:`library routine` to do the job, not one that we've written, but one
+that's provided as part of the Inform system.
 
 You'll remember that, when we first mentioned routines (see "Standalone
 routines" on page 57), we used the example of ``Initialise()`` and said
@@ -312,7 +312,7 @@ not quite the whole story.  To move the player character, we've got to
 specify where we want her to go, and we do that by supplying the internal
 ID of the destination room within the opening and closing parentheses.
 That is, instead of just ``PlayerTo()`` we call ``PlayerTo(top_of_tree)``,
-and we describe ``top_of_tree`` as the routine's **argument**.
+and we describe ``top_of_tree`` as the routine's :term:`argument`.
 
 Although we've moved the player character to another room, we're still in
 the middle of the intercepted ``Climb`` action.  As previously, we need to
@@ -529,7 +529,7 @@ parentheses, thus::
 
     PlayerTo(clearing);
 
-A value given in parentheses like that is called an **argument** of the
+A value given in parentheses like that is called an :term:`argument` of the
 routine.  In fact, a routine can have more than one argument; if so,
 they're separated by commas.  For example, to move the player character to
 a room *without* displaying that room's description, we could have supplied

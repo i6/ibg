@@ -564,8 +564,8 @@ the end of every turn; these are the values that it's expecting to find:
 * 2 -- the game is over. The interpreter displays "You have won".
 * any other value -- the game is over, but there aren't any appropriate
   messages built into the library.  Instead, the interpreter looks for an
-  **entry point** routine called ``DeathMessage`` -- which we must provide
-  -- where we can define our own tailored "end messages".
+  :term:`entry point` routine called ``DeathMessage`` -- which we must
+  provide -- where we can define our own tailored "end messages".
 
 In this game, we never set ``deadflag`` to 1, but we do use values of 2
 and 3.  So we'd better define a ``DeathMessage`` routine to tell players

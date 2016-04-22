@@ -191,14 +191,14 @@ but some features should be in all environments. To obtain precise
 information about any particular version, run the compiler with the 
 ``-h1`` switch -- see "Switches" on page 193.
 
-Often the compiler is run with the name of your source file as its only 
-parameter. This tells the compiler to "read this file using Strict mode 
-and from it generate a Version 5 story file of the same name". The 
-source file is mostly full of statements which define how the game is to 
-behave at run-time, but will also include compile-time instructions 
-directed at the compiler itself (although such an instruction looks a 
-lot like a **statement**, it's actually quite different in what it does, 
-and is known as a **directive**). We have already seen the ``Include`` 
+Often the compiler is run with the name of your source file as its only
+parameter. This tells the compiler to "read this file using Strict mode and
+from it generate a Version 5 story file of the same name". The source file
+is mostly full of statements which define how the game is to behave at
+run-time, but will also include compile-time instructions directed at the
+compiler itself (although such an instruction looks a lot like a
+:term:`statement`, it's actually quite different in what it does, and is
+known as a :term:`directive`). We have already seen the ``Include``
 directive:
 
   :samp:`Include "{filename}";`
