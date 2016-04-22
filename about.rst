@@ -157,7 +157,7 @@ locations:
     A more general list of FAQs about IF authorship, covering both Inform
     and the other main systems.
 
-*   news:rec.arts.int-fiction
+*   :newsgroup:`rec.arts.int-fiction`
 
     The Usenet newsgroup for authors of IF, commonly known by the
     abbreviation RAIF.  Here you'll find discussion on IF technology,
@@ -165,7 +165,7 @@ locations:
     assistance with your own "how do I..." questions (but please, look in
     the manual first).
 
-*   news:rec.games.int-fiction
+*   :newsgroup:`rec.games.int-fiction`
 
     The complementary newsgroup for IF *players*, often known as RGIF.
 
