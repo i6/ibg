@@ -1,0 +1,470 @@
+===================
+Debugging your game
+===================
+
+.. only:: html
+
+  .. image:: /images/picN.png
+     :align: left
+
+.. raw:: latex
+
+   \dropcap{n}
+
+obody understands the phrase *errare humanum est* quite in the same way 
+as a programmer does. Computers are highly efficient machines capable of 
+wondrous calculations, but they lack imagination and insist that every 
+single item thrown at them must be presented according to certain rules 
+previously defined. You can't negotiate with a computer; you either bow 
+in submission or bite the dust.
+
+Inform behaves no differently. If you make a typing or syntax mistake, 
+the compiler will send you back to revise your work. "It was just a 
+lousy comma!" you cry in disgust. The compiler remains silent. It has 
+nothing to gain by argument, because it’s always right. So you go and 
+change the lousy comma. No harm done except perhaps to your pride.
+
+Errors that are found during compilation may be tedious to correct, but 
+are usually easy to find; after all, the compiler tries politely to 
+point out what and where the mistake was. Trouble begins after you've 
+managed to satisfy all of the compiler's complaints. You are rewarded by 
+a clean screen, devoid of a list of errors, and you are offered -- a 
+gift!
+
+A new file has appeared in your folder. A story file. Yes, *the* game. 
+You quickly open your favourite interpreter and begin to play -- only to 
+discover the dark side of errors, the bugs. Bugs come in all shapes, 
+colours and sizes: big, small, stupid, absurd, minor, disturbing, 
+nerve-wracking and catastrophic. They are often unpredictable: they 
+regale our eyes with surprising, unexpected behaviour. They defy logic: 
+I can TAKE the key, and the game even says "Taken", but the key remains 
+in the same place and won't appear in my inventory. Or: opening the door 
+while wearing the fur coat causes a programming error and a cryptic 
+message "tried to find the attribute of nothing". And many, many others.
+
+When designing a game you try to take into consideration the states that 
+your objects will find themselves in, but any medium-sized game has such 
+a number of objects and actions that it's almost impossible to think of 
+all the possible variations, permutations and possibilities.
+
+Debugging consists in finding run-time errors, and then correcting them. 
+Pretty easy, you might think, but no. Detection of such errors is not 
+straightforward, since they tend to manifest themselves only under 
+precise circumstances. Then you have to investigate your code to find 
+out what is causing them. And then, if you discover the offending lines, 
+you must make the appropriate changes. (There is also the case when you 
+can't find the mistake. Don't worry, it's there somewhere. Persistence 
+always pays off in the end.)
+
+To help you out in this daunting task, Inform has a stock of special 
+actions: the debugging verbs. They become available at run-time when the 
+source file is compiled in **Debug mode** (``-D switch``). When you are 
+ready to release your game, you’ll have to recompile, switching off 
+Debug to avoid allowing the players to benefit from the debugging verbs. 
+We'll cover briefly a few of these actions, and tell you what they do.
+
+
+Command lists
+=============
+
+The only way to test a game is to play it. As you make progress writing 
+code, the game grows complicated, and it becomes really tiresome to 
+repeat all the commands every time you play. Not unusually, when you fix 
+the behaviour of some object, you are also affecting the behaviour of 
+other objects or actions, so it's a good idea to test everything now and 
+then; you have to make sure that your recent changes and fixes didn't 
+spoil something that previously worked fine.
+
+The RECORDING command (RECORDING ON and RECORDING OFF) saves the 
+commands that you type as you play into a text file (you'll probably be 
+prompted for a file name). When you add a new section to the game, you 
+can play to that point, type RECORDING ON to capture (in another file) 
+the commands which exercise that section, and then later use your editor 
+to append those new commands to the existing list.
+
+The REPLAY command runs the text file created by RECORDING, playing all 
+the stored commands in one go. This way you can very quickly check 
+whether everything is working as it should.
+
+You can open the file of commands with any text editor program and 
+modify the contents as need arises: for instance, if you want to delete 
+some commands no longer necessary because of a change to the game, or if 
+you forgot to test some particular object and you need to add new 
+commands.
+
+This technique (the use of recorded lists of commands) is, and we can't 
+emphasise it too strongly, one of the most useful testing features for a 
+game designer.
+
+
+Spill them guts
+===============
+
+Some debugging verbs offer information about the current state of things.
+
+TREE
+
+  This action lists all the objects in the game and how they contain 
+  each other. You can discover the possessions of just one object by 
+  typing TREE *object*. All the objects that you have defined in the 
+  source file are turned into numbers by Inform when it compiles the 
+  story file; this command also lists those internal
+  :samp:`{obj_id}` numbers.
+
+SHOWOBJ *object*
+
+  Displays information about the *object*, the attributes it currently 
+  has and the value of its properties. The *object* can be anywhere, 
+  not necessarily in scope. For instance, in "Heidi":
+
+  .. code-block:: transcript
+
+    >SHOWOBJ NEST
+    Object "bird's nest" (29) in "yourself"
+      has container moved open workflag
+      with name 'bird's' 'nest' 'twigs' 'moss',
+           description "The nest is carefully woven of twigs and moss." (19230),
+
+SHOWVERB *verb*
+
+  Displays the grammar of the *verb*, just like a standard ``Verb``
+  definition. This comes in handy when you have tampered with ``Extend`` 
+  and are not sure about the final results of your machinations. An 
+  example from "William Tell":
+
+  .. code-block:: transcript
+
+    >SHOWVERB GIVE
+    Verb 'feed' 'give' 'offer' 'pay'
+        * held 'to' creature -> Give
+        * creature held -> Give reverse
+        * 'over' held 'to' creature -> Give
+        * 'homage' 'to' noun -> Salute
+
+  The first lines reproduce the verb definition as it's written in the 
+  library. The last line, however, is the direct consequence of our 
+  tailored ``Extend``:
+
+  .. code-block:: inform6
+
+    Extend 'give'
+        * 'homage' 'to' noun        -> Salute;
+
+SCOPE
+
+  Lists all of the objects currently in scope (in general terms, visible 
+  to the player character). More powerfully, you can type SCOPE *object* 
+  to discover which objects are in scope for the named *object*. This 
+  feature becomes useful when you have NPCs capable of tampering with 
+  their surroundings.
+
+
+What on earth is going on?
+==========================
+
+There comes the time when some actions don't produce the desired effects 
+and you don't know why. The following debugging verbs offer information 
+about what the interpreter is up to, which might enable you to identify 
+the moment when things started to go awry.
+
+ACTIONS (or ACTIONS ON ) and ACTIONS OFF
+
+  Gives information about all the actions going on. Some actions get 
+  redirected to others, and this becomes at times a source of mischief 
+  and mystery; here you get a clue what's happening. For example, take 
+  this transcript from "William Tell":
+
+  .. code-block:: transcript
+
+    Further along the street
+    People are still pushing and shoving their way from the southern gate towards
+    the town square, just a little further north. You recognise the owner of a fruit
+    and vegetable stall.
+
+    Helga pauses from sorting potatoes to give you a cheery wave.
+
+    >SEARCH STALL
+    [ Action Search with noun 35 (fruit and vegetable stall) ]
+    [ Action Examine with noun 35 (fruit and vegetable stall) (from < > statement) ]
+    It's really only a small table, with a big heap of potatoes, some carrots and
+    turnips, and a few apples.
+    ...
+
+CHANGES (or CHANGES ON ) and CHANGES OFF
+
+  Tracks object movements, and changes to properties and attributes:
+
+  .. code-block:: transcript
+
+    Middle of the square
+    There is less of a crush in the middle of the square; most people prefer to
+    keep as far away as possible from the pole which towers here, topped with that
+    absurd ceremonial hat. A group of soldiers stands nearby, watching everyone who
+    passes.
+
+    >GO NORTH
+    [Setting Middle of the square.warnings_count to 1]
+    A soldier bars your way.
+
+    "Oi, you, lofty; forgot yer manners, didn't you? How's about a nice salute for
+    the vogt's hat?"
+
+    >AGAIN
+    [Setting Middle of the square.warnings_count to 2]
+
+    "I know you, Tell, yer a troublemaker, ain't you? Well, we don't want no bovver
+    here, so just be a good boy and salute the friggin' hat. Do it now: I ain't
+    gonna ask you again..."
+
+    >SALUTE HAT
+    [Setting hat on a pole.has_been_saluted to 1]
+    You salute the hat on the pole.
+
+    "Why, thank you, sir," sneers the soldier.
+
+    >GO SOUTH
+    [Setting Middle of the square.warnings_count to 0]
+    [Setting hat on a pole.has_been_saluted to 0]
+    [Moving yourself to South side of the square]
+    ...
+
+TIMERS (or TIMERS ON ) and TIMERS OFF
+
+  This verb shows you the state of all active timers and daemons at the 
+  end of each turn. We haven't mentioned timers -- similar to daemons -- 
+  in this guide; you might perhaps use one to explode a bomb ten turns 
+  after lighting its fuse.
+
+TRACE (or TRACE ON ), TRACE *number* and TRACE OFF
+
+  If you turn on this powerful verb, you'll be able to follow the 
+  activity of the **parser** -- that part of the library which tries to 
+  make sense of what the player types -- and this will indeed be a 
+  wonderful moment of gratitude that someone else took the trouble of 
+  writing it. Since the parser does so many things, you can decide the 
+  level of detail about the displayed information with the *number* 
+  parameter, which can go from 1 (minimum info) to 5 (maximum info). By 
+  default, TRACE ON and TRACE with no number sets level 1. Trace level 
+  1 shows the grammar line that the parser is thinking about, while 
+  level 2 shows each individual token on each grammar line that it 
+  tries. The information displayed with higher levels may become quite 
+  hacky, and you are advised to use this feature only if nothing else 
+  helps.
+
+
+Super-powers
+============
+
+GONEAR *object*
+
+  This action lets you teleport to the room where the *object* is. This 
+  is useful when, for example, certain parts of the map are closed 
+  until the player character solves some puzzle, or if the game map is 
+  divided in different areas. If the room you want to visit has no 
+  objects, you can use...
+
+GOTO *number*
+
+  Teleports you to the room with that internal *number*. Since rooms 
+  usually have no name, you'll have to discover the internal number of 
+  the room object (with the command TREE, for instance).
+
+PURLOIN *object*
+
+  PURLOIN works exactly as TAKE , with the nice addition that it doesn't 
+  matter where the object is: in another room, inside a locked 
+  container, in the claws of the bloodthirsty dragon. More dangerously, 
+  it doesn't matter if the object is takeable, so you may purloin 
+  ``static`` or ``scenery`` objects. PURLOIN is useful in a variety of 
+  situations, basically when you want to test a particular feature of 
+  the game that requires the player character to have some objects 
+  handy. Instead of tediously collecting them, you may simply PURLOIN 
+  them. Be careful: it's unwise to PURLOIN objects not meant to be 
+  taken, as the game's behaviour may become unpredictable.
+
+ABSTRACT *object* TO *object*
+
+  This verb enables you to move the first *object* to the second 
+  *object*. As with PURLOIN , both objects can be anywhere in the game. 
+  Bear in mind that the second object should logically be a 
+  ``container``, a ``supporter`` , or something ``animate``.
+
+
+Infix: the harlot's perogative
+==============================
+
+The basic debugging verbs are fairly versatile, easy to use, and don't 
+consume a lot of memory. Occasionally though, you'll meet a bug which 
+you simply can't catch using regular techniques, and that’s when you 
+might want to investigate the Infix debugger. You'll need to compile 
+using the ``-X`` switch, and you'll then be able to monitor and modify 
+almost all of your game’s data and objects. For instance, you can use 
+";" to inspect -- and change -- a variable:
+
+.. code-block:: transcript
+
+  Inside Benny's cafe
+  Benny's offers the FINEST selection of pastries and sandwiches. Customers clog
+  the counter, where Benny himself manages to serve, cook and charge without
+  missing a step. At the north side of the cafe you can see a red door connecting
+  with the toilet.
+
+  >; deadflag
+  ; == 0
+
+  >; deadflag = 4
+  ; == 4
+
+      *** You have been SHAMEFULLY defeated ***
+
+  In that game you scored 0 out of a possible 2, in 2 turns.
+
+It's often quite maddening to realise that some variable is still 
+``false`` because the Chalk puzzle didn't work properly, and that you 
+can't test the Cheese puzzle until the variable becomes ``true``. Rather 
+than quit, fix the Chalk, recompile, play back to the current position 
+and only *then* tackle the Cheese, how much easier to just change the 
+variable in mid-stream, and carry right on.
+
+You can use ``;WATCH`` to monitor an object; you'll see it receive 
+messages and you'll be told when its property and attribute values 
+change:
+
+.. code-block:: transcript
+
+  >;WATCH MID_SQUARE
+  ; Watching object "Middle of the square" (43).
+
+  >NORTH
+  [Moving yourself to Middle of the square]
+  [Moving local people to Middle of the square]
+  [Moving Gessler's soldiers to Middle of the square]
+  [Moving your son to Middle of the square]
+
+  Middle of the square
+  There is less of a crush in the middle of the square; most people prefer to
+  keep as far away as possible from the pole which towers here, topped with that
+  absurd ceremonial hat. A group of soldiers stands nearby, watching everyone who
+  passes.
+  [Giving Middle of the square visited]
+
+  >NORTH
+  [ "Middle of the square".before() ]
+  [ mid_square.before() ]
+  [Setting Middle of the square.warnings_count to 1]
+  A soldier bars your way.
+
+  "Oi, you, lofty; forgot yer manners, didn't you? How's about a nice salute for
+  the vogt's hat?"
+
+  >NORTH
+  [ "Middle of the square".before() ]
+  [ mid_square.before() ]
+  [Setting Middle of the square.warnings_count to 2]
+
+  "I know you, Tell, yer a troublemaker, ain't you? Well, we don't want no bovver
+  here, so just be a good boy and salute the friggin' hat. Do it now: I ain't
+  gonna ask you again..."
+
+  >NORTH
+  [ "Middle of the square".before() ]
+  [ mid_square.before() ]
+  [Setting Middle of the square.warnings_count to 3]
+
+  "OK, Herr Tell, now you're in real trouble.
+  ...
+
+.. todo:: "Herr" above is italicized.  Was that a mistake in the original text?
+
+Infix is quite complex -- there are more commands than those we have 
+shown you -- so while it's good to have available, it's not really a 
+tool for novices. If you do use it, be careful: you get a lot of runtime 
+power, and may easily screw up the state of the game. Remember, however, 
+that the changes affect only the current story file while it’s running; 
+to make permanent amendments, you still need to edit the source file.
+
+You won't need it often, but Infix can sometimes provide quick answers 
+to tricky problems.
+
+
+No matter what
+==============
+
+Your game will still have some undetected bugs despite all your efforts 
+to clean it up. This is normal, even for experienced designers; don't 
+feel discouraged or demoralised. You might find it reassuring to know 
+that our own example games in this guide -- which certainly don't 
+qualify as "complex programming" -- were far from perfect at the First 
+Edition. We blush at the following report from an extremely diligent 
+play-tester:
+
+  I found these things when playing “Captain Fate”:
+
+  * player is able to wear clothes over the costume,
+
+  * player can change into costume in the dark unlocked bathroom without
+    being interrupted,
+
+  * player can drop clothes in the dark unlocked bathroom. Try REMOVE
+    CLOTHES. X SELF. REMOVE COSTUME. INV -- X SELF says that you
+    are wearing the costume, but the inventory does not reflect this.
+
+The Second Edition fixed those problems, and quite a few more besides. 
+"That's it;" we thought, "after all this time, our example games are 
+sure to be squeaky clean." In our dreams... Another diligent play-tester 
+then wrote:
+
+  While reading I took notes of some mistakes and inconsistencies:
+
+  * BENNY, GIVE KEY TO CUSTOMERS and BENNY, GIVE KEY will
+    make Benny give the key to the player. The same goes for coffee.
+
+  * Benny will force the player back into the cafe even when the key is
+    dropped in the café, or put on the counter (in Benny's plain sight!).
+
+Of course, the code we've offered you in this edition takes care of 
+those embarrassing issues, but it might very well happen that a few more 
+undetected absurdities pop up from now on.
+
+The final stage of debugging must happen elsewhere, at the hands of some 
+wilful, headstrong and determined beta-testers; these are the people 
+who, if you’re lucky, will methodically tear your game to shreds and 
+make extensive reports of things that don't work reliably, things that 
+don't work as smoothly as they might, things that ought to work but 
+don't, things that never even crossed your mind (like, uh, dropping the 
+costume in the dark). Once you think your game is finished -- in that it 
+does all that you think it should, and you've run out of ideas on how 
+else to test it -- look for a few beta-testers; three or four is good. 
+The IF community offers some beta-testing resources, or you can always 
+ask in RAIF for kind souls willing to have a go at your game. Remember 
+the golden rules:
+
+  * **Expect no mercy**. Although it hurts, a merciless approach is what 
+    you need at this time; much better to discover your errors and 
+    oversights now, before you release the game more widely. And don't 
+    forget to acknowledge your testers' assistance somewhere within the 
+    game.
+
+  * **Never say never**.  If your testers suggest that the game should 
+    respond better to an attempted action, don't automatically respond 
+    with "No one's going to try that!" They already have, and will again 
+    -- be grateful for your testers' devious minds and twisted psyches. 
+    Although a normal player won't try all of those oddball things, 
+    every player is bound to try at least one, and their enjoyment will 
+    be greater, the reality enhanced, if the game "understands".
+
+  * **Ask for more**. Don't treat your testers simply as validators of 
+    your programming skills, but rather as reviewers of your 
+    storytelling abilities. Encourage them to comment on how well the 
+    pieces fit together, and to make suggestions -- small or radical -- 
+    for improvement; don't necessarily reject good ideas just because 
+    implementing them "will take too long". For example: "the scene in 
+    the Tower of London doesn't somehow seem to belong in an Arabian 
+    Nights game", or "having to solve three puzzles in a row just to 
+    discover the plate of sheep's eyes is a little over the top", or 
+    "this five-room trek across the desert really is a bit dull; 
+    perhaps you could add a quicksand or something to liven it up?", or 
+    "the character of the eunuch in the harem seems to be lacking in 
+    something". That is, view the testers collectively not as simple 
+    spell-checkers, but rather as collaborative editors on your latest 
+    novel.
