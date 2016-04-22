@@ -125,7 +125,7 @@ It seems simple enough. So, following steps one and two, we add those
 ``pname.h`` right after it. ``Replace`` tells the compiler that we're 
 providing replacements for some standard routines.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Constant Story "Captain Fate";
   Constant Headline
@@ -155,7 +155,7 @@ relevant lines for the toilet door and the toilet key:
 
   Maybe specially highlight the lines using pname?
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  toilet_door
     with  pname '.x' 'red' '.x' 'toilet' 'door',
@@ -169,7 +169,7 @@ relevant lines for the toilet door and the toilet key:
 
 while leaving the ``outside_of_toilet`` unchanged:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  outside_of_toilet "toilet" cafe
     with  name 'toilet' 'bath' 'rest' 'room' 'bathroom' 'restroom',
@@ -223,7 +223,7 @@ a coin near the lavatory, enough cash to pay for the coffee. And that
 about sums it all up; pretty simple to describe -- not so simple to 
 code. Remember Benny's basic definition from the previous chapter:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  benny "Benny" cafe
     with  name 'benny',
@@ -236,7 +236,7 @@ code. Remember Benny's basic definition from the previous chapter:
 We can now add some complexity, beginning with a ``life`` property. In 
 generic form:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   life [;
     Give:             !... code for giving objects to Benny
@@ -248,7 +248,7 @@ generic form:
 We have seen some of these actions before. We'll take care of the easier 
 ones:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Attack:
     if (costume has worn) {
@@ -286,7 +286,7 @@ the coffee has been paid for, and whether the toilet key has been
 returned. The solution, yet again (this really is a most useful 
 capability), is more local property variables:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  benny "Benny" cafe
     with  name 'benny',
@@ -305,7 +305,7 @@ which deals with commands like GIVE THE KEY TO BENNY (in a moment, we'll
 come to the ``Give`` action of the ``orders`` property, which deals with 
 commands like BENNY, GIVE ME THE KEY):
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Give:
     switch (noun) {
@@ -334,7 +334,7 @@ The Give action in the ``life`` property holds the variable ``noun`` as
 the object offered to the NPC. Remember that we can use the ``switch`` 
 statement as shorthand for:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (noun == costume) { whatever };
   if (noun == clothes) { whatever };
@@ -377,7 +377,7 @@ demands. The ``Give`` action in an ``orders`` property deals with inputs
 like ASK BENNY FOR THE KEY or BENNY, GIVE ME THE KEY. The syntax is 
 similar to that of the ``life`` property:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   orders [;   ! handles ASK BENNY FOR X and BENNY, GIVE ME XXX
     Give:
@@ -468,7 +468,7 @@ indeed he will. But where?
 
 We must revisit the café room object:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room     cafe "Inside Benny's cafe"
     with   description
@@ -537,7 +537,7 @@ chapter, this technique lets you trap the player who is about to exit a
 room before the movement actually takes place, a good moment to 
 interfere if we want to prevent escape. The first line:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (noun ~= s_obj) return false;
 
@@ -559,7 +559,7 @@ attempt to leave:
 
 The first three are covered by the test:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (benny.coffee_not_paid == true || benny.key_not_returned == true) ...
 

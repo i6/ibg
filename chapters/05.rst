@@ -64,7 +64,7 @@ LISTEN TO NEST or LISTEN TO TREE, but fairly inappropriate here; we really
 need to substitute a more relevant response after LISTEN TO BIRD.  Here's
 how we do it:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object   bird "baby bird" forest
      with   description "Too young to fly, the nestling tweets helplessly.",
@@ -133,7 +133,7 @@ false`` then the interpreter carries on to perform the default action as
 though it hadn't been intercepted.  Sometimes that's what you want it to
 do, but not here: if instead we'd written this:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object    bird "baby bird" forest
      with    description "Too young to fly, the nestling tweets helplessly.",
@@ -180,7 +180,7 @@ might lead her to believe that she can go inside:
 Again, that isn't perhaps the most appropriate response, but it's easy to
 change:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object    before_cottage "In front of a cottage"
      with    description
@@ -221,7 +221,7 @@ receives the obviously nonsensical reply "You can't see any such thing".
 That's easy to fix; we can add a new ``cottage`` object, making it a piece
 of ``scenery`` just like the ``tree``:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object   cottage "tiny cottage" before_cottage
      with   description "It's small and simple, but you're very happy here.",
@@ -244,7 +244,7 @@ response:
 The situation here is similar to our LISTEN TO BIRD problem, and the
 solution we adopt is similar as well:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object   cottage "tiny cottage" before_cottage
      with   description "It's small and simple, but you're very happy here.",
@@ -282,7 +282,7 @@ currently gives the completely misleading response "I don't think much is
 to be achieved by that").  Yet another opportunity to use a ``before``
 property, but now with a difference.
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object   tree "tall sycamore tree" clearing
      with   description
@@ -346,7 +346,7 @@ interception not on an object-by-object basis, as we have been doing so
 far, but instead for every ``Drop`` which takes place in our troublesome
 ``top_of_tree`` room.  This is what we have to write:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object   top_of_tree "At the top of the tree"
      with   description "You cling precariously to the trunk.",
@@ -427,7 +427,7 @@ Of course, you might think that the standard message "Dropped" is slightly
 unhelpful in these non-standard circumstances.  If you prefer to hint at
 what's just happened, you could use this alternative solution:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object   top_of_tree "At the top of the tree"
      with   description "You cling precariously to the trunk.",
@@ -454,7 +454,7 @@ nest, or vice versa.  It would be better not to end the game until we'd
 checked for the bird actually being in the nest; fortunately, that's easy
 to do:
 
-.. code-block:: inform6
+.. code-block:: inform
 
    Object   branch "wide firm bough" top_of_tree
      with   description "It's flat enough to support a small object.",

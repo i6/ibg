@@ -26,7 +26,7 @@ Additional catering garnish
 
 We must not forget a couple of tiny details in the café room:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object   food "Benny's snacks" cafe
     with   name 'food' 'pastry' 'pastries' 'sandwich' 'sandwiches' 'snack'
@@ -49,7 +49,7 @@ We must not forget a couple of tiny details in the café room:
 
 And a not-so-trivial object:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  coffee "cup of coffee" benny
     with  name 'cup' 'of' 'coffee' 'steaming' 'cappuccino'
@@ -121,7 +121,7 @@ erm, bogged down with details of the room's function or plumbing.
 There's not a lot about the toilet room and its contents, though there 
 will be some tricky side effects:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    toilet "Unisex toilet"
     with  description
@@ -190,7 +190,7 @@ there's no light to see by. However, let's define first the light switch
 mentioned in the room's description to aid players in their dressing 
 duties.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Appliance  light_switch "light switch" toilet
     with     name 'light' 'switch',
@@ -235,7 +235,7 @@ attribute, which is set or cleared automatically as needed. You can, of
 course, set or clear it manually like any other attribute, with the 
 ``give`` statement:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   give self on;
 
@@ -243,7 +243,7 @@ course, set or clear it manually like any other attribute, with the
 
 and check if a ``switchable`` object is on or off with the test:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (light_switch has on) ...
 
@@ -252,14 +252,14 @@ and check if a ``switchable`` object is on or off with the test:
 A ``switchable`` object is OFF by default. However, you’ll notice that 
 the has line of the object definition includes ``~on`` :
 
-.. code-block:: inform6
+.. code-block:: inform
 
   has    switchable ~on;
 
 Surely that’s saying "not-on"? Surely that's what would have happened 
 anyway if the line hadn't mentioned the attribute at all?
 
-.. code-block:: inform6
+.. code-block:: inform
 
   has    switchable;
 
@@ -318,7 +318,7 @@ perhaps it would be a good idea to append a little code to the door
 object to account for this. A couple of lines in the after property will 
 suffice:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   after [ ks;
     Unlock:
@@ -422,7 +422,7 @@ example to fix our particular problem. In the section "``Entry point
 routines``" of our game -- after the ``Initialise`` routine, for 
 instance -- include the following lines:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ InScope person;
       if (person == player && location == thedark && real_location == toilet) {
@@ -451,7 +451,7 @@ player is in *even when there is no light to see by*.
 
 So the test:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (person == player && location == thedark && real_location == toilet) ...
 
@@ -518,7 +518,7 @@ every object that the player has picked up at one time in the game;
 have ``moved``. Here is the reworked ``InScope`` routine. There are a 
 couple of new concepts to look at:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ InScope person item;
       if (person == player && location == thedark && real_location == toilet) {
@@ -557,7 +557,7 @@ objects in the same room as the player, so we instead code:
 
 What is the actual :samp:`{statement}` that we'll repeatedly execute?
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (item has moved)
       PlaceInScope(item);
@@ -582,7 +582,7 @@ Amazing techicolour dreamcoats
 This leaves us the clothing items themselves, which will require a few 
 tailored actions. Let's see first the ordinary garments of John Covarth:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  clothes "your clothes"
     with  name 'ordinary' 'street' 'clothes' 'clothing',
@@ -683,7 +683,7 @@ change into the hero's suit, after which we'll prevent a change back
 into ordinary clothes. So now we are dealing with a Captain Fate in full 
 costume:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object   costume "your costume"
     with   name 'captain' 'captain^s' 'fate' 'fate^s' 'costume' 'suit',
@@ -725,7 +725,7 @@ All the objects of our game are defined. Now we must add a couple of
 lines to the ``Initialise`` routine to make sure that the player does 
 not start the game naked:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ Initialise;
       #Ifdef DEBUG; pname_verify(); #Endif;       ! suggested by pname.h
@@ -752,7 +752,7 @@ The designer of the package has made a debugging tool (a routine) to
 check for errors when using his library, and he tells us how to use it. 
 So we include the suggested lines into our ``Initialise`` routine:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   #Ifdef DEBUG; pname_verify(); #Endif;
 
@@ -788,7 +788,7 @@ line. Therefore, we must define a ``DeathMessage`` routine as we did in
 "William Tell", to write our customised messages and assign them to 
 ``deadflag`` values greater than 2.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ DeathMessage;
       if (deadflag == 3) print "Your secret identity has been revealed";
@@ -802,7 +802,7 @@ Finally, we need to extend the existing grammar, to allow for a couple
 of things. We have already seen that we need a verb CHANGE. We'll make 
 it really simple:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ ChangeSub;
       if (noun has pluralname) print "They're";
@@ -828,7 +828,7 @@ One might reasonably imagine that the ``default`` line at the end of the
 ``Give`` action in the orders property handles every input not already 
 specified:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   orders [;
     Give:
@@ -845,7 +845,7 @@ specified:
 Not so. The library grammar that deals with ASK BENNY FOR... is this
 (specifically, the last line):
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Verb 'ask'
       * creature 'about' topic    -> Ask
@@ -866,7 +866,7 @@ takes very little to allow Benny to use his default line for *any*
 undefined input from the player. We need to extend the existing ASK 
 grammar:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Extend 'ask'
       * creature 'for' topic    -> AskFor;

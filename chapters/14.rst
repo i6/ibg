@@ -99,7 +99,7 @@ use the placeholder ``statement_block`` to represent either a single
 
   We might need some custom syntax highlighting here
 
-.. code-block:: inform6
+.. code-block:: inform
 
   statement;
 
@@ -110,7 +110,7 @@ use the placeholder ``statement_block`` to represent either a single
 Our games have used these statements, about half of the Inform 
 possibilities:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   give obj_id attribute;
   give obj_id attribute attribute ... attribute;
@@ -158,7 +158,7 @@ possibilities:
 Although our example games haven't needed to use them, these looping
 statements are sometimes useful:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   break;
   continue;
@@ -173,7 +173,7 @@ On the other hand, we suggest that you put the following statements on
 hold for now; they're not immediately relevant to everyday code and have 
 mostly to do with printing and formatting:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   box
   font
@@ -223,7 +223,7 @@ We've used all of these directives; note that for ``Class``, ``Extend``,
 ``Object`` and ``Verb`` the full supported syntax is more sophisticated 
 than the basic form presented here:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Class   class_id
     with  property  value,
@@ -274,7 +274,7 @@ than the basic form presented here:
 There's only a handful of useful directives which we haven't needed to 
 use:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Attribute attribute;
 
@@ -288,7 +288,7 @@ use:
 
 but there's a whole load which are of fairly low importance for now:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Abbreviate
   Array
@@ -322,7 +322,7 @@ by using them within an object definition.
 
 You can create and initialise a property in an object's ``with`` segment:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   property,				! set to zero / false
 
@@ -333,7 +333,7 @@ You can create and initialise a property in an object's ``with`` segment:
 In each case, the ``value`` is either a compile-time ``expression``, or 
 an embedded routine:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   property expression,
 
@@ -342,7 +342,7 @@ an embedded routine:
 
 You can refer to the value of a property:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   self.property				! only within that same object
 
@@ -350,7 +350,7 @@ You can refer to the value of a property:
 
 and you can test whether an object definition includes a given property:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   (obj_id provides property)		! is true or false
 
@@ -364,13 +364,13 @@ Inform provides standalone routines and embedded routines.
 
 Standalone routines are defined like this:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ routine_id; statement; statement; ... statement; ];
 
 and called like this:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   routine_id()
 
@@ -378,13 +378,13 @@ and called like this:
 
 These are embedded as the value of an object's property:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   property [; statement; statement; ... statement; ],
 
 and are usually called automatically by the library, or manually by:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   self.property()			! only within that same object
 
@@ -397,7 +397,7 @@ which can be used only by the statements within the routine, and which
 are automatically initialised to zero every time that the routine is 
 called:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ routine_id var_id var_id ... var_id; statement; statement; ... statement; ];
 
@@ -408,7 +408,7 @@ arguments within the parentheses when you call the routine. The effect
 is simply to initialise the matching local variables to the argument 
 values rather than to zero:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   routine_id(expression, expression, ... expression)
 
@@ -422,7 +422,7 @@ when calling the routine.
 Every routine returns a single value, which is supplied either 
 explicitly by some form of return statement:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ routine_id; statement; statement; ... return expr; ]; ! returns expr
 
@@ -432,13 +432,13 @@ or implicitly when the routine runs out of statements. If none of these
 ``statements`` is one -- ``return``, ``print_ret``, ``"..."` or 
 ``<<...>>`` -- that causes an explicit return, then:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ routine_id; statement; statement; ... statement; ];
 
 returns ``true`` and
 
-.. code-block:: inform6
+.. code-block:: inform
 
   property [; statement; statement; ... statement; ]
 
@@ -451,14 +451,14 @@ return False.
 Here's an example standalone routine which returns the larger of its two
 argument values:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ Max a b; if (a > b) return a; else return b; ];
 
 and here are some examples of its use (note that the first example, 
 though legal, does nothing useful whatsoever):
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Max(x,y);
 
@@ -477,7 +477,7 @@ files, which you can optionally call from your source file if you
 require the functionality which the routine provides. We've mentioned 
 these library routines:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   IndirectlyContains(parent_obj_id, obj_id)
 
@@ -494,7 +494,7 @@ By contrast, an entry point routine is a routine which you can provide
 in your source file, in which case the library calls it at an 
 appropriate time. We've mentioned these optional entry point routines:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   DeathMessage()
 
@@ -502,7 +502,7 @@ appropriate time. We've mentioned these optional entry point routines:
 
 And this, the only mandatory one:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Initialise()
 
@@ -539,7 +539,7 @@ This is doubly true if you ever contemplate sharing a library extension
 with the rest of the community. This example, with the name changed, is 
 from a file in the Archive:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [xxxx i j;
   if (j==0) rtrue;
@@ -569,7 +569,7 @@ Here's the same routine after a few minutes spent purely on making it
 more comprehensible; we haven't actually tested that it (still) works, 
 though that second ``else`` looks suspicious:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ xxxx i j;
       if (i in player || i has static or scenery || j == nothing) return true;
@@ -597,7 +597,7 @@ you'll come across.
 
 * These five lines all do the same thing:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     return true;
     return 1;
@@ -607,7 +607,7 @@ you'll come across.
 
 * These four lines all do the same thing:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     return false;
     return 0;
@@ -616,7 +616,7 @@ you'll come across.
 
 * These four lines all do the same thing:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     print "string"; new_line; return true;
     print "string^"; return true;
@@ -625,28 +625,28 @@ you'll come across.
 
 * These lines are the same:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     print value1; print value2; print value3;
     print value1, value2, value3;
 
 * These lines are the same:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     <action noun second>; return true;
     <<action noun second>>;
 
 * These lines are also the same:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     print "^";
     new_line;
 
 * These ``if`` statements are equivalent:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     if (MyVar == 1 || MyVar == 3 || MyVar == 7) ...
 
@@ -654,7 +654,7 @@ you'll come across.
 
 * These ``if`` statements are equivalent as well:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     if (MyVar ~= 1 && MyVar ~= 3 && MyVar ~= 7) ...
     if (MyVar ~= 1 or 3 or 7) ...
@@ -663,7 +663,7 @@ you'll come across.
   expression; all that matters is its value: zero (false) or anything 
   else (true). For example, these statements are equivalent:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     if (MyVar ~= false) ...
     if (~~(MyVar == false)) ...
@@ -675,7 +675,7 @@ you'll come across.
   contains ``true`` (1), *not* whether its value is anything other than 
   zero.
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     if (MyVar == true) ...
 
@@ -683,7 +683,7 @@ you'll come across.
   ``++MyVar;`` work the same as ``MyVar = MyVar + 1;`` For example, 
   these lines are equivalent:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     MyVar = MyVar + 1; if (MyVar == 3) ...
     if (++MyVar == 3) ...
@@ -699,7 +699,7 @@ you'll come across.
   cases the value of ``MyVar`` afterwards is 3. As another example, 
   this code (from Helga in "William Tell"):
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     Talk: self.times_spoken_to = self.times_spoken_to + 1;
         switch (self.times_spoken_to) {
@@ -712,7 +712,7 @@ you'll come across.
 
   could have been written more succinctly like this:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     Talk: switch (++self.times_spoken_to) {
         1: score++;
@@ -725,7 +725,7 @@ you'll come across.
 * Similarly, the statements ``MyVar--;`` and ``--MyVar;`` work the same 
   as ``MyVar = MyVar - 1;`` Again, these lines are equivalent:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     MyVar = MyVar - 1; if (MyVar == 7) ...
     if (--MyVar == 7) ...
@@ -756,7 +756,7 @@ page 147 gives every object a ``pname`` property and a
 ``phrase_matched`` attribute). To create them, you would use these 
 directives near the start of your source file:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Attribute attribute;
 
@@ -782,7 +782,7 @@ twenty-seven objects; omitting those which used ``found_in`` to define
 their placement at the start of the game, we're left with object 
 definitions starting like this:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    street "A street in Altdorf"        
 
@@ -821,7 +821,7 @@ There's an alternative object syntax which is available to achieve the
 same object tree, using "arrows". That is, we could have defined those 
 parent-and-child objects as:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    below_square "Further along the street"
   Furniture -> stall "fruit and vegetable stall"
@@ -858,7 +858,7 @@ to illustrate how it works, imagine that at the start of the game the
 potatoes and the other fruit and vegetables where actually *on* the 
 stall. Then we might have used:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    below_square "Further along the street"
   Furniture ->  stall "fruit and vegetable stall"
@@ -905,7 +905,7 @@ Perhaps somewhat unfortunately, Inform allows you to blur this clean
 distinction: you can use double quotes in name properties and Verb 
 directives:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   NPC     stallholder "Helga" below_square
     with  name "stallholder" "greengrocer" "monger" "shopkeeper" "merchant"

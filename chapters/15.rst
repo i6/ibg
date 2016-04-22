@@ -108,7 +108,7 @@ alongside your lines if you wish, and will usually let you jump to a
 given line number. In this case, the error was caused by a semicolon 
 after the description string, instead of a comma:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Prop    "assorted stalls"
     with  name 'assorted' 'stalls',
@@ -168,7 +168,7 @@ One common incident is to return in the middle of a statement block,
 before the rest of statements can be reached. This is not always as 
 evident as it looks, for instance in a case like this:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (steel_door has open) {
       print_ret "The breeze blows out your lit match.";
@@ -231,7 +231,7 @@ technique is then to divide it into a number of sections, each stored in
 a separate file, which you Include into a short master game file. For 
 example:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   !============================================================================
   Constant Story "War and Peace";
@@ -299,7 +299,7 @@ Debug mode off (just remove the ``-D``) when you release your game to
 the public. This is fortunately very easy to check, since the game 
 banner ends with the letter "D" if the game was compiled in Debug mode:
 
-.. code-block:: inform6
+.. code-block:: transcript
 
   Captain Fate
   A simple Inform example
@@ -310,13 +310,11 @@ Switches are case sensitive, so you get different effects from ``-x``
 and ``-X``. Some of the more useful switches are:
 
 :samp:`-~S`
-
   Set compiler Strict mode off. This deactivates some additional error 
   checking features when it reads your source file. Strict mode is on by 
   default.
 
 :samp:`-v5 -v8`
-
   Compile to this version of story file. Versions 5 (on by default) and 
   8 are the only ones you should ever care about; they produce, 
   respectively, story files with the extensions .z5 and .z8 . Version 5 
@@ -327,24 +325,20 @@ and ``-X``. Some of the more useful switches are:
   similar to Version 5 but allows a 512 Kbytes file size.
 
 :samp:`-D -X`
-
   Include respectively the debugging verbs and the Infix debugger in the 
   story file (see "Debugging your game" on page 197).
 
 :samp:`-h1 -h2`
-
   Display help information about the compiler. ``-h1`` produces 
   information about file naming, and ``-h2`` about the available 
   switches.
 
 :samp:`-n -j`
-
   ``-n`` displays the number of declared attributes, properties and 
   actions. ``-j`` lists objects as they are being read and constructed 
   in the story file.
 
 :samp:`-s`
-
   Offer game statistics. This provides a lot of information about your 
   game, including the number of objects, verbs, dictionary entries, 
   memory usage, etc., while at the same time indicating the maximum 
@@ -352,7 +346,6 @@ and ``-X``. Some of the more useful switches are:
   nearing the limits of Inform.
 
 :samp:`-r`
-
   Record all the text of the game into a temporary file, useful to check 
   all your descriptions and messages by running them through a spelling 
   checker.

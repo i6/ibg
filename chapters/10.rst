@@ -65,7 +65,7 @@ Fade up on: a nondescript city street
 The game starts with meek John Covarth walking down the street. We set 
 up the game as usual:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   !% -SD
   !============================================================================
@@ -132,7 +132,7 @@ up the game as usual:
 
 Almost everything is familar, apart from a few details:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Constant MANUAL_PRONOUNS;
   Constant MAX_SCORE     2;
@@ -166,7 +166,7 @@ we've decided to modestly award one point for each. By the way, the use
 of an equals sign ``=`` is optional with ``Constant``; these two lines 
 have identical effect:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Constant ROOM_SCORE    1;
 
@@ -176,7 +176,7 @@ Another difference has to do with a special short-hand method that
 Inform provides for displaying strings of text. Until now, we have shown 
 you:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   print "And now for something completely different...^"; return true;
   ...
@@ -187,7 +187,7 @@ newline character, and return true. As you have seen in the previous
 example games, this happens quite a lot, so there is a yet shorter way 
 of achieving the same result:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   "And now for something completely different...";
 
@@ -204,7 +204,7 @@ statement instead.
 You'll notice that -- unusually for a room -- our ``street`` object has 
 a ``name`` property:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    street "On the street"
     with  name 'city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
@@ -227,7 +227,7 @@ a normal room, it would seem logical that the phone booth is actually a
 big box on the sidewalk; therefore we define a ``container`` set in the 
 street, which players may enter:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Appliance booth "phone booth" street
     with name 'old' 'red' 'picturesque' 'phone' 'booth' 'cabin'
@@ -270,7 +270,7 @@ intercept this attempt and redirect it (while we're at it, we add a
 connection to the as-yet-undefined café room and a default message for 
 the movement which is not allowed):
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    street "On the street"
     with  name city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
@@ -284,12 +284,6 @@ the movement which is not allowed):
               "No time now for exploring! You'll move much faster in your
                Captain FATE costume.";
 
-.. todo::
-
-   Notice how the syntax coloring thinks that the exclaimation point 
-   above is a comment.  This is another problem with the built-in inform6 
-   syntax highlighter.
-
 That takes care of entering the booth. But what about leaving it? 
 Players may type EXIT or OUT while they are inside an enterable 
 container and the interpreter will oblige but, again, they might type 
@@ -297,7 +291,7 @@ NORTH. This is a problem, since we are actually in the street (albeit
 inside the booth) and to the north we have the café. We may provide for 
 this condition in the room's ``before`` property:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   before [;
     Go:
@@ -310,7 +304,7 @@ connection. However, that would be an ambiguous command, for it could
 also refer to the café, so we express our bafflement and force the 
 player to try something else:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   n_to cafe,
   s_to [; <<Enter booth>>; ],
@@ -342,7 +336,7 @@ the ``inside_description`` of the container. If the library decides we
 can’t see outside the container, only the inside_description is 
 displayed. Take for instance the following (simplified) example:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    stage "On stage"
     with  description
@@ -388,7 +382,7 @@ property of the ``street`` room a bit more complex, and change its
 value: instead of a string, we write an embedded routine. Here's the 
 (almost) finished room:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    street "On the street"
     with  name 'city' 'buildings' 'skyscrapers' 'shops' 'apartments' 'cars',
@@ -415,7 +409,7 @@ value: instead of a string, we write an embedded routine. Here's the
 The description while inside the booth mentions the sidewalk, which 
 might invite the player to EXAMINE it. No problem:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Appliance "sidewalk" street
     with  name sidewalk' 'pavement' 'street',
@@ -432,7 +426,7 @@ result of a LOOK action (which will have to do with the way the café
 looks from the *inside*); but while we are on the street we need 
 something else to describe it:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Appliance outside_of_cafe "Benny's cafe" street
     with  name 'benny^s' 'cafe' 'entrance',
@@ -462,7 +456,7 @@ something else to describe it:
 
    by defining the ``description`` property as any of these:
 
-   .. code-block:: inform6
+   .. code-block:: inform
 
      description
          "The town's favourite for a quick snack, Benny's caf@'e has a 50's
@@ -498,7 +492,7 @@ out that it would be neater to handle the actual movement of the player
 in just one place of our code, because this helps clarity. To achieve 
 this, we redirect the street's ``n_to`` property thus:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   n_to [; <<Enter outside_of_cafe>>; ],
 
@@ -546,7 +540,7 @@ responses. If nothing else, this adds to the general atmosphere, a
 nicety that many players regard as important. For this mission, we make 
 use of the ``LibraryMessages`` object.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Include "Parser";
 
@@ -599,15 +593,10 @@ of responses. The variable ``lm_n`` holds the current value of the
 number of the message to be displayed, so you can change the default 
 with a test like this:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (lm_n == 39)
       "That's not something you need to refer to in order to SAVE the day.";
-
-.. todo::
-
-   That block of code above should be colored.  Is there a defect in the 
-   syntax highlighting code?
 
 where 39 is the number for the standard message "That's not something 
 you need to refer to in the course of this game" -- displayed when the 
@@ -616,11 +605,11 @@ did for the ``street``.
 
 .. note::
 
-   remember that when we are testing for different values of the 
+   Remember that when we are testing for different values of the 
    same variable, we can also use the switch statement. For the 
    Miscellany entry, the following code would work just as nicely:
 
-   .. code-block:: inform6
+   .. code-block:: inform
 
      ...
      Miscellany:

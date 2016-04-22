@@ -145,7 +145,7 @@ SHOWVERB *verb*
   library. The last line, however, is the direct consequence of our 
   tailored ``Extend``:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     Extend 'give'
         * 'homage' 'to' noun        -> Salute;

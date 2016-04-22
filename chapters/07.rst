@@ -2,7 +2,7 @@
  William Tell: the early years
 ===============================
 
-.. highlight:: inform6
+.. highlight:: inform
 
 .. epigraph::
 
@@ -644,7 +644,7 @@ all of them loop statements that we don't encounter in this guide).
       if (condition) {
 	  statement;
 	  statement;
-	  ! ...
+	  ...
       }
 
    but other designers have their own preferences, including::
@@ -652,20 +652,20 @@ all of them loop statements that we don't encounter in this guide).
       if (condition) {
 	  statement;
 	  statement;
-	  ! ...
+	  ...
 	  }
 
       if (condition)
       {   statement;
 	  statement;
-	  ! ...
+	  ...
       }
 
       if (condition)
 	  {
 	  statement;
 	  statement;
-	  ! ...
+	  ...
 	  }
 
 Although we've not yet needed to use it, now would probably be a good time

@@ -2,7 +2,7 @@
  William Tell: in his prime
 ============================
 
-.. highlight:: inform6
+.. highlight:: inform
 
 .. epigraph::
 

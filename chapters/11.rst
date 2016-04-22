@@ -41,7 +41,7 @@ the door seems to be locked.
 
 We define the café room in simple form:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room    cafe "Inside Benny's cafe"
     with  description
@@ -58,7 +58,7 @@ define the door object which lies between the café and the toilet.
 
 We've mentioned a counter:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Appliance counter "counter" cafe
     with name 'counter' 'bar',
@@ -108,7 +108,7 @@ NEST. Receive and LetGo are examples of what’s called a **fake action**.
   arrows are the only acceptable contents (recollect that ``~~``, to be 
   read as "not", turns true into false and vice versa):
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     before [;
       Drop,Give:
@@ -128,7 +128,7 @@ way for the player to accomplish this.
 We've also mentioned some customers. These are treated as NPCs, reacting 
 to our hero’s performance.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  customers "customers" cafe
     with  name 'customers' 'people' 'customer' 'men' 'women',
@@ -248,7 +248,7 @@ customers are -- so we need to make certain that the daemon does
 something interesting only while the player stays in the right place 
 (and hasn’t wandered, say, back into the toilet):
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (location ~= cafe) return;
 
@@ -262,7 +262,7 @@ control the sequence of customers' remarks. When the Captain enters the
 café room from the toilet for the first time, the value of the property 
 should be zero, so the statement block under the test:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (self.number_of_comments == 0) {
       self.number_of_comments = 1;
@@ -280,7 +280,7 @@ daemon will continue normally to the next line.
 We want the customers to indulge in witticisms once they see the 
 costumed Captain, but not on a completely predictable basis.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (random(2) == 1) ...
 
@@ -311,7 +311,7 @@ the café in their Captain’s outfit, they’ll be coming from the toilet.
 As a consequence of all this, we add an ``after`` property to the café 
 room object:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Room   cafe "Inside Benny's cafe"
          ...
@@ -338,7 +338,7 @@ the player just came from the toilet, so we use an ``after`` property.
 
 The first line:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   if (noun ~= s_obj) return false;
 
@@ -364,7 +364,7 @@ A door to adore
 Door objects require some specific properties and attributes. Let's 
 first code a simple door:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  toilet_door "toilet door" cafe
     name name 'red' 'toilet' 'door',
@@ -422,7 +422,7 @@ and its possible states affect both sides. However, the coding gets a
 little bit complicated and you''ll have to define routines for most 
 properties:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  toilet_door "toilet door"
     with  name 'red' 'toilet' 'door',
@@ -462,7 +462,7 @@ the cafe", depending on the side we are facing. For this, a ``short_name
 property`` is the thing. We have already talked about the external name 
 defined as part of an object's header information:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  toilet_door "toilet door"
 
@@ -470,7 +470,7 @@ That ``toilet door`` will be the name displayed by the game at run-time
 to refer to the door. With identical effect, this could also have been 
 coded thus:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  toilet_door
     with  short_name "toilet door",
@@ -481,7 +481,7 @@ retain the same external name throughout the game -- and the header
 information method is perfect in that case -- but if it needs to change, 
 it's easy to write a routine as the value of ``short_name``:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  toilet_door
     with  name 'red' 'toilet' 'door'
@@ -508,7 +508,7 @@ adjectives -- perhaps a shining/flickering/fading/useless lantern.
   identifier within parentheses; that is, with no external name and no 
   ``short_name`` property, we might see:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     You open the (toilet_door).
 
@@ -517,7 +517,7 @@ adjectives -- perhaps a shining/flickering/fading/useless lantern.
   of our ``print`` statement, and then the standard rules would display 
   the internal ID:
 
-  .. code-block:: inform6
+  .. code-block:: inform
 
     You open the door to the toilet(toilet_door).
 
@@ -544,7 +544,7 @@ If a few lines of code can make the life of the player easier, it's
 worth a shot. Let's provide a few improvements to our toilet door in 
 ``before`` and ``after`` properties:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   before [ ks;
     Open:
@@ -616,7 +616,7 @@ safely restore it afterwards. You’ll remember that a local variable in a
 standalone routine is declared between the routine’s name and the 
 semicolon:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   [ BeenToBefore this_room;
 
@@ -624,7 +624,7 @@ In exactly the same way, a local variable in an embedded routine is
 declared between the ``[`` starting marker of the routine and the 
 semicolon:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   before [ ks;
 
@@ -632,7 +632,7 @@ You can declare up to fifteen variables this way -- just separated by
 spaces -- which are usable only within the embedded routine. When we 
 assign it thus:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   ks = keep_silent;
 
@@ -641,7 +641,7 @@ has (either ``true`` or ``false``; we actually don't care). We then set
 ``keep_silent`` to ``true``, make the desired silent actions, and we 
 assign:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   keep_silent = ks;
 
@@ -660,7 +660,7 @@ So far, we have the player in front of a locked door leading to the
 toilet. A dead end? No, the description mentions a scribbled note on its 
 surface. This one should offer no problem:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  "scribbled note" cafe
     with  name 'scribbled' 'note',
@@ -701,7 +701,7 @@ to ask for it, just as the note explains. Although we'll define Benny in
 detail throughout the next chapter, here we present a basic definition, 
 largely so that the key has a parent object.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  benny "Benny"  cafe
     with  name 'benny',
@@ -742,7 +742,7 @@ to belong to Benny"; however, the same wouldn't apply to other commands
 like TOUCH KEY and TASTE KEY . So, to prevent any interaction with the 
 key while it’s in Benny’s pockets, we define a ``before`` property.
 
-.. code-block:: inform6
+.. code-block:: inform
 
   before [;
       if (self in benny)
@@ -766,7 +766,7 @@ continues unhindered.
 (In fact, the hat-on-a-pole ``Prop`` introduced on page 91 had this 
 all-exclusive ``before`` property:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   before [;
     default:
@@ -791,7 +791,7 @@ choose to examine the café from the outside. While it's unlikely that
 they'll try to examine the toilet room from the outside, it takes very 
 little effort to offer a sensible output just in case:
 
-.. code-block:: inform6
+.. code-block:: inform
 
   Object  outside_of_toilet "toilet" cafe
     with  name 'toilet' 'bath' 'rest' 'room' 'bathroom' 'restroom',

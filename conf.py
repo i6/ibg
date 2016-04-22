@@ -22,12 +22,12 @@ import codecs
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, ".")
 
-from tools.int_fiction import Inform6Lexer
+from tools.inform import InformLexer
 from tools.transcript import TranscriptLexer
 
 # Setup function.
 def setup(app):
-    app.add_lexer('inform', Inform6Lexer())
+    app.add_lexer('inform', InformLexer())
     app.add_lexer('transcript', TranscriptLexer())
 
 # -- General configuration ------------------------------------------------
@@ -108,7 +108,7 @@ default_role = "any"
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'default'
+pygments_style = 'friendly'
 
 # The default Pygments highlight language.
 highlight_language = 'none'

@@ -2,7 +2,7 @@
  William Tell: the end is nigh
 ===============================
 
-.. highlight:: inform6
+.. highlight:: inform
 
 .. epigraph::
 

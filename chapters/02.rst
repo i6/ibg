@@ -36,7 +36,7 @@ in which you initially write the game doesn't bear much resemblance to the
 text which the interpreter ultimately displays.  For example, the "William
 Tell" game, in the form that we wrote it, starts like this:
 
-.. code-block:: inform6
+.. code-block:: inform
 
     !============================================================================
     Constant Story "William Tell";
@@ -53,7 +53,7 @@ Tell" game, in the form that we wrote it, starts like this:
     Class   Room
       has   light;
 
-    ! ...
+    ...
 
 You will never need to look at it in the form produced by the compiler::
 

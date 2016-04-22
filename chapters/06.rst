@@ -2,7 +2,7 @@
  William Tell: a tale is born
 ==============================
 
-.. highlight:: inform6
+.. highlight:: inform
 
 .. epigraph::
 
@@ -223,7 +223,7 @@ like this::
                 A track heads to the northeast.",
       has  light;
 
-   ! ...
+   ...
 
 and we explained that just about *every* room needs that ``light``
 attribute, or else the player would be literally in the dark.  It's a bit
@@ -245,7 +245,7 @@ write this::
                 A track heads to the northeast.",
      has  ;
 
-    ! ...
+    ...
 
 We've done four things:
 
@@ -333,7 +333,7 @@ and here is how we could have used it in "Heidi"::
                "Through the dense foliage, you glimpse a building to the west.
                 A track heads to the northeast.";
 
-   ! ...
+   ...
 
 You'll notice that, if an object has no block of attributes, the semicolon
 which terminates its definition simply moves to the end of its last
@@ -421,7 +421,7 @@ Let's see an example of this in action; here's a ``Prop`` object from
    Prop    "south gate" street
      with  name 'south' 'southern' 'wooden' 'gate',
 	   description "The large wooden gate in the town walls is wide open.",
-	   ! ...
+	   ...
 
 If players type EXAMINE GATE, they'll see "The large wooden gate..."; if
 they type CLOSE GATE then the gate's ``before`` property will step in and
