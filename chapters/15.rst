@@ -156,13 +156,12 @@ well), and make whatever seems a sensible correction.
 
 .. rubric:: Warnings
 
-Warnings are not immediately catastrophic, but you should get rid of 
-them to ensure a good start at finding run-time mistakes (see "Debugging 
-your game" on page 197). You may declare a variable and then not use it; 
-you may mistake assignment and arithmetic operators (``=`` instead of 
-``==``); you may forget the comma that separates properties, etc. For 
-all these and many other warnings, Inform has found something which is 
-legal but doubtful.
+Warnings are not immediately catastrophic, but you should get rid of them
+to ensure a good start at finding run-time mistakes (see :doc:`16`). You
+may declare a variable and then not use it; you may mistake assignment and
+arithmetic operators (``=`` instead of ``==``); you may forget the comma
+that separates properties, etc. For all these and many other warnings,
+Inform has found something which is legal but doubtful.
 
 One common incident is to return in the middle of a statement block, 
 before the rest of statements can be reached. This is not always as 
@@ -180,16 +179,14 @@ string has been printed, and the ``give match ~light`` line will never
 happen. Inform detects the fault and warns you. Probably the designer's 
 intention was:
 
-
 Compiling *à la carte*
 ======================
-
 
 One of the advantages of Inform is its portability between different 
 systems and machines. Specific usage of the compiler varies accordingly, 
 but some features should be in all environments. To obtain precise 
 information about any particular version, run the compiler with the 
-``-h1`` switch -- see "Switches" on page 193.
+``-h1`` switch -- see :ref:`switches`.
 
 Often the compiler is run with the name of your source file as its only
 parameter. This tells the compiler to "read this file using Strict mode and
@@ -254,6 +251,7 @@ example:
 
   !============================================================================
 
+.. _switches:
 
 Switches
 ========
@@ -326,7 +324,7 @@ and ``-X``. Some of the more useful switches are:
 
 :samp:`-D -X`
   Include respectively the debugging verbs and the Infix debugger in the 
-  story file (see "Debugging your game" on page 197).
+  story file (see :doc:`16`).
 
 :samp:`-h1 -h2`
   Display help information about the compiler. ``-h1`` produces 

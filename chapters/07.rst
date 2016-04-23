@@ -141,6 +141,8 @@ hasnt visited)``, you'll have to change that as well.  Worse, if you
 *forget* to change it, the game will still work -- but not in the way you'd
 intended, and the resulting bug will be quite difficult to track down.
 
+.. _adding-props:
+
 Adding some props
 =================
 
@@ -258,6 +260,8 @@ which we mentioned near the end of "Heidi"; it combines the various
 true if *any* of those individual tests is true.  And in the third example
 we introduce the ``or`` keyword, which is a more succinct way of achieving
 exactly the same result.
+
+.. _possessions:
 
 The player's possessions
 ========================
@@ -492,7 +496,7 @@ interaction.  Additionally, a new ``life`` property -- very similar to
 ``before`` -- can be defined to intercept them.  Here we use it to trap
 speech-related commands such as ASK HELGA ABOUT APPLE and TELL WALTER ABOUT
 BABIES, telling players that in this game we've implemented only a simpler
-TALK verb (which we describe in "Verbs, verbs, verbs" on page 111).
+TALK verb (which we describe in :ref:`verbs`).
 
 Based on the NPC class we've created, here's Helga::
 
@@ -538,8 +542,7 @@ scored; when it changes like this, the interpreter tells the player that
 "Your score has just gone up by one point".
 
 There are also ``life`` and ``times_spoken_to`` properties (which we'll
-talk about in "William Tell: the end is nigh" on page 103) and an
-``initial`` property.
+talk about in :doc:`09`) and an ``initial`` property.
 
 ``initial`` is used when the interpreter is describing a room and listing
 the objects initial you can see there.  If we *didn't* define it, you'd get
@@ -702,5 +705,5 @@ neatly::
 We've done a lot of scene-setting, but the real action is still to come.
 Next, it's time to define the town square, and create a confrontation
 between Wilhelm and the vogt's soldiers.  (But first, see again
-"Compile-as-you-go" on page 233 if you're typing in the game as you read
-through the guide.)
+:ref:`compile-as-you-go` if you're typing in the game as you read through
+the guide.)

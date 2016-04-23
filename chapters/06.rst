@@ -204,7 +204,7 @@ The game won't compile in this state, because it contains references to
 objects which we haven't yet defined.  In any case, we don't intend to
 build up the game in layers as we did last time, but rather to talk about
 it in logically related chunks.  To see (and if you wish, to type) the
-complete source, go to "William Tell" story on page 219.
+complete source, go to :doc:`/appendices/c`.
 
 Object classes
 ==============
@@ -339,7 +339,10 @@ You'll notice that, if an object has no block of attributes, the semicolon
 which terminates its definition simply moves to the end of its last
 property.
 
-.. rubric:: A class for props
+.. _props-class:
+
+A class for props
+-----------------
 
 We use the ``Room`` class in "William Tell", and a few other classes
 besides.  Here's a ``Prop`` class (that's "Prop" in the sense of a
@@ -434,7 +437,8 @@ object like Heidi's ``tree`` and ``cottage``, is to support EXAMINE for
 increased realism, while clearly hinting to players that trying other verbs
 would be a waste of time.
 
-.. rubric:: A class for furniture
+A class for furniture
+---------------------
 
 The last class for now -- we'll talk about the ``Arrow`` and ``NPC``
 classes in the next chapter -- is for furniture-like objects.  If you label
@@ -475,6 +479,6 @@ probably reuse them in your next game.
 Now that most of our class definitions are in place, we can get on with
 defining some real rooms and objects.  First, though, if you're typing in
 the "William Tell" game as you read through the guide, you'd probably like
-to check that what you've entered so far is correct; "Compile-as-you-go" on
-page 233 explains how to compile the game in its current -- incomplete --
-state.
+to check that what you've entered so far is correct;
+:ref:`compile-as-you-go` explains how to compile the game in its current --
+incomplete -- state.

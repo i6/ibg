@@ -22,9 +22,10 @@ oing through the design of our first game in the previous chapter has
 introduced all sorts of Inform concepts, often without giving you much
 detail about what's been happening.  So let's review some of what we've
 learnt so far, in a slightly more organised fashion.  We'll talk about
-"Constants and variables" on page 49, "Object definitions" on page 50,
-"Object relationships -- the object tree" on page 52, "Things in quotes" on
-page 55, and "Routines and statements" on page 56.
+:ref:`const-var`, :ref:`object-defs`, :ref:`object-tree`,
+:ref:`things-in-quotes` and :ref:`routines-statements`.
+
+.. _const-var:
 
 Constants and variables
 =======================
@@ -32,7 +33,8 @@ Constants and variables
 Superficially similar, constants and variables are actually very different
 beasts.
 
-.. rubric:: Constants
+Constants
+---------
 
 A :term:`constant` is a name to which a value is given once and once only;
 you can't later use that name to stand for a different value.  Think of it
@@ -51,7 +53,8 @@ and as a number::
 Those two examples represent the most common ways in which constants are
 used in Inform.
 
-.. rubric:: Variables
+Variables
+---------
 
 A :term:`variable` is a name to which a value is given, but that value can
 be changed to a different one at any time.  Think of it as a blackboard on
@@ -76,9 +79,10 @@ to reset the value of the ``location`` variable to the
 
 to reset the value of the ``deadflag`` variable to 2.
 
-Later, we'll talk about the :term:`local variable` (see "Routines" on
-page 179) and about using object properties as variables (see "Objects" on
-page 177).
+Later, we'll talk about the :term:`local variable` (see :ref:`routines`)
+and about using object properties as variables (see :ref:`objects`).
+
+.. _object-defs:
 
 Object definitions
 ==================
@@ -111,7 +115,8 @@ in between are three major blocks of information:
 * the word ``with`` introduces the object's :term:`properties`;
 * the word ``has`` introduces the object's :term:`attributes`.
 
-.. rubric:: Object headers
+Object headers
+--------------
 
 An object header comprises up to three items, all optional:
 
@@ -159,9 +164,10 @@ An object header comprises up to three items, all optional:
          ...
 
      We don't use the arrows method in this guide, though we do describe
-     how it works in "Setting up the object tree" on page 185.
+     how it works in :ref:`setting-up-tree`.
 
-.. rubric:: Object properties
+Object properties
+-----------------
 
 An object's property definitions are introduced by the ``with`` keyword.
 An object can have any number of properties, and they can be defined in any
@@ -187,18 +193,18 @@ characters in double quotes; the value associated with this ``e_to``
 property is the internal identity of an object; the ``name`` property is a
 bit unusual -- its value is a list of dictionary words, each in single
 quotes; the ``each_turn`` property has a value which is an :term:`embedded
-routine` (see "Embedded routines" on page 58).  The only other type of
-value which is commonly found is a simple number; for example::
+routine` (see :ref:`embedded-routines`).  The only other type of value
+which is commonly found is a simple number; for example::
 
      capacity 10,
 
 In all, the library defines around forty-eight standard properties -- like
 ``name`` and ``each_turn`` -- which you can associate with your objects;
-there's a complete list in "Object properties" on page 266.  And in
-"William Tell: in his prime" on page 91 we show you how to invent your own
-property variables.
+there's a complete list in :ref:`object-props`.  And in :doc:`08` we show
+you how to invent your own property variables.
 
-.. rubric:: Object attributes
+Object attributes
+-----------------
 
 An object's attribute list is introduced by the ``has`` keyword.  An object
 can have any number of attributes, and they can be listed in any order,
@@ -223,10 +229,11 @@ Each of those answers a question: Is this object a container?  Does it
 provide light?  and so on.  If the attribute is present then the answer is
 Yes; if the attribute isn't present, the answer is No.
 
-The library defines around thirty standard attributes, listed in "Object
-attributes" on page 269.  Although you *can* devise additional attributes
--- see "Common properties and attributes" on page 185 -- in practice you
-seldom need to.
+The library defines around thirty standard attributes, listed in
+:ref:`object-attrs`.  Although you *can* devise additional attributes --
+see :ref:`common-props` -- in practice you seldom need to.
+
+.. _object-tree:
 
 Object relationships -- the object tree
 =======================================
@@ -363,14 +370,17 @@ given object with the ``parent``, ``child`` and ``children`` routines, and
 this is one feature that you will be using frequently.  There are also
 other routines associated with the object tree, to help you keep track of
 the objects or move them around.  We'll see them one by one in the next
-chapters.  For a quick summary, see "Objects" on page 177.
+chapters.  For a quick summary, see :ref:`objects`.
+
+.. _things-in-quotes:
 
 Things in quotes
 ================
 
 Inform makes careful distinction between double and single quotes.
 
-.. rubric:: Double quotes
+Double quotes
+-------------
 
 Double quotes ``"..."`` surround a :term:`string` -- a letter, a word, a
 paragraph, or almost any number of characters -- which you want the
@@ -413,7 +423,8 @@ and as the value of an object ``description`` property::
 
 Later, you'll find that they're also very common in ``print`` statements.
 
-.. rubric:: Single quotes
+Single quotes
+-------------
 
 Single quotes ``'...'`` surround a :term:`dictionary word`.  This has to be
 a single word -- no spaces -- and generally contains only letters (and
@@ -436,15 +447,18 @@ and indeed that's just about the only place where they commonly occur.
 You'll save yourself a lot of confusion by remembering the distinction:
 Double quotes for Output, Single quotes for Input (DOSI).
 
+.. _routines-statements:
+
 Routines and statements
 =======================
 
 A routine is a collection of statements, which are performed (or we often
 say "are executed") at run-time by the interpreter.  There are two types of
 routine, and about two dozen types of statement (there's a complete list in
-"Statements" on page 174; see also "Inform language" on page 257).
+:ref:`statements`; see also :doc:`/appendices/e`).
 
-.. rubric:: Statements
+Statements
+----------
 
 A :term:`statement` is an instruction telling the interpreter to perform a
 particular task -- to "do something" -- while the game is being played.  A
@@ -491,7 +505,10 @@ talk about these other possibilities later.  For now, just remember that
 the only place where you'll find statements are within standalone routines
 and embedded routines.
 
-.. rubric:: Standalone routines
+.. _standalone-routines:
+
+Standalone routines
+-------------------
 
 A :term:`standalone routine` is a series of statements, collected together
 and given a name.  When the routine is "called" -- by its given name --
@@ -530,7 +547,10 @@ call.
    routine *is* called, by the Inform library, right at the start of a 
    game.
 
-.. rubric:: Embedded routines
+.. _embedded-routines:
+
+Embedded routines
+-----------------
 
 An :term:`embedded routine` is much like a standalone routine, though it
 doesn't have a name and doesn't end in a semicolon.  This is the one that
@@ -567,9 +587,8 @@ embedded routines, each designed to perform a task which is appropriate for
 the property whose value it is; we'll also see that it is possible to call
 an embedded routine yourself, using an ``obj_id.property()`` syntax -- in
 this example, we could call the routine by writing ``branch.each_turn()``.
-There's more about these topics in "Routines and arguments" on page 67, "A
-diversion: working with routines" on page 104 and in "Routines" on
-page 179.
+There's more about these topics in :ref:`routines-args`,
+:ref:`working-with-routines` and in :ref:`routines`.
 
 That ends our review of the ground covered in our first game.  We'll have
 more to say about most of this later, but we're trying not to overload you

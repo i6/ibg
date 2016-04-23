@@ -21,6 +21,8 @@ with lunchtime customers. We'll try to conjure up some appropriate
 images, but the main focus of the room isn't the decor: it's the door 
 leading to the toilet -- and, perhaps, privacy?
 
+.. _homely-atmos:
+
 A homely atmosphere
 ===================
 
@@ -102,12 +104,12 @@ action`.
 
 .. note::
 
-  in "William Tell" we defined the ``quiver``, way back in "The 
-  player's possessions" on page 83, as an ``open container``. As things 
-  stand, the player can put *any* held object, however inappropriate, 
-  into it. We could have trapped the Receive action to ensure that 
-  arrows are the only acceptable contents (recollect that ``~~``, to be 
-  read as "not", turns true into false and vice versa):
+  in "William Tell" we defined the ``quiver``, way back in
+  :ref:`possessions`, as an ``open container``. As things stand, the player
+  can put *any* held object, however inappropriate, into it. We could have
+  trapped the Receive action to ensure that arrows are the only acceptable
+  contents (recollect that ``~~``, to be read as "not", turns true into
+  false and vice versa):
 
   .. code-block:: inform
 
@@ -503,11 +505,11 @@ adjectives -- perhaps a shining/flickering/fading/useless lantern.
 
 .. note::
 
-  what's displayed if there isn't an external name in an object's 
-  header? If you've read the section "Compile-as-you-go" on page 233, 
-  you'll recall that the interpreter simply uses the internal 
-  identifier within parentheses; that is, with no external name and no 
-  ``short_name`` property, we might see:
+  what's displayed if there isn't an external name in an object's header?
+  If you've read the section :ref:`compile-as-you-go`, you'll recall that
+  the interpreter simply uses the internal identifier within parentheses;
+  that is, with no external name and no ``short_name`` property, we might
+  see:
 
   .. code-block:: inform
 
@@ -753,19 +755,18 @@ key while it’s in Benny’s pockets, we define a ``before`` property.
       "Benny is trusting you to look after that key.";
   ];
 
-All of the ``before`` properties that we've so far created have 
-contained one or more labels specifying the actions which they are to 
-intercept; you'll remember that in "William Tell" we introduced the 
-``default`` action (see "A class for props" on page 74) to mean "any 
-value not already catered for". There's one of those labels here, for 
-the Drop action, but that's preceded by a piece of code that will be 
-executed at the start of *every* action directed at the key. If it’s 
-still in Benny’s possession, we display a polite refusal; if the player 
-has it then we prevent careless disposal; otherwise, the action 
-continues unhindered.
+All of the ``before`` properties that we've so far created have contained
+one or more labels specifying the actions which they are to intercept;
+you'll remember that in "William Tell" we introduced the ``default`` action
+(see :ref:`props-class`) to mean "any value not already catered
+for". There's one of those labels here, for the Drop action, but that's
+preceded by a piece of code that will be executed at the start of *every*
+action directed at the key. If it’s still in Benny’s possession, we display
+a polite refusal; if the player has it then we prevent careless disposal;
+otherwise, the action continues unhindered.
 
-(In fact, the hat-on-a-pole ``Prop`` introduced on page 91 had this 
-all-exclusive ``before`` property:
+(In fact, the hat-on-a-pole ``Prop`` introduced in :ref:`south-side` had
+this all-exclusive ``before`` property:
 
 .. code-block:: inform
 

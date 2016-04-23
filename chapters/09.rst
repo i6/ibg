@@ -67,6 +67,8 @@ a complex test, and one that we'll be making in several places, it's
 sensible to write a routine to do the job.  Which we'll do shortly -- but
 first, a general introduction to working with routines.
 
+.. _working-with-routines:
+
 A diversion: working with routines
 ==================================
 
@@ -198,9 +200,9 @@ Remember that:
    ``rfalse`` statement, or by the the ``]`` marking the routine's end (in
    which case the default STEF rule applies: Standalone routines return
    True, Embedded routines return False).  We gave this example of an
-   embedded routine in "Adding some props" on page 81.  The ``return
-   false`` statement is redundant: we could remove it without affecting the
-   routine's behaviour, because the ``]`` acts like a ``return false``::
+   embedded routine in :ref:`adding-props`.  The ``return false`` statement
+   is redundant: we could remove it without affecting the routine's
+   behaviour, because the ``]`` acts like a ``return false``::
 
 	found_in [;
 	    if (location == street or below_square or south_square or
@@ -231,8 +233,8 @@ Return value is important   Return value doesn't matter
 =========================   ===========================
 
 For full details on which library property values can be embedded routines,
-and which return values are significant, see "Object properties" on page
-266 and Appendix §A2 of the *Inform Designer's Manual*.
+and which return values are significant, see :ref:`object-props` and
+Appendix §A2 of the *Inform Designer's Manual*.
 
 Return to the marketplace
 =========================
@@ -480,6 +482,8 @@ the game is over; the player has won. ::
 And with that, we've defined all of the objects.  In doing so, we've added
 a whole load of new nouns and adjectives to the game's dictionary, but no
 verbs.  That's the final task.
+
+.. _verbs:
 
 Verbs, verbs, verbs
 ===================
@@ -862,5 +866,5 @@ falling back on the embarrassing silences implied by "You can't think of
 anything to say".
 
 That's the end of our little fable; you'll find a transcript and the full
-source in "William Tell" story on page 219.  And now, it's time to meet --
-Captain Fate!
+source in :doc:`/appendices/c`.  And now, it's time to meet -- Captain
+Fate!

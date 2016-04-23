@@ -28,6 +28,8 @@ Game source code
 .. literalinclude:: /examples/Tell.inf
    :language: inform6
 
+.. _compile-as-you-go:
+
 Compile-as-you-go
 =================
 

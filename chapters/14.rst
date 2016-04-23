@@ -1,6 +1,6 @@
-======================
-Some last lousy points
-======================
+========================
+ Some last lousy points
+========================
 
 .. only:: html
 
@@ -20,16 +20,14 @@ omissions, to give you a better feel for what's important, and what can
 be ignored for the time being; when you become an accomplished designer, 
 you will decide what matters and what can be left on the shelf.
 
-We'll also talk, in "Reading other people's code" on page 181, about a 
-few ways of doing things that we've chosen not to tell you about, but 
-which you're quite likely to encounter if you look at Inform code 
-written by other designers.
+We'll also talk, in :ref:`reading-other-code`, about a few ways of doing
+things that we've chosen not to tell you about, but which you're quite
+likely to encounter if you look at Inform code written by other designers.
 
 The tone here is perhaps a little dry, but trust us: in walking this 
 dusty ground we touch on just about everything that is fundamental in 
 your overall understanding of Inform. And as always, the *Inform 
 Designer's Manual* provides rounder and more comprehensive coverage.
-
 
 Expressions
 ===========
@@ -83,6 +81,7 @@ player), and we use the placeholders ``obj_id``, ``var_id``,
   used (except that a routine's local variables are not visible outside 
   that routine).
 
+.. _statements:
 
 Statements
 ==========
@@ -105,7 +104,8 @@ use the placeholder ``statement_block`` to represent either a single
 
   { statement; statement; ... statement; }
 
-.. rubric:: Statements that we've met
+Statements that we've met
+-------------------------
 
 Our games have used these statements, about half of the Inform 
 possibilities:
@@ -152,8 +152,8 @@ possibilities:
   <<action noun>>;
   <<action noun second>>;
 
-
-.. rubric:: Statements that we've not met
+Statements that we've not met
+-----------------------------
 
 Although our example games haven't needed to use them, these looping
 statements are sometimes useful:
@@ -184,7 +184,8 @@ mostly to do with printing and formatting:
 
 In particular, avoid using the deprecated jump statement if you possibly can.
 
-.. rubric:: Print rules
+Print rules
+-----------
 
 In ``print`` and ``print_ret`` statements, each ``value`` can be:
 
@@ -217,7 +218,8 @@ what to do at compile-time, while the source file is being translated into
 Z-code. By convention it's given an initial capital letter (though the
 compiler doesn't enforce this) and always ends with a semicolon.
 
-.. rubric:: Directives that we've met
+Directives that we've met
+-------------------------
 
 We've used all of these directives; note that for ``Class``, ``Extend``, 
 ``Object`` and ``Verb`` the full supported syntax is more sophisticated 
@@ -269,7 +271,8 @@ than the basic form presented here:
 
   #Ifdef  any_id;  ... #Endif;
 
-.. rubric:: Directives that we've not met
+Directives that we've not met
+-----------------------------
 
 There's only a handful of useful directives which we haven't needed to 
 use:
@@ -306,6 +309,8 @@ but there's a whole load which are of fairly low importance for now:
   System_file
   Zcharacter
 
+.. _objects:
+
 Objects
 =======
 
@@ -314,7 +319,8 @@ represent the capabilities and current status of some specific component
 of the model world. Full variables are called properties; simpler 
 two-state variables are attributes.
 
-.. rubric:: Properties
+Properties
+----------
 
 The library defines around forty-eight standard property variables (such 
 as ``before`` or ``name``), but you can readily create further ones just 
@@ -354,13 +360,15 @@ and you can test whether an object definition includes a given property:
 
   (obj_id provides property)		! is true or false
 
+.. _routines:
 
 Routines
 ========
 
 Inform provides standalone routines and embedded routines.
 
-.. rubric:: Standalone routines
+Standalone routines
+-------------------
 
 Standalone routines are defined like this:
 
@@ -374,7 +382,8 @@ and called like this:
 
   routine_id()
 
-.. rubric:: Embedded routines
+Embedded routines
+-----------------
 
 These are embedded as the value of an object's property:
 
@@ -390,7 +399,8 @@ and are usually called automatically by the library, or manually by:
 
   obj_id.property()			! everywhere
 
-.. rubric:: Arguments and local variables
+Arguments and local variables
+-----------------------------
 
 Both types of routine support up to fifteen local variables -- variables 
 which can be used only by the statements within the routine, and which 
@@ -416,8 +426,8 @@ Although it works, this technique is rarely used with embedded routines,
 because there is no mechanism for the library to supply argument values 
 when calling the routine.
 
-
-.. rubric:: Return values
+Return values
+-------------
 
 Every routine returns a single value, which is supplied either 
 explicitly by some form of return statement:
@@ -468,9 +478,8 @@ though legal, does nothing useful whatsoever):
 
   switch (Max(3,y)) { ...
 
-
-.. rubric:: Library routines versus entry points
-
+Library routines versus entry points
+------------------------------------
 
 A library routine is a standard routine, included within the library 
 files, which you can optionally call from your source file if you 
@@ -506,9 +515,9 @@ And this, the only mandatory one:
 
   Initialise()
 
-There are full lists in "Library routines" on page 264 and "Optional 
-entry points" on page 270.
+There are full lists in :ref:`library-routines` and :ref:`entry-points`.
 
+.. _reading-other-code:
 
 Reading other people's code
 ===========================
@@ -524,7 +533,8 @@ to find a style that suits you and, this is the important bit, be
 *consistent* about its use. In this section, we highlight some of the 
 more obvious differences which you may encounter.
 
-.. rubric:: Code layout
+Code layout
+-----------
 
 Every designer has his or her own style for laying out their source 
 code, and they're all worse than the one you adopt. Inform's flexibility 
@@ -590,7 +600,8 @@ though that second ``else`` looks suspicious:
 We hope you'll agree that the result was worth the tiny extra effort. 
 Code gets written once; it gets read dozens and dozens of times.
 
-.. rubric:: Shortcuts
+Shortcuts
+---------
 
 There are a few statement shortcuts, some more useful than others, which 
 you'll come across.
@@ -731,7 +742,8 @@ you'll come across.
     if (--MyVar == 7) ...
     if (MyVar-- == 8) ...
 
-.. rubric:: "number" property and "general" attribute
+"number" property and "general" attribute
+-----------------------------------------
 
 The library defines a standard ``number`` property and a standard 
 ``general`` attribute, whose roles are undefined: they are 
@@ -744,16 +756,18 @@ meaningless. Your game will be clearer and easier to debug if you
 instead create new property variables -- with appropriate names -- as 
 part of your ``Object`` and ``Class`` definitions.
 
-.. rubric:: Common properties and attributes
+.. _common-props:
 
-As an alternative to creating new individual properties which apply only 
-to a single object (or class of objects), it's possible to devise 
-properties and new attributes which, like those defined by the library, 
-are available on *all* objects. The need to do this is actually quite 
-rare, and is mostly confined to library extensions (for example, the 
-``pname.h`` extension which we encountered in "Captain Fate: take 3" on 
-page 147 gives every object a ``pname`` property and a 
-``phrase_matched`` attribute). To create them, you would use these 
+Common properties and attributes
+--------------------------------
+
+As an alternative to creating new individual properties which apply only to
+a single object (or class of objects), it's possible to devise properties
+and new attributes which, like those defined by the library, are available
+on *all* objects. The need to do this is actually quite rare, and is mostly
+confined to library extensions (for example, the ``pname.h`` extension
+which we encountered in :doc:`12` gives every object a ``pname`` property
+and a ``phrase_matched`` attribute). To create them, you would use these
 directives near the start of your source file:
 
 .. code-block:: inform
@@ -770,7 +784,10 @@ properties (of which the library currently defines around forty-eight).
 On the other hand, the number of individual properties which you can add 
 is virtually unlimited.
 
-.. rubric:: Setting up the object tree
+.. _setting-up-tree:
+
+Setting up the object tree
+--------------------------
 
 Throughout this guide, we've defined the initial position of each object 
 within the overall object tree either by explicitly mentioning its 
@@ -896,14 +913,14 @@ The disadvantages include:
 We prefer to explicitly name the parent, but you'll encounter both forms 
 very regularly.
 
-.. rubric:: Quotes in "name" properties
+Quotes in "name" properties
+---------------------------
 
-We went to some lengths, way back in "Things in quotes" on page 55, to 
-explain the difference between double quotes ``"..."`` (strings to be 
-output) and single quotes ``'...'`` (input tokens -- dictionary words). 
-Perhaps somewhat unfortunately, Inform allows you to blur this clean 
-distinction: you can use double quotes in name properties and Verb 
-directives:
+We went to some lengths, way back in :ref:`things-in-quotes`, to explain
+the difference between double quotes ``"..."`` (strings to be output) and
+single quotes ``'...'`` (input tokens -- dictionary words).  Perhaps
+somewhat unfortunately, Inform allows you to blur this clean distinction:
+you can use double quotes in name properties and Verb directives:
 
 .. code-block:: inform
 
@@ -920,7 +937,8 @@ directives:
 dictionary words, not strings; it's just as easy -- and far clearer -- 
 to stick rigidly to the preferred punctuation.
 
-.. rubric:: Obsolete usages
+Obsolete usages
+---------------
 
 Finally, remember that Inform has been evolving since 1993. Over that 
 time, Graham has taken considerable care to maintain as much 

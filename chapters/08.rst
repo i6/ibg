@@ -23,6 +23,8 @@ chapter we define the square's constituent rooms and deal with Wilhelm's
 approach to the hat on the pole -- does he salute it, or does he remain
 proudly defiant?
 
+.. _south-side:
+
 The south side of the square
 ============================
 
@@ -81,9 +83,8 @@ The obnoxious soldiers are also implemented very sketchily; they need to be
 there, but they don't do much.  Their most interesting characteristic is
 probably that they trap two actions -- ``FireAt`` and ``Talk`` -- which are
 *not* part of the library, but instead new actions that we've defined
-specially for this game.  We'll talk about those actions in "Verbs, verbs,
-verbs" on page 111, at which time the role of this ``before`` property will
-make more sense.
+specially for this game.  We'll talk about those actions in :ref:`verbs`,
+at which time the role of this ``before`` property will make more sense.
 
 The middle of the square
 ========================
@@ -208,8 +209,8 @@ that the salute was "gratefully" received.
 
    Creating new property variables like this -- at the drop of a hat, as it
    were -- is the recommended approach, but it isn't the only possibility.
-   We briefly mention some alternative approaches in "Reading other
-   people's code" on page 181.
+   We briefly mention some alternative approaches in
+   :ref:`reading-other-code`.
 
 Back to the ``mid_square`` room.  We've said that we need to detect Wilhelm
 trying to leave this room, which we can do by trapping the ``Go`` action in

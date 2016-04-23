@@ -123,12 +123,11 @@ that we design will start out like this.  Follow these steps:
    containing two files: ``Heidi.inf`` and either ``Heidi.bat`` or
    ``Heidi.command``.
 
-#. Compile the source file ``Heidi.inf``; refer back to "Inform on an IBM
-   PC (running Microsoft Windows)" on page 19 or "Inform on an Apple
-   Macintosh (running OS X)" on page 24 for guidance.  If the compilation
-   works, a story file ``Heidi.z5`` appears in the folder.  If the
-   compilation *doesn't* work, you've probably made a typing mistake; check
-   everything until you find it.
+#. Compile the source file ``Heidi.inf``; refer back to
+   :ref:`inform-windows` or :ref:`inform-apple` for guidance.  If the
+   compilation works, a story file ``Heidi.z5`` appears in the folder.  If
+   the compilation *doesn't* work, you've probably made a typing mistake;
+   check everything until you find it.
 
 #. You can run the story file in your Inform interpreter; you should see
    this (except that the Serial number will be different -- it's based on

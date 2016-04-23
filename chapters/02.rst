@@ -61,8 +61,8 @@ You will never need to look at it in the form produced by the compiler::
     0000000000000000000000000000168F000000000000010200000000362E3231
     ...
 
-but, as you'll notice from the full transcript in "William Tell" story on
-page 219, the player will see the following::
+but, as you'll notice from the full transcript in :doc:`/appendices/c`, the
+player will see the following::
 
      The place: Altdorf, in the Swiss canton of Uri.  The year is 1307, at
      which time Switzerland is under rule by the Emperor Albert of
@@ -99,8 +99,8 @@ no fancy formatting features, no bold or italics or font control, no
 embedded graphics; it simply enables you to type lines of text, which is
 exactly what's needed to create an IF game.
 
-If you look at the game source on the previous page, or in the "William
-Tell" story on page 219, you'll notice ``Include "Parser";`` and ``Include
+If you look at the game source on the previous page, or in
+:doc:`/appendices/c`, you'll notice ``Include "Parser";`` and ``Include
 "VerbLib";`` a few lines down from the top of the file.  These are
 instructions to the Inform compiler to "include" -- that is, to merge in
 the contents -- of files called ``Parser.h`` and ``VerbLib.h``.  These are
@@ -140,6 +140,8 @@ guidance on Graham's page: visit http://www.inform-fiction.org/ and look
 for the "Software" section.  However, if you're using a PC or a Mac, you'll
 find it easier to download a complete package containing everything that
 you need to get started.
+
+.. _inform-windows:
 
 Inform on an IBM PC (running Microsoft Windows)
 ===============================================
@@ -349,6 +351,8 @@ no further need for the batch file itself): just press a key while editing
 the file -- and it compiles there and then.  You can also run the
 interpreter with similar ease.  The convenience of doing this far outweighs
 the small amount of time needed to obtain and configure TextPad.
+
+.. _inform-apple:
 
 Inform on an Apple Macintosh (running OS X)
 ===========================================
@@ -724,7 +728,7 @@ write a Z-code file.  *Do not worry about this*: the rules are easy to
 learn, but just as easy to break, and all Inform designers inadvertently do
 so on a regular basis.  There's some additional information about dealing
 with these mistakes, and about controlling how the compiler behaves, in
-"Compiling your game" on page 189.
+:doc:`15`.
 
 .. rubric:: More about the interpreter
 

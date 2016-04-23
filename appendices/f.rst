@@ -198,6 +198,8 @@ Library variables
 `wn`
   The input stream word number, counting from 1.
 
+.. _library-routines:
+
 Library routines
 ================
 
@@ -364,6 +366,8 @@ Library routines
 `ZRegion({arg})`
   Returns the type of its `{arg}` : 3 for a string address, 2 for a routine
   address, 1 for an object number, or 0 otherwise.
+
+.. _object-props:
 
 Object properties
 =================
@@ -660,6 +664,8 @@ Object's value being considered first.
   For a `lockable` object: the `{obj_id}` (generally some kind of key)
   needed to lock and unlock the object, or `nothing` if no key fits.
 
+.. _object-attrs:
+
 Object attributes
 =================
 
@@ -760,6 +766,8 @@ Object attributes
 `worn`
      For a `clothing` object: is being worn.
 
+.. _entry-points:
+
 Optional entry points
 =====================
 
@@ -834,6 +842,8 @@ These routines, if you supply them, are called when shown.
 `UnknownVerb()`
   Called when an unusual verb is encountered.
 
+.. _group-1-actions:
+
 Group 1 actions
 ===============
 
@@ -888,6 +898,8 @@ and the debug tools.
 `XPurloin`        "`PURLOIN`"
 `XTree`           "`TREE`"
 ===============   ===================================================
+
+.. _group-2-actions:
 
 Group 2 actions
 ===============
@@ -950,6 +962,8 @@ Group 2 actions usually work, given the right circumstances.
 `VagueGo`       "`GO`", "`LEAVE`", "`RUN`", "`WALK`"
 `Wear`          "`DON`", "`PUT ON`", "`WEAR`"
 =============   =============================================================
+
+.. _group-3-actions:
 
 Group 3 actions
 ===============

@@ -64,15 +64,14 @@ there are rules about where exactly this Include should be placed in
 your source code. It is not unusual to find other suggestions and 
 warnings.
 
-To help us out of the disambiguation problem with the word TOILET, we 
-are going to use Neil Cerutti's extension ``pname.h``, which is designed 
-for situations precisely like this. First, we follow the link to the IF 
-archive and download the compressed file ``pname.zip``, which contains 
-two more files: ``pname.h`` and ``pname.txt``. We place these files in 
-the folder where we are currently developing our game or, if using the 
-environment we proposed in "Tools of the trade" on page 17, in the 
-``Inform\Lib\Contrib`` folder. The text file offers instructions about 
-installation and usage. Here we find a warning:
+To help us out of the disambiguation problem with the word TOILET, we are
+going to use Neil Cerutti's extension ``pname.h``, which is designed for
+situations precisely like this. First, we follow the link to the IF archive
+and download the compressed file ``pname.zip``, which contains two more
+files: ``pname.h`` and ``pname.txt``. We place these files in the folder
+where we are currently developing our game or, if using the environment we
+proposed in :doc:`02`, in the ``Inform\Lib\Contrib`` folder. The text file
+offers instructions about installation and usage. Here we find a warning:
 
   This version of pname.h is recommended for use only with version 6/10 
   of the Inform Library.
@@ -340,25 +339,24 @@ statement as shorthand for:
   if (noun == clothes) { whatever };
   !...
 
-We won't let players give away their clothes or their costume (yes, an 
-improbable action, but you never know). The toilet key and the coin are 
-successfully transferred. The property ``key_not_returned`` will be set 
-to true when we receive the toilet key from Benny (we have not coded 
-that bit yet), and now, when we give it back, it's reset to ``false``. 
-The ``move`` statement is in charge of the actual transfer of the object 
-from the player's inventory to Benny, and we finally display a 
-confirmation message. With the coin, we find a new statement: 
-``remove``. This extracts the object from the object tree, so that it 
-now has no parent. The effect is to make it disappear from the game 
-(though you are not destroying the object permanently -- and indeed you 
-could return it to the object tree using the ``move`` statement); as far 
-as the player is concerned, there isn’t a COIN to be found anywhere. The 
-``coffee_not_paid`` property will be set to true when Benny serves us 
-the cup of coffee (again, we’ll see that in a moment); now we reset it 
-to ``false``, which liberates the player from debt. This culminates with 
-the ``"..."`` print-and-return statement, telling the player that the 
-action was successful. In passing, remember that in "A homely 
-atmosphere" on page 131 we defined the counter such that PUT KEY ON 
+We won't let players give away their clothes or their costume (yes, an
+improbable action, but you never know). The toilet key and the coin are
+successfully transferred. The property ``key_not_returned`` will be set to
+true when we receive the toilet key from Benny (we have not coded that bit
+yet), and now, when we give it back, it's reset to ``false``.  The ``move``
+statement is in charge of the actual transfer of the object from the
+player's inventory to Benny, and we finally display a confirmation
+message. With the coin, we find a new statement: ``remove``. This extracts
+the object from the object tree, so that it now has no parent. The effect
+is to make it disappear from the game (though you are not destroying the
+object permanently -- and indeed you could return it to the object tree
+using the ``move`` statement); as far as the player is concerned, there
+isn’t a COIN to be found anywhere. The ``coffee_not_paid`` property will be
+set to true when Benny serves us the cup of coffee (again, we’ll see that
+in a moment); now we reset it to ``false``, which liberates the player from
+debt. This culminates with the ``"..."`` print-and-return statement,
+telling the player that the action was successful. In passing, remember
+that in :ref:`homely-atmos` we defined the counter such that PUT KEY ON
 COUNTER is automatically translated into GIVE KEY TO BENNY .
 
 Why move the key to Benny but remove the coin instead? Once players 

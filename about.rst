@@ -92,9 +92,20 @@ Presentation and style
 Most of the guide's text appears in this typeface, except where we're using
 words which are part of the Inform system (like ``print``, ``Include``,
 ``VerbLib``) or are extracted from one of our games (like ``bird``,
-``nest``, ``top_of_tree``).  Terms in **bold type** are included in the
-glossary -- Appendix G on page 273.  We switch to italic type for a
-placeholder: for example you should read the Inform statement:
+``nest``, ``top_of_tree``).
+
+.. only:: html
+
+   Terms that are included in the :doc:`Glossary <appendices/g>` appear as
+   links to that glossary entry.
+
+.. only:: latex
+
+   Terms that are included in the :doc:`Glossary <appendices/g>` appear in
+   blue italic.  In the PDF version, these are links to the glossary entry.
+
+We switch to italic type for a placeholder: for example you should read the
+Inform statement:
 
    :samp:`print "{string}";`
 
@@ -223,7 +234,6 @@ eventually of presenting, the Inform text adventure development system.
 
 .. [#play]
    If you feel confused about IF in general or about this distinction
-   between writing and playing in particular, try glancing ahead at "Just
-   what is interactive fiction?" on page 13 and at "How to play an IF game"
-   on page 209; also, you may find the Ifaq at
-   http://www.plover.net/~textfire/raiffaq/ifaq/ helpful.
+   between writing and playing in particular, try glancing ahead at
+   :doc:`chapters/01` and at :doc:`appendices/a`; also, you may find the
+   Ifaq at http://www.plover.net/~textfire/raiffaq/ifaq/ helpful.

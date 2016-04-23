@@ -32,8 +32,7 @@ information in logical didactic chunks, defining some of the objects
 minimally at first and then adding complexity as need arises. Again, 
 this means that you won't be able to compile for testing purposes after 
 the addition of every code snippet, so, if you're typing in the game as 
-you read, you’ll need to check the advice in "Compile-as-you-go" on page 
-255.
+you read, you’ll need to check the advice in :ref:`compile-as-you-go`.
 
 A lot of what goes into this game we have already seen; you may deduce 
 from this that the game design business is fairly repetitious and that 
@@ -496,20 +495,18 @@ this, we redirect the street's ``n_to`` property thus:
 
   n_to [; <<Enter outside_of_cafe>>; ],
 
-You may think that this is unnecessary madness, but a word to the wise: 
-in a large game, you want action handling going on just in one place 
-when possible, because it will help you to keep track of where things 
-are a-happening if something goes *ploof* (as, believe us, it will; see 
-"Debugging your game" on page 197). You don't need to be a 
-perfectionist, just cautious.
+You may think that this is unnecessary madness, but a word to the wise: in
+a large game, you want action handling going on just in one place when
+possible, because it will help you to keep track of where things are
+a-happening if something goes *ploof* (as, believe us, it will; see
+:doc:`16`). You don't need to be a perfectionist, just cautious.
 
-A booth in this kind of situation is an open invitation for the player 
-to step inside and try to change into Captain Fate's costume. We won't 
-let this happen -- the player isn't Clark Kent, after all; later we'll 
-explain how we forbid this action -- and that will force the player to 
-go inside the café, looking for a discreet place to disrobe; but first, 
-let''s freeze John Covarth outside Benny''s and reflect about a 
-fundamental truth.
+A booth in this kind of situation is an open invitation for the player to
+step inside and try to change into Captain Fate's costume. We won't let
+this happen -- the player isn't Clark Kent, after all; later we'll explain
+how we forbid this action -- and that will force the player to go inside
+the café, looking for a discreet place to disrobe; but first, let's freeze
+John Covarth outside Benny's and reflect about a fundamental truth.
 
 A hero is not an ordinary person
 ================================
@@ -668,7 +665,7 @@ the default messages, but that wouldn't be a sound practice, because
 your library file will probably not be right for the next game. Use of 
 the ``LibraryMessages`` object is strongly advised.
 
-If you're typing in the game, you'll probably want to read the brief 
-section on "Compile-as-you-go" on page 255 prior to performing a test 
-compile. Once everything's correct, it’s time that our hero entered that 
-enticing café.
+If you're typing in the game, you'll probably want to read the brief
+section on :ref:`compile-as-you-go` prior to performing a test compile.
+Once everything's correct, it’s time that our hero entered that enticing
+café.

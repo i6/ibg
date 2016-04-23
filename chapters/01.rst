@@ -85,9 +85,8 @@ of a familiar folk tale.
 
 And now an extract from the same tale, this time in the form of a tiny text
 adventure game.  If you're new to interaction with text adventures you'll
-find some general instructions in "How to play an IF game" on page 209, and
-you can see a complete transcript of the game in the "William Tell" story
-on page 219::
+find some general instructions in :doc:`/appendices/a`, and you can see a
+complete transcript of the game in :doc:`/appendices/c`. ::
 
      A street in Altdorf
      The narrow street runs north towards the town square.  Local folk are
@@ -218,16 +217,15 @@ Some of the more obvious differences are highlighted by these questions:
 *   How do I work this thing?
 
     Whereas the presence of Helga is an elaboration of the folk tale, the
-    shooting of the arrow (it's in the transcript in "William Tell" story
-    on page 219, not in the extract above) illustrates the opposite
-    principle: simplification.  The tale builds dramatic tension by
-    describing each step as Wilhelm prepares to shoot the apple.  That's
-    OK; he's been an archer all his life, and knows how to do it.  You, on
-    the other hand, probably know little about archery, and shouldn't be
-    expected to guess at the process and vocabulary.  Let's hope you know
-    that you need to shoot at the apple -- and that's all it takes.  The
-    game explains what was involved, but doesn't force you through each
-    mundane step.
+    shooting of the arrow (it's in the transcript in :doc:`/appendices/c`,
+    not in the extract above) illustrates the opposite principle:
+    simplification.  The tale builds dramatic tension by describing each
+    step as Wilhelm prepares to shoot the apple.  That's OK; he's been an
+    archer all his life, and knows how to do it.  You, on the other hand,
+    probably know little about archery, and shouldn't be expected to guess
+    at the process and vocabulary.  Let's hope you know that you need to
+    shoot at the apple -- and that's all it takes.  The game explains what
+    was involved, but doesn't force you through each mundane step.
 
 Of course, all of these are generalisations, not universal truths; you
 could find fine works of IF which contradict each observation.  However,
