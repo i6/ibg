@@ -35,14 +35,18 @@ Compile-as-you-go
 you type the code sequentially as you read through the guide, the game 
 won't compile until you reach the end of Chapter 13. To compile and test 
 as you go, add these stubs to the end of the game file when you reach 
-the end of Chapter 10::
+the end of Chapter 10:
+
+.. code-block:: inform
 
 	! ================================================================
 	! TEMPORARY DEFINITIONS NEEDED TO COMPILE AT THE END OF CHAPTER 10
 	Room    cafe;
 	Object  clothes;
 
-Replace those stubs with these at the end of Chapter 11::
+Replace those stubs with these at the end of Chapter 11:
+
+.. code-block:: inform
 
 	! ================================================================
 	! TEMPORARY DEFINITIONS NEEDED TO COMPILE AT THE END OF CHAPTER 11
@@ -51,7 +55,9 @@ Replace those stubs with these at the end of Chapter 11::
 	Object	clothes;
 	Object	costume;
 
-and with these at the end of Chapter 12::
+and with these at the end of Chapter 12:
+
+.. code-block:: inform
 
 	! ================================================================
 	! TEMPORARY DEFINITIONS NEEDED TO COMPILE AT THE END OF CHAPTER 12

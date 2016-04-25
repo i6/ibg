@@ -2,6 +2,8 @@
  Appendix C -- "William Tell" story
 ======================================
 
+.. highlight:: transcript
+
 .. only:: html
 
   .. image:: /images/picW.png
@@ -62,7 +64,9 @@ reached by the end of Chapter 6, you’ll get this::
 	Tell.inf(47): Error: No such constant as "quiver"
 	Compiled with 3 errors and 3 warnings
 
-However, by adding these lines to the end of your game file::
+However, by adding these lines to the end of your game file:
+
+.. code-block:: inform
 
 	! ===============================================================
 	! TEMPORARY DEFINITIONS NEEDED TO COMPILE AT THE END OF CHAPTER 6
@@ -101,7 +105,9 @@ so although the game compiles successfully, it still causes an error to
 be reported at run-time.
 
 The best way round this is to extend the definition of our ``Room`` 
-class, thus::
+class, thus:
+
+.. code-block:: inform
 
 	Class  Room
 	  with description "UNDER CONSTRUCTION",
@@ -148,7 +154,9 @@ the end of Chapter 6. But once we reach the end of Chapter 7, things
 have moved on, and we now need a different set of stub objects. For a 
 test compilation at this point, remove the previous set of stubs, and 
 instead add these -- ``south_square`` and ``apple`` objects, and a dummy 
-action handler to satisfy the ``Talk`` action in Helga’s life property::
+action handler to satisfy the ``Talk`` action in Helga’s life property:
+
+.. code-block:: inform
 
 	! ===============================================================
 	! TEMPORARY DEFINITIONS NEEDED TO COMPILE AT THE END OF CHAPTER 7
@@ -159,7 +167,9 @@ action handler to satisfy the ``Talk`` action in Helga’s life property::
 	[ TalkSub; ];
 
 Similarly, at the end of Chapter 8, replace the previous stubs by these 
-if you wish to check that the game compiles::
+if you wish to check that the game compiles:
+
+.. code-block:: inform
 
 	! ===============================================================
 	! TEMPORARY DEFINITIONS NEEDED TO COMPILE AT THE END OF CHAPTER 8
