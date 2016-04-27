@@ -10,7 +10,6 @@
 
    -- The Continental Op in Dashiell Hammett's *Red Harvest*.
 
-
 .. only:: html
 
   .. image:: /images/picJ.png
@@ -150,7 +149,6 @@ September to keep an eye open for the Interactive Fiction Competition
 
 And, who knows? It might be that next year we’ll all be smashed by 
 *your* entry.
-
 
 .. todo:: This signoff should be aligned to the right side.
 

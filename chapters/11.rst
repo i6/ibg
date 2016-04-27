@@ -34,7 +34,7 @@ the door seems to be locked.
 .. admonition:: Cultural Note
    :class: admonition note
 
-   not for the first time, this guide betrays its origins. In
+   Not for the first time, this guide betrays its origins. In
    European countries the word "toilet" often refers not only to the 
    white porcelain artefact, but also to the room in which it can be 
    found (also, a "bathroom" is for taking a bath, a "restroom" for 
@@ -76,7 +76,7 @@ We've mentioned a counter:
          ],
     has  supporter;
 
-That ``before property``, superficially normal, actually conceals a 
+That ``before`` property, superficially normal, actually conceals a 
 little surprise. By now you should be entirely comfortable with using an 
 object's ``before`` property to intercept an action directed at that 
 object; for example, if the player types HIT COUNTER then the counter's 
@@ -104,7 +104,7 @@ action`.
 
 .. note::
 
-  in "William Tell" we defined the ``quiver``, way back in
+  In "William Tell" we defined the ``quiver``, way back in
   :ref:`possessions`, as an ``open container``. As things stand, the player
   can put *any* held object, however inappropriate, into it. We could have
   trapped the Receive action to ensure that arrows are the only acceptable
@@ -236,13 +236,13 @@ To code a daemon, you need to do three things:
     the property is always an embedded routine.
 
 #.  However, daemons do nothing until you activate them. This is easily
-    achieved with the call ``StartDaemon(obj_id)``, which may happen 
+    achieved with the call :samp:`StartDaemon({obj_id})`, which may happen 
     anywhere (if you want some object's daemon to be active from the 
     beginning of the game,you can make the call in your Initialise 
     routine).
 
 #.  Once the daemon has finished its mission (if ever) you may stop it 
-    with the call ``StopDaemon(obj_id)``.
+    with the call :samp:`StopDaemon({obj_id})`.
 
 How does our particular daemon work? The appearance of our hero in full 
 crime-fighting wear will make the customers stare at him and make snarky 
@@ -353,7 +353,7 @@ normal rules for the other available directions.
 
 Then we check whether the player character is wearing the costume, in 
 which case it starts the ``daemon`` of the ``customers`` object. The use 
-of the local first_time_out property ensures that the condition is 
+of the local ``first_time_out`` property ensures that the condition is 
 ``true`` only once, so the statement block attached to it runs also 
 once.
 
@@ -491,6 +491,7 @@ it's easy to write a routine as the value of ``short_name``:
           short_name [;
               if (location == cafe) print "door to the toilet";
               else                  print "door to the cafe";
+	      return true;
           ],
           description
               ...
@@ -505,22 +506,18 @@ adjectives -- perhaps a shining/flickering/fading/useless lantern.
 
 .. note::
 
-  what's displayed if there isn't an external name in an object's header?
+  What's displayed if there isn't an external name in an object's header?
   If you've read the section :ref:`compile-as-you-go`, you'll recall that
   the interpreter simply uses the internal identifier within parentheses;
   that is, with no external name and no ``short_name`` property, we might
-  see:
-
-  .. code-block:: inform
+  see::
 
     You open the (toilet_door).
 
   And the same principle applies if we were mistakenly to ``return 
   false`` from this short_name routine: we would get, first, the result 
   of our ``print`` statement, and then the standard rules would display 
-  the internal ID:
-
-  .. code-block:: inform
+  the internal ID::
 
     You open the door to the toilet(toilet_door).
 
@@ -604,7 +601,9 @@ shouldn’t assume that they want to lock it as well).
 In all processes there is a library variable called ``keep_silent``, 
 which can be either ``false`` (the normal state) or ``true``; when 
 ``true``, the interpreter does not display the associated message of an 
-action in progress, so we can avoid things like::
+action in progress, so we can avoid things like:
+
+.. code-block:: transcript
 
   >OPEN DOOR
   You open the door to the toilet.

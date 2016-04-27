@@ -45,11 +45,11 @@ super-hero made famous by a childhood of comic books:
 
 .. pull-quote::
 
-	"Impersonating mild mannered John Covarth, assistant help boy at 
-	an Impersonating insignificant drugstore, you suddenly STOP 
-	when your acute hearing deciphers a stray radio call from the 
-	POLICE. There’s some MADMAN attacking the population in Granary 
-	Park! You must change into your Captain FATE costume fast...!"
+	"Impersonating mild mannered John Covarth, assistant help boy at an
+	insignificant drugstore, you suddenly STOP when your acute hearing
+	deciphers a stray radio call from the POLICE. There’s some MADMAN
+	attacking the population in Granary Park! You must change into your
+	Captain FATE costume fast...!"
 
 which won't be so easy to do. In this short example, players will win 
 when they manage to change into their super-hero costume and fly away to 
@@ -443,7 +443,7 @@ something else to describe it:
 
 .. note::
 
-   although the text of our guide calls Benny's establishment a "café" 
+   Although the text of our guide calls Benny's establishment a "café" 
    -- note the acute "e" -- the game itself simplifies this to "cafe". 
    We do this for clarity, not because Inform doesn't support accented 
    characters. The *Inform Designer's Manual* explains in detail how to 
@@ -645,11 +645,12 @@ experience grows.
 
 .. todo::
 
-    That "whatever new look" below needs to be italicized and bolded for LaTeX
+   That "whatever new look" below needs to be italicized and bolded for
+   LaTeX.
 
 .. note::
 
-   going back to our example, an alternative approach would be to set 
+   Going back to our example, an alternative approach would be to set 
    the variable ``player.description`` in the ``Initialise`` routine (as we 
    did with "William Tell") to the "ordinary clothes" string, and then 
    later change it as the need arises. It is a variable, after all, and you 

@@ -9,6 +9,7 @@
 
       copyright
       history
+      todo
 
 .. toctree::
    :maxdepth: 1
@@ -41,7 +42,3 @@
 
    * :ref:`genindex`
    * :ref:`search`
-
-   .. toctree::
-
-      endnotes

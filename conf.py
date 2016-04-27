@@ -22,6 +22,8 @@ import codecs
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, ".")
 
+import tools.sphinxpatch
+
 from tools.inform import InformLexer
 from tools.transcript import TranscriptLexer
 

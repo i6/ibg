@@ -2,6 +2,10 @@
  Some last lousy points
 ========================
 
+.. highlight:: inform
+
+.. default-role:: samp
+
 .. only:: html
 
   .. image:: /images/picF.png
@@ -32,13 +36,13 @@ Designer's Manual* provides rounder and more comprehensive coverage.
 Expressions
 ===========
 
-In this guide we’ve used the placeholder ``expression`` a few times; 
+In this guide we’ve used the placeholder `{expression}` a few times; 
 here's roughly what we mean.
 
-* An ``expression`` is a single ``value``, or several ``values`` 
-  combined using ``operators`` and sometimes parentheses ``(...)``.
+* An `{expression}` is a single `{value}`, or several `{values}` 
+  combined using `{operators}` and sometimes parentheses ``(...)``.
 
-* Possible ``values`` include:
+* Possible `{values}` include:
 
   * a literal number (-32768 to 32767)
 
@@ -51,14 +55,13 @@ here's roughly what we mean.
   * (only in a run-time statement, not in a compile-time directive) the
     contents of a variable, or the return value from a routine.
 
-* Possible ``operators`` include:
+* Possible `{operators}` include:
 
   * an arithmetic operator: ``+ - * / % ++``
   * a bitwise logical operator: ``& | ~``
   * a numeric comparison operator: ``== ~= > < >= <=``
   * an object conditional operator: ``ofclass in notin provides has hasnt``
   * a boolean combinational operator: ``&& || ~~``
-
 
 Internal IDs
 ============
@@ -67,8 +70,8 @@ Many of the items which you define in your source file -- objects,
 variables, routines, etc. -- need to be given a name so that other items 
 can refer to them. We call this name an item's internal identifier 
 (because it's used only within the source file and isn't visible to the 
-player), and we use the placeholders ``obj_id``, ``var_id``, 
-``routine_id``, etc. to represent where it's used. An internal ID
+player), and we use the placeholders `{obj_id}`, `{var_id}`, 
+`{routine_id}`, etc. to represent where it's used. An internal ID
 
 * can be up to thirty-two characters long
 
@@ -86,19 +89,17 @@ player), and we use the placeholders ``obj_id``, ``var_id``,
 Statements
 ==========
 
+.. todo::
+
+   We might need some custom syntax highlighting here.
+
 A :term:`statement` is an instruction intended for the interpreter, telling
 it what to do at run-time. It *must* be given in lower-case, and always
 ends with a semicolon.
 
 Some statements, like ``if``, control one or more other statements. We 
-use the placeholder ``statement_block`` to represent either a single 
-``statement``, or any number of ``statements`` enclosed in braces:
-
-.. todo::
-
-  We might need some custom syntax highlighting here
-
-.. code-block:: inform
+use the placeholder `{statement_block}` to represent either a single 
+`{statement}`, or any number of `{statements}` enclosed in braces::
 
   statement;
 
@@ -108,9 +109,7 @@ Statements that we've met
 -------------------------
 
 Our games have used these statements, about half of the Inform 
-possibilities:
-
-.. code-block:: inform
+possibilities::
 
   give obj_id attribute;
   give obj_id attribute attribute ... attribute;
@@ -156,9 +155,7 @@ Statements that we've not met
 -----------------------------
 
 Although our example games haven't needed to use them, these looping
-statements are sometimes useful:
-
-.. code-block:: inform
+statements are sometimes useful::
 
   break;
   continue;
@@ -171,9 +168,7 @@ statements are sometimes useful:
 
 On the other hand, we suggest that you put the following statements on 
 hold for now; they're not immediately relevant to everyday code and have 
-mostly to do with printing and formatting:
-
-.. code-block:: inform
+mostly to do with printing and formatting::
 
   box
   font
@@ -187,28 +182,27 @@ In particular, avoid using the deprecated jump statement if you possibly can.
 Print rules
 -----------
 
-In ``print`` and ``print_ret`` statements, each ``value`` can be:
+In ``print`` and ``print_ret`` statements, each `{value}` can be:
 
-* a numeric ``expression``, displayed as a signed decimal number,
+* a numeric `{expression}`, displayed as a signed decimal number,
 
-* a ``"string"``, displayed literally, or
+* a `"{string}"`, displayed literally, or
 
 * a print rule. You can create your own, or use a standard one, including:
 
   .. tabularcolumns:: ll
 
   +-------------------------+---------------------------------------------------+
-  | ``(a) obj_id``          | the object's name, preceded by "a", "an" or "some"|
+  | `(a) {obj_id}`          | the object's name, preceded by "a", "an" or "some"|
   +-------------------------+---------------------------------------------------+
-  | ``(A) obj_id``	    | as ``(a)`` but using "A", "An" or "Some"		|
+  | `(A) {obj_id}`	    | as ``(a)`` but using "A", "An" or "Some"		|
   +-------------------------+---------------------------------------------------+
-  | ``(the) obj_id``	    | the object's name, preceded by "the"		|
+  | `(the) {obj_id}`	    | the object's name, preceded by "the"		|
   +-------------------------+---------------------------------------------------+
-  | ``(The) obj_id``	    | as ``(the)`` but using "The"			|	
+  | `(The) {obj_id}`	    | as ``(the)`` but using "The"			|	
   +-------------------------+---------------------------------------------------+
-  | ``(number) expression`` | the numeric expression's value in words		|
+  | `(number) {expression}` | the numeric expression's value in words		|
   +-------------------------+---------------------------------------------------+
-
 
 Directives
 ==========
@@ -223,9 +217,7 @@ Directives that we've met
 
 We've used all of these directives; note that for ``Class``, ``Extend``, 
 ``Object`` and ``Verb`` the full supported syntax is more sophisticated 
-than the basic form presented here:
-
-.. code-block:: inform
+than the basic form presented here::
 
   Class   class_id
     with  property  value,
@@ -275,9 +267,7 @@ Directives that we've not met
 -----------------------------
 
 There's only a handful of useful directives which we haven't needed to 
-use:
-
-.. code-block:: inform
+use::
 
   Attribute attribute;
 
@@ -289,9 +279,7 @@ use:
   Statusline score;
   Statusline time;
 
-but there's a whole load which are of fairly low importance for now:
-
-.. code-block:: inform
+but there's a whole load which are of fairly low importance for now::
 
   Abbreviate
   Array
@@ -328,35 +316,26 @@ by using them within an object definition.
 
 You can create and initialise a property in an object's ``with`` segment:
 
-.. code-block:: inform
-
   property,				! set to zero / false
 
   property value,			! set to a single value
 
   property value value ... value,	! set to a list of values
 
-In each case, the ``value`` is either a compile-time ``expression``, or 
-an embedded routine:
-
-.. code-block:: inform
+In each case, the `{value}` is either a compile-time `{expression}`, or 
+an embedded routine::
 
   property expression,
 
   property [; statement; statement; ... statement; ],
 
-
-You can refer to the value of a property:
-
-.. code-block:: inform
+You can refer to the value of a property::
 
   self.property				! only within that same object
 
   obj_id.property			! everywhere
 
-and you can test whether an object definition includes a given property:
-
-.. code-block:: inform
+and you can test whether an object definition includes a given property::
 
   (obj_id provides property)		! is true or false
 
@@ -370,30 +349,22 @@ Inform provides standalone routines and embedded routines.
 Standalone routines
 -------------------
 
-Standalone routines are defined like this:
-
-.. code-block:: inform
+Standalone routines are defined like this::
 
   [ routine_id; statement; statement; ... statement; ];
 
-and called like this:
-
-.. code-block:: inform
+and called like this::
 
   routine_id()
 
 Embedded routines
 -----------------
 
-These are embedded as the value of an object's property:
-
-.. code-block:: inform
+These are embedded as the value of an object's property::
 
   property [; statement; statement; ... statement; ],
 
-and are usually called automatically by the library, or manually by:
-
-.. code-block:: inform
+and are usually called automatically by the library, or manually by::
 
   self.property()			! only within that same object
 
@@ -405,9 +376,7 @@ Arguments and local variables
 Both types of routine support up to fifteen local variables -- variables 
 which can be used only by the statements within the routine, and which 
 are automatically initialised to zero every time that the routine is 
-called:
-
-.. code-block:: inform
+called::
 
   [ routine_id var_id var_id ... var_id; statement; statement; ... statement; ];
 
@@ -416,9 +385,7 @@ called:
 You can pass up to seven arguments to a routine, by listing those 
 arguments within the parentheses when you call the routine. The effect 
 is simply to initialise the matching local variables to the argument 
-values rather than to zero:
-
-.. code-block:: inform
+values rather than to zero::
 
   routine_id(expression, expression, ... expression)
 
@@ -430,25 +397,19 @@ Return values
 -------------
 
 Every routine returns a single value, which is supplied either 
-explicitly by some form of return statement:
-
-.. code-block:: inform
+explicitly by some form of return statement::
 
   [ routine_id; statement; statement; ... return expr; ]; ! returns expr
 
   property [; statement; statement; ... return expr; ], ! returns expr
 
-or implicitly when the routine runs out of statements. If none of these 
-``statements`` is one -- ``return``, ``print_ret``, ``"..."` or 
-``<<...>>`` -- that causes an explicit return, then:
-
-.. code-block:: inform
+or implicitly when the routine runs out of statements. If none of these
+``statements`` is one -- ``return``, ``print_ret``, ``"..."`` or
+``<<...>>`` -- that causes an explicit return, then::
 
   [ routine_id; statement; statement; ... statement; ];
 
-returns ``true`` and
-
-.. code-block:: inform
+returns ``true`` and ::
 
   property [; statement; statement; ... statement; ]
 
@@ -459,16 +420,12 @@ left to themselves, Standalone routines return True, Embedded routines
 return False.
 
 Here's an example standalone routine which returns the larger of its two
-argument values:
-
-.. code-block:: inform
+argument values::
 
   [ Max a b; if (a > b) return a; else return b; ];
 
 and here are some examples of its use (note that the first example, 
-though legal, does nothing useful whatsoever):
-
-.. code-block:: inform
+though legal, does nothing useful whatsoever)::
 
   Max(x,y);
 
@@ -484,9 +441,7 @@ Library routines versus entry points
 A library routine is a standard routine, included within the library 
 files, which you can optionally call from your source file if you 
 require the functionality which the routine provides. We've mentioned 
-these library routines:
-
-.. code-block:: inform
+these library routines::
 
   IndirectlyContains(parent_obj_id, obj_id)
 
@@ -501,17 +456,13 @@ these library routines:
 
 By contrast, an entry point routine is a routine which you can provide 
 in your source file, in which case the library calls it at an 
-appropriate time. We've mentioned these optional entry point routines:
-
-.. code-block:: inform
+appropriate time. We've mentioned these optional entry point routines::
 
   DeathMessage()
 
   InScope(actor_obj_id)
 
-And this, the only mandatory one:
-
-.. code-block:: inform
+And this, the only mandatory one::
 
   Initialise()
 
@@ -547,9 +498,7 @@ your code, about making it as readable as you can.
 
 This is doubly true if you ever contemplate sharing a library extension 
 with the rest of the community. This example, with the name changed, is 
-from a file in the Archive:
-
-.. code-block:: inform
+from a file in the Archive::
 
   [xxxx i j;
   if (j==0) rtrue;
@@ -577,9 +526,7 @@ from a file in the Archive:
 
 Here's the same routine after a few minutes spent purely on making it 
 more comprehensible; we haven't actually tested that it (still) works, 
-though that second ``else`` looks suspicious:
-
-.. code-block:: inform
+though that second ``else`` looks suspicious::
 
   [ xxxx i j;
       if (i in player || i has static or scenery || j == nothing) return true;
@@ -606,9 +553,7 @@ Shortcuts
 There are a few statement shortcuts, some more useful than others, which 
 you'll come across.
 
-* These five lines all do the same thing:
-
-  .. code-block:: inform
+* These five lines all do the same thing::
 
     return true;
     return 1;
@@ -616,65 +561,49 @@ you'll come across.
     rtrue;
     ];		! at the end of a standalone routine
 
-* These four lines all do the same thing:
-
-  .. code-block:: inform
+* These four lines all do the same thing::
 
     return false;
     return 0;
     rfalse;
     ];		! at the end of an embedded routine
 
-* These four lines all do the same thing:
-
-  .. code-block:: inform
+* These four lines all do the same thing::
 
     print "string"; new_line; return true;
     print "string^"; return true;
     print_ret "string";
     "string";
 
-* These lines are the same:
-
-  .. code-block:: inform
+* These lines are the same::
 
     print value1; print value2; print value3;
     print value1, value2, value3;
 
-* These lines are the same:
-
-  .. code-block:: inform
+* These lines are the same::
 
     <action noun second>; return true;
     <<action noun second>>;
 
-* These lines are also the same:
-
-  .. code-block:: inform
+* These lines are also the same::
 
     print "^";
     new_line;
 
-* These ``if`` statements are equivalent:
-
-  .. code-block:: inform
+* These ``if`` statements are equivalent::
 
     if (MyVar == 1 || MyVar == 3 || MyVar == 7) ...
 
     if (MyVar == 1 or 3 or 7) ...
 
-* These ``if`` statements are equivalent as well:
-
-  .. code-block:: inform
+* These ``if`` statements are equivalent as well::
 
     if (MyVar ~= 1 && MyVar ~= 3 && MyVar ~= 7) ...
     if (MyVar ~= 1 or 3 or 7) ...
 
 * In an ``if`` statement, the thing in parentheses can be *any* 
   expression; all that matters is its value: zero (false) or anything 
-  else (true). For example, these statements are equivalent:
-
-  .. code-block:: inform
+  else (true). For example, these statements are equivalent::
 
     if (MyVar ~= false) ...
     if (~~(MyVar == false)) ...
@@ -684,17 +613,13 @@ you'll come across.
 
   Note that the following statement specifically tests whether ``MyVar`` 
   contains ``true`` (1), *not* whether its value is anything other than 
-  zero.
-
-  .. code-block:: inform
+  zero. ::
 
     if (MyVar == true) ...
 
 * If ``MyVar`` is a variable, the statements ``MyVar++;`` and 
   ``++MyVar;`` work the same as ``MyVar = MyVar + 1;`` For example, 
-  these lines are equivalent:
-
-  .. code-block:: inform
+  these lines are equivalent::
 
     MyVar = MyVar + 1; if (MyVar == 3) ...
     if (++MyVar == 3) ...
@@ -708,9 +633,7 @@ you'll come across.
   value. In the example, if ``MyVar`` currently contains 2 then 
   ``++MyVar`` returns 3 and ``MyVar++`` returns 2, even though in both 
   cases the value of ``MyVar`` afterwards is 3. As another example, 
-  this code (from Helga in "William Tell"):
-
-  .. code-block:: inform
+  this code (from Helga in "William Tell")::
 
     Talk: self.times_spoken_to = self.times_spoken_to + 1;
         switch (self.times_spoken_to) {
@@ -721,9 +644,7 @@ you'll come across.
         }
     ],
 
-  could have been written more succinctly like this:
-
-  .. code-block:: inform
+  could have been written more succinctly like this::
 
     Talk: switch (++self.times_spoken_to) {
         1: score++;
@@ -734,9 +655,7 @@ you'll come across.
     ],
 
 * Similarly, the statements ``MyVar--;`` and ``--MyVar;`` work the same 
-  as ``MyVar = MyVar - 1;`` Again, these lines are equivalent:
-
-  .. code-block:: inform
+  as ``MyVar = MyVar - 1;`` Again, these lines are equivalent::
 
     MyVar = MyVar - 1; if (MyVar == 7) ...
     if (--MyVar == 7) ...
@@ -768,9 +687,7 @@ on *all* objects. The need to do this is actually quite rare, and is mostly
 confined to library extensions (for example, the ``pname.h`` extension
 which we encountered in :doc:`12` gives every object a ``pname`` property
 and a ``phrase_matched`` attribute). To create them, you would use these
-directives near the start of your source file:
-
-.. code-block:: inform
+directives near the start of your source file::
 
   Attribute attribute;
 
@@ -797,9 +714,7 @@ objects which crop up in more than one place, by using their
 ``found_in`` properties. For example, in "William Tell" we defined 
 twenty-seven objects; omitting those which used ``found_in`` to define 
 their placement at the start of the game, we're left with object 
-definitions starting like this:
-
-.. code-block:: inform
+definitions starting like this::
 
   Room    street "A street in Altdorf"        
 
@@ -836,9 +751,7 @@ the last item of header information.
 
 There's an alternative object syntax which is available to achieve the 
 same object tree, using "arrows". That is, we could have defined those 
-parent-and-child objects as:
-
-.. code-block:: inform
+parent-and-child objects as::
 
   Room    below_square "Further along the street"
   Furniture -> stall "fruit and vegetable stall"
@@ -873,9 +786,7 @@ example, the ``tree`` and ``governor`` objects are both children of the
 ``-> ->``, and so on. In "William Tell", that situation doesn't occur; 
 to illustrate how it works, imagine that at the start of the game the 
 potatoes and the other fruit and vegetables where actually *on* the 
-stall. Then we might have used:
-
-.. code-block:: inform
+stall. Then we might have used::
 
   Room    below_square "Further along the street"
   Furniture ->  stall "fruit and vegetable stall"
@@ -920,9 +831,7 @@ We went to some lengths, way back in :ref:`things-in-quotes`, to explain
 the difference between double quotes ``"..."`` (strings to be output) and
 single quotes ``'...'`` (input tokens -- dictionary words).  Perhaps
 somewhat unfortunately, Inform allows you to blur this clean distinction:
-you can use double quotes in name properties and Verb directives:
-
-.. code-block:: inform
+you can use double quotes in name properties and Verb directives::
 
   NPC     stallholder "Helga" below_square
     with  name "stallholder" "greengrocer" "monger" "shopkeeper" "merchant"
@@ -950,5 +859,3 @@ example, see games using ``Nearby`` directives (denotes parentage,
 roughly the same as ``->``) and ``near`` conditions (roughly, having the 
 same parent), or with ``" \ "`` controlling line breaks in long 
 ``print`` statements. Try to understand them; try *not* to use them.
-
-

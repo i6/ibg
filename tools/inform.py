@@ -44,7 +44,9 @@ properties = ["n_to", "s_to", "e_to", "w_to", "ne_to", "se_to", "nw_to",
               "time_left", "time_out", "when_closed", "when_open", "when_on",
               "when_off", "with_key"]
 
-keywords = ["box", "break", "continue", "do", "else", "font off", "font on",
+extension_properties = ["pname"]
+
+keywords = ["box", "break", "continue", "do", "else", "font",
             "for", "give", "has", "hasnt", "if", "in", "inversion", "jump",
             "move", "new_line", "notin", "objectloop", "ofclass", "or",
             "print", "print_ret", "provides", "quit", "read", "remove",
@@ -80,7 +82,7 @@ class InformLexer(RegexLexer):
             (r'\\', Text),
             (r'=', Operator),
             (r"[A-Za-z_,]+:", Name.Label),
-            (r"<<\S+>>", Name.Label),
+            (r"<.+?>", Name.Label),
 
             (wordlist(objects), Name.Class),
             (wordlist(keywords), Token.Keyword.Reserved),
@@ -88,6 +90,8 @@ class InformLexer(RegexLexer):
             (wordlist(directives), Name.Entity),
             (wordlist(attributes), Name.Attribute),
             (wordlist(constants), Name.Constant),
+
+            (wordlist(extension_properties), Name.Builtin),
 
             (r'[a-zA-Z_][a-zA-Z0-9_.]*', Name),
             (r'(\d+\.?\d*|\d*\.\d+)([eE][+-]?[0-9]+)?', Number.Float),

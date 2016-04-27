@@ -95,7 +95,7 @@ orders property. Since the removed coffee object does not belong to
 Benny, it's not a noun that the player can ASK Benny FOR. By making it a 
 child of the barman (who has the ``transparent`` attribute set), the 
 coffee is still an object that players can refer to. We ensure that they 
-don't get more cups thanks to Benny's ``coffee_asked_for property``, 
+don't get more cups thanks to Benny's ``coffee_asked_for`` property, 
 which will remain ``true`` after the first time.
 
 We also ensure that Benny doesn't ask for money from players who have 
@@ -216,7 +216,9 @@ Please notice the appearance of new attributes ``switchable`` and
 ``on``. switchable enables the object to be turned on and off, and is 
 typical of lanterns, computers, television sets, radios, and so on. The 
 library automatically extends the description of these objects by 
-indicating if they are currently on or off::
+indicating if they are currently on or off:
+
+.. code-block:: transcript
 
   > X LIGHT SWITCH
   A notorious ACHIEVEMENT of technological SCIENCE, elegant yet EASY to use.
@@ -224,7 +226,9 @@ indicating if they are currently on or off::
 
 Two new actions are ready to use, ``SwitchOn`` and ``SwitchOff``. Left 
 to themselves, they toggle the object's state between ON and OFF and 
-display a message like::
+display a message like:
+
+.. code-block:: transcript
 
   You switch the brass lantern on.
 
@@ -281,7 +285,9 @@ a room with the ``light`` attribute set. It doesn't have to be the room
 itself (though this is usually convenient).
 
 After setting the ``light`` attribute, we display a customised message, 
-to avoid the default::
+to avoid the default:
+
+.. code-block:: transcript
 
   You switch the light switch on.
 
@@ -294,7 +300,7 @@ in a ``before`` property and redirect it to ``SwitchOn`` and
 
 .. note::
 
-  remember what we said about class inheritance? No matter what you 
+  Remember what we said about class inheritance? No matter what you 
   define in the class, the object’s definition has priority. The class 
   ``Appliance`` defines a response for the ``Push`` action, but we 
   override it here with a new behaviour.
@@ -343,7 +349,7 @@ players are never aware of this glowing artefact.
 
 .. note::
 
-  now, could they? Well, if players could TAKE the light switch (which
+  Now, could they? Well, if players could TAKE the light switch (which
   we have forbidden) and then did INVENTORY, the trick would be given
   away, because all objects with the ``light`` attribute set are listed 
   as ``(providing light)`` .
@@ -432,12 +438,12 @@ instance -- include the following lines:
       return false;
   ];
 
-``InScope(actor_obj_id)`` is an entry point routine that can tamper with 
-the scope rules for the given ``actor_obj_id`` (either the player 
-character or a NPC). We define it with one variable (which we name as we 
-please; it's also a good idea to name variables in an intuitive way to 
-remind us of what they represent), ``person`` , and then we make a 
-complex test to see if the player is actually in the toilet and in the 
+:samp:`InScope({actor_obj_id})` is an entry point routine that can tamper
+with the scope rules for the given :samp:`{actor_obj_id}` (either the
+player character or a NPC). We define it with one variable (which we name
+as we please; it's also a good idea to name variables in an intuitive way
+to remind us of what they represent), ``person`` , and then we make a
+complex test to see if the player is actually in the toilet and in the
 dark.
 
 We have told you that the library variable ``location`` holds the 
@@ -459,15 +465,15 @@ is stating: if the specified actor is the ``player`` character *and* he
 finds himself in the dark *and* he actually happens to be in the 
 toilet...
 
-Then we make a call to one of the library routines, 
-``PlaceInScope(obj_id)``, which has a very descriptive name: it places 
-in scope the given object. In our case, we want both the door and the 
-light switch to be within reach of the player, hence both additional 
-lines. Finally, we must ``return false``, because we want the normal 
-scope rules for the defined actor -- the player -- to apply to the rest 
-of the objects of the game (if we returned ``true``, players would find 
-that they are able to interact with very little indeed). Now we get a 
-friendlier and more logical response:
+Then we make a call to one of the library routines,
+:samp:`PlaceInScope({obj_id})`, which has a very descriptive name: it
+places in scope the given object. In our case, we want both the door and
+the light switch to be within reach of the player, hence both additional
+lines. Finally, we must ``return false``, because we want the normal scope
+rules for the defined actor -- the player -- to apply to the rest of the
+objects of the game (if we returned ``true``, players would find that they
+are able to interact with very little indeed). Now we get a friendlier and
+more logical response:
 
 .. code-block:: transcript
 
@@ -495,16 +501,15 @@ key has disappeared, engulfed by the darkness -- unless the player
 thinks to turn on the light switch, thereby placing the key in scope 
 once more.
 
-Why don't we add a ``PlaceInScope(toilet_key)`` to the above routine? 
-Well, for starters, the key can be moved around (as opposed to the door 
-or the light switch, which are fixed items in the toilet room). Suppose 
-the player opens the door of the toilet, but drops the key in the café, 
-then enters the toilet and closes the door. The condition is met and the 
-key is placed in scope, when it's in another room. Second, this is a 
-simple game with just a few objects, so you can define a rule for each 
-of them; but in any large game, you might like to be able to refer to 
-objects in bunches, and make general rules that apply to all (or some) 
-of them.
+Why don't we add a :samp:`PlaceInScope({toilet_key})` to the above routine?
+Well, for starters, the key can be moved around (as opposed to the door or
+the light switch, which are fixed items in the toilet room). Suppose the
+player opens the door of the toilet, but drops the key in the café, then
+enters the toilet and closes the door. The condition is met and the key is
+placed in scope, when it's in another room. Second, this is a simple game
+with just a few objects, so you can define a rule for each of them; but in
+any large game, you might like to be able to refer to objects in bunches,
+and make general rules that apply to all (or some) of them.
 
 We need to add code to the ``InScope`` routine, telling the game to 
 place in scope all objects that we drop in the dark, so that we might 
@@ -544,7 +549,7 @@ are trying to provide a general rule).
 is a loop statement, one of the four defined in Inform. A loop statement is
 a construct that allows you to run several times through a statement (or a
 statement block). ``objectloop`` performs the :samp:`{statement}` once for
-every object defined in the (``variable``) . If we were to code:
+every object defined in the (:samp:`{variable}`) . If we were to code:
 
    :samp:`objectloop (item) {statement};`
 
@@ -838,7 +843,7 @@ specified:
         food:        ! code for the food...
         menu:        ! code for the menu...
         default:
-          "~I don't
+          "~I don't think that's on the menu, sir.~";
       }
   ],
 

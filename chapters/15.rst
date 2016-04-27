@@ -33,7 +33,7 @@ inflexible teacher; no moist Bambi eyes are going to save you here.
 Although the spell made by the compiler is always the same one, you can 
 indicate up to a point how you want the magic to happen. There are a few 
 options to affect the process of compilation; some you define in the 
-source code, some with ``switches`` and certain commands when you run 
+source code, some with *switches* and certain commands when you run 
 the program. The compiler will work with some default options if you 
 don’t define any, but you may change these if you need to. Many of these 
 options are provided "just in case" special conditions apply; others are 
@@ -80,10 +80,9 @@ large. Normally, Inform compiles your source code into a Version 5 file
 indicates), with a maximum size of 256 Kbytes. If your game is larger 
 than this, you’ll have to compile into Version 8 file (``.z8``), which 
 can grow up to 512 Kbytes (and you do this very simply by setting the 
-``-v8`` switch; more on that in a minute). It takes a surprising amount 
+:option:`-v8` switch; more on that in a minute). It takes a surprising amount 
 of code to exceed these limits; you won’t have to worry about game size 
 for the next few months, if ever.
-
 
 .. rubric:: Non-fatal errors
 
@@ -94,9 +93,7 @@ Non-fatal errors are much more common. You'll learn to be friends with:
 This is the standard way of reporting a punctuation or syntax mistake. 
 If you type a comma instead of a semicolon, Inform will be looking for 
 something in vain. The good news is that you are pointed to the 
-offending line of code:
-
-.. code-block:: transcript
+offending line of code::
 
   Tell.inf(76): Error: Expected directive, '[' or class name but found found_in
   >        found_in
@@ -118,9 +115,7 @@ after the description string, instead of a comma:
 
 Here's a rather misleading message which maybe suggests that things in 
 our source file are in the wrong order, or that some expected 
-punctuation is missing:
-
-.. code-block:: transcript
+punctuation is missing::
 
   Fate.inf(459): Error: Expected name for new object or its textual short name
   but found door
@@ -179,6 +174,13 @@ string has been printed, and the ``give match ~light`` line will never
 happen. Inform detects the fault and warns you. Probably the designer's 
 intention was:
 
+.. code-block:: inform
+
+  if (steel_door has open) {
+      give match ~light;
+      print_ret "The breeze blows out your lit match.";
+  }
+
 Compiling *à la carte*
 ======================
 
@@ -186,7 +188,7 @@ One of the advantages of Inform is its portability between different
 systems and machines. Specific usage of the compiler varies accordingly, 
 but some features should be in all environments. To obtain precise 
 information about any particular version, run the compiler with the 
-``-h1`` switch -- see :ref:`switches`.
+:option:`-h1` switch -- see :ref:`switches`.
 
 Often the compiler is run with the name of your source file as its only
 parameter. This tells the compiler to "read this file using Strict mode and
@@ -217,7 +219,7 @@ by other people, as you saw when we incorporated ``pname.h`` into our
 
 .. note::
 
-  on some machines, a library file is actually called -- for example -- 
+  On some machines, a library file is actually called -- for example -- 
   ``Parser.h``, on others just ``Parser``. The compiler automatically 
   deals with such differences; you can *always* type simply ``Include 
   "Parser";`` in your source file.
@@ -265,37 +267,37 @@ vary between machines) would be:
 
   :samp:`inform {source_file story_file switches}`
 
-where "``inform``" is the name of the compiler, the
-:samp:`{story_file}` is optional (so that you can specify a different 
-name from the 
-:samp:`{source_file}`) and the switches are also optional. Note that 
-switches must be preceded by a hyphen ``-``; if you want to set, for 
-instance, Strict mode, you'd write ``-S`` , while if you want to 
-deactivate it, you’d write ``-~S``. The tilde sign can, as elsewhere, be 
-understood as "not". If you wish to set many switches, just write them 
-one after another separated by spaces and each with its own hyphen, or 
-merge them with one hyphen and no spaces:
+where "``inform``" is the name of the compiler, the :samp:`{story_file}` is
+optional (so that you can specify a different name from the
+:samp:`{source_file}`) and the switches are also optional. Note that
+switches must be preceded by a hyphen ``-``; if you want to set, for
+instance, Strict mode, you'd write :option:`-S` , while if you want to
+deactivate it, you’d write :option:`-~S`. The tilde sign can, as elsewhere,
+be understood as "not". If you wish to set many switches, just write them
+one after another separated by spaces and each with its own hyphen, or
+merge them with one hyphen and no spaces::
 
-  :samp:`inform MyGame.inf -S -s -X`
+  inform MyGame.inf -S -s -X
 
-  :samp:`inform MyGame.inf -Ssx`
+  inform MyGame.inf -Ssx
 
 Although there's nothing wrong with this method, it isn't awfully 
 convenient should you need to change the switch settings. A more 
 flexible method is to define the switches at the very start of your 
-source file, again in either format:
+source file, again in either format::
 
-  :samp:`!% -S -s -X`
+  !% -S -s -X
 
-  :samp:`!% -Ssx`
+  !% -Ssx
 
-Normally, all switches are off by default, except Strict mode (``-S``), 
-which is on and checks the code for additional mistakes. It's well worth 
-adding Debug mode (``-D``), thus making the debugging verbs available at 
-run time. This is the ideal setting while coding, but you should turn 
-Debug mode off (just remove the ``-D``) when you release your game to 
-the public. This is fortunately very easy to check, since the game 
-banner ends with the letter "D" if the game was compiled in Debug mode:
+Normally, all switches are off by default, except Strict mode
+(:option:`-S`), which is on and checks the code for additional
+mistakes. It's well worth adding Debug mode (:option:`-D`), thus making the
+debugging verbs available at run time. This is the ideal setting while
+coding, but you should turn Debug mode off (just remove the :option:`-D`)
+when you release your game to the public. This is fortunately very easy to
+check, since the game banner ends with the letter "D" if the game was
+compiled in Debug mode:
 
 .. code-block:: transcript
 
@@ -307,51 +309,63 @@ banner ends with the letter "D" if the game was compiled in Debug mode:
 Switches are case sensitive, so you get different effects from ``-x`` 
 and ``-X``. Some of the more useful switches are:
 
-:samp:`-~S`
-  Set compiler Strict mode off. This deactivates some additional error 
-  checking features when it reads your source file. Strict mode is on by 
-  default.
+.. option:: -S
+.. option:: -~S
 
-:samp:`-v5 -v8`
-  Compile to this version of story file. Versions 5 (on by default) and 
-  8 are the only ones you should ever care about; they produce, 
-  respectively, story files with the extensions .z5 and .z8 . Version 5 
-  was the Advanced Infocom design, and is the default produced by 
-  Inform. This is the version you'll normally be using, which allows 
-  file sizes up to 256 Kbytes. If your game grows beyond that size, 
-  you'll need to compile to the Version 8 story file, which is very 
-  similar to Version 5 but allows a 512 Kbytes file size.
+   Set compiler Strict mode on or off, respectively.  Strict mode activates
+   some additional error checking features when it reads your source file.
+   Strict mode is on by default.
 
-:samp:`-D -X`
-  Include respectively the debugging verbs and the Infix debugger in the 
-  story file (see :doc:`16`).
+.. option:: -v5
+.. option:: -v8
 
-:samp:`-h1 -h2`
-  Display help information about the compiler. ``-h1`` produces 
-  information about file naming, and ``-h2`` about the available 
-  switches.
+   Compile to this version of story file. Versions 5 (on by default) and 
+   8 are the only ones you should ever care about; they produce, 
+   respectively, story files with the extensions .z5 and .z8. Version 5 
+   was the Advanced Infocom design, and is the default produced by 
+   Inform. This is the version you'll normally be using, which allows 
+   file sizes up to 256 Kbytes. If your game grows beyond that size, 
+   you'll need to compile to the Version 8 story file, which is very 
+   similar to Version 5 but allows a 512 Kbytes file size.
 
-:samp:`-n -j`
-  ``-n`` displays the number of declared attributes, properties and 
-  actions. ``-j`` lists objects as they are being read and constructed 
-  in the story file.
+.. option:: -D
+.. option:: -X
 
-:samp:`-s`
-  Offer game statistics. This provides a lot of information about your 
-  game, including the number of objects, verbs, dictionary entries, 
-  memory usage, etc., while at the same time indicating the maximum 
-  allowed for each entry. This can be useful to check whether you are 
-  nearing the limits of Inform.
+   Include respectively the debugging verbs and the Infix debugger in the 
+   story file (see :doc:`16`).
 
-:samp:`-r`
-  Record all the text of the game into a temporary file, useful to check 
-  all your descriptions and messages by running them through a spelling 
-  checker.
+.. option:: -h1
+.. option:: -h2
 
-If you run the compiler with the ``-h2`` switch, you’ll find that there 
-are many more switches than these, offering mostly advanced or obscure 
-features which we consider to be of little interest to beginners. 
-However, feel free to try whatever switches catch your eye; nothing you 
-try here will affect your source file, which is strictly read-only as 
-far as the compiler is concerned.
+   Display help information about the compiler. :option:`-h1` produces 
+   innformation about file naming, and :option:`-h2` about the available 
+   switches.
 
+.. option:: -n
+.. option:: -j
+
+   :option:`-n` displays the number of declared attributes, properties and 
+   actions. :option:`-j` lists objects as they are being read and constructed 
+   in the story file.
+
+.. option:: -s
+.. option:: -~s
+
+   Offer game statistics (or not). This provides a lot of information about
+   your game, including the number of objects, verbs, dictionary entries,
+   memory usage, etc., while at the same time indicating the maximum
+   allowed for each entry. This can be useful to check whether you are
+   nearing the limits of Inform.
+
+.. option:: -r
+
+   Record all the text of the game into a temporary file, useful to check 
+   all your descriptions and messages by running them through a spelling 
+   checker.
+
+If you run the compiler with the :option:`-h2` switch, you’ll find that
+there are many more switches than these, offering mostly advanced or
+obscure features which we consider to be of little interest to beginners.
+However, feel free to try whatever switches catch your eye; nothing you try
+here will affect your source file, which is strictly read-only as far as
+the compiler is concerned.

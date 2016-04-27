@@ -52,7 +52,7 @@ could benefit from the effort. The product of this generosity takes the
 form of a library extension: the solution neatly packaged as a file that 
 other designers can incorporate into their source code. These files can 
 be found in the IF Archive: go to 
-``http://mirror.ifarchive.org/indexes/if-archive.html`` and then select 
+http://mirror.ifarchive.org/indexes/if-archive.html and then select 
 "``.../infocom``", "``.../compilers``", "``.../inform6``", 
 "``.../library``", and "``.../contributions``". All of these files 
 contain Inform code. To use a library extension (also known as a library 
@@ -107,14 +107,19 @@ instructions:
   #.  Add four lines near the head of the program (before you include 
       ``Parser.h``).
 
-      ``Replace MakeMatch;``
-      ``Replace Identical;``
-      ``Replace NounDomain;``
-      ``Replace TryGivenObject;``
+      .. code-block:: inform
+
+         Replace MakeMatch;
+         Replace Identical;
+         Replace NounDomain;
+         Replace TryGivenObject;
 
   #.  Include the ``pname.h`` header just after you include ``Parser.h``.
-      ``Include "Parser";``
-      ``Include "pname";``
+
+      .. code-block:: inform
+
+         Include "Parser";
+         Include "pname";
 
   #.  Add ``pname`` properties to those objects which require phrase 
       recognition.
@@ -141,7 +146,7 @@ providing replacements for some standard routines.
 
   Include "Parser";
   Include "pname";
-  !...
+  ...
 
 Now our source code is ready to benefit from the library package. How 
 does it work? We have acquired a new property -- ``pname`` -- which can 
@@ -150,21 +155,17 @@ be added to some of our objects, and which works pretty much like a
 property where we have a disambiguation problem. Let’s change the 
 relevant lines for the toilet door and the toilet key:
 
-.. todo::
-
-  Maybe specially highlight the lines using pname?
-
 .. code-block:: inform
 
   Object  toilet_door
     with  pname '.x' 'red' '.x' 'toilet' 'door',
           short_name [;
-          !...
+          ...
 
   Object  toilet_key "toilet key" benny
     with  pname '.x' 'toilet' 'key',
           article "the",
-          !...
+          ...
 
 while leaving the ``outside_of_toilet`` unchanged:
 
@@ -173,7 +174,7 @@ while leaving the ``outside_of_toilet`` unchanged:
   Object  outside_of_toilet "toilet" cafe
     with  name 'toilet' 'bath' 'rest' 'room' 'bathroom' 'restroom',
           before [;
-          !...
+          ...
 
 We are now using a new operator -- ``'.x'`` -- in our ``pname`` word 
 lists. explains
@@ -185,7 +186,7 @@ and this makes the dictionary word ``'toilet'`` of lesser importance for
 these objects, so that at run-time players could refer to the DOOR or 
 TOILET DOOR or the KEY or TOILET KEY -- but not simply to the TOILET -- 
 when referring to either the door or the key. And, by leaving unchanged 
-the name property of the outside_of_toilet object – where there is also 
+the name property of the ``outside_of_toilet`` object – where there is also 
 another ``'toilet'`` entry -- the ``pname`` properties will tell the 
 interpreter to discard the key and the door as possible objects to be 
 considered when players refer just to TOILET. Looking at it in terms of 
@@ -297,7 +298,7 @@ capability), is more local property variables:
           coffee_not_paid  false,          ! is Benny waiting to be paid?
           key_not_returned false,          ! is Benny waiting for the key?
           live [;
-          !...
+          ...
 
 Now we are ready to tackle the ``Give`` action of the ``life`` property, 
 which deals with commands like GIVE THE KEY TO BENNY (in a moment, we'll 
@@ -337,7 +338,7 @@ statement as shorthand for:
 
   if (noun == costume) { whatever };
   if (noun == clothes) { whatever };
-  !...
+  ...
 
 We won't let players give away their clothes or their costume (yes, an
 improbable action, but you never know). The toilet key and the coin are

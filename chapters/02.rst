@@ -316,8 +316,8 @@ doing.  There are four parts to the first line:
    .. note::
 
       On the command line, you sometimes also see a compiler :term:`switch`
-      such as ``-S``, used for controlling detailed aspects of how the
-      compiler operates.  Rather than do that here, we find it more
+      such as :option:`-S`, used for controlling detailed aspects of how
+      the compiler operates.  Rather than do that here, we find it more
       convenient to place any necessary switches at the very top of the
       source file, as we'll explain in the next chapter.
 
@@ -605,8 +605,8 @@ There are three parts to the second line:
    .. note::
 
       On the command line, you sometimes also see a compiler :term:`switch`
-      such as ``-S``, used for controlling detailed aspects of how the
-      compiler operates.  Rather than do that here, we find it more
+      such as :option:`-S`, used for controlling detailed aspects of how
+      the compiler operates.  Rather than do that here, we find it more
       convenient to place any necessary switches at the very top of the
       source file, as we'll explain in the next chapter.
 

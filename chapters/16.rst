@@ -1,6 +1,6 @@
-===================
-Debugging your game
-===================
+=====================
+ Debugging your game
+=====================
 
 .. only:: html
 
@@ -58,11 +58,10 @@ always pays off in the end.)
 
 To help you out in this daunting task, Inform has a stock of special
 actions: the debugging verbs. They become available at run-time when the
-source file is compiled in :term:`Debug mode` (``-D switch``). When you are
-ready to release your game, you’ll have to recompile, switching off Debug
-to avoid allowing the players to benefit from the debugging verbs.  We'll
-cover briefly a few of these actions, and tell you what they do.
-
+source file is compiled in :term:`Debug mode` (:option:`-D` switch). When
+you are ready to release your game, you’ll have to recompile, switching off
+Debug to avoid allowing the players to benefit from the debugging verbs.
+We'll cover briefly a few of these actions, and tell you what they do.
 
 Command lists
 =============
@@ -288,16 +287,16 @@ ABSTRACT *object* TO *object*
   ``container``, a ``supporter`` , or something ``animate``.
 
 
-Infix: the harlot's perogative
-==============================
+Infix: the harlot's prerogative
+===============================
 
-The basic debugging verbs are fairly versatile, easy to use, and don't 
-consume a lot of memory. Occasionally though, you'll meet a bug which 
-you simply can't catch using regular techniques, and that’s when you 
-might want to investigate the Infix debugger. You'll need to compile 
-using the ``-X`` switch, and you'll then be able to monitor and modify 
-almost all of your game’s data and objects. For instance, you can use 
-";" to inspect -- and change -- a variable:
+The basic debugging verbs are fairly versatile, easy to use, and don't
+consume a lot of memory. Occasionally though, you'll meet a bug which you
+simply can't catch using regular techniques, and that’s when you might want
+to investigate the Infix debugger. You'll need to compile using the
+:option:`-X` switch, and you'll then be able to monitor and modify almost
+all of your game’s data and objects. For instance, you can use ";" to
+inspect -- and change -- a variable:
 
 .. code-block:: transcript
 
@@ -372,7 +371,12 @@ change:
   "OK, Herr Tell, now you're in real trouble.
   ...
 
-.. todo:: "Herr" above is italicized.  Was that a mistake in the original text?
+.. todo::
+
+   "Herr" above is italicized.  Was that a mistake in the original text?
+
+   Update: I don't think so.  In 08.rst, lines 465 and 516, "Herr" is
+   explicitly underlined (which probably appears italicized on output).
 
 Infix is quite complex -- there are more commands than those we have 
 shown you -- so while it's good to have available, it's not really a 
@@ -383,7 +387,6 @@ to make permanent amendments, you still need to edit the source file.
 
 You won't need it often, but Infix can sometimes provide quick answers 
 to tricky problems.
-
 
 No matter what
 ==============
@@ -420,7 +423,7 @@ then wrote:
   * Benny will force the player back into the cafe even when the key is
     dropped in the café, or put on the counter (in Benny's plain sight!).
 
-Of course, the code we've offered you in this edition takes care of 
+Of course, the code we've offered you in *this* edition takes care of 
 those embarrassing issues, but it might very well happen that a few more 
 undetected absurdities pop up from now on.
 
@@ -437,32 +440,29 @@ The IF community offers some beta-testing resources, or you can always
 ask in RAIF for kind souls willing to have a go at your game. Remember 
 the golden rules:
 
-  * **Expect no mercy**. Although it hurts, a merciless approach is what 
-    you need at this time; much better to discover your errors and 
-    oversights now, before you release the game more widely. And don't 
-    forget to acknowledge your testers' assistance somewhere within the 
-    game.
+* **Expect no mercy**. Although it hurts, a merciless approach is what you
+  need at this time; much better to discover your errors and oversights
+  now, before you release the game more widely. And don't forget to
+  acknowledge your testers' assistance somewhere within the game.
 
-  * **Never say never**.  If your testers suggest that the game should 
-    respond better to an attempted action, don't automatically respond 
-    with "No one's going to try that!" They already have, and will again 
-    -- be grateful for your testers' devious minds and twisted psyches. 
-    Although a normal player won't try all of those oddball things, 
-    every player is bound to try at least one, and their enjoyment will 
-    be greater, the reality enhanced, if the game "understands".
+* **Never say never**.  If your testers suggest that the game should
+  respond better to an attempted action, don't automatically respond with
+  "No one's going to try that!" They already have, and will again -- be
+  grateful for your testers' devious minds and twisted psyches.  Although a
+  normal player won't try *all* of those oddball things, every player is
+  bound to try at least *one*, and their enjoyment will be greater, the
+  reality enhanced, if the game "understands".
 
-  * **Ask for more**. Don't treat your testers simply as validators of 
-    your programming skills, but rather as reviewers of your 
-    storytelling abilities. Encourage them to comment on how well the 
-    pieces fit together, and to make suggestions -- small or radical -- 
-    for improvement; don't necessarily reject good ideas just because 
-    implementing them "will take too long". For example: "the scene in 
-    the Tower of London doesn't somehow seem to belong in an Arabian 
-    Nights game", or "having to solve three puzzles in a row just to 
-    discover the plate of sheep's eyes is a little over the top", or 
-    "this five-room trek across the desert really is a bit dull; 
-    perhaps you could add a quicksand or something to liven it up?", or 
-    "the character of the eunuch in the harem seems to be lacking in 
-    something". That is, view the testers collectively not as simple 
-    spell-checkers, but rather as collaborative editors on your latest 
-    novel.
+* **Ask for more**. Don't treat your testers simply as validators of your
+  programming skills, but rather as reviewers of your storytelling
+  abilities. Encourage them to comment on how well the pieces fit together,
+  and to make suggestions -- small or radical -- for improvement; don't
+  necessarily reject good ideas just because implementing them "will take
+  too long". For example: "the scene in the Tower of London doesn't somehow
+  seem to belong in an Arabian Nights game", or "having to solve three
+  puzzles in a row just to discover the plate of sheep's eyes is a little
+  over the top", or "this five-room trek across the desert really is a bit
+  dull; perhaps you could add a quicksand or something to liven it up?", or
+  "the character of the eunuch in the harem seems to be lacking in
+  something". That is, view the testers collectively not as simple
+  spell-checkers, but rather as collaborative editors on your latest novel.

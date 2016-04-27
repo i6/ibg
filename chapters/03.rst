@@ -172,11 +172,11 @@ looking at the source file.
 
   .. note::
 
-     Actually, the ``-S`` is redundant, since Strict mode is already on by
-     default.  We include it here as a reminder that (a) to turn Strict
-     mode *off*, you change this setting to ``-~S``, and (b) alphabetic
-     case matters here: ``-s`` causes a display of compiler statistics (and
-     ``-~s`` does nothing at all).
+     Actually, the :option:`-S` is redundant, since Strict mode is already
+     on by default.  We include it here as a reminder that (a) to turn
+     Strict mode *off*, you change this setting to :option:`-~S`, and (b)
+     alphabetic case matters here: :option:`-s` causes a display of
+     compiler statistics (and :option:`-~s` does nothing at all).
 
 * Otherwise, when the compiler comes across an exclamation mark, it ignores
   the rest of the line.  If the ``!`` is at the start of a line, the whole
