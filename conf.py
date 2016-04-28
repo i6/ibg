@@ -42,6 +42,7 @@ def setup(app):
 # ones.
 extensions = [
     'sphinx.ext.todo',
+    'sphinx.ext.extlinks',
     'tools.blockdiag',
 ]
 
@@ -108,6 +109,16 @@ default_role = "any"
 # If true, sectionauthor and moduleauthor directives will be shown in the
 # output. They are ignored by default.
 #show_authors = False
+
+# Global substitutions.
+rst_epilog = """
+.. |DM4| replace:: *Inform Designer's Manual*
+"""
+
+# External links.
+extlinks = {
+    'dm4': ("http://inform-fiction.org/manual/html/%s", ""),
+}
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'friendly'

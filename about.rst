@@ -58,13 +58,13 @@ Scope and approach
 
 Because this is only an introduction to Inform, many features are treated
 rather superficially, or ignored altogether.  The definitive text is Graham
-Nelson's Inform *Designer's Manual* (Fourth Edition, July 2001), commonly
-known as the DM4; you cannot hope to use Inform successfully without having
-this splendid book by your side.  Our guide should be seen merely as a
-supplement to the DM4, offering step-by-step descriptions of those aspects
-of Inform which are most important on first acquaintance.  In any matter
-where we seem at odds with what Graham has written, you should assume that
-he is right and that we are, well, confused.
+Nelson's |DM4| (Fourth Edition, July 2001), commonly known as the DM4; you
+cannot hope to use Inform successfully without having this splendid book by
+your side.  Our guide should be seen merely as a supplement to the DM4,
+offering step-by-step descriptions of those aspects of Inform which are
+most important on first acquaintance.  In any matter where we seem at odds
+with what Graham has written, you should assume that he is right and that
+we are, well, confused.
 
 As a tutorial, this guide is intended to be printed out and then read
 sequentially; it isn't meant for online usage or designed as a reference
@@ -141,8 +141,8 @@ locations:
 *   http://www.inform-fiction.org/
 
     The Inform home page, maintained by Graham Nelson and a small team of
-    helpers.  Most important, this is where you can find the *Inform
-    Designer's Manual* in PDF format.
+    helpers.  Most important, this is where you can find the |DM4| in PDF
+    format.
 
 *   http://mirror.ifarchive.org/
 

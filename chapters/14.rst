@@ -28,10 +28,10 @@ We'll also talk, in :ref:`reading-other-code`, about a few ways of doing
 things that we've chosen not to tell you about, but which you're quite
 likely to encounter if you look at Inform code written by other designers.
 
-The tone here is perhaps a little dry, but trust us: in walking this 
-dusty ground we touch on just about everything that is fundamental in 
-your overall understanding of Inform. And as always, the *Inform 
-Designer's Manual* provides rounder and more comprehensive coverage.
+The tone here is perhaps a little dry, but trust us: in walking this dusty
+ground we touch on just about everything that is fundamental in your
+overall understanding of Inform. And as always, the |DM4| provides rounder
+and more comprehensive coverage.
 
 Expressions
 ===========

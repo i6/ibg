@@ -667,8 +667,7 @@ To declare a new property common to all objects:
 Uncommon and deprecated directives
 ==================================
 
-You're unlikely to need these; look them up in the *Designer's Manual* if
-necessary.
+You're unlikely to need these; look them up in the |DM4| if necessary.
 
   | `Abbreviate "{string}"... "{string}";`
   | `End;`

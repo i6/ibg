@@ -171,12 +171,12 @@ Follow these steps:
    In order to make the download small and fast, these folders include just
    enough to get you started as an Inform designer -- the compiler and
    interpreter programs, the library files, the ``Ruins.inf`` example file
-   from the *Inform Designer's Manual*, and a template for your own first
-   game.  A few other folders are included as placeholders where you could
-   later download additional components, if you wanted them.  As soon as
-   possible, you should download the *Inform Designer's Manual* into the
-   ``Inform\Doc`` folder -- it's an essential document to have, and has
-   been omitted from this download only because of its 3MB size.
+   from the |DM4|, and a template for your own first game.  A few other
+   folders are included as placeholders where you could later download
+   additional components, if you wanted them.  As soon as possible, you
+   should download the |DM4| into the ``Inform\Doc`` folder -- it's an
+   essential document to have, and has been omitted from this download only
+   because of its 3MB size.
 
 3. To verify that the downloaded files work properly, use Windows Explorer
    to display the contents of the ``Inform\Games\MyGame1`` folder: you will
@@ -235,7 +235,7 @@ Follow these steps:
 
 9. Using the same techniques, you can compile and play ``Ruins.inf``, which
    is held in the ``Inform\Games\Download`` folder.  RUINS is the game used
-   as an example throughout the *Inform Designer's Manual*.
+   as an example throughout the |DM4|.
 
 .. rubric:: Setting file associations
 
@@ -423,13 +423,13 @@ Follow these steps:
    In order to make the download small and fast, these folders include just
    enough to get you started as an Inform designer -- the compiler and
    interpreter programs, the library files, the ``Ruins.inf`` example from
-   the *Inform Designer's Manual*, and a template for your own first game,
-   which you may copy and rename each time you begin a new Inform project.
-   A few other folders are included as placeholders where you could later
-   download additional components, if you wanted them.  As soon as
-   possible, you should download the *Inform Designer's Manual* into the
-   ``Inform/Doc`` folder -- it's an essential document to have, and has
-   been omitted from this download only because of its 3MB size.
+   the |DM4|, and a template for your own first game, which you may copy
+   and rename each time you begin a new Inform project.  A few other
+   folders are included as placeholders where you could later download
+   additional components, if you wanted them.  As soon as possible, you
+   should download the |DM4| into the ``Inform/Doc`` folder -- it's an
+   essential document to have, and has been omitted from this download only
+   because of its 3MB size.
 
 3. To verify that the downloaded files work properly, use the Finder to
    display the contents of the ``Inform/Games/MyGame1`` folder: you will see

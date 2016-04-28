@@ -45,21 +45,20 @@ organised in a prettier way." Go right ahead. "I want to have a better
 social life thanks to Inform." No problem, but you'll have to be one 
 damn charming designer. Oh, well.
 
-Inform has been designed to let you do simple things intuitively and 
-quickly. Left to its own devices, it offers a wide range of default 
-functionality, and we’ve seen that it’s also easy to alter some of its 
-standard behaviour. The desirable goal is for you to reach a state of 
-such familiarity with the system that you can concentrate on designing 
-your games. By "such familiarity" we are not implying that you should 
-know the innards of the library inside out; such people exist, but 
-they're few and far between. However, once you become reasonably 
-proficient at typing in code, with a knowledge level similar to the one 
-provided by this guide, a careful look at the appropriate section of the 
-*Inform Designer's Manual* should help you through most difficulties. 
-Admittedly, there are problems and *problems*, from the slap-on-the-head 
-trifle to the teeth-gnashing nightmare. We advise you to put the 
-nightmares on hold for the time being. It may be that one day you 
-discover that their fangs were not as sharp as they seemed.
+Inform has been designed to let you do simple things intuitively and
+quickly. Left to its own devices, it offers a wide range of default
+functionality, and we’ve seen that it’s also easy to alter some of its
+standard behaviour. The desirable goal is for you to reach a state of such
+familiarity with the system that you can concentrate on designing your
+games. By "such familiarity" we are not implying that you should know the
+innards of the library inside out; such people exist, but they're few and
+far between. However, once you become reasonably proficient at typing in
+code, with a knowledge level similar to the one provided by this guide, a
+careful look at the appropriate section of the |DM4| should help you
+through most difficulties.  Admittedly, there are problems and *problems*,
+from the slap-on-the-head trifle to the teeth-gnashing nightmare. We advise
+you to put the nightmares on hold for the time being. It may be that one
+day you discover that their fangs were not as sharp as they seemed.
 
 There are many interesting topics that you could pursue next. Here are a 
 few:
@@ -136,16 +135,16 @@ players, so their advice beyond the call of bug-hunting is as priceless
 counsel as you are likely to get. Encourage them to comment on your 
 achievements in both programming *and* design.
 
-Now: where to go, what to do? Allow us to insist one last time on the 
-importance of reading the *Inform Designer's Manual*, an excellent book 
-in all respects. While you are at it, write small games, training 
-exercises; we don't advise you to try an epic saga for your first 
-scenario, but if nothing else will work for you -- the Think Big 
-approach -- don't let us deter you. It's a good idea to play other 
-people's games, because you'll know the average level that players may 
-expect; check the newsgroups for comments on good titles. Be sure around 
-September to keep an eye open for the Interactive Fiction Competition 
-(http://www.ifcomp.org/), an annual showcase for short(ish) works.
+Now: where to go, what to do? Allow us to insist one last time on the
+importance of reading the |DM4|, an excellent book in all respects. While
+you are at it, write small games, training exercises; we don't advise you
+to try an epic saga for your first scenario, but if nothing else will work
+for you -- the Think Big approach -- don't let us deter you. It's a good
+idea to play other people's games, because you'll know the average level
+that players may expect; check the newsgroups for comments on good
+titles. Be sure around September to keep an eye open for the Interactive
+Fiction Competition (http://www.ifcomp.org/), an annual showcase for
+short(ish) works.
 
 And, who knows? It might be that next year we’ll all be smashed by 
 *your* entry.

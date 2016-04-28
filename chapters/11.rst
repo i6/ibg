@@ -651,12 +651,12 @@ which restores the value originally stored in ``ks`` to ``keep_silent``.
 The effect is that we manage to leave it as it was before we tampered 
 with it.
 
-Well, that's about everything about doors. Everything? Well, no, not 
-really; any object can grow as complex as your imagination allows, but 
-we’ll drop the subject here. If you care to see more sophisticated 
-doors, check Exercises 3 and 4 in the *Inform Designer's Manual*, where 
-an obliging door opens and unlocks by itself if the player simply walks 
-in its direction.
+Well, that's about everything about doors. Everything? Well, no, not
+really; any object can grow as complex as your imagination allows, but
+we’ll drop the subject here. If you care to see more sophisticated doors,
+check Exercises :dm4:`3 and 4 <s6.html#ex3>` in the |DM4|, where an
+obliging door opens and unlocks by itself if the player simply walks in its
+direction.
 
 So far, we have the player in front of a locked door leading to the 
 toilet. A dead end? No, the description mentions a scribbled note on its 

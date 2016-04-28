@@ -443,13 +443,13 @@ something else to describe it:
 
 .. note::
 
-   Although the text of our guide calls Benny's establishment a "café" 
-   -- note the acute "e" -- the game itself simplifies this to "cafe". 
-   We do this for clarity, not because Inform doesn't support accented 
-   characters. The *Inform Designer's Manual* explains in detail how to 
-   display these characters in "§1.11 *How text is printed*" and 
-   provides the whole Z-machine character set in Table 2. In our case, 
-   we could have displayed this::
+   Although the text of our guide calls Benny's establishment a "café" --
+   note the acute "e" -- the game itself simplifies this to "cafe".  We do
+   this for clarity, not because Inform doesn't support accented
+   characters. The |DM4| explains in detail how to display these characters
+   in :dm4:`§1.11 <s1.html#s1_11>` "*How text is printed*" and provides the
+   whole Z-machine character set in Table 2. In our case, we could have
+   displayed this::
 
       The town's favourite for a quick snack, Benny's café has a 50's ROCKETSHIP look.
 
@@ -524,12 +524,12 @@ rip with a snatch of Wagner, you may intercept the ``Sing`` action in a
 ``before`` property and alter its default, pretty useless behaviour. If 
 not, it's "Your singing is abominable" for you.
 
-All actions, useful or not, have a stock of messages associated with 
-them (the messages are held in the ``english.h`` library file and listed 
-in Appendix 4 of the *Inform Designer's Manual*). We have already seen 
-one way of altering the player character's description -- "As good 
-looking as ever" -- in "William Tell", but the other defaults may also 
-be redefined to suit your tastes and circumstantial needs.
+All actions, useful or not, have a stock of messages associated with them
+(the messages are held in the ``english.h`` library file and listed in
+:dm4:`Appendix 4 <sa4.html>` of the |DM4|). We have already seen one way of
+altering the player character's description -- "As good looking as ever" --
+in "William Tell", but the other defaults may also be redefined to suit
+your tastes and circumstantial needs.
 
 John Covarth, aka Captain Fate, could happily settle for most of these 
 default messages, but we deem it worthwhile to give him some customised 
