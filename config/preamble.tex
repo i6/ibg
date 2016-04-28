@@ -1,6 +1,6 @@
 %% LaTeX preamble.
 
-\usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=3cm]{geometry}
+\usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=2cm]{geometry}
 \usepackage{setspace}
 \usepackage{emerald}
 \usepackage{type1cm}
@@ -8,7 +8,7 @@
 \usepackage{titlesec}
 
 %% Set up page.
-\pagestyle{fancy}
+\pagestyle{empty}
 \pagenumbering{roman}
 \thispagestyle{fancy}
 
@@ -21,13 +21,6 @@
 
 %% Set section numbering depth.
 \setcounter{secnumdepth}{0}
-
-%% Set up headers and footers.
-\fancyhead{}
-\fancyfoot{}
-
-\renewcommand{\headrulewidth}{0.0pt}
-\renewcommand{\footrulewidth}{0.0pt}
 
 %% Add page break before each section.
 \newcommand{\sectionbreak}{\clearpage}
@@ -57,7 +50,7 @@
 
 %% License page
 \def\licensepage{
-    \fancyfoot[C]{\pagefoot}
+    \pagestyle{plain}
     ${title}
 
     Authors: ${author}\par
@@ -71,7 +64,8 @@
 
 %% History page.
 \def\historypage{
-    \fancyfoot[C]{\pagefoot}
+    \pagestyle{plain}
+
     \huge \textbf{Release history} \normalsize
     \vspace{3em}
 
@@ -90,13 +84,13 @@
 
 %% Contents page.
 \def\contentspage{
-    \fancyfoot[C]{\pagefoot}
+    \pagestyle{plain}
     \tableofcontents
 }
 
 %% Main text.
 \def\maintext{
-    \fancyfoot[C]{\pagefoot}
+    \pagestyle{headings}
     \pagenumbering{arabic}
     \renewcommand\thepage{\arabic{page}}
     \setcounter{page}{1}
