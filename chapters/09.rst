@@ -496,8 +496,8 @@ blessing; it means that many of the actions which players might attempt are
 already catered for, either by the interpreter doing something useful, or
 by explaining why it's unable to.  Nevertheless, most games find the need
 to define additional actions, and "William Tell" is no exception.  We'll be
-adding four actions of our own: ``Untie``, ``Salute`` (see page 113),
-``FireAt`` (see page 115) and ``Talk`` (see page 116).
+adding four actions of our own: ``Untie``, ``Salute``, ``FireAt`` and
+``Talk``.
 
 .. rubric:: Untie
 
