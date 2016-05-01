@@ -4,21 +4,17 @@ Captain Fate: take 3
 
 .. epigraph::
 
-   | *W was a watchman, and guarded the door;*
-   | *X was expensive, and so became poor.*
+   | |CENTER| *W was a watchman, and guarded the door;*
+   | |CENTER| *X was expensive, and so became poor.*
 
 .. only:: html
 
    .. image:: /images/picW.png
       :align: left
 
-.. raw:: latex
-
-   \dropcap{w}
-
-e've given ourselves an interesting challenge by overusing that 
-convenient word "toilet", and here we show you how we resolve the 
-ambiguities that have been introduced. Also, it's time for the eponymous 
+|W|\e've given ourselves an interesting challenge by overusing that
+convenient word "toilet", and here we show you how we resolve the
+ambiguities that have been introduced. Also, it's time for the eponymous
 owner of Benny's café to be developed in full.
 
 Too many toilets

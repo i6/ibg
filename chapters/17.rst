@@ -149,6 +149,4 @@ short(ish) works.
 And, who knows? It might be that next year we’ll all be smashed by 
 *your* entry.
 
-.. todo:: This signoff should be aligned to the right side.
-
-*Sonja and Roger*
+|FILL| *Sonja and Roger*

@@ -11,18 +11,14 @@
   .. image:: /images/picF.png
      :align: left
 
-.. raw:: latex
-
-   \dropcap{f}
-
-inally our three example games are written; we've shown you as much of 
-the Inform language as we've needed to, and made a lot of observations 
-about how and why something should be done. Despite all that, there's 
-much that we've left unsaid, or touched on only lightly. In this chapter 
-we'll revisit key topics and review some of the more significant 
-omissions, to give you a better feel for what's important, and what can 
-be ignored for the time being; when you become an accomplished designer, 
-you will decide what matters and what can be left on the shelf.
+|F|\inally our three example games are written; we've shown you as much of
+the Inform language as we've needed to, and made a lot of observations
+about how and why something should be done. Despite all that, there's much
+that we've left unsaid, or touched on only lightly. In this chapter we'll
+revisit key topics and review some of the more significant omissions, to
+give you a better feel for what's important, and what can be ignored for
+the time being; when you become an accomplished designer, you will decide
+what matters and what can be left on the shelf.
 
 We'll also talk, in :ref:`reading-other-code`, about a few ways of doing
 things that we've chosen not to tell you about, but which you're quite

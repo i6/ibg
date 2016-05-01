@@ -13,11 +13,7 @@
    .. image:: /images/picL.png
       :align: left
 
-.. raw:: latex
-
-   \dropcap{l}
-
-ibrary files define Inform's model world, turning a conventional
+|L|\ibrary files define Inform's model world, turning a conventional
 programming language into a text adventure development system.  Here are
 the library constants, variables and routines, the standard object
 properties and attributes, the verb grammars and actions.
@@ -33,25 +29,18 @@ Library objects
   If defined (between Includes of `Parser` and `VerbLib`), changes standard
   library messages:
 
-  .. only:: html
-
-    | `Object LibraryMessages`
-    |   `with before [;`
-    |        `{action}: "{string}";`
-    |        `{action}: "{string}";`
-    |        `{action}: switch (lm_n) {`
-    |                `{value}: "{string}";`
-    |                `{value}: "{string}",`
-    |                    `(a) lm_o,".";`
-    |                `...`
-    |                `}`
-    |            `...`
-    |        `];`
-
-  .. todo::
-
-     Get this to work properly in LaTeX.  Currently get a 'too deeply
-     nested' error.
+  | `Object LibraryMessages`
+  |   `with before [;`
+  |        `{action}: "{string}";`
+  |        `{action}: "{string}";`
+  |        `{action}: switch (lm_n) {`
+  |                `{value}: "{string}";`
+  |                `{value}: "{string}",`
+  |                    `(a) lm_o,".";`
+  |                `...`
+  |                `}`
+  |            `...`
+  |        `];`
 
 `selfobj`
   The default player object.  Avoid: use instead the `player` variable,

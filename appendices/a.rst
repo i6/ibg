@@ -7,17 +7,13 @@
   .. image:: /images/picP.png
      :align: left
 
-.. raw:: latex
-
-    \dropcap{p}
-
-laying IF requires just a bit of instruction.  All you have to do is read
-the descriptions and situations that appear on the screen and then tell the
-game what you'd like to happen next.  Imagine that you're saying "I WANT TO
-..."; you don't actually type those three words, but you *do* type what
-follows, instructing the game to do something on your behalf.  Commands
-usually take the form of a simple imperative sentence, with a verb and a
-direct object (for example, typing EXAMINE THE KETTLE will display a
+|P|\laying IF requires just a bit of instruction.  All you have to do is
+read the descriptions and situations that appear on the screen and then
+tell the game what you'd like to happen next.  Imagine that you're saying
+"I WANT TO ..."; you don't actually type those three words, but you *do*
+type what follows, instructing the game to do something on your behalf.
+Commands usually take the form of a simple imperative sentence, with a verb
+and a direct object (for example, typing EXAMINE THE KETTLE will display a
 description of the kettle, TAKE KETTLE will make it one of your belongings,
 and so on).  If there's more than one kettle around, you can be specific
 (TAKE RED KETTLE); otherwise, the game will ask you something like "Which

@@ -9,13 +9,9 @@
   .. image:: /images/picW.png
      :align: left
 
-.. raw:: latex
-
-    \dropcap{w}
-
-illiam Tell, our second game, is also very straightforward. See "William 
-Tell: a tale is born" on page 69, "William Tell: the early years" on 
-page 79, "William Tell: in his prime" on page 91 and "William Tell: the 
+|W|\illiam Tell, our second game, is also very straightforward. See
+"William Tell: a tale is born" on page 69, "William Tell: the early years"
+on page 79, "William Tell: in his prime" on page 91 and "William Tell: the
 end is nigh" on page 103.
 
 Transcript of play

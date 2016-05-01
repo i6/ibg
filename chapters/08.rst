@@ -6,22 +6,18 @@
 
 .. epigraph::
 
-   | *O was an oyster girl, and went about town;*
-   | *P was a parson, and wore a black gown.*
+   | |CENTER| *O was an oyster girl, and went about town;*
+   | |CENTER| *P was a parson, and wore a black gown.*
 
 .. only:: html
 
    .. image:: /images/picO.png
       :align: left
 
-.. raw:: latex
-
-   \dropcap{o}
-
-ur game's action nears its climax in the town's central square.  In this
-chapter we define the square's constituent rooms and deal with Wilhelm's
-approach to the hat on the pole -- does he salute it, or does he remain
-proudly defiant?
+|O|\ur game's action nears its climax in the town's central square.  In
+this chapter we define the square's constituent rooms and deal with
+Wilhelm's approach to the hat on the pole -- does he salute it, or does he
+remain proudly defiant?
 
 .. _south-side:
 

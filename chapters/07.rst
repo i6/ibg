@@ -6,19 +6,15 @@
 
 .. epigraph::
 
-   | *M was a miser, and hoarded up gold;*
-   | *N was a nobleman, gallant and bold.*
+   | |CENTER| *M was a miser, and hoarded up gold;*
+   | |CENTER| *N was a nobleman, gallant and bold.*
 
 .. only:: html
 
    .. image:: /images/picM.png
       :align: left
 
-.. raw:: latex
-
-   \dropcap{m}
-
-oving along swiftly, we'll define the first two rooms and populate them
+|M|\oving along swiftly, we'll define the first two rooms and populate them
 with assorted townspeople and street furniture, we'll equip Wilhelm with
 his trusty bow and quiver of arrows, and we'll introduce Helga the friendly
 stallholder.

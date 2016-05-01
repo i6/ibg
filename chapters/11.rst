@@ -4,22 +4,18 @@ Captain Fate: take 2
 
 .. epigraph::
 
-   | *U was a usurer, a miserable elf;*
-   | *V was a vintner, who drank all himself.*
+   | |CENTER| *U was a usurer, a miserable elf;*
+   | |CENTER| *V was a vintner, who drank all himself.*
 
 .. only:: html
 
    .. image:: /images/picV.png
       :align: left
 
-.. raw:: latex
-
-   \dropcap{v}
-
-iewed from the inside, Benny's café is warm and welcoming, and packed 
-with lunchtime customers. We'll try to conjure up some appropriate 
-images, but the main focus of the room isn't the decor: it's the door 
-leading to the toilet -- and, perhaps, privacy?
+|V|\iewed from the inside, Benny's café is warm and welcoming, and packed
+with lunchtime customers. We'll try to conjure up some appropriate images,
+but the main focus of the room isn't the decor: it's the door leading to
+the toilet -- and, perhaps, privacy?
 
 .. _homely-atmos:
 

@@ -110,10 +110,8 @@ default_role = "any"
 # output. They are ignored by default.
 #show_authors = False
 
-# Global substitutions.
-rst_epilog = """
-.. |DM4| replace:: *Inform Designer's Manual*
-"""
+# Global definitions.
+rst_prolog = open("config/defs.rst").read()
 
 # External links.
 extlinks = {

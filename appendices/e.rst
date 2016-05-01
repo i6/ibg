@@ -9,12 +9,8 @@
    .. image:: /images/picR.png
       :align: left
 
-.. raw:: latex
-
-    \dropcap{r}
-
-efer to this appendix for a succinct but essentially complete summary of
-the Inform programming language; it covers everything that we've met in
+|R|\efer to this appendix for a succinct but essentially complete summary
+of the Inform programming language; it covers everything that we've met in
 this guide, plus various constructs which didn't occur naturally, and
 others of an advanced or obscure nature.
 

@@ -72,7 +72,6 @@ contributes one woven square.  As you read this book, you might want to
 bear in mind that such a quilt is never finished, and always has room for
 one more square from a newly arrived neighbour.
 
-| *St Anne's College*
-| *University of Oxford*
-| *April 2002*
-
+| |FILL| *St Anne's College*
+| |FILL| *University of Oxford*
+| |FILL| *April 2002*

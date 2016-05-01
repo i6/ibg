@@ -4,22 +4,18 @@
 
 .. epigraph::
 
-   | *E was an esquire, with pride on his brow;*
-   | *F was a farmer, and followed the plough.*
+   | |CENTER| *E was an esquire, with pride on his brow;*
+   | |CENTER| *F was a farmer, and followed the plough.*
 
 .. only:: html
 
   .. image:: /images/picE.png
      :align: left
 
-.. raw:: latex
-
-    \dropcap{e}
-
-ach of the three games in this guide is created step by step; you'll get
-most benefit (especially to begin with) if you take an active part, typing
-in the source code on your computer.  Our first game, described in this
-chapter and the two which follow, tells this sentimental little story:
+|E|\ach of the three games in this guide is created step by step; you'll
+get most benefit (especially to begin with) if you take an active part,
+typing in the source code on your computer.  Our first game, described in
+this chapter and the two which follow, tells this sentimental little story:
 
     "Heidi lives in a tiny cottage deep in the forest.  One sunny day,
     standing before the cottage, she hears the frenzied tweeting of baby

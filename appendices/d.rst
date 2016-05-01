@@ -7,14 +7,10 @@
   .. image:: /images/picC.png
      :align: left
 
-.. raw:: latex
-
-    \dropcap{c}
-
-aptain Fate is our third and final game; it's a little longer and more
+|C|\aptain Fate is our third and final game; it's a little longer and more
 complex than its predecessors. See "Captain Fate: take 1" on page 119,
-"Captain Fate: take 2" on page 131, "Captain Fate: take 3" on page 147
-and "Captain Fate: the final cut" on page 157.
+"Captain Fate: take 2" on page 131, "Captain Fate: take 3" on page 147 and
+"Captain Fate: the final cut" on page 157.
 
 Transcript of play
 ==================

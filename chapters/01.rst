@@ -6,22 +6,18 @@
 
 .. epigraph::
 
-   | *A was an archer, who shot at a frog;*
-   | *B was a butcher, who had a great dog.*
+   | |CENTER| *A was an archer, who shot at a frog;*
+   | |CENTER| *B was a butcher, who had a great dog.*
 
 .. only:: html
 
   .. image:: /images/picB.png
      :align: left
 
-.. raw:: latex
-
-    \dropcap{b}
-
-efore we start learning to use the Inform system, it's probably sensible
-to consider briefly how IF, which has many narrative elements, differs from
-regular storytelling.  Before we do *that*, though, let's look at an example
-of a familiar folk tale.
+|B|\efore we start learning to use the Inform system, it's probably
+sensible to consider briefly how IF, which has many narrative elements,
+differs from regular storytelling.  Before we do *that*, though, let's look
+at an example of a familiar folk tale.
 
     "There was once a man called Wilhelm Tell, from high in the Swiss Alps
     near the town of Altdorf.  A hunter and a guide, a proud mountaineer,

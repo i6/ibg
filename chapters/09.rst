@@ -6,21 +6,18 @@
 
 .. epigraph::
 
-   | *Q was a queen, who wore a silk slip;*
-   | *R was a robber, and wanted a whip.*
+   | |CENTER| *Q was a queen, who wore a silk slip;*
+   | |CENTER| *R was a robber, and wanted a whip.*
 
 .. only:: html
 
    .. image:: /images/picQ.png
       :align: left
 
-.. raw:: latex
-
-   \dropcap{q}
-
-uite a few objects still remain undefined, so we'll talk about them first.
-Then, we'll explain how to make additions to Inform's standard repertoire
-of verbs, and how to define the actions which those verbs trigger.
+|Q|\uite a few objects still remain undefined, so we'll talk about them
+first.  Then, we'll explain how to make additions to Inform's standard
+repertoire of verbs, and how to define the actions which those verbs
+trigger.
 
 The marketplace
 ===============

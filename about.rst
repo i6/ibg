@@ -6,8 +6,8 @@
 
 .. epigraph::
 
-   | *If they asked me, I could write a book;*
-   | *About the way you TALK, and LISTEN; And LOOK.*
+   | |CENTER| *If they asked me, I could write a book;*
+   | |CENTER| *About the way you TALK, and LISTEN; And LOOK.*
 
    -- with apologies to Richard Rodgers and Lorenz Hart.
 
@@ -222,13 +222,13 @@ for devising it all, thereby giving us the opportunity -- first
 independently and later in enjoyable collaboration -- of using, and
 eventually of presenting, the Inform text adventure development system.
 
-| *Roger Firth*
-| *Wallingford, England*
+| |FILL| *Roger Firth*
+| |FILL| *Wallingford, England*
 
-| *Sonja Kesserich*
-| *Madrid, Spain*
+| |FILL| *Sonja Kesserich*
+| |FILL| *Madrid, Spain*
 
-| *August 2004*
+| |FILL| *August 2004*
 
 .. rubric:: Footnotes
 

@@ -30,6 +30,10 @@
 \renewcommand{\tableofcontents}{\py@OldTableofcontents}
 \makeatother
 
+%% Avoid too-deepy-nested problems.
+\usepackage{enumitem}
+\setlistdepth{99}
+
 %% Covering page.
 \def\coverpage{
     \begin{titlepage}

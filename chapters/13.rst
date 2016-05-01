@@ -4,22 +4,18 @@ Captain Fate: the final cut
 
 .. epigraph::
 
-   | *Y was a youth, that did not love school;*
-   | *Z was a zany, a poor harmless fool.*
+   | |CENTER| *Y was a youth, that did not love school;*
+   | |CENTER| *Z was a zany, a poor harmless fool.*
 
 .. only:: html
 
    .. image:: /images/picY.png
       :align: left
 
-.. raw:: latex
-
-   \dropcap{y}
-
-ou'll probably be pleased to hear that Captain Fate has almost run his 
-allotted span. There are some minor objects still to be defined -- the 
-toilet, our hero’s clothes, the all-important costume -- but first we 
-need to decorate the café a little more.
+|Y|\ou'll probably be pleased to hear that Captain Fate has almost run his
+allotted span. There are some minor objects still to be defined -- the
+toilet, our hero’s clothes, the all-important costume -- but first we need
+to decorate the café a little more.
 
 Additional catering garnish
 ===========================

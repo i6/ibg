@@ -9,14 +9,10 @@
    .. image:: /images/picD.png
       :align: left
 
-.. raw:: latex
-
-    \dropcap{d}
-
-uring our travels, we've encountered certain terms which have particular
-significance in the context of the Inform text adventure development
-system; here are brief definitions of many of those specialised words and
-phrases.
+|D|\uring our travels, we've encountered certain terms which have
+particular significance in the context of the Inform text adventure
+development system; here are brief definitions of many of those specialised
+words and phrases.
 
 .. glossary::
 

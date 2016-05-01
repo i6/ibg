@@ -4,23 +4,19 @@ Captain Fate: take 1
 
 .. epigraph::
 
-   | *S was a sailor, and spent all he got;*
-   | *T was a tinker, and mended a pot.*
+   | |CENTER| *S was a sailor, and spent all he got;*
+   | |CENTER| *T was a tinker, and mended a pot.*
 
 .. only:: html
 
   .. image:: /images/picS.png
      :align: left
 
-.. raw:: latex
-
-   \dropcap{s}
-
-imple though they are, our two games have covered most of the basic
-functionality of Inform, providing enough solid ground underfoot
-for you to start creating simple stories. Even if some of what you've
-encountered doesn't make sense yet, you should be able to browse a
-game's source code and form a general understanding of what is going on.
+|S|\imple though they are, our two games have covered most of the basic
+functionality of Inform, providing enough solid ground underfoot for you to
+start creating simple stories. Even if some of what you've encountered
+doesn't make sense yet, you should be able to browse a game's source code
+and form a general understanding of what is going on.
 
 We'll now design a third game, to show you a few additional features and 
 give you some more sample code to analyse. In "Heidi" we tried to make 
@@ -643,21 +639,22 @@ opt for the not-so-hot approach for some overriding reason. Don't feel
 discouraged; choices like this become more common (and easier) as your 
 experience grows.
 
-.. todo::
+.. Ugh.  Ghastly, but it does the job.
 
-   That "whatever new look" below needs to be italicized and bolded for
-   LaTeX.
+.. |WNL_LATEX| replace:: :latex:`\emph{\textbf{whatever new look}}`
+
+.. |WNL_HTML|  replace:: :html:`<strong><em>whatever new look</em></strong>`
 
 .. note::
 
-   Going back to our example, an alternative approach would be to set 
-   the variable ``player.description`` in the ``Initialise`` routine (as we 
-   did with "William Tell") to the "ordinary clothes" string, and then 
-   later change it as the need arises. It is a variable, after all, and you 
-   can alter its value with another statement like ``player.description =`` 
-   *whatever new look* anywhere in your code. This alternative solution 
-   might be better if we intended changing the description of the player 
-   many times through the game. Since we plan to have only two states, the 
+   Going back to our example, an alternative approach would be to set the
+   variable ``player.description`` in the ``Initialise`` routine (as we did
+   with "William Tell") to the "ordinary clothes" string, and then later
+   change it as the need arises. It is a variable, after all, and you can
+   alter its value with another statement like ``player.description =``
+   |WNL_LATEX| |WNL_HTML| anywhere in your code. This alternative solution
+   might be better if we intended changing the description of the player
+   many times through the game. Since we plan to have only two states, the
    ``LibraryMessages`` approach will do just fine.
 
 A final warning: as we explained when extending the standard verb 

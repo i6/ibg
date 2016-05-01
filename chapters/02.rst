@@ -4,19 +4,15 @@
 
 .. epigraph::
 
-   | *C was a captain, all covered with lace;*
-   | *D was a drunkard, and had a red face.*
+   | |CENTER| *C was a captain, all covered with lace;*
+   | |CENTER| *D was a drunkard, and had a red face.*
 
 .. only:: html
 
   .. image:: /images/picC.png
      :align: left
 
-.. raw:: latex
-
-   \dropcap{c}
-
-onventional -- static -- fiction can be written using nothing more than
+|C|\onventional -- static -- fiction can be written using nothing more than
 pencil and paper, or typewriter, or word-processor; however, the
 requirements for producing IF are a little more extensive, and the creative
 process slightly more complex.

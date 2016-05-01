@@ -5,7 +5,6 @@
 .. only:: html
 
    .. toctree::
-      :maxdepth: 2
 
       copyright
       history
