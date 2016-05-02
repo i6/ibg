@@ -9,10 +9,9 @@
   .. image:: /images/picW.png
      :align: left
 
-|W|\illiam Tell, our second game, is also very straightforward. See
-"William Tell: a tale is born" on page 69, "William Tell: the early years"
-on page 79, "William Tell: in his prime" on page 91 and "William Tell: the
-end is nigh" on page 103.
+|W|\illiam Tell, our second game, is also very straightforward.  See
+:doc:`/chapters/06`, :doc:`/chapters/07`, :doc:`/chapters/08` and
+:doc:`/chapters/09`.
 
 Transcript of play
 ==================

@@ -95,17 +95,17 @@ no fancy formatting features, no bold or italics or font control, no
 embedded graphics; it simply enables you to type lines of text, which is
 exactly what's needed to create an IF game.
 
-If you look at the game source on the previous page, or in
-:doc:`/appendices/c`, you'll notice ``Include "Parser";`` and ``Include
-"VerbLib";`` a few lines down from the top of the file.  These are
-instructions to the Inform compiler to "include" -- that is, to merge in
-the contents -- of files called ``Parser.h`` and ``VerbLib.h``.  These are
-not files which you have to create; they're standard :term:`library files`,
-part of the Inform system.  All that you have to do is remember to Include
-them in every game that you write.  Until you've a fair understanding of
-how Inform works, you've no need to worry about what they contain (though
-you can look if you want to: they're readable text files, just like the
-ones this guide will teach you to write).
+If you look at the game source above, or in :doc:`/appendices/c`, you'll
+notice ``Include "Parser";`` and ``Include "VerbLib";`` a few lines down
+from the top of the file.  These are instructions to the Inform compiler to
+"include" -- that is, to merge in the contents -- of files called
+``Parser.h`` and ``VerbLib.h``.  These are not files which you have to
+create; they're standard :term:`library files`, part of the Inform system.
+All that you have to do is remember to Include them in every game that you
+write.  Until you've a fair understanding of how Inform works, you've no
+need to worry about what they contain (though you can look if you want to:
+they're readable text files, just like the ones this guide will teach you
+to write).
 
 So, we've now introduced all of the bits and pieces which you need in order to
 write an Inform adventure game:

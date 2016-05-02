@@ -8,9 +8,9 @@
      :align: left
 
 |H|\eidi in the Forest is our first -- and simplest -- game. We describe it
-in three chapters: "Heidi: our first Inform game" on page 33, "Reviewing
-the basics" on page 49 and "Heidi revisited" on page 59.  Here is a
-run-time transcript, and then the original and extended source files.
+in three chapters: :doc:`/chapters/03`, :doc:`/chapters/04` and
+:doc:`/chapters/05`.  Here is a run-time transcript, and then the original
+and extended source files.
 
 Transcript of play
 ==================
