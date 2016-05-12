@@ -1,0 +1,8 @@
+/* IBG local CSS customization */
+
+@import url('alabaster.css');
+
+tt, code {
+    background-color: white;
+    font-weight: bold;
+}

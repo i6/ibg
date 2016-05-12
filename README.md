@@ -35,12 +35,15 @@ As well as these document sources, you will need:
 * Sphinx.  You can find the complete installation instructions
   [here](http://www.sphinx-doc.org/en/stable/install.html).
 
-* Sphinx makes use of [Blockdiag](https://pypi.python.org/pypi/blockdiag)
-  for some of the diagrams; you'll need that too.
+* [Blockdiag](https://pypi.python.org/pypi/blockdiag) is used for some of
+  the diagrams.
+
+* To create the HTML version, you'll need a recent (>=0.7.8) version of the
+  [Alabaster](https://pypi.python.org/pypi/alabaster) theme.
 
 If you have `pip`, this command will be all you need:
 
-    pip install sphinx blockdiag
+    pip install -U sphinx blockdiag alabaster
 
 After you have everything installed, you can build the HTML version of the
 guide from a command prompt, like this:
