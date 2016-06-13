@@ -72,8 +72,9 @@ class InformLexer(RegexLexer):
 
     tokens = {
         'root': [
-            (r'"', String.Double, 'stringdouble'),
-            (r"'", String.Single, 'stringsingle'),
+            (r'"', String.Double, 'string-double'),
+            (r"'", String.Single, 'string-single'),
+            (r"\[ *", Text, 'function-name'),
 
             (r'\n', Text),
             (r'[^\S\n]+', Text),
@@ -100,13 +101,18 @@ class InformLexer(RegexLexer):
             (r'.', Punctuation),
         ],
 
-        'stringdouble': [
+        'function-name': [
+            (r"[ ;]", Text, '#pop'),
+            (r".", Name.Function),
+        ],
+
+        'string-double': [
             (r'"', String.Double, '#pop'),
             (r'.', String.Double),
             (r'\n', String.Double),
         ],
 
-        'stringsingle': [
+        'string-single': [
             (r"'", String.Single, '#pop'),
             (r'.', String.Single),
         ],
