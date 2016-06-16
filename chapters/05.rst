@@ -74,7 +74,7 @@ how we do it:
 
 We'll go through this a step at a time:
 
-#. We've added a new ``before`` property to our bird object.  The
+#. We've added a new :prop:`before` property to our bird object.  The
    interpreter looks at the property *before* attempting to perform any
    action which is directed specifically at this object::
 
@@ -118,8 +118,8 @@ We'll go through this a step at a time:
       >
 
 The use of the ``return true`` statement probably needs a bit more
-explanation.  An object's ``before`` property traps an action aimed at that
-object right at the start, before the interpreter has started to do
+explanation.  An object's :prop:`before` property traps an action aimed at
+that object right at the start, before the interpreter has started to do
 anything.  That's the point at which the statements in the embedded routine
 are executed.  If the last of those statements is ``return true`` then the
 interpreter assumes that the action has been dealt with by those
@@ -160,8 +160,8 @@ again and again.
 Entering the cottage
 ====================
 
-At the start of the game the player character stands "outside a cottage", which
-might lead her to believe that she can go inside:
+At the start of the game the player character stands "outside a cottage",
+which might lead her to believe that she can go inside:
 
 .. code-block:: transcript
 
@@ -186,14 +186,14 @@ change:
              cant_go "The only path lies to the east.",
        has   light;
 
-The ``in_to`` property would normally link to another room, in the same way
-as the ``e_to`` property contain the internal ID of the ``forest`` object.
-However, if instead you set its value to be a string, the interpreter
-displays that string when the player tries the IN direction.  Other --
-unspecified -- directions like NORTH and UP still elicit the standard "You
-can't go that way" response, but we can change that too, by supplying a
-``cant_go`` property whose value is a suitable string.  We then get this
-friendlier behaviour:
+The :prop:`in_to` property would normally link to another room, in the same
+way as the :prop:`e_to` property contain the internal ID of the ``forest``
+object.  However, if instead you set its value to be a string, the
+interpreter displays that string when the player tries the IN direction.
+Other -- unspecified -- directions like NORTH and UP still elicit the
+standard "You can't go that way" response, but we can change that too, by
+supplying a :prop:`cant_go` property whose value is a suitable string.  We
+then get this friendlier behaviour:
 
 .. code-block:: transcript
 
@@ -215,7 +215,7 @@ There's another issue here; since we haven't actually implemented an object
 to represent the cottage, a perfectly reasonable EXAMINE COTTAGE command
 receives the obviously nonsensical reply "You can't see any such thing".
 That's easy to fix; we can add a new ``cottage`` object, making it a piece
-of ``scenery`` just like the ``tree``:
+of :attr:`scenery` just like the ``tree``:
 
 .. code-block:: inform
 
@@ -251,7 +251,7 @@ solution we adopt is similar as well:
             ],
       has   scenery;
 
-We use a ``before`` property to intercept the ``Enter`` action applied to
+We use a :prop:`before` property to intercept the ``Enter`` action applied to
 the cottage object, so that we can display a more appropriate message.
 This time, however, we've done it using one statement rather than two.  It
 turns out that the sequence "``print`` a string which ends with a newline
@@ -275,7 +275,7 @@ Climbing the tree
 In the clearing, holding the nest and looking at the tree, the player is
 meant to type UP.  Just as likely, though, she'll try CLIMB TREE (which
 currently gives the completely misleading response "I don't think much is
-to be achieved by that").  Yet another opportunity to use a ``before``
+to be achieved by that").  Yet another opportunity to use a :prop:`before`
 property, but now with a difference.
 
 .. code-block:: inform
@@ -299,6 +299,9 @@ Relocating the player character is actually quite a complex business, but
 fortunately all of that complexity is hidden: there's a standard
 :term:`library routine` to do the job, not one that we've written, but one
 that's provided as part of the Inform system.
+
+.. index::
+   single: arguments (of a routine)
 
 You'll remember that, when we first mentioned routines (see
 :ref:`standalone-routines`), we used the example of ``Initialise()`` and
@@ -357,9 +360,9 @@ far, but instead for every ``Drop`` which takes place in our troublesome
 
 Let's again take it a step at a time:
 
-#. We've added a new ``after`` property to our ``top_of_tree`` object.  The
-   interpreter looks at the property *subsequent to* performing any action in
-   this room::
+#. We've added a new :prop:`after` property to our ``top_of_tree`` object.
+   The interpreter looks at the property *subsequent to* performing any
+   action in this room::
 
        after [; ... ],
 
@@ -379,14 +382,14 @@ Let's again take it a step at a time:
 
        move noun to clearing;
 
-   which takes the object which has just been moved from the ``player``
+   which takes the object which has just been moved from the :var:`player`
    object to the ``top_of_tree`` object (by the successful ``Drop`` action)
    and moves it again so that its parent becomes the ``clearing`` object.
-   That ``noun`` is a library variable that always contains the internal ID
-   of the object which is the target of the current action.  If the player
-   types DROP NEST, ``noun`` contains the internal ID of the ``nest``
-   object; if she types DROP NESTLING then ``noun`` contains the internal
-   ID of the ``bird`` object.  Second, we execute::
+   That :var:`noun` is a library variable that always contains the internal
+   ID of the object which is the target of the current action.  If the
+   player types DROP NEST, :var:`noun` contains the internal ID of the
+   ``nest`` object; if she types DROP NESTLING then :var:`noun` contains
+   the internal ID of the ``bird`` object.  Second, we execute::
 
        return false;
 
@@ -437,7 +440,7 @@ what's just happened, you could use this alternative solution:
      has    light;
 
 The ``print_ret`` statement does two things for us: displays a more
-informative message, and returns ``true`` to tell the interpreter that
+informative message, and returns :const:`true` to tell the interpreter that
 there's no need to let the player know what's happened -- we've handled
 that ourselves.
 
@@ -465,8 +468,8 @@ The extended ``if`` statement::
 
 should now be read as: "Test whether the ``bird`` is currently in (or on)
 the ``nest``, *and* whether the ``nest`` is currently on (or in) the
-``branch``; if both parts are ``true``, set the value of ``deadflag`` to 2;
-otherwise, do nothing".
+``branch``; if both parts are :const:`true`, set the value of
+:var:`deadflag` to 2; otherwise, do nothing".
 
 Summing up
 ==========
@@ -484,30 +487,30 @@ The new topics that we've encountered here include these:
 Object properties
 -----------------
 
-Objects can have a ``before`` property -- if there is one, the interpreter
-looks at it *before* performing an action which in some way involves that
-object.  Similarly, you can provide an ``after`` property, which the
-interpreter looks at *after* performing an action but before telling the
-player what's happened.  Both ``before`` and ``after`` properties can be
-used not only with tangible objects like the ``bird``, ``cottage`` and
-``tree`` (when they intercept actions aimed at that particular object) but
-also with rooms (when they intercept actions aimed at any object in that
-room).
+Objects can have a :prop:`before` property -- if there is one, the
+interpreter looks at it *before* performing an action which in some way
+involves that object.  Similarly, you can provide an :prop:`after`
+property, which the interpreter looks at *after* performing an action but
+before telling the player what's happened.  Both :prop:`before` and
+:prop:`after` properties can be used not only with tangible objects like
+the ``bird``, ``cottage`` and ``tree`` (when they intercept actions aimed
+at that particular object) but also with rooms (when they intercept actions
+aimed at any object in that room).
 
-The value of each ``before`` and ``after`` property is an embedded routine.
-If such a routine ends with ``return false``, the interpreter then carries
-on with the next stage of the action which has been intercepted; if it ends
-with ``return true``, the interpreter does nothing further for that action.
-By combining these possibilities, you can supplement the work done by a
-standard action with statements of your own, or you can replace a standard
-action completely.
+The value of each :prop:`before` and :prop:`after` property is an embedded
+routine.  If such a routine ends with ``return false``, the interpreter
+then carries on with the next stage of the action which has been
+intercepted; if it ends with ``return true``, the interpreter does nothing
+further for that action.  By combining these possibilities, you can
+supplement the work done by a standard action with statements of your own,
+or you can replace a standard action completely.
 
 Previously, we've seen connection properties used with the internal ID of
 the room to which they lead.  In this chapter, we showed that the value
 could also be a string (explaining why movement in that direction isn't
-possible).  Here are examples of both, and also of the ``cant_go`` property
-which provides just such an explanation for *all* connections that aren't
-explicitly listed::
+possible).  Here are examples of both, and also of the :prop:`cant_go`
+property which provides just such an explanation for *all* connections that
+aren't explicitly listed::
 
     e_to forest,
     in_to "It's such a lovely day -- much too nice to go inside.",
@@ -523,6 +526,9 @@ certain common tasks if you require them; there's a list in
 :ref:`library-routines`.  We used the ``PlayerTo`` routine, which moves the
 player character from her current room to another one -- not necessarily
 adjacent to the first room.
+
+.. index::
+   single: arguments (of a routine)
 
 When calling ``PlayerTo``, we had to tell the library which room is the
 destination.  We did this by supplying that room's internal ID within
@@ -591,10 +597,13 @@ lead to ``Drop``.  This makes life much easier for the designer; although
 Inform defines quite a lot of actions, there are many fewer than there are
 ways of expressing those same actions using English verbs.
 
+.. index::
+   pair: action; library variable
+
 Each action is represented internally by a number, and the value of the
-current action is stored in a library variable called, erm, ``action``.
-Two more variables are also useful here: ``noun`` holds the internal ID of
-the object which is the focus of the action, and ``second`` holds the
+current action is stored in a library variable called, erm, :var:`action`.
+Two more variables are also useful here: :var:`noun` holds the internal ID
+of the object which is the focus of the action, and :var:`second` holds the
 internal ID of the secondary object (if there is one).  Here are some
 examples of these:
 
@@ -609,10 +618,10 @@ DROP THE NEST                      Drop       nest      nothing
 PUT NEST ON BRANCH                 PutOn      nest      branch
 ===============================    ======     =======   =======
 
-The value ``nothing`` is a built-in constant (like ``true`` and ``false``)
-which means, well, there isn't any object to refer to.  There's a list of
-standard library actions in :ref:`group-1-actions`, :ref:`group-2-actions`
-and :ref:`group-3-actions`.
+The value ``nothing`` is a built-in constant (like :const:`true` and
+:const:`false`) which means, well, there isn't any object to refer to.
+There's a list of standard library actions in :ref:`group-1-actions`,
+:ref:`group-2-actions` and :ref:`group-3-actions`.
 
 We've now reached the end of our first game.  In these three chapters we've
 shown you the basic principles on which almost all games are based, and

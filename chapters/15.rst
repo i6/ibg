@@ -124,7 +124,7 @@ punctuation is missing::
 
 In fact, there's nothing wrong with the ordering or punctuation. The 
 problem is actually that we've tried to define a new object with an 
-internal ID of ``door`` -- reasonably enough, you might think, since the 
+internal ID of :attr:`door` -- reasonably enough, you might think, since the 
 object *is* a door -- but Inform already knows the word (it's the name 
 of a library attribute). Unfortunately, the error message provides only 
 the vaguest hint that you just need to choose another name: we used 

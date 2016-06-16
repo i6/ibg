@@ -272,7 +272,7 @@ PURLOIN *object*
   matter where the object is: in another room, inside a locked 
   container, in the claws of the bloodthirsty dragon. More dangerously, 
   it doesn't matter if the object is takeable, so you may purloin 
-  ``static`` or ``scenery`` objects. PURLOIN is useful in a variety of 
+  :attr:`static` or :attr:`scenery` objects. PURLOIN is useful in a variety of 
   situations, basically when you want to test a particular feature of 
   the game that requires the player character to have some objects 
   handy. Instead of tediously collecting them, you may simply PURLOIN 
@@ -284,7 +284,7 @@ ABSTRACT *object* TO *object*
   This verb enables you to move the first *object* to the second 
   *object*. As with PURLOIN , both objects can be anywhere in the game. 
   Bear in mind that the second object should logically be a 
-  ``container``, a ``supporter`` , or something ``animate``.
+  :attr:`container`, a :attr:`supporter` , or something :attr:`animate`.
 
 
 Infix: the harlot's prerogative
@@ -317,8 +317,8 @@ inspect -- and change -- a variable:
   In that game you scored 0 out of a possible 2, in 2 turns.
 
 It's often quite maddening to realise that some variable is still 
-``false`` because the Chalk puzzle didn't work properly, and that you 
-can't test the Cheese puzzle until the variable becomes ``true``. Rather 
+:const:`false` because the Chalk puzzle didn't work properly, and that you 
+can't test the Cheese puzzle until the variable becomes :const:`true`. Rather 
 than quit, fix the Chalk, recompile, play back to the current position 
 and only *then* tackle the Cheese, how much easier to just change the 
 variable in mid-stream, and carry right on.

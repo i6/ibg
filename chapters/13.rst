@@ -77,7 +77,7 @@ And a not-so-trivial object:
                it's Colombian.";
           ];
 
-There's nothing really new in this object (other than that the ``name`` 
+There's nothing really new in this object (other than that the :prop:`name` 
 property caters for orthographically challenged players), but notice how 
 we don't ``remove`` it after the player drinks it. In an apparently 
 absurd whim, the coffee returns to Benny magically (although this is not 
@@ -89,18 +89,18 @@ first one has been removed, Benny will complain "I don’t think that’s on
 the menu, sir" -- a blatant lie -- which was the default in Benny’s 
 orders property. Since the removed coffee object does not belong to 
 Benny, it's not a noun that the player can ASK Benny FOR. By making it a 
-child of the barman (who has the ``transparent`` attribute set), the 
+child of the barman (who has the :attr:`transparent` attribute set), the 
 coffee is still an object that players can refer to. We ensure that they 
 don't get more cups thanks to Benny's ``coffee_asked_for`` property, 
-which will remain ``true`` after the first time.
+which will remain :const:`true` after the first time.
 
 We also ensure that Benny doesn't ask for money from players who have 
 already paid, by first printing a "You pick up the cup..." message and 
 then testing Benny's ``coffee_not_paid`` property. If its value is 
-``true``, we can finish the message with the "quidbuck" print-and-return 
-statement. If its value is ``false``, the player has previously paid, 
+:const:`true`, we can finish the message with the "quidbuck" print-and-return 
+statement. If its value is :const:`false`, the player has previously paid, 
 and so there's nothing else to say. However, we still need to terminate 
-the incomplete message with a newline, and to return ``true`` from the 
+the incomplete message with a newline, and to return :const:`true` from the 
 property routine; we *could* have used the statements ``{ print "^"; 
 return true; }``, but an empty ``""`` statement does the same thing more 
 neatly.
@@ -161,7 +161,7 @@ will be some tricky side effects:
 
 We initially place the coin as a child of the lavatory (just so that we 
 can easily make the ``if (coin in self)`` one-time test). Since the 
-lavatory does not have the ``transparent`` attribute set, the coin will 
+lavatory does not have the :attr:`transparent` attribute set, the coin will 
 be invisible to players until they try to inspect the lavatory, an 
 action that will move the coin into the toilet room. Once taken, the 
 coin will remain in the inventory until the player gives it to Benny, 
@@ -174,11 +174,11 @@ problem: the other objects here which may have TOILET in their names --
 the key and the door -- both use the ``pname`` property to turn their 
 use of ``'toilet'`` into a lower-priority adjective.
 
-See that here we have the only two ``scored`` attributes of the game. 
+See that here we have the only two :attr:`scored` attributes of the game. 
 The player will be awarded one point for entering the toilet room, and 
 another for finding and picking up the coin.
 
-You might have noticed that we are forcefully clearing the ``light`` 
+You might have noticed that we are forcefully clearing the :attr:`light` 
 attribute, inherited from the ``Room`` class. This will be a windowless 
 space and, to add a touch of realism, we'll make the room a dark one, 
 which will enable us to tell you about Inform's default behaviour when 
@@ -208,8 +208,8 @@ duties.
              ],
     has      switchable ~on;
 
-Please notice the appearance of new attributes ``switchable`` and 
-``on``. switchable enables the object to be turned on and off, and is 
+Please notice the appearance of new attributes :attr:`switchable` and 
+:attr:`on`. switchable enables the object to be turned on and off, and is 
 typical of lanterns, computers, television sets, radios, and so on. The 
 library automatically extends the description of these objects by 
 indicating if they are currently on or off:
@@ -230,7 +230,7 @@ display a message like:
 
 They also take care of checking if the player fumbled and tried to turn 
 on (or off) an object which was already on (or off). How does the 
-library know the state of the object? This is thanks to the ``on`` 
+library know the state of the object? This is thanks to the :attr:`on` 
 attribute, which is set or cleared automatically as needed. You can, of 
 course, set or clear it manually like any other attribute, with the 
 ``give`` statement:
@@ -241,7 +241,7 @@ course, set or clear it manually like any other attribute, with the
 
   give self ~on;
 
-and check if a ``switchable`` object is on or off with the test:
+and check if a :attr:`switchable` object is on or off with the test:
 
 .. code-block:: inform
 
@@ -249,7 +249,7 @@ and check if a ``switchable`` object is on or off with the test:
 
   if (light_switch hasnt on) ...
 
-A ``switchable`` object is OFF by default. However, you’ll notice that 
+A :attr:`switchable` object is OFF by default. However, you’ll notice that 
 the has line of the object definition includes ``~on`` :
 
 .. code-block:: inform
@@ -270,17 +270,17 @@ that at some point we'll be setting it for some purpose. Trust us: it's
 worthwhile taking tiny opportunities like this to help yourself.
 
 Let’s see how our light switch works. We trap the ``SwitchOn`` and 
-``SwitchOff`` actions in the ``after`` property (when the switching has 
-successfully taken place) and use them to give ``light`` to the light 
+``SwitchOff`` actions in the :prop:`after` property (when the switching has 
+successfully taken place) and use them to give :attr:`light` to the light 
 switch.
 
 Uh, wait. To the light switch? Why not to the toilet room? Well, there's 
 a reason and we'll see it in a minute. For now, just remember that, in 
 order for players to see their surroundings, you need only one object in 
-a room with the ``light`` attribute set. It doesn't have to be the room 
+a room with the :attr:`light` attribute set. It doesn't have to be the room 
 itself (though this is usually convenient).
 
-After setting the ``light`` attribute, we display a customised message, 
+After setting the :attr:`light` attribute, we display a customised message, 
 to avoid the default:
 
 .. code-block:: transcript
@@ -289,9 +289,9 @@ to avoid the default:
 
 which, given the name of the object, doesn't read very elegantly. We 
 foresee that players might try to PUSH SWITCH, so we trap this attempt 
-in a ``before`` property and redirect it to ``SwitchOn`` and 
+in a :prop:`before` property and redirect it to ``SwitchOn`` and 
 ``SwitchOff`` actions, checking first which one is needed by testing the 
-``on`` attribute. Finally, we have made the switch a member of the class 
+:attr:`on` attribute. Finally, we have made the switch a member of the class 
 ``Appliance``, so that the player doesn't walk away with it.
 
 .. note::
@@ -336,7 +336,7 @@ suffice:
 
   ],
 
-And this is the reason why the light switch didn't set the ``light`` 
+And this is the reason why the light switch didn't set the :attr:`light` 
 attribute of the toilet room, but did it to itself. We avoid running 
 into trouble if we let the open/closed states of the door control the 
 light of the room object, and the on/off states of the switch control 
@@ -347,7 +347,7 @@ players are never aware of this glowing artefact.
 
   Now, could they? Well, if players could TAKE the light switch (which
   we have forbidden) and then did INVENTORY, the trick would be given
-  away, because all objects with the ``light`` attribute set are listed 
+  away, because all objects with the :attr:`light` attribute set are listed 
   as ``(providing light)`` .
 
 So the player walks into the toilet and
@@ -442,13 +442,13 @@ to remind us of what they represent), ``person`` , and then we make a
 complex test to see if the player is actually in the toilet and in the
 dark.
 
-We have told you that the library variable ``location`` holds the 
+We have told you that the library variable :var:`location` holds the 
 current 
 room that the player is in. However, when there is no light, the 
 variable location gets assigned to the value of the special library 
 object thedark . It doesn't matter if we have ten dark rooms in our 
 game; location will be equal to thedark in all of them. There is yet 
-another variable, called ``real_location``, which holds the room the 
+another variable, called :var:`real_location`, which holds the room the 
 player is in *even when there is no light to see by*.
 
 So the test:
@@ -457,7 +457,7 @@ So the test:
 
   if (person == player && location == thedark && real_location == toilet) ...
 
-is stating: if the specified actor is the ``player`` character *and* he 
+is stating: if the specified actor is the :var:`player` character *and* he 
 finds himself in the dark *and* he actually happens to be in the 
 toilet...
 
@@ -467,7 +467,7 @@ places in scope the given object. In our case, we want both the door and
 the light switch to be within reach of the player, hence both additional
 lines. Finally, we must ``return false``, because we want the normal scope
 rules for the defined actor -- the player -- to apply to the rest of the
-objects of the game (if we returned ``true``, players would find that they
+objects of the game (if we returned :const:`true`, players would find that they
 are able to interact with very little indeed). Now we get a friendlier and
 more logical response:
 
@@ -513,10 +513,10 @@ recover them (maybe going on all fours and groping a little, but it’s a
 possible action). We don’t want the player to have other objects in 
 scope (like the coin, for instance), so it might be good to have a way 
 of testing if the objects have been touched and carried by the player. 
-The attribute ``moved`` is perfect for this. The library sets it for 
+The attribute :attr:`moved` is perfect for this. The library sets it for 
 every object that the player has picked up at one time in the game; 
-``scenery`` and ``static`` objects, and those we have not yet seen don't 
-have ``moved``. Here is the reworked ``InScope`` routine. There are a 
+:attr:`scenery` and :attr:`static` objects, and those we have not yet seen don't 
+have :attr:`moved`. Here is the reworked ``InScope`` routine. There are a 
 couple of new concepts to look at:
 
 .. code-block:: inform
@@ -564,7 +564,7 @@ What is the actual :samp:`{statement}` that we'll repeatedly execute?
       PlaceInScope(item);
 
 The test: ``if (item has moved)`` ensures that ``PlaceInScope(item)`` 
-deals only with objects with the ``moved`` attribute set. So: if the 
+deals only with objects with the :attr:`moved` attribute set. So: if the 
 player is in the dark, let’s go through the objects which are in the 
 same room, one at a time. For each of them, check if it's an item that 
 the player has at some time carried, in which case, place it in scope. 
@@ -656,7 +656,7 @@ expect them to try this almost anywhere; but first of all we have to
 check that the ``clothes`` object is actually being worn. If not, we 
 display a message reminding the player that this action has become 
 irrelevant. What we do with the ``switch`` statement is to offer a 
-variety of responses according to the ``location`` variable. The street 
+variety of responses according to the :var:`location` variable. The street 
 (in or out of the booth) and the café all display refusals of some kind, 
 until the player character manages to enter the toilet, where we 
 additionally require that he locks the door before taking off his 
@@ -664,13 +664,13 @@ clothes. If the door is closed but not locked, he is interrupted in his
 naked state by a nervous woman who starts shouting, and the game is lost 
 (this is not as unfair as it seems, because the player may always revert 
 to the previous state with UNDO). If the door is locked, he succeeds in 
-his transformation (we take away the ``worn`` attribute from the 
+his transformation (we take away the :attr:`worn` attribute from the 
 ``clothes`` and give it to the ``costume`` instead). We add a special 
 refusal to change in the dark, forcing players to turn on the light and 
 then, we hope, to find the coin. And finally we code a ``default`` 
 entry; you'll remember that, in a ``switch`` statement, this is supposed 
 to cater for any value not explicitly listed for the expression under 
-control -- in this case, for the variable ``location``. Since we have 
+control -- in this case, for the variable :var:`location`. Since we have 
 already gone through all the possible locations of the game, this entry 
 appears only as a defensive measure, just in case something unexpected 
 happens (for instance, we might extend the game with another room and 
@@ -781,13 +781,13 @@ two states display, respectively,
 
   *** You have won ***
 
-These states correspond to the values of the ``deadflag`` variable: 1 
+These states correspond to the values of the :var:`deadflag` variable: 1 
 for losing, 2 for winning. However, we have made up different messages, 
 because our hero does not really die -- ours suffers a FATE worse than 
 death -- and because we want to give him a more descriptive winning 
 line. Therefore, we must define a ``DeathMessage`` routine as we did in 
 "William Tell", to write our customised messages and assign them to 
-``deadflag`` values greater than 2.
+:var:`deadflag` values greater than 2.
 
 .. code-block:: inform
 
@@ -852,10 +852,10 @@ Not so. The library grammar that deals with ASK BENNY FOR... is this
       * creature 'about' topic    -> Ask
       * creature 'for' noun       -> AskFor
 
-You'll see the ``noun`` token, which means that whatever the player asks 
+You'll see the :var:`noun` token, which means that whatever the player asks 
 him for must be a real game object, visible at that moment. Assuming 
 that the player mentions such an object, the interpreter finds it in the 
-dictionary and places its internal ID in the ``noun`` variable, where 
+dictionary and places its internal ID in the :var:`noun` variable, where 
 our ``switch`` statement can handle it. So, ASK BENNY FOR KEY assigns 
 the ``toilet_key`` object to the noun variable, and Benny responds. ASK 
 BENNY FOR CUSTOMERS also works; the ``default`` case picks that one up. 

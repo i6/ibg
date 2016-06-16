@@ -68,12 +68,12 @@ but you can change it at any time.  For example, we used the statement::
 
      location = before_cottage;
 
-to reset the value of the ``location`` variable to the 
+to reset the value of the :var:`location` variable to the 
 ``before_cottage`` object, and we wrote::
 
      if (nest in branch) deadflag = 2;
 
-to reset the value of the ``deadflag`` variable to 2.
+to reset the value of the :var:`deadflag` variable to 2.
 
 Later, we'll talk about the :term:`local variable` (see :ref:`routines`)
 and about using object properties as variables (see :ref:`objects`).
@@ -144,8 +144,8 @@ An object header comprises up to three items, all optional:
       ...
 
   The ``tree`` starts like this; the only real difference is that, because
-  the player character can't move a ``scenery`` object, it's always going
-  to be in the ``clearing``::
+  the player character can't move a :attr:`scenery` object, it's always
+  going to be in the ``clearing``::
 
       Object   tree "tall sycamore tree" clearing
       ...
@@ -184,20 +184,21 @@ Here are examples of the properties that we've come across so far::
 
 By happy coincidence, those examples also demonstrate most of the different
 types of value which can be assigned to a property.  The value associated
-with the ``description`` property in this particular example is a string of
-characters in double quotes; the value associated with this ``e_to``
-property is the internal identity of an object; the ``name`` property is a
-bit unusual -- its value is a list of dictionary words, each in single
-quotes; the ``each_turn`` property has a value which is an :term:`embedded
-routine` (see :ref:`embedded-routines`).  The only other type of value
-which is commonly found is a simple number; for example::
+with the :prop:`description` property in this particular example is a
+string of characters in double quotes; the value associated with this
+:prop:`e_to` property is the internal identity of an object; the
+:prop:`name` property is a bit unusual -- its value is a list of dictionary
+words, each in single quotes; the :prop:`each_turn` property has a value
+which is an :term:`embedded routine` (see :ref:`embedded-routines`).  The
+only other type of value which is commonly found is a simple number; for
+example::
 
      capacity 10,
 
 In all, the library defines around forty-eight standard properties -- like
-``name`` and ``each_turn`` -- which you can associate with your objects;
-there's a complete list in :ref:`object-props`.  And in :doc:`08` we show
-you how to invent your own property variables.
+:prop:`name` and :prop:`each_turn` -- which you can associate with your
+objects; there's a complete list in :ref:`object-props`.  And in :doc:`08`
+we show you how to invent your own property variables.
 
 Object attributes
 -----------------
@@ -413,7 +414,7 @@ which could equally have been defined thus::
     Constant Headline
           "^A simple Inform example^by Roger Firth and Sonja Kesserich.^";
 
-and as the value of an object ``description`` property::
+and as the value of an object :prop:`description` property::
 
     description "Too young to fly, the nestling tweets helplessly.",
 
@@ -435,7 +436,7 @@ finds all the words, and they seem to represent a sensible course of
 action, that's what happens next.
 
 So far, we've seen dictionary words used as the values of an object
-``name`` property::
+:prop:`name` property::
 
      name 'bird^s' 'nest' 'twigs' 'moss',
 
@@ -465,7 +466,7 @@ encountered only a few.  We saw::
 
 which is an example of an :term:`assignment` statement, so-called because
 the equals sign ``=`` assigns a new value (the internal ID of our
-``before_cottage`` room) to a variable (the global variable ``location``
+``before_cottage`` room) to a variable (the global variable :var:`location`
 which is part of the library).  Later we saw::
 
      if (nest in branch) deadflag = 2;
@@ -486,7 +487,7 @@ interpreter executes that statement: it performs an assignment::
 
     deadflag = 2;
 
-which changes the value of the library variable ``deadflag`` from its 
+which changes the value of the library variable :var:`deadflag` from its 
 current value to 2.  Incidentally, ``if`` statements are often written 
 on two lines, with the "controlled" statement indented.  This makes it 
 easier to read, but doesn't change the way that it works::

@@ -65,11 +65,11 @@ It's all pretty standard stuff: just a ``Room`` and two ``Prop``\s.  The
 players can't EXAMINE it from this room (technically, it's "not in scope").
 However, since we're pretending that Wilhelm can see the whole of the
 square from where he's standing, we need to provide a dummy hat on a pole,
-``found_in`` both this room and the north side of the square, even if it's
+:prop:`found_in` both this room and the north side of the square, even if it's
 "too far away" for a detailed description.
 
 In fact, it's "too far away" for anything.  We've replaced the standard
-``before`` action for the ``Prop`` class (which permits ``Examine``, but
+:prop:`before` action for the ``Prop`` class (which permits ``Examine``, but
 rejects other actions with "You don't need to worry about...") with one
 rejecting *all* actions.  Since Wilhelm's hatred of the vogt's activities
 is central to our plot, a message saying "You don't need to worry about the
@@ -80,7 +80,7 @@ there, but they don't do much.  Their most interesting characteristic is
 probably that they trap two actions -- ``FireAt`` and ``Talk`` -- which are
 *not* part of the library, but instead new actions that we've defined
 specially for this game.  We'll talk about those actions in :ref:`verbs`,
-at which time the role of this ``before`` property will make more sense.
+at which time the role of this :prop:`before` property will make more sense.
 
 The middle of the square
 ========================
@@ -137,19 +137,19 @@ and the pole::
 The room will need some more work in a minute, but the pole object is
 complete (note that we've simplified matters slightly by making one object
 represent both the pole and the hat which it supports).  It mentions a
-property which we've not met before: ``has_been_saluted``.  What a
+property which we've not met before: :prop:`has_been_saluted`.  What a
 remarkable coincidence: the library provides a property with a name that's
 exactly right for our game; surely not?
 
-No, of course not.  ``has_been_saluted`` isn't a standard library property;
-it's one that we've just invented.  Notice how easily we did it -- we
-simply included the line::
+No, of course not.  :prop:`has_been_saluted` isn't a standard library
+property; it's one that we've just invented.  Notice how easily we did it
+-- we simply included the line::
 
    has_been_saluted false,
 
 in the object definition and voilà, we've added our own home-made property,
-and initialised it to ``false``.  To switch the state of the property, we
-can simply write::
+and initialised it to :const:`false`.  To switch the state of the property,
+we can simply write::
 
    pole.has_been_saluted = true;
    pole.has_been_saluted = false;
@@ -180,16 +180,16 @@ assigns a value to a variable.  Compare these examples:
    * - ``score = 10;``
      - ``score == 10;``
 
-   * - assigns the value 10 to ``score``
-     - does nothing; ``score`` is unchanged
+   * - assigns the value 10 to :var:`score`
+     - does nothing; :var:`score` is unchanged
 
    * - ``if (score == 10) ...``
      - ``if (score = 10) ...``
 
-   * - executes the next statement only if the value of ``score`` is 10 
-     - assigns 10 to ``score``, then always executes the next statement --
+   * - executes the next statement only if the value of :var:`score` is 10 
+     - assigns 10 to :var:`score`, then always executes the next statement --
        because ``score = 10`` evaluates to 10, which is treated as
-       ``true``, so the test is always ``true``
+       :const:`true`, so the test is always :const:`true`
 
 Defining a new property variable which, instead of applying to every object
 in the game (as do the standard library properties), is specific only to a
@@ -210,7 +210,7 @@ that the salute was "gratefully" received.
 
 Back to the ``mid_square`` room.  We've said that we need to detect Wilhelm
 trying to leave this room, which we can do by trapping the ``Go`` action in
-a ``before`` property.  Let's sketch the coding we'll need::
+a :prop:`before` property.  Let's sketch the coding we'll need::
 
    before [;
       Go:
@@ -222,14 +222,14 @@ We can easily trap the ``Go`` action, but which direction is he moving?
 Well, it turns out that the interpreter turns a command of GO SOUTH (or
 just SOUTH) into an action of ``Go`` applied to an object ``s_obj``.  This
 object is defined by the library; so why isn't it called just "``south``"?
-Well, because we already have another kind of south, the property ``s_to``
+Well, because we already have another kind of south, the property :prop:`s_to`
 used to say what lies in a southerly direction when defining a room.  To
-avoid confusing them, ``s_to`` means "south to" and ``s_obj`` means "south
+avoid confusing them, :prop:`s_to` means "south to" and ``s_obj`` means "south
 when the player types it as the object of a verb".
 
 The identity of the object which is the target of the current action is
-stored in the ``noun`` variable, so we can write the statement ``if (noun
-== s_obj)`` to test whether the contents of the ``noun`` variable are equal
+stored in the :var:`noun` variable, so we can write the statement ``if (noun
+== s_obj)`` to test whether the contents of the :var:`noun` variable are equal
 to the ID of the ``s_obj`` object -- and, if so, Wilhelm is trying to move
 south.  Another similar statement tests whether he's trying to move north,
 and that's all that we're interested in; we can let other movements take
@@ -321,15 +321,15 @@ memory, he'll completely forget Wilhelm if our hero should move away from
 the pole.
 
 To do all this, we've added a new property and two statements.  The
-property is ``warnings_count``, and its value will count how many times
+property is :prop:`warnings_count`, and its value will count how many times
 Wilhelm has tried to go north without saluting the pole: 0 initially, 1
 after his first warning, 2 after his second warning, 3 when the soldier's
-patience finally runs out.  The property ``warnings_count`` isn't a
-standard library property; like the pole's ``has_been_saluted`` property,
-it's one that we've created to meet a specific need.
+patience finally runs out.  The property :prop:`warnings_count` isn't a
+standard library property; like the pole's :prop:`has_been_saluted`
+property, it's one that we've created to meet a specific need.
 
 Our first statement is ``self.warnings_count = 0``, which resets the value
-of the ``warnings_count`` property of the current object -- the
+of the :prop:`warnings_count` property of the current object -- the
 ``mid_square`` room -- to 0.  The second statement is
 ``pole.has_been_saluted = false``, which signifies that the pole has not be
 saluted.  That's it: the soldier's memory is erased, and Wilhelm's actions
@@ -546,14 +546,14 @@ very likely, but good game design is about predicting the unpredictable. ::
            ],
            s_to "You hardly feel like going through all that again.";
 
-There's one new feature in this room: the value of the ``n_to`` property is
+There's one new feature in this room: the value of the :prop:`n_to` property is
 a routine, which the interpreter runs when Wilhelm tries to exit the square
 northwards.  All that the routine does is set the value of the library
-variable ``deadflag`` to 3, print a confirmation message, and ``return
+variable :var:`deadflag` to 3, print a confirmation message, and ``return
 true``, thus ending the action.
 
-At this point, the interpreter notices that ``deadflag`` is no longer zero,
-and terminates the game.  In fact, the interpreter checks ``deadflag`` at
+At this point, the interpreter notices that :var:`deadflag` is no longer zero,
+and terminates the game.  In fact, the interpreter checks :var:`deadflag` at
 the end of every turn; these are the values that it's expecting to find:
 
 * 0 -- this is the normal state; the game continues.
@@ -564,7 +564,7 @@ the end of every turn; these are the values that it's expecting to find:
   :term:`entry point` routine called ``DeathMessage`` -- which we must
   provide -- where we can define our own tailored "end messages".
 
-In this game, we never set ``deadflag`` to 1, but we do use values of 2
+In this game, we never set :var:`deadflag` to 1, but we do use values of 2
 and 3.  So we'd better define a ``DeathMessage`` routine to tell players
 what they've done::
 
@@ -573,7 +573,7 @@ what they've done::
 Our game has only one customised ending, so the simple ``DeathMessage``
 routine we've written is sufficient for our purposes.  Were you to conceive
 multiple endings for a game, you could specify suitable messages by
-checking for the current value of the ``deadflag`` variable::
+checking for the current value of the :var:`deadflag` variable::
 
     [ DeathMessage;
         if (deadflag == 3) print "You leave Scarlett O'Hara for good";
@@ -582,7 +582,7 @@ checking for the current value of the ``deadflag`` variable::
         ...
     ];
 
-Of course, you must assign the appropriate value to ``deadflag`` at the
+Of course, you must assign the appropriate value to :var:`deadflag` at the
 point when the game arrives at each of those possible endings.
 
 We've nearly finished.  In the concluding chapter of this game, we'll talk

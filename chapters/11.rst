@@ -72,18 +72,18 @@ We've mentioned a counter:
          ],
     has  supporter;
 
-That ``before`` property, superficially normal, actually conceals a 
+That :prop:`before` property, superficially normal, actually conceals a 
 little surprise. By now you should be entirely comfortable with using an 
-object's ``before`` property to intercept an action directed at that 
+object's :prop:`before` property to intercept an action directed at that 
 object; for example, if the player types HIT COUNTER then the counter's 
-``before`` property is potentially able to intercept the resulting 
+:prop:`before` property is potentially able to intercept the resulting 
 Attack action. However, the command PUT KEY ON COUNTER generates *two* 
 actions. First, a PutOn action is offered to the key (effectively 
 saying, do you want to be placed on top of the counter?); that’s the 
 normal bit. And then the surprise: a Receive action is offered to the 
 counter (effectively saying, are you happy to have the key placed on 
-you?) Both actions have the same opportunity of returning ``false`` to 
-let the action continue, ``true`` to prevent it.
+you?) Both actions have the same opportunity of returning :const:`false` to 
+let the action continue, :const:`true` to prevent it.
 
 .. todo::
 
@@ -193,27 +193,27 @@ to our hero’s performance.
 Let's go step by step. Our hero enters the café dressed as John Covarth, 
 but will eventually manage to change clothes in the toilet, and he'll 
 have to cross back through the café to reach the street and win the 
-game. The customers' ``description`` takes into consideration which 
+game. The customers' :prop:`description` takes into consideration which 
 outfit the player character is wearing.
 
-In "William Tell" we’ve seen a brief manifestation of the ``life`` 
-property, but here we'll extend it a little. As we explained, ``life`` 
+In "William Tell" we’ve seen a brief manifestation of the :prop:`life` 
+property, but here we'll extend it a little. As we explained, :prop:`life` 
 lets you intercept those actions particular to animate objects. Here we 
 trap ``Attack`` and ``Kiss`` to offer some customised messages for these 
 actions when applied to the customers. Also, we avoid conversation by 
 intercepting ``Ask``, ``Tell`` and ``Answer`` in order just to produce a 
 message which depends on the player character's attire.
 
-One other feature of ``animate`` objects is the possibility of giving 
+One other feature of :attr:`animate` objects is the possibility of giving 
 them orders: BILL, SHAKE THE SPEAR or ANNIE, GET YOUR GUN . These 
-actions are dealt with in the ``orders`` property and, as with the 
-``life`` property, the embedded routine can become quite complex if you 
+actions are dealt with in the :prop:`orders` property and, as with the 
+:prop:`life` property, the embedded routine can become quite complex if you 
 want your NPCs to behave in an interesting way. In this case, we don't 
 need the customers to perform tasks for us, so instead we provide a 
 simple rejection message, just in case the player tries to order people 
 around.
 
-Which leaves us with the ``daemon`` bit. A daemon is a property normally 
+Which leaves us with the :prop:`daemon` bit. A daemon is a property normally 
 used to perform some timed or repetitive action without the need of the 
 player’s direct interaction; for example, machines which work by 
 themselves, animals that move on their own, or people going about their 
@@ -307,7 +307,7 @@ to change only in the toilet; (b) we won’t let players change back into
 street clothes; and (c) once players manage to step into the street thus 
 dressed, the game is won. So, we can safely assume that if players enter 
 the café in their Captain’s outfit, they’ll be coming from the toilet. 
-As a consequence of all this, we add an ``after`` property to the café 
+As a consequence of all this, we add an :prop:`after` property to the café 
 room object:
 
 .. code-block:: inform
@@ -330,10 +330,10 @@ There are two useful techniques to detect when the player is entering or
 leaving a room. We'll later see in detail how to deal with a player 
 trying to go away and how to avoid it if need be. For now, let’s just 
 mention that, in both cases, you have to intercept the ``Go`` action in 
-a room object; if you trap it in a ``before`` property, you’re checking 
-for departure from the room; if you trap it in an ``after`` property, 
+a room object; if you trap it in a :prop:`before` property, you’re checking 
+for departure from the room; if you trap it in an :prop:`after` property, 
 you’re checking for arrivals into the room. Right now we wish to know if 
-the player just came from the toilet, so we use an ``after`` property.
+the player just came from the toilet, so we use an :prop:`after` property.
 
 The first line:
 
@@ -348,9 +348,9 @@ connecting rooms without cardinal logic); the interpreter will apply
 normal rules for the other available directions.
 
 Then we check whether the player character is wearing the costume, in 
-which case it starts the ``daemon`` of the ``customers`` object. The use 
+which case it starts the :prop:`daemon` of the ``customers`` object. The use 
 of the local ``first_time_out`` property ensures that the condition is 
-``true`` only once, so the statement block attached to it runs also 
+:const:`true` only once, so the statement block attached to it runs also 
 once.
 
 We've finished with the customers in the café. Now, we have the toilet 
@@ -378,25 +378,25 @@ first code a simple door:
 
 We find this door in the café. We must specify the direction in which 
 the door leads and, as we have mentioned in the café's description, that 
-would be to the north. That’s what the ``door_dir`` property is for, and 
+would be to the north. That’s what the :prop:`door_dir` property is for, and 
 in this case it takes the value of the north direction property 
-``n_to``. Then we must tell Inform the identity of the room to be found 
-behind the door, hence the ``door_to`` property, which takes the value 
+:prop:`n_to`. Then we must tell Inform the identity of the room to be found 
+behind the door, hence the :prop:`door_to` property, which takes the value 
 of the toilet room -- to be defined later. Remember the café's 
 connection to the north, ``n_to toilet_door``? Thanks to it, Inform will 
-know that the door is in the way, and thanks to the ``door_to`` 
+know that the door is in the way, and thanks to the :prop:`door_to` 
 property, what lies beyond.
 
-Doors *must* have the attribute ``door``, but beyond that we have a 
+Doors *must* have the attribute :attr:`door`, but beyond that we have a 
 stock of options to help us define exactly what kind of door we are 
-dealing with. As for containers, doors can be ``openable`` (which 
+dealing with. As for containers, doors can be :attr:`openable` (which 
 activates the verbs OPEN and CLOSE so that they can be applied to this 
 object) and, since by default they are closed, you can give them the 
-attribute ``open`` if you wish otherwise. Additionally, doors can be 
-``lockable`` (which sets up the LOCK/UNLOCK verbs) and you can make them 
-``locked`` to override their default unlocked status. The verbs LOCK 
+attribute :attr:`open` if you wish otherwise. Additionally, doors can be 
+:attr:`lockable` (which sets up the LOCK/UNLOCK verbs) and you can make them 
+:attr:`locked` to override their default unlocked status. The verbs LOCK 
 and UNLOCK are expecting some kind of key object to operate the door. 
-This must be defined using the ``with_key`` property, whose value should 
+This must be defined using the :prop:`with_key` property, whose value should 
 be the internal ID of the key; in our example, the soon-to-be-defined 
 ``toilet_key`` . If you don't supply this property, players won't be 
 able to lock or unlock the door.
@@ -445,12 +445,12 @@ properties:
           with_key toilet_key,
     has   scenery door openable lockable locked;
 
-First of all, the door now needs a ``found_in`` property, since it's 
-going to be located both in the café and the toilet. The ``description`` 
+First of all, the door now needs a :prop:`found_in` property, since it's 
+going to be located both in the café and the toilet. The :prop:`description` 
 checks which side of the door we are looking at – testing the current 
-value of the variable ``location``, which holds the room the player is 
+value of the variable :var:`location`, which holds the room the player is 
 in -- because we have a scribbled note stuck on one side, but not on the 
-other. And the ``door_dir`` and ``door_to`` properties must use the same 
+other. And the :prop:`door_dir` and :prop:`door_to` properties must use the same 
 trick, because we travel north from the café into the toilet, but south 
 from the toilet into the café.
 
@@ -474,11 +474,11 @@ coded thus:
   Object  toilet_door
     with  short_name "toilet door",
 
-``short_name`` is a property that supplies the external name of an 
+:prop:`short_name` is a property that supplies the external name of an 
 object, either as a string or an embedded routine. Normally, objects 
 retain the same external name throughout the game -- and the header 
 information method is perfect in that case -- but if it needs to change, 
-it's easy to write a routine as the value of ``short_name``:
+it's easy to write a routine as the value of :prop:`short_name`:
 
 .. code-block:: inform
 
@@ -494,9 +494,9 @@ it's easy to write a routine as the value of ``short_name``:
 
 Notice the ``return true`` at the end of the routine. You''ll recall 
 that the standard rule says "return false to carry on, true to take over 
-and stop normal execution”. In the case of ``short_name``, "carry on" 
+and stop normal execution”. In the case of :prop:`short_name`, "carry on" 
 means "and now display the external name from the header information", 
-which is sometimes handy; for instance, you could write a ``short_name`` 
+which is sometimes handy; for instance, you could write a :prop:`short_name` 
 routine to prefix an object's external name with one of a range of 
 adjectives -- perhaps a shining/flickering/fading/useless lantern.
 
@@ -505,7 +505,7 @@ adjectives -- perhaps a shining/flickering/fading/useless lantern.
   What's displayed if there isn't an external name in an object's header?
   If you've read the section :ref:`compile-as-you-go`, you'll recall that
   the interpreter simply uses the internal identifier within parentheses;
-  that is, with no external name and no ``short_name`` property, we might
+  that is, with no external name and no :prop:`short_name` property, we might
   see::
 
     You open the (toilet_door).
@@ -538,7 +538,7 @@ exciting can the crossing of an ordinary door be, after all?
 
 If a few lines of code can make the life of the player easier, it's 
 worth a shot. Let's provide a few improvements to our toilet door in 
-``before`` and ``after`` properties:
+:prop:`before` and :prop:`after` properties:
 
 .. code-block:: inform
 
@@ -591,12 +591,12 @@ shouldn’t assume that they want to lock it as well).
   locked, something went wrong, so we ``return false`` to display the 
   standard message for an unsuccessful unlocking. Otherwise, the door is 
   now unlocked, so we inform the player that we are opening the door and 
-  redirect the action to actually open it, returning ``true`` to 
+  redirect the action to actually open it, returning :const:`true` to 
   suppress the standard message.
 
-In all processes there is a library variable called ``keep_silent``, 
-which can be either ``false`` (the normal state) or ``true``; when 
-``true``, the interpreter does not display the associated message of an 
+In all processes there is a library variable called :var:`keep_silent`, 
+which can be either :const:`false` (the normal state) or :const:`true`; when 
+:const:`true`, the interpreter does not display the associated message of an 
 action in progress, so we can avoid things like:
 
 .. code-block:: transcript
@@ -605,10 +605,10 @@ action in progress, so we can avoid things like:
   You open the door to the toilet.
   You unlock the door to the toilet and open it.
 
-Although we want to set ``keep_silent`` to ``true`` for the duration of 
+Although we want to set :var:`keep_silent` to :const:`true` for the duration of 
 our extra processing, we need to reset it afterwards. In a case like 
 this, good design practice is to preserve its initial value (which was 
-probably ``false``, but you should avoid risky assumptions); we use a 
+probably :const:`false`, but you should avoid risky assumptions); we use a 
 local variable ``ks`` to remember that initial setting so that we can 
 safely restore it afterwards. You’ll remember that a local variable in a 
 standalone routine is declared between the routine’s name and the 
@@ -634,16 +634,16 @@ assign it thus:
 
   ks = keep_silent;
 
-we are actually making ``ks`` equal to whatever value ``keep_silent`` 
-has (either ``true`` or ``false``; we actually don't care). We then set 
-``keep_silent`` to ``true``, make the desired silent actions, and we 
+we are actually making ``ks`` equal to whatever value :var:`keep_silent` 
+has (either :const:`true` or :const:`false`; we actually don't care). We then set 
+:var:`keep_silent` to :const:`true`, make the desired silent actions, and we 
 assign:
 
 .. code-block:: inform
 
   keep_silent = ks;
 
-which restores the value originally stored in ``ks`` to ``keep_silent``. 
+which restores the value originally stored in ``ks`` to :var:`keep_silent`. 
 The effect is that we manage to leave it as it was before we tampered 
 with it.
 
@@ -732,13 +732,13 @@ While Benny has the key, there's logically no way to examine it (or
 perform any other action involving it), but we want to prevent the 
 interpreter from objecting that ``You can't see any such thing``. We've 
 made the ``toilet_key`` a child of the ``benny`` object, and you can see 
-that Benny's got a ``transparent`` attribute; this means that the key is 
+that Benny's got a :attr:`transparent` attribute; this means that the key is 
 in scope, and enables the player to refer to it without the interpreter 
-complaining. Because Benny also has an ``animate`` attribute, the 
+complaining. Because Benny also has an :attr:`animate` attribute, the 
 interpreter would normally intercept a TAKE KEY action with "That seems 
 to belong to Benny"; however, the same wouldn't apply to other commands 
 like TOUCH KEY and TASTE KEY . So, to prevent any interaction with the 
-key while it’s in Benny’s pockets, we define a ``before`` property.
+key while it’s in Benny’s pockets, we define a :prop:`before` property.
 
 .. code-block:: inform
 
@@ -750,7 +750,7 @@ key while it’s in Benny’s pockets, we define a ``before`` property.
       "Benny is trusting you to look after that key.";
   ];
 
-All of the ``before`` properties that we've so far created have contained
+All of the :prop:`before` properties that we've so far created have contained
 one or more labels specifying the actions which they are to intercept;
 you'll remember that in "William Tell" we introduced the ``default`` action
 (see :ref:`props-class`) to mean "any value not already catered
@@ -761,7 +761,7 @@ a polite refusal; if the player has it then we prevent careless disposal;
 otherwise, the action continues unhindered.
 
 (In fact, the hat-on-a-pole ``Prop`` introduced in :ref:`south-side` had
-this all-exclusive ``before`` property:
+this all-exclusive :prop:`before` property:
 
 .. code-block:: inform
 
@@ -773,12 +773,12 @@ this all-exclusive ``before`` property:
 It would have behaved exactly the same if we'd omitted the ``default`` 
 label, as we do here for Benny's key.)
 
-Another small innovation here: the ``invent`` library property (we 
+Another small innovation here: the :prop:`invent` library property (we 
 didn’t make it up) which enables you to control how objects appear in 
 inventory listings, overriding the default. Left to itself, the 
 interpreter simply displays the object’s external name, preceded either 
 by a standard article like "a" or "some", or one specifically defined in 
-the object's ``article`` property. Here we replace "the toilet key" with 
+the object's :prop:`article` property. Here we replace "the toilet key" with 
 one of two more helpful descriptions, making it a most valuable object 
 in the eyes of John Covarth, and something to be despised haughtily by 
 Captain Fate once it's of no further use to him.

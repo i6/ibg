@@ -35,7 +35,8 @@ Creating a basic source file
 The first task is to create an Inform source file template.  Every game
 that we design will start out like this.  Follow these steps:
 
-#. Create an ``Inform\Games\Heidi`` folder (maybe by copying ``Inform\Games\MyGame1``).
+#. Create an ``Inform\Games\Heidi`` folder (maybe by copying
+   ``Inform\Games\MyGame1``).
 
    .. note::
 
@@ -331,27 +332,27 @@ Again, we can infer some general principles from these four examples:
 * A keyword ``with`` follows, which simply tells the compiler what to
   expect next.
 
-* The word ``description``, introducing another piece of text which gives
-  more detail about the object: in the case of a room, it's the appearance
-  of the surrounding environment when the player character is in that room.
-  The textual description is given in double quotes, and is followed by a
-  comma.
+* The word :prop:`description`, introducing another piece of text which
+  gives more detail about the object: in the case of a room, it's the
+  appearance of the surrounding environment when the player character is in
+  that room.  The textual description is given in double quotes, and is
+  followed by a comma.
 
 * Near the end, the keyword ``has`` appears, which again tells the compiler
   to expect a certain kind of information.
 
-* The word ``light`` says that this object is a source of illumination, and
-  that therefore the player character can see what's happening here.  There
-  has to be at least one light source in every room (unless you want the
-  player to be told that "It's pitch dark and you can't see a thing"); most
-  commonly, that light source is the room itself.
+* The word :attr:`light` says that this object is a source of illumination,
+  and that therefore the player character can see what's happening here.
+  There has to be at least one light source in every room (unless you want
+  the player to be told that "It's pitch dark and you can't see a thing");
+  most commonly, that light source is the room itself.
 
 A smidgeon of background may help set this into context (there's more in
 the next chapter).  An object can have both :term:`properties` (introduced
 by the keyword ``with``) and :term:`attributes` (written after the word
-``has``).  A property has both a name (like ``description``) and a value
-(like the character string "``You stand outside a cottage.  The forest
-stretches east.``"); an attribute has merely a name.
+``has``).  A property has both a name (like :prop:`description`) and a
+value (like the character string "``You stand outside a cottage.  The
+forest stretches east.``"); an attribute has merely a name.
 
 In a little while, when you play this game, you'll observe that it starts
 like this:
@@ -444,20 +445,20 @@ We've made two changes to the room objects.
   cottage), and the second defines a connection ``forest`` → ``clearing``
   which heads off to the northeast.
 
-  Inform provides for eight "horizontal" connections (``n_to``, ``ne_to``,
-  ``e_to``, ``se_to``, ``s_to``, ``sw_to``, ``w_to``, ``nw_to``) two
-  "vertical" ones (``u_to``, ``d_to``) and two specials ``in_to``, and
-  ``out_to``.  You'll see some of these used for the remaining inter-room
-  connections.
+  Inform provides for eight "horizontal" connections (:prop:`n_to`,
+  :prop:`ne_to`, :prop:`e_to`, :prop:`se_to`, :prop:`s_to`, :prop:`sw_to`,
+  :prop:`w_to`, :prop:`nw_to`) two "vertical" ones (:prop:`u_to`,
+  :prop:`d_to`) and two specials :prop:`in_to`, and :prop:`out_to`.  You'll
+  see some of these used for the remaining inter-room connections.
 
 There's one last detail to attend to before we can test what we've done.
 You'll recollect that our story begins with Heidi standing in front of her
-cottage.  We need to tell the interpreter that ``before_cottage`` is the room
-where the game starts, and we do this in the ``Initialise`` routine::
+cottage.  We need to tell the interpreter that ``before_cottage`` is the
+room where the game starts, and we do this in the ``Initialise`` routine::
 
     [ Initialise; location = before_cottage; ];
 
-``location`` is a :term:`variable`, part of the library, which tells the
+:var:`location` is a :term:`variable`, part of the library, which tells the
 interpreter in which room the player character currently is.  Here, we're
 saying that, at the start of the game, the player character is in the
 ``before_cottage`` room.
@@ -556,9 +557,9 @@ rooms we defined previously: a one-word internal identifier (``bird``,
 (``baby bird``, ``bird's nest``).  They both have some descriptive detail:
 for a room this is printed when the player first enters, or when she types
 LOOK; for other objects it's printed when she EXAMINEs that object.  What
-they *don't* have are connections (``e_to``, ``w_to``, etc.  apply only to
-rooms) or ``light`` (it's not necessary -- the rooms ensure that light is
-available).
+they *don't* have are connections (:prop:`e_to`, :prop:`w_to`, etc.  apply
+only to rooms) or :attr:`light` (it's not necessary -- the rooms ensure
+that light is available).
 
 When the game is running, the player will want to refer to these two
 objects, saying for instance EXAMINE THE BABY BIRD or PICK UP THE NEST.
@@ -580,7 +581,7 @@ line to each definition:
            name 'bird^s' 'nest' 'twigs' 'moss',
       has  ;
 
-The ``name`` introduces a list in single quotes '...'.  We call each of
+The :prop:`name` introduces a list in single quotes '...'.  We call each of
 those quoted things a :term:`dictionary word`, and we do mean "word", not
 "phrase" (``'baby'``\ ``'bird'`` rather than ``'baby bird'``); you can't
 uses spaces, commas or periods *in* dictionary words, though there's a
@@ -592,6 +593,9 @@ that she means; if she mentions NEST, BIRD'S NEST or MOSS, it's the
 ``bird's nest``. And if she types NEST BABY or BIRD TWIGS, the interpreter
 will politely say that it doesn't understand what on earth she's talking
 about.
+
+.. index::
+   single: apostrophes
 
 .. note::
 
@@ -607,18 +611,18 @@ about.
    apostrophe, and the compiler then treats ``bird's`` as a dictionary
    word.
 
-You may be wondering why we need a list of ``name`` words for the bird and
-its nest, yet we didn't when we defined the rooms?  It's because the player
-can't interact with a room in the same way as with other objects; for
-example, she doesn't need to say EXAMINE THE FOREST -- just being there and
-typing LOOK is sufficient.
+You may be wondering why we need a list of :prop:`name` words for the bird
+and its nest, yet we didn't when we defined the rooms?  It's because the
+player can't interact with a room in the same way as with other objects;
+for example, she doesn't need to say EXAMINE THE FOREST -- just being there
+and typing LOOK is sufficient.
 
 The bird's definition is complete, but there's an additional complexity
 with the nest: we need to be able to put the bird into it.  We do this by
-labelling the nest as a ``container`` -- able to hold other objects -- so
-that the player can type PUT (or INSERT) BIRD IN (or INTO) NEST.
-Furthermore, we label it as ``open``; this prevents the interpreter from
-asking us to open it before putting in the bird.
+labelling the nest as a :attr:`container` -- able to hold other objects --
+so that the player can type PUT (or INSERT) BIRD IN (or INTO) NEST.
+Furthermore, we label it as :attr:`open`; this prevents the interpreter
+from asking us to open it before putting in the bird.
 
 .. code-block:: inform
 
@@ -725,11 +729,11 @@ player character supposedly "climbs".  We'd better define it:
             name 'tall' 'sycamore' 'tree' 'stout' 'proud',
      has    scenery;
 
-Everything there should be familiar, apart from that ``scenery`` at the
+Everything there should be familiar, apart from that :attr:`scenery` at the
 end. We've already mentioned the tree in the description of the forest
 clearing, so we don't want the interpreter adding "You can see a tall
 sycamore tree here" afterwards, as it does for the bird and the nest.  By
-labelling the tree as ``scenery`` we suppress that, and also prevent it
+labelling the tree as :attr:`scenery` we suppress that, and also prevent it
 from being picked up by the player character.  One final object: the branch
 at the top of the tree.  Again, not many surprises in this definition:
 
@@ -740,14 +744,14 @@ at the top of the tree.  Again, not many surprises in this definition:
             name 'wide' 'firm' 'flat' 'bough' 'branch',
      has    static supporter;
 
-The only new things are those two labels.  ``static`` is similar to 
-``scenery``: it prevents the branch from being picked up by the player 
-character, but *doesn't* suppress mention of it when describing the 
-setting.  And ``supporter`` is rather like the ``container`` that we 
-used for the nest, except that this time the player character can put 
-other objects *onto* the branch.  (In passing, we'll mention that an 
-object can't normally be both a ``container`` *and* a ``supporter``.)  
-And so here are our objects again:
+The only new things are those two labels.  :attr:`static` is similar to
+:attr:`scenery`: it prevents the branch from being picked up by the player
+character, but *doesn't* suppress mention of it when describing the
+setting.  And :attr:`supporter` is rather like the :attr:`container` that
+we used for the nest, except that this time the player character can put
+other objects *onto* the branch.  (In passing, we'll mention that an object
+can't normally be both a :attr:`container` *and* a :attr:`supporter`.)  And
+so here are our objects again:
 
 .. code-block:: inform
 
@@ -830,8 +834,8 @@ adding a line near the top of the file:
 The value of ``MAX_CARRIED`` limits the number of objects that the player
 character can be holding at any one time; by setting it to 1, we're saying
 that she can carry the bird or the nest, but not both.  However, the limit
-ignores the contents of ``container`` or ``supporter`` objects, so the nest
-with the bird inside it is still counted as one object.
+ignores the contents of :attr:`container` or :attr:`supporter` objects, so
+the nest with the bird inside it is still counted as one object.
 
 The other change is slightly more complex and more important: there's
 currently no way to "win" the game!  The goal is for the player character
@@ -854,16 +858,16 @@ is one way of making it happen:
    several new concepts all at once.  Later in the guide, we'll explain
    those concepts more clearly, so you can just skip this bit if you want.
 
-   The variable ``deadflag``, part of the library, is normally 0.  If you set
-   its value to 2, the interpreter notices and ends the game with "You have
-   won".  The statement::
+   The variable :var:`deadflag`, part of the library, is normally 0.  If
+   you set its value to 2, the interpreter notices and ends the game with
+   "You have won".  The statement::
 
          if (nest in branch) deadflag = 2;
 
    should be read as: "Test whether the ``nest`` is currently in the
-   ``branch`` (if the branch is a ``container``) or on it (if the
-   ``branch`` is a supporter); if it is, set the value of ``deadflag`` to
-   2; if it isn't, do nothing."  The surrounding part::
+   ``branch`` (if the branch is a :attr:`container`) or on it (if the
+   ``branch`` is a supporter); if it is, set the value of :var:`deadflag`
+   to 2; if it isn't, do nothing."  The surrounding part::
 
          each_turn [; ... ],
 
@@ -879,14 +883,14 @@ is one way of making it happen:
      ``clearing``, so nothing happens.
 
    * Also at the end of each turn, the interpreter checks the value of
-     ``deadflag``.  Usually it's 0, so nothing happens.
+     :var:`deadflag`.  Usually it's 0, so nothing happens.
 
    * Finally the player character puts the ``nest`` on the ``branch``.
      "Aha!"  says the interpreter (to itself, of course), and sets the
-     value of ``deadflag`` to 2.
+     value of :var:`deadflag` to 2.
 
    * Immediately afterwards, (another part of) the interpreter checks and
-     finds that the value of ``deadflag`` has changed to 2, which means
+     finds that the value of :var:`deadflag` has changed to 2, which means
      that the game is successfully completed; so, it says to the player,
      "you've won!"
 

@@ -43,3 +43,23 @@
 .. |X| replace:: :latex:`\dropcap{x}`
 .. |Y| replace:: :latex:`\dropcap{y}`
 .. |Z| replace:: :latex:`\dropcap{z}`
+
+.. Inform language roles.
+
+.. role:: var(code)
+   :class: nv
+
+.. role:: const(code)
+   :class: kc
+
+.. role:: obj(code)
+   :class: vg
+
+.. role:: act(code)
+   :class: na
+
+.. role:: prop(code)
+   :class: nb
+
+.. role:: attr(code)
+   :class: na

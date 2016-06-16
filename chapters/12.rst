@@ -20,7 +20,10 @@ owner of Benny's café to be developed in full.
 Too many toilets
 ================
 
-If you check the ``name`` properties of the toilet door, the toilet key 
+.. index::
+   single: ambiguous objects
+
+If you check the :prop:`name` properties of the toilet door, the toilet key 
 and the toilet room, you’ll see that the dictionary word ``'toilet'`` 
 occurs in all of them. There won't be any problems if players mention 
 the words DOOR or KEY, but we reach a strange impasse should they try to 
@@ -78,21 +81,21 @@ some routines at the heart of the standard library; these may not be
 identical in other Inform versions.
 
 The introduction explains what ``pname.h`` does for you; namely, it lets 
-you avoid using complicated ``parse_name`` routines to disambiguate the 
+you avoid using complicated :prop:`parse_name` routines to disambiguate the 
 player's input when the same dictionary word refers to more than one 
-item. A ``parse_name`` routine would have been the solution to our 
+item. A :prop:`parse_name` routine would have been the solution to our 
 problem before the existence of this file, and it qualifies as an 
 advanced programming topic, difficult to master on a first approach. 
 Fortunately, we don't need to worry. Neil Cerutti explains:
 
   The ``pname.h`` package defines a new object property, ``pname`` 
   (short for phrase name), with a similar look and feel to the standard 
-  ``name`` property: both contain a list of dictionary words. However, 
+  :prop:`name` property: both contain a list of dictionary words. However, 
   in a ``pname`` property the order of the words is significant, and 
   special operators ``'.p'`` ``'.or'`` and ``'.x'`` enable you to embed 
   some intelligence into the list. In most cases where the standard 
-  ``name`` property isn't enough, you can now just replace it with a 
-  ``pname`` property, rather than write a ``parse_name`` property 
+  :prop:`name` property isn't enough, you can now just replace it with a 
+  ``pname`` property, rather than write a :prop:`parse_name` property 
   routine.
 
 We'll soon see how it works. Let's take a look at the installation 
@@ -147,7 +150,7 @@ providing replacements for some standard routines.
 Now our source code is ready to benefit from the library package. How 
 does it work? We have acquired a new property -- ``pname`` -- which can 
 be added to some of our objects, and which works pretty much like a 
-``name`` property. In fact, it should be used *instead* of a ``name`` 
+:prop:`name` property. In fact, it should be used *instead* of a :prop:`name` 
 property where we have a disambiguation problem. Let’s change the 
 relevant lines for the toilet door and the toilet key:
 
@@ -229,7 +232,7 @@ code. Remember Benny's basic definition from the previous chapter:
                strikes him.",
     has   scenery animate male proper transparent;
 
-We can now add some complexity, beginning with a ``life`` property. In 
+We can now add some complexity, beginning with a :prop:`life` property. In 
 generic form:
 
 .. code-block:: inform
@@ -296,9 +299,9 @@ capability), is more local property variables:
           live [;
           ...
 
-Now we are ready to tackle the ``Give`` action of the ``life`` property, 
+Now we are ready to tackle the ``Give`` action of the :prop:`life` property, 
 which deals with commands like GIVE THE KEY TO BENNY (in a moment, we'll 
-come to the ``Give`` action of the ``orders`` property, which deals with 
+come to the ``Give`` action of the :prop:`orders` property, which deals with 
 commands like BENNY, GIVE ME THE KEY):
 
 .. code-block:: inform
@@ -326,7 +329,7 @@ commands like BENNY, GIVE ME THE KEY):
          back anytime,~ he says.";
     }
 
-The Give action in the ``life`` property holds the variable ``noun`` as 
+The Give action in the :prop:`life` property holds the variable :var:`noun` as 
 the object offered to the NPC. Remember that we can use the ``switch`` 
 statement as shorthand for:
 
@@ -340,7 +343,7 @@ We won't let players give away their clothes or their costume (yes, an
 improbable action, but you never know). The toilet key and the coin are
 successfully transferred. The property ``key_not_returned`` will be set to
 true when we receive the toilet key from Benny (we have not coded that bit
-yet), and now, when we give it back, it's reset to ``false``.  The ``move``
+yet), and now, when we give it back, it's reset to :const:`false`.  The ``move``
 statement is in charge of the actual transfer of the object from the
 player's inventory to Benny, and we finally display a confirmation
 message. With the coin, we find a new statement: ``remove``. This extracts
@@ -350,7 +353,7 @@ object permanently -- and indeed you could return it to the object tree
 using the ``move`` statement); as far as the player is concerned, there
 isn’t a COIN to be found anywhere. The ``coffee_not_paid`` property will be
 set to true when Benny serves us the cup of coffee (again, we’ll see that
-in a moment); now we reset it to ``false``, which liberates the player from
+in a moment); now we reset it to :const:`false`, which liberates the player from
 debt. This culminates with the ``"..."`` print-and-return statement,
 telling the player that the action was successful. In passing, remember
 that in :ref:`homely-atmos` we defined the counter such that PUT KEY ON
@@ -366,11 +369,11 @@ indulge in caffeine. Once the coin is paid, it disappears for good,
 supposedly into Benny's greedy pockets. No need to worry about it any 
 more.
 
-The benny object needs also an ``orders`` property, just to take care of 
+The benny object needs also an :prop:`orders` property, just to take care of 
 the player's requests for coffee and the key, and to fend off any other 
-demands. The ``Give`` action in an ``orders`` property deals with inputs 
+demands. The ``Give`` action in an :prop:`orders` property deals with inputs 
 like ASK BENNY FOR THE KEY or BENNY, GIVE ME THE KEY. The syntax is 
-similar to that of the ``life`` property:
+similar to that of the :prop:`life` property:
 
 .. code-block:: inform
 
@@ -412,7 +415,7 @@ similar to that of the ``life`` property:
       }
   ],
 
-* We test the value of ``second`` in order to trap over-generous 
+* We test the value of :var:`second` in order to trap over-generous 
   gestures such as BENNY, GIVE COFFEE TO CUSTOMERS . Then we consider 
   potential requests.
 
@@ -425,9 +428,9 @@ similar to that of the ``life`` property:
   possessions -- a perverse player could get the key, then drop it 
   somewhere and ask for it again; if this should happen, we indicate 
   that Benny is nobody's fool with the message ``"~Last place I saw 
-  that key..."``. Once all these fitting conditions are ``true``, 
+  that key..."``. Once all these fitting conditions are :const:`true`, 
   players will get the key, which means that they have to return it -- 
-  the ``key_not_returned`` property becomes ``true`` -- and we display 
+  the ``key_not_returned`` property becomes :const:`true` -- and we display 
   a suitable message. However, if the player didn't ask for a coffee, 
   Benny refuses to oblige, mentioning for the first time the menu board 
   where players will be able to see a picture of a cup of coffee when 
@@ -437,9 +440,9 @@ similar to that of the ``life`` property:
 
 * **Coffee:** we check whether players have already asked for a coffee, 
   by testing the ``coffee_asked_for`` property, and refuse to serve 
-  another one if ``true``. If ``false``, we place the coffee on the 
+  another one if :const:`true`. If :const:`false`, we place the coffee on the 
   counter, and set the properties ``coffee_asked_for`` and 
-  ``coffee_not_paid`` to ``true``. The message bit you know about.
+  ``coffee_not_paid`` to :const:`true`. The message bit you know about.
 
 * **Food:** we'll provide an object to deal with all of the delicious 
   comestibles to be found in the café, specifically those (such as 
@@ -520,13 +523,13 @@ description: we could have assigned a new value to the
 ``player.description`` variable, but opted to use the 
 ``LibraryMessages`` object instead. This is a similar case. The code 
 causing Benny to intercept the forgetful player could have been added, 
-perhaps, to a ``daemon`` property in Benny’s definition. However, since 
+perhaps, to a :prop:`daemon` property in Benny’s definition. However, since 
 the action to be intercepted is always the same one and happens to be a 
 movement action when the player tries to leave the café room, it is also 
 possible to code it by trapping the ``Go`` action of the room object. 
 Both would have been right, but this is somewhat simpler.
 
-We have added a ``before`` property to the room object (albeit a longish 
+We have added a :prop:`before` property to the room object (albeit a longish 
 one), just dealing with the ``Go`` action. As we mentioned in an earlier 
 chapter, this technique lets you trap the player who is about to exit a 
 room before the movement actually takes place, a good moment to 
@@ -559,9 +562,9 @@ The first three are covered by the test:
   if (benny.coffee_not_paid == true || benny.key_not_returned == true) ...
 
 that is, if either the coffee is not paid for *or* if the key is not 
-returned. When this condition is ``false``, it means that both 
+returned. When this condition is :const:`false`, it means that both 
 misdemeanours have been avoided and that the player is free to go. 
-However, when this condition is ``true``, the hand of Benny falls on the 
+However, when this condition is :const:`true`, the hand of Benny falls on the 
 player's shoulder and then the game displays a different message 
 according to which fault or faults the player has committed.
 

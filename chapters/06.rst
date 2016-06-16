@@ -121,8 +121,8 @@ pieces:
      Constant MAX_SCORE = 3;
 
 * The ``Initialise`` routine that we wrote last time contained only one
-  statement, to set the player's initial ``location``.  We do that here as
-  well, but we also do some other stuff.
+  statement, to set the player's initial :var:`location`.  We do that here
+  as well, but we also do some other stuff.
 
 * The first thing is to assign 2 to the library variable ``lookmode``.
   Inform's default mode for displaying room descriptions is BRIEF (a
@@ -155,16 +155,16 @@ pieces:
 
      Why not do that with the player?  Because the object which represents
      the player is defined by the library (rather than as part of our
-     game), and actually has an internal ID of ``selfobj``; ``player`` is a
-     variable whose value is that identifier.  Rather than worry all about
-     this, it's easier to use the ``move`` statements.
+     game), and actually has an internal ID of ``selfobj``; :var:`player`
+     is a variable whose value is that identifier.  Rather than worry all
+     about this, it's easier to use the ``move`` statements.
 
   There's one other task associated with the quiver; it's an article of
   clothing which Wilhelm is "wearing", a state denoted by the attribute
-  ``worn``.  Normally the interpreter would apply this automatically, while
-  handling a command like WEAR QUIVER, but since we've moved the quiver
-  ourselves, we also need to set the quiver's ``worn`` attribute.  The
-  ``give`` statement does the job::
+  :attr:`worn`.  Normally the interpreter would apply this automatically,
+  while handling a command like WEAR QUIVER, but since we've moved the
+  quiver ourselves, we also need to set the quiver's :attr:`worn`
+  attribute.  The ``give`` statement does the job::
 
      give quiver worn;
 
@@ -173,18 +173,18 @@ pieces:
   uses ``~`` to mean "not".)
 
 * If the player types EXAMINE ME, the interpreter displays the
-  ``description`` property of the ``player`` object.  The default value is
-  "As good-looking as ever", a bit of a cliché in the world of Inform
-  games.  It's easy to change, though, once you realise that, since the
-  properties of an object are variables, you can assign new values to them
-  just as you'd assign new values to ``location`` and ``lookmode``.  The
-  only problem is getting the syntax right; you can't say just::
+  :prop:`description` property of the :var:`player` object.  The default
+  value is "As good-looking as ever", a bit of a cliché in the world of
+  Inform games.  It's easy to change, though, once you realise that, since
+  the properties of an object are variables, you can assign new values to
+  them just as you'd assign new values to :var:`location` and ``lookmode``.
+  The only problem is getting the syntax right; you can't say just::
 
      description = "You wear the traditional clothing of a Swiss mountaineer.";
 
   because there are dozens of objects in the game, each with its own
-  ``description`` property; you need to be a little more explicit.  Here's
-  what to type::
+  :prop:`description` property; you need to be a little more explicit.
+  Here's what to type::
 
      player.description =
              "You wear the traditional clothing of a Swiss mountaineer.";
@@ -221,7 +221,7 @@ like this::
 
    ...
 
-and we explained that just about *every* room needs that ``light``
+and we explained that just about *every* room needs that :attr:`light`
 attribute, or else the player would be literally in the dark.  It's a bit
 of a nuisance having to specify that same attribute each time; what would
 be neater would be to say that *all* rooms are illuminated.  So we can
@@ -252,7 +252,7 @@ We've done four things:
    language all along.
 
 #. We've furthermore said that every object which we define using ``Room``
-   is automatically going to have the ``light`` attribute.
+   is automatically going to have the :attr:`light` attribute.
 
 #. We've changed the way in which we define the four room objects, by
    starting them with our specialised word ``Room``.  The remainder of the
@@ -260,17 +260,17 @@ We've done four things:
    properties, the block of attributes and the final semicolon -- remains
    the same; except that:
 
-#. We don't need to explicitly include the ``light`` attribute each time;
-   every ``Room`` object has it automatically.
+#. We don't need to explicitly include the :attr:`light` attribute each
+   time; every ``Room`` object has it automatically.
 
 A :term:`class` is a family of closely related objects, all of which behave
 in the same way.  Any properties defined for the class, and any attributes
 defined for the class, are automatically given to objects which you specify
 as belonging to that class; this process of acquisition just by being a
 member of a class is called :term:`inheritance`.  In our example, we've
-defined a ``Room`` class with a ``light`` attribute, and then we've
+defined a ``Room`` class with a :attr:`light` attribute, and then we've
 specified four objects each of which is a member of that class, and each of
-which gets given a ``light`` attribute as a result of that membership.
+which gets given a :attr:`light` attribute as a result of that membership.
 
 Why have we gone to this trouble?  Three main reasons:
 
@@ -296,7 +296,7 @@ be defining object classes whenever it makes sense (which is generally when
 two or more objects are meant to behave in exactly the same way).
 
 You may be wondering: suppose I want to define a room which for some reason
-*doesn't* have ``light``; can I still use the ``Room`` class?  Sure you
+*doesn't* have :attr:`light`; can I still use the ``Room`` class?  Sure you
 can::
 
    Room    cellar "Gloomy cellar"
@@ -311,7 +311,7 @@ what's in it.
 
 In fact, for any object both the block of properties and the block of
 attributes are optional and can be omitted if there's nothing to be
-specified.  Now that the ``light`` attribute is being provided
+specified.  Now that the :attr:`light` attribute is being provided
 automatically and there aren't any other attributes to set, the word
 ``has`` can be left out.  Here's the class again::
 
@@ -355,10 +355,10 @@ that the player might think to EXAMINE them::
             ],
       has   scenery;
 
-All objects of this class inherit the ``scenery`` attribute, so they're
-excluded from room descriptions.  Also, there's a ``before`` property; one
-that's more complex than our previous efforts.  You'll remember that the
-first ``before`` we met looked like this::
+All objects of this class inherit the :attr:`scenery` attribute, so they're
+excluded from room descriptions.  Also, there's a :prop:`before` property;
+one that's more complex than our previous efforts.  You'll remember that
+the first :prop:`before` we met looked like this::
 
    before [;
       Listen:
@@ -366,16 +366,16 @@ first ``before`` we met looked like this::
 	return true;
    ],
 
-The role of that original ``before`` was to intercept ``Listen`` actions,
-while leaving all others well alone.  The role of the ``before`` in the
-``Prop`` class is broader: to intercept (a) ``Examine`` actions, and (b)
-all the rest.  If the action is ``Examine``, then the ``return false``
-statement means that the action carries on.  If the action is ``default``
--- none of those explicitly listed, which in this instance means *every*
-action apart from ``Examine`` -- then the ``print_ret`` statement is
-executed, after which the interpreter does nothing further.  So, a ``Prop``
-object can be EXAMINEd, but any other action addressed to it results in a
-"no need to worry" message.
+The role of that original :prop:`before` was to intercept ``Listen``
+actions, while leaving all others well alone.  The role of the
+:prop:`before` in the ``Prop`` class is broader: to intercept (a)
+``Examine`` actions, and (b) all the rest.  If the action is ``Examine``,
+then the ``return false`` statement means that the action carries on.  If
+the action is ``default`` -- none of those explicitly listed, which in this
+instance means *every* action apart from ``Examine`` -- then the
+``print_ret`` statement is executed, after which the interpreter does
+nothing further.  So, a ``Prop`` object can be EXAMINEd, but any other
+action addressed to it results in a "no need to worry" message.
 
 That message is also more involved than anything we've so far displayed.
 The statement which produces it is::
@@ -410,10 +410,10 @@ The interesting things that this statement demonstrates are:
   display the following object's internal ID, is called a :term:`print
   rule`.
 
-* There's a library variable ``self`` which always contains the internal ID
-  of the current object, and is really convenient when using a ``Class``.
-  By using this variable in our ``print_ret`` statement, we ensure that the
-  message contains the name of the appropriate object.
+* There's a library variable :var:`self` which always contains the internal
+  ID of the current object, and is really convenient when using a
+  ``Class``.  By using this variable in our ``print_ret`` statement, we
+  ensure that the message contains the name of the appropriate object.
 
 Let's see an example of this in action; here's a ``Prop`` object from
 "William Tell"::
@@ -424,9 +424,9 @@ Let's see an example of this in action; here's a ``Prop`` object from
 	   ...
 
 If players type EXAMINE GATE, they'll see "The large wooden gate..."; if
-they type CLOSE GATE then the gate's ``before`` property will step in and
-display "You don't need to worry about the south gate", neatly picking up
-the name of the object from the ``self`` variable.
+they type CLOSE GATE then the gate's :prop:`before` property will step in
+and display "You don't need to worry about the south gate", neatly picking
+up the name of the object from the :var:`self` variable.
 
 The reason for doing all this, rather than just creating a simple scenery
 object like Heidi's ``tree`` and ``cottage``, is to support EXAMINE for
@@ -438,11 +438,11 @@ A class for furniture
 
 The last class for now -- we'll talk about the ``Arrow`` and ``NPC``
 classes in the next chapter -- is for furniture-like objects.  If you label
-an object with the ``static`` attribute, an attempt to TAKE it results in
-"That's fixed in place" -- acceptable in the case of Heidi's branch object
-(which is indeed supposed to be part of the tree), less so for items which
-are simply large and heavy.  This ``Furniture`` class might sometimes be
-more appropriate::
+an object with the :attr:`static` attribute, an attempt to TAKE it results
+in "That's fixed in place" -- acceptable in the case of Heidi's branch
+object (which is indeed supposed to be part of the tree), less so for items
+which are simply large and heavy.  This ``Furniture`` class might sometimes
+be more appropriate::
 
    Class    Furniture
      with   before [;
@@ -452,7 +452,7 @@ more appropriate::
       has   static supporter;
 
 Its structure is similar to that of our ``Prop`` class: some appropriate
-attributes, and a ``before`` property to trap actions directed at it.
+attributes, and a :prop:`before` property to trap actions directed at it.
 Again, we display a message which is "personalised" for the object
 concerned by using a ``(The) self`` print rule.  This time we're
 intercepting four actions; we *could* have written the property like this::

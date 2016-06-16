@@ -348,6 +348,9 @@ the file -- and it compiles there and then.  You can also run the
 interpreter with similar ease.  The convenience of doing this far outweighs
 the small amount of time needed to obtain and configure TextPad.
 
+.. index::
+   single: Apple Macintosh
+
 .. _inform-apple:
 
 Inform on an Apple Macintosh (running OS X)

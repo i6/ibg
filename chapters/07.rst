@@ -41,16 +41,16 @@ This is the street room, the location where the game starts::
                  "The crowd, pressing north towards the square,
                   makes that impossible.";
 
-We're using our new ``Room`` class, so there's no need for a ``light``
-attribute.  The ``n_to`` and ``s_to`` properties, whose values are an
-internal ID and a string respectively, are techniques we've used before.
-The only innovation is that the ``description`` property has an embedded
-routine as its value.
+We're using our new ``Room`` class, so there's no need for a :attr:`light`
+attribute.  The :prop:`n_to` and :prop:`s_to` properties, whose values are
+an internal ID and a string respectively, are techniques we've used before.
+The only innovation is that the :prop:`description` property has an
+embedded routine as its value.
 
 The first thing in that routine is a ``print`` statement, displaying
 details of the street surroundings.  If that was all that we wanted to do,
-we could have supplied those details by making the ``description`` value a
-string; that is, these two examples behave identically::
+we could have supplied those details by making the :prop:`description`
+value a string; that is, these two examples behave identically::
 
    description [;
        print "The narrow street runs north towards the town square.
@@ -85,7 +85,7 @@ The line of dialogue is produced by the ``print`` statement, the ``print``
 statement is controlled by the ``if`` statement, and the ``if`` statement
 is performing the test ``self hasnt visited``.  In detail:
 
-* ``visited`` is an attribute, but not one that you'd normally give to an
+* :attr:`visited` is an attribute, but not one that you'd normally give to an
   object yourself.  It's automatically applied to a room object by the
   interpreter, but only after that room has been visited for the first
   time by the player.
@@ -97,20 +97,20 @@ is performing the test ``self hasnt visited``.  In detail:
   if object :samp:`{X}` currently does not have attribute :samp:`{Y}`,
   false if it does.
 
-* ``self``, which we met in the previous chapter, is that useful variable
+* :var:`self`, which we met in the previous chapter, is that useful variable
   which, within an object, always refers to that object.  Since we're using
   it in the middle of the ``street`` object, that's what it refers to.
 
 So, putting it all together, ``self hasnt visited`` is true (and therefore
 the ``print`` statement is executed) only while the ``street`` object has
-*not* got a ``visited`` attribute.  Because the interpreter automatically
-gives rooms a ``visited`` attribute as soon as the player has been there
-once, this test will be true only for one turn.  Therefore, the line of
-dialogue will be displayed only once: the first time the player visits the
-street, at the very start of the game.
+*not* got a :attr:`visited` attribute.  Because the interpreter
+automatically gives rooms a :attr:`visited` attribute as soon as the player
+has been there once, this test will be true only for one turn.  Therefore,
+the line of dialogue will be displayed only once: the first time the player
+visits the street, at the very start of the game.
 
-Although the primary importance of ``self`` is within class definitions, it
-can also be convenient to use it simply within an object.  Why didn't we
+Although the primary importance of :var:`self` is within class definitions,
+it can also be convenient to use it simply within an object.  Why didn't we
 just write this? ::
 
    if (street hasnt visited)
@@ -118,7 +118,7 @@ just write this? ::
            ~or you'll get lost among all these people.~^";
 
 It's true that the effect is identical, but there are a couple of good
-reasons for using ``self``.  One: it's an aid to understanding your code
+reasons for using :var:`self`.  One: it's an aid to understanding your code
 days or weeks after writing it.
 
 If you read the line ``if (street hasnt visited)``, you need to think for a
@@ -131,7 +131,7 @@ code is useful in different situations (say, you want to repeat the
 mechanics of the street description in another room).  Rather than writing
 everything from scratch, you'll typically use copy-and-paste to repeat the
 routine, and then all you have to do is compose the appropriate descriptive
-strings for the new room.  If you've used ``self``, the line ``if (self
+strings for the new room.  If you've used :var:`self`, the line ``if (self
 hasnt visited)`` is still good; if you've written instead ``if (street
 hasnt visited)``, you'll have to change that as well.  Worse, if you
 *forget* to change it, the game will still work -- but not in the way you'd
@@ -185,21 +185,21 @@ for this::
    :samp:`{external_names}`, because these are used by the ``Prop`` class's
    ``print_ret ... (the) self`` statement.
 
-You'll see a couple of new attributes: ``animate`` marks an object as being
-"alive", while ``pluralname`` specifies that its external name is plural
-rather than singular.  The interpreter uses these attributes to ensure that
-messages about such objects are grammatical and appropriate (for example,
-it will now refer to "some merchants" rather than "a merchants").  Because
-the library handles so many situations automatically, it's hard to be sure
-exactly what messages players may trigger; the best approach is to play
-safe and always give an object the relevant set of attributes, even when,
-as here, they probably won't be needed.
+You'll see a couple of new attributes: :attr:`animate` marks an object as
+being "alive", while :attr:`pluralname` specifies that its external name is
+plural rather than singular.  The interpreter uses these attributes to
+ensure that messages about such objects are grammatical and appropriate
+(for example, it will now refer to "some merchants" rather than "a
+merchants").  Because the library handles so many situations automatically,
+it's hard to be sure exactly what messages players may trigger; the best
+approach is to play safe and always give an object the relevant set of
+attributes, even when, as here, they probably won't be needed.
 
-You'll also see a new ``found_in`` property, which specifies the rooms --
-and only the rooms; ``found_in`` shouldn't be used to place objects inside
-containers or supporters -- where this object is to appear.  The stalls,
-for example, can be EXAMINEd both in the street and below the square, so we
-*could* have created a ``Prop`` object in each room::
+You'll also see a new :prop:`found_in` property, which specifies the rooms
+-- and only the rooms; :prop:`found_in` shouldn't be used to place objects
+inside containers or supporters -- where this object is to appear.  The
+stalls, for example, can be EXAMINEd both in the street and below the
+square, so we *could* have created a ``Prop`` object in each room::
 
    Prop       "assorted stalls" street
      with     name 'assorted' 'stalls',
@@ -211,15 +211,16 @@ for example, can be EXAMINEd both in the street and below the square, so we
               description "Food, clothing, mountain gear; the usual stuff.",
       has     pluralname;
 
-but ``found_in`` does the same job more neatly -- there's only one object,
-but it appears in both the ``street`` and ``below_square`` rooms while the
-player's there.  The local people are even more ubiquitous.  In this case
-the ``found_in`` value is an embedded routine rather than a list of rooms;
-such a routine would generally test the value of the current location and
-``return true`` if it wants to be present here, or ``false`` if not.  Since
-we'd like the local people *always* to be present, in every room, we
-``return true`` without bothering to examine ``location``.  It's as though
-we'd written any of these, but simpler and less error prone::
+but :prop:`found_in` does the same job more neatly -- there's only one
+object, but it appears in both the ``street`` and ``below_square`` rooms
+while the player's there.  The local people are even more ubiquitous.  In
+this case the :prop:`found_in` value is an embedded routine rather than a
+list of rooms; such a routine would generally test the value of the current
+location and ``return true`` if it wants to be present here, or
+:const:`false` if not.  Since we'd like the local people *always* to be
+present, in every room, we ``return true`` without bothering to examine
+:var:`location`.  It's as though we'd written any of these, but simpler and
+less error prone::
 
    Prop       "local people"
      with     name 'people' 'folk' 'local' 'crowd',
@@ -286,10 +287,11 @@ well define Wilhelm's bow and arrows::
 
 Both of these are straightforward objects, with the ``Drop``, ``Give`` and
 ``ThrowAt`` actions being intercepted to ensure that Wilhelm is never
-without them.  The ``clothing`` attribute makes its first appearance,
+without them.  The :attr:`clothing` attribute makes its first appearance,
 marking both the quiver and the bow as capable of being worn (as the result
 of a WEAR BOW command, for instance); you'll remember that our
-``Initialise`` routine goes on to add a ``worn`` attribute to the quiver.
+``Initialise`` routine goes on to add a :attr:`worn` attribute to the
+quiver.
 
 An empty quiver is pretty useless, so here's the class used to define
 Wilhelm's stock of arrows.  This class has some unusual features::
@@ -336,8 +338,8 @@ listing them individually in this clumsy fashion:
 
 The interpreter will do this for us if our objects are "indistinguishable",
 best achieved by making them members of a class which includes both
-``name`` and ``plural`` properties.  We define the actual arrows very
-simply, like this::
+:prop:`name` and :prop:`plural` properties.  We define the actual arrows
+very simply, like this::
 
    Arrow "arrow" quiver;
    Arrow "arrow" quiver;
@@ -367,17 +369,17 @@ There are two other properties not seen previously::
    article "an",
    plural "arrows",
 
-The ``article`` property lets you define the object's indefinite article --
-usually something like "a", "an" or "some" -- instead of letting the
-library assign one automatically.  It's a belt-and-braces (OK,
+The :prop:`article` property lets you define the object's indefinite
+article -- usually something like "a", "an" or "some" -- instead of letting
+the library assign one automatically.  It's a belt-and-braces (OK,
 belt-and-suspenders) precaution: because "arrow" starts with a vowel, we
 need to display "an arrow" not "a arrow".  Most interpreters automatically
 get this right, but just to be on the safe side, we explicitly define the
-appropriate word.  And the ``plural`` property defines the word to be used
-when lumping several of these objects together, as in the "three arrows"
-inventory listing.  The interpreter can't just automatically slap an "s" on
-the end; the plural of "slice of cake", for example, isn't "slice of
-cakes".
+appropriate word.  And the :prop:`plural` property defines the word to be
+used when lumping several of these objects together, as in the "three
+arrows" inventory listing.  The interpreter can't just automatically slap
+an "s" on the end; the plural of "slice of cake", for example, isn't "slice
+of cakes".
 
 Moving further along the street
 ===============================
@@ -413,7 +415,7 @@ No surprises there, nor in most of the supporting scenery objects. ::
             description "Fine locally grown produce.",
      has    pluralname;
 
-The only new thing here is the ``before`` property of the fruit'n'veg
+The only new thing here is the :prop:`before` property of the fruit'n'veg
 stall.  The stall's description -- lots of items on a table -- may suggest
 to players that they can SEARCH through the produce, maybe finding a lucky
 beetroot or something else interesting.  No such luck -- and we might as
@@ -431,22 +433,23 @@ statement does the job::
 Having diverted the ``Search`` action into an ``Examine`` action, we must
 tell the interpreter that it doesn't need to do anything else, because
 we've handled the action ourselves.  We've done that before -- using
-``return true`` -- and so a first stab at the ``before`` action looks like
-this::
+``return true`` -- and so a first stab at the :prop:`before` action looks
+like this::
 
    before [; Search: <Examine stall>; return true; ],
 
 The two-statement sequence ``<...>; return true`` is so common that there's
 a single statement shortcut: ``<<...>>``.  Also, for exactly the same
-reason as before, our code is clearer if we use ``self`` instead of
+reason as before, our code is clearer if we use :var:`self` instead of
 ``stall``.  So this is how the property finally stands::
 
    before [; Search: <<Examine self>>; ],
 
 A couple of final observations before we leave this topic.  The example
-here is of an action (``Examine``) applied to an object (``self``, though
-``stall`` or ``noun`` would also work at this point).  You can also use the
-``<...>`` and ``<<...>>`` statements for actions which affect no objects::
+here is of an action (``Examine``) applied to an object (:var:`self`,
+though ``stall`` or :var:`noun` would also work at this point).  You can
+also use the ``<...>`` and ``<<...>>`` statements for actions which affect
+no objects::
 
    <<Look>>;
 
@@ -479,20 +482,20 @@ principles; here's the class upon which we base our NPCs::
             ],
      has    animate;
 
-The most important thing here is the ``animate`` attribute -- that's what
-defines an object as an NPC, and causes the interpreter to treat it a
+The most important thing here is the :attr:`animate` attribute -- that's
+what defines an object as an NPC, and causes the interpreter to treat it a
 little differently -- for example, TAKE HELGA results in "I don't suppose
 Helga would care for that".
 
-The ``animate`` attribute also brings into play nine extra actions which
-can be applied only to animate objects: ``Answer``, ``Ask``, ``Order`` and
-``Tell`` are all associated with speech, and ``Attack``, ``Kiss``,
-``Show``, ``ThrowAt`` and ``WakeOther`` are associated with non-verbal
-interaction.  Additionally, a new ``life`` property -- very similar to
-``before`` -- can be defined to intercept them.  Here we use it to trap
-speech-related commands such as ASK HELGA ABOUT APPLE and TELL WALTER ABOUT
-BABIES, telling players that in this game we've implemented only a simpler
-TALK verb (which we describe in :ref:`verbs`).
+The :attr:`animate` attribute also brings into play nine extra actions
+which can be applied only to animate objects: ``Answer``, ``Ask``,
+``Order`` and ``Tell`` are all associated with speech, and ``Attack``,
+``Kiss``, ``Show``, ``ThrowAt`` and ``WakeOther`` are associated with
+non-verbal interaction.  Additionally, a new :prop:`life` property -- very
+similar to :prop:`before` -- can be defined to intercept them.  Here we use
+it to trap speech-related commands such as ASK HELGA ABOUT APPLE and TELL
+WALTER ABOUT BABIES, telling players that in this game we've implemented
+only a simpler TALK verb (which we describe in :ref:`verbs`).
 
 Based on the NPC class we've created, here's Helga::
 
@@ -527,20 +530,20 @@ Based on the NPC class we've created, here's Helga::
             ],
      has    female proper;
 
-The new attributes are ``female`` -- because we want the interpreter to
-refer to Helga with the appropriate pronouns -- and ``proper``.  The latter
-signifies that this object's external name is a proper noun, and so
+The new attributes are :attr:`female` -- because we want the interpreter to
+refer to Helga with the appropriate pronouns -- and :attr:`proper`.  The
+latter signifies that this object's external name is a proper noun, and so
 references to it should not be preceded by "a" or "the": you wouldn't want
 to display "You can see a Helga here" or "I don't suppose the Helga would
-care for that".  You may notice the library variable ``score`` being
+care for that".  You may notice the library variable :var:`score` being
 incremented.  This variable holds the number of points that the player has
 scored; when it changes like this, the interpreter tells the player that
 "Your score has just gone up by one point".
 
-There are also ``life`` and ``times_spoken_to`` properties (which we'll
-talk about in :doc:`09`) and an ``initial`` property.
+There are also :prop:`life` and :prop:`times_spoken_to` properties (which
+we'll talk about in :doc:`09`) and an :prop:`initial` property.
 
-``initial`` is used when the interpreter is describing a room and listing
+:prop:`initial` is used when the interpreter is describing a room and listing
 the objects initial you can see there.  If we *didn't* define it, you'd get
 this:
 
@@ -556,11 +559,11 @@ this:
    >
 
 but we want to introduce Helga in a more interactive manner, and that's
-what the ``initial`` property is for: it replaces the standard "You can see
+what the :prop:`initial` property is for: it replaces the standard "You can see
 *object* here" with a tailored message of your own design.  The value of an
-``initial`` property can be either a string which is to be displayed or, as
+:prop:`initial` property can be either a string which is to be displayed or, as
 here, an embedded routine.  This one is pretty similar to the
-``description`` property that we defined for the street: something that's
+:prop:`description` property that we defined for the street: something that's
 *always* printed (Helga pauses...) and something that's printed only on the
 first occasion ("Hello, Wilhelm, it's a fine day... "):
 
@@ -583,7 +586,7 @@ But it's not quite the same as the street's description routine.  First, we
 need a slightly different ``if`` test: ``self hasnt visited`` works fine
 for a room object, but this routine is part of an object *in* a room;
 instead we could use either ``below_square hasnt visited`` or (better)
-``location hasnt visited`` -- since ``location`` is the library variable
+``location hasnt visited`` -- since :var:`location` is the library variable
 that refers to the room where the player currently is.  And second, some
 curly braces ``{...}`` have appeared: why?
 

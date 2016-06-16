@@ -307,7 +307,7 @@ Properties
 ----------
 
 The library defines around forty-eight standard property variables (such 
-as ``before`` or ``name``), but you can readily create further ones just 
+as :prop:`before` or :prop:`name`), but you can readily create further ones just 
 by using them within an object definition.
 
 You can create and initialise a property in an object's ``with`` segment:
@@ -366,6 +366,9 @@ and are usually called automatically by the library, or manually by::
 
   obj_id.property()			! everywhere
 
+.. index::
+   single: arguments (of a routine)
+
 Arguments and local variables
 -----------------------------
 
@@ -405,11 +408,11 @@ or implicitly when the routine runs out of statements. If none of these
 
   [ routine_id; statement; statement; ... statement; ];
 
-returns ``true`` and ::
+returns :const:`true` and ::
 
   property [; statement; statement; ... statement; ]
 
-return ``false``.
+return :const:`false`.
 
 This difference is *important*. Remember it by the letter pairs STEF: 
 left to themselves, Standalone routines return True, Embedded routines 
@@ -608,7 +611,7 @@ you'll come across.
     if (MyVar) ...
 
   Note that the following statement specifically tests whether ``MyVar`` 
-  contains ``true`` (1), *not* whether its value is anything other than 
+  contains :const:`true` (1), *not* whether its value is anything other than 
   zero. ::
 
     if (MyVar == true) ...
@@ -660,8 +663,8 @@ you'll come across.
 "number" property and "general" attribute
 -----------------------------------------
 
-The library defines a standard ``number`` property and a standard 
-``general`` attribute, whose roles are undefined: they are 
+The library defines a standard :prop:`number` property and a standard 
+:attr:`general` attribute, whose roles are undefined: they are 
 general-purpose variables available within every object to designers as 
 and when they desire.
 
@@ -707,8 +710,8 @@ within the overall object tree either by explicitly mentioning its
 parent's ``obj_id`` (if any) in the first line of the object definition 
 -- what we've been calling the header information -- or, for a few 
 objects which crop up in more than one place, by using their 
-``found_in`` properties. For example, in "William Tell" we defined 
-twenty-seven objects; omitting those which used ``found_in`` to define 
+:prop:`found_in` properties. For example, in "William Tell" we defined 
+twenty-seven objects; omitting those which used :prop:`found_in` to define 
 their placement at the start of the game, we're left with object 
 definitions starting like this::
 

@@ -149,11 +149,11 @@ Tell", which defines the maximum number of points to be scored, we now
 see two more constants: ``OBJECT_SCORE`` and ``ROOM_SCORE``. There are 
 several scoring systems predefined in Inform. In "William Tell" we've 
 seen how you can manually add (or subtract) points by changing the value 
-of the variable ``score``. Another approach is to award points to 
+of the variable :var:`score`. Another approach is to award points to 
 players on the first occasion that they (a) enter a particular room, or 
 (b) pick up a particular object. To define that a room or object is 
 indeed “particular”, all you have to do is give it the attribute 
-``scored``; the library take cares of the rest. The predefined scores 
+:attr:`scored`; the library take cares of the rest. The predefined scores 
 are five points for finally reached rooms and four points for wondrous 
 acquisition of objects. With the constants ``OBJECT_SCORE`` and 
 ``ROOM_SCORE`` we can change those defaults; for the sake of example, 
@@ -197,7 +197,7 @@ has been displayed on the screen -- we should use the explicit ``print``
 statement instead.
 
 You'll notice that -- unusually for a room -- our ``street`` object has 
-a ``name`` property:
+a :prop:`name` property:
 
 .. code-block:: inform
 
@@ -212,14 +212,14 @@ EXAMINE CITY here, the interpreter will reply "That's not something you
 need to refer to in order to SAVE the day", rather than the misleading 
 "You can't see any such thing". We mostly prefer to deal with such 
 scenic words using classes like ``Prop`` and ``Furniture``, but 
-sometimes a room's ``name`` property is a quick and convenient solution.
+sometimes a room's :prop:`name` property is a quick and convenient solution.
 
 In this game, we provide a class named ``Appliance`` to take care of 
 furniture and unmovable objects. You’ll notice that the starting room we 
 have defined has no connections yet. The description mentions a phone 
 booth and a café, so we might want to code those. While the café will be 
 a normal room, it would seem logical that the phone booth is actually a 
-big box on the sidewalk; therefore we define a ``container`` set in the 
+big box on the sidewalk; therefore we define a :attr:`container` set in the 
 street, which players may enter:
 
 .. code-block:: inform
@@ -243,20 +243,20 @@ street, which players may enter:
     has  enterable container open;
 
 What's interesting are the attributes at the end of the definition. 
-You'll recall from Heidi's ``nest`` object that a ``container`` is an 
+You'll recall from Heidi's ``nest`` object that a :attr:`container` is an 
 object capable of having other objects placed in it. If we make 
-something ``enterable``, players count as one of those objects, so that 
+something :attr:`enterable`, players count as one of those objects, so that 
 they may squeeze inside. Finally, ``containers`` are, by default, 
-supposed to be closed. You can make them ``openable`` if you wish 
+supposed to be closed. You can make them :attr:`openable` if you wish 
 players to be able to OPEN and CLOSE them at will, but this doesn't seem 
 appropriate behaviour for a public cabin -- it would become tedious to 
 have to type OPEN BOOTH and CLOSE BOOTH when these actions provide 
-nothing special -- so we add instead the attribute ``open`` (as we did 
+nothing special -- so we add instead the attribute :attr:`open` (as we did 
 with the nest), telling the interpreter that the container is open from 
 the word go. Players aren't aware of our design, of course; they may 
 indeed try to OPEN and CLOSE the booth, so we trap those actions in a 
-``before`` property which just tells them that these are not relevant 
-options. The ``after`` property gives a customised message to override 
+:prop:`before` property which just tells them that these are not relevant 
+options. The :prop:`after` property gives a customised message to override 
 the library’s default for commands like ENTER BOOTH or GO INSIDE BOOTH.
 
 Since in the street's description we have told players that the phone 
@@ -284,7 +284,7 @@ Players may type EXIT or OUT while they are inside an enterable
 container and the interpreter will oblige but, again, they might type 
 NORTH. This is a problem, since we are actually in the street (albeit 
 inside the booth) and to the north we have the café. We may provide for 
-this condition in the room's ``before`` property:
+this condition in the room's :prop:`before` property:
 
 .. code-block:: inform
 
@@ -307,7 +307,7 @@ player to try something else:
 
 Now everything seems to be fine, except for a tiny detail. We've said 
 that, while in the booth, the player character’s location is still the 
-``street`` room, regardless of being inside a ``container``; if players 
+``street`` room, regardless of being inside a :attr:`container`; if players 
 chanced to type LOOK, they'd get:
 
 .. code-block:: transcript
@@ -319,15 +319,15 @@ chanced to type LOOK, they'd get:
 
 Hardly an adequate description while *inside* the booth. There are 
 several ways to fix the problem, depending on the result you wish to 
-achieve. The library provides a property called ``inside_description`` 
+achieve. The library provides a property called :prop:`inside_description` 
 which you can utilise with enterable containers. It works pretty much 
-like the normal ``description`` property, but it gets printed only when 
+like the normal :prop:`description` property, but it gets printed only when 
 the player is inside the container. The library makes use of this 
 property in a very clever way, because for every LOOK action it checks 
 whether we can see outside the container: if the container has the 
-``transparent`` attribute set, or if it happens to be ``open``, the 
-library displays the normal ``description`` of the room first and then 
-the ``inside_description`` of the container. If the library decides we 
+:attr:`transparent` attribute set, or if it happens to be :attr:`open`, the 
+library displays the normal :prop:`description` of the room first and then 
+the :prop:`inside_description` of the container. If the library decides we 
 can’t see outside the container, only the inside_description is 
 displayed. Take for instance the following (simplified) example:
 
@@ -371,8 +371,8 @@ If now the player closes the box and LOOKs:
 In our case, however, we don't wish the description of the street to be 
 displayed at all (even if a caller is supposedly able to see the street 
 while inside a booth). The problem is that we have made the booth an 
-``open`` container, so the street's description would be displayed every 
-time. There is another solution. We can make the ``description`` 
+:attr:`open` container, so the street's description would be displayed every 
+time. There is another solution. We can make the :prop:`description` 
 property of the ``street`` room a bit more complex, and change its 
 value: instead of a string, we write an embedded routine. Here's the 
 (almost) finished room:
@@ -437,6 +437,8 @@ something else to describe it:
           ],
     has   enterable proper;
 
+.. index:: accented characters
+
 .. note::
 
    Although the text of our guide calls Benny's establishment a "café" --
@@ -449,7 +451,7 @@ something else to describe it:
 
       The town's favourite for a quick snack, Benny's café has a 50's ROCKETSHIP look.
 
-   by defining the ``description`` property as any of these:
+   by defining the :prop:`description` property as any of these:
 
    .. code-block:: inform
 
@@ -471,21 +473,21 @@ something else to describe it:
 Unlike the sidewalk object, we offer more than a mere description. Since 
 the player may try ENTER CAFE as a reasonable way of access -- which 
 would have confused the interpreter immensely -- we take the opportunity 
-of making this object also ``enterable``, and we cheat a little. The 
-attribute ``enterable`` has permitted the verb ENTER to be applied to 
-this object, but this is not a ``container``; we want the player to be 
-sent into the *real* café room instead. The ``before`` property handles 
+of making this object also :attr:`enterable`, and we cheat a little. The 
+attribute :attr:`enterable` has permitted the verb ENTER to be applied to 
+this object, but this is not a :attr:`container`; we want the player to be 
+sent into the *real* café room instead. The :prop:`before` property handles 
 this, intercepting the action, displaying a message and teleporting the 
 player into the café. We ``return true`` to inform the interpreter that 
 we have taken care of the ``Enter`` action ourselves, so it can stop 
 right there.
 
 As a final detail, note that we now have two ways of going into the 
-café: the ``n_to`` property of the ``street`` room and the ``Enter`` 
+café: the :prop:`n_to` property of the ``street`` room and the ``Enter`` 
 action of the ``outside_of_cafe`` object. A perfectionist might point 
 out that it would be neater to handle the actual movement of the player 
 in just one place of our code, because this helps clarity. To achieve 
-this, we redirect the street's ``n_to`` property thus:
+this, we redirect the street's :prop:`n_to` property thus:
 
 .. code-block:: inform
 
@@ -517,7 +519,7 @@ a normal gaming situation; each displays an all-purpose message,
 sufficiently non-committal, and that's it. Of course, if your game 
 includes a magic portal that will reveal itself only if the player lets 
 rip with a snatch of Wagner, you may intercept the ``Sing`` action in a 
-``before`` property and alter its default, pretty useless behaviour. If 
+:prop:`before` property and alter its default, pretty useless behaviour. If 
 not, it's "Your singing is abominable" for you.
 
 All actions, useful or not, have a stock of messages associated with them
@@ -572,7 +574,7 @@ use of the ``LibraryMessages`` object.
 If you provide it, the ``LibraryMessages`` object must be defined 
 *between* the inclusion of ``Parser`` and ``VerbLib`` (it won't work 
 otherwise and you’ll get a compiler error). The object contains a single 
-property -- ``before`` -- which intercepts display of the default 
+property -- :prop:`before` -- which intercepts display of the default 
 messages that you want to change. An attempt to SING, for example, will 
 now result in "Alas! That is not one of your many superpowers" being 
 displayed.

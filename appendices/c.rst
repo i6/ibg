@@ -94,8 +94,8 @@ you do, though, you'll get this::
 	>
 
 Whoops! We've fallen foul of Inform's rule saying that every room must 
-have a ``description`` property, to be displayed by the interpreter when 
-you enter that room. Our ``street`` stub hasn't got a ``description``, 
+have a :prop:`description` property, to be displayed by the interpreter when 
+you enter that room. Our ``street`` stub hasn't got a :prop:`description`, 
 so although the game compiles successfully, it still causes an error to 
 be reported at run-time.
 
@@ -111,7 +111,7 @@ class, thus:
 By doing this, we ensure that *every* room has a description of some 
 form; normally we'd override this default value with something 
 meaningful -- "The narrow street runs north towards the town square..." 
-and so on -- by including a ``description`` property in the object's 
+and so on -- by including a :prop:`description` property in the object's 
 definition. However, in a stub object used only for testing, a default 
 description is sufficient (and less trouble)::
 
@@ -138,7 +138,7 @@ external names with our ``street`` , ``bow`` and ``quiver`` stubs, the
 compiler has provided some for us -- ``(street)`` , ``(bow)`` and 
 ``(quiver)`` -- simply by adding parentheses around the internal IDs 
 which we used. And, because our ``bow`` and ``quiver`` stubs have no 
-``name`` properties, we can't actually refer to those objects when 
+:prop:`name` properties, we can't actually refer to those objects when 
 playing the game. Neither of these points would be acceptable in a 
 finished game, but for testing purposes at this early stage -- they'll 
 do.

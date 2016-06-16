@@ -137,6 +137,9 @@ highlight_language = 'none'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
+# Turn off default domain.
+primary_domain = None
+
 
 # -- Options for HTML output ----------------------------------------------
 

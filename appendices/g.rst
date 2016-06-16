@@ -20,10 +20,10 @@ words and phrases.
        The generated effect of the player's input, usually by the `parser`
        but also occasionally by the designer's code.  It refers to a single
        task to be processed by Inform, such as DROP KETTLE, and it's stored
-       in four numbers: one each for the action itself and the ``actor``
+       in four numbers: one each for the action itself and the :var:`actor`
        object who is to perform it (the player or an `NPC`), one for the
-       ``noun`` -- or direct object, if present -- and a fourth for the
-       ``second`` noun -- if it exists, for example the "POT" in THROW
+       :var:`noun` -- or direct object, if present -- and a fourth for the
+       :var:`second` noun -- if it exists, for example the "POT" in THROW
        KETTLE AT POT.  See also `fake action`.
 
    alpha-testing
@@ -52,7 +52,7 @@ words and phrases.
        The designer may test from any other part of the program *if* an
        object *has* a certain attribute, *give* an attribute to an object
        or take it away as need arises.  For instance, the attribute
-       ``container`` states that the object is capable of having other
+       :attr:`container` states that the object is capable of having other
        objects placed inside it.
 
    avatar
@@ -126,7 +126,7 @@ words and phrases.
    dictionary word
        A word written in single quotes '...'  within the `source file`,
        usually (but not exclusively) as one of the values assigned to an
-       object's ``name`` property.  All such words are stored in the
+       object's :prop:`name` property.  All such words are stored in the
        `dictionary`, which is consulted by the `parser` when attempting to
        make sense of a player's command.  Only the first nine characters
        are significant (thus ``'cardiogram'`` and ``'cardiograph'`` are
@@ -151,7 +151,7 @@ words and phrases.
    embedded routine
        A routine that is defined in the body of an object, as the value of
        one of its `properties`.  Unlike a `standalone routine`, an embedded
-       routine doesn't have a name of its own, and returns ``false`` if
+       routine doesn't have a name of its own, and returns `false` if
        execution reaches the terminating marker ``]``.
 
    entry point
@@ -338,7 +338,7 @@ words and phrases.
 
    standalone routine
        A routine which is not part of an object.  Unlike an `embedded
-       routine`, it must provide a name of its own, and it returns ``true``
+       routine`, it must provide a name of its own, and it returns `true`
        when execution reaches the terminating marker ``]``.
 
    statement

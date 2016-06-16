@@ -53,16 +53,19 @@ has only one feature of interest::
 	     ],
      has     scenery;
 
-The tree's ``before`` property is intercepting a ``FireAt`` action, which
+The tree's :prop:`before` property is intercepting a ``FireAt`` action, which
 we'll define in a few moments.  This action is the result of a command like
 SHOOT AT TREE WITH BOW -- we could simulate it with the statement
 ``<<FireAt tree bow>>`` -- and it needs extra care to ensure that the
-``second`` object is a feasible weapon.  To deal with silly commands like
-SHOOT AT TREE WITH HELGA, we must test that ``second`` is the bow, one of
+:var:`second` object is a feasible weapon.  To deal with silly commands like
+SHOOT AT TREE WITH HELGA, we must test that :var:`second` is the bow, one of
 the arrows, or ``nothing`` (from just SHOOT AT TREE).  Since this is quite
 a complex test, and one that we'll be making in several places, it's
 sensible to write a routine to do the job.  Which we'll do shortly -- but
 first, a general introduction to working with routines.
+
+.. index::
+   single: arguments (of a routine)
 
 .. _working-with-routines:
 
@@ -70,7 +73,7 @@ A diversion: working with routines
 ==================================
 
 A standalone routine, like the familiar routines embedded as the value of a
-property such as ``before`` or ``each_turn``, is simply a set of statements
+property such as :prop:`before` or :prop:`each_turn`, is simply a set of statements
 to be executed.  The major differences are in content, in timing, and in
 the default return value:
 
@@ -86,8 +89,8 @@ the default return value:
 
 * If an embedded routine executes all of its statements and reaches the
   final ``];`` without encountering some form of ``return`` statement, it
-  returns the value ``false``.  In the same circumstances, a standalone
-  routine returns the value ``true``.  There's a good reason for this
+  returns the value :const:`false`.  In the same circumstances, a standalone
+  routine returns the value :const:`true`.  There's a good reason for this
   difference -- it usually turns out to be the natural default behaviour --
   but it can sometimes baffle newcomers.  To avoid confusion, we've always
   included explicit ``return`` statements in our routines.
@@ -110,7 +113,7 @@ look at some simple examples; first consider these unexciting foodstuffs::
 	      description "It doesn't look at all appetising.",
 	      ...
 
-The ``description``\s are identical: perhaps we could display them using a
+The :prop:`description`\s are identical: perhaps we could display them using a
 routine?  ::
 
    [ Inedible; print_ret "It doesn't look at all appetising."; ];
@@ -133,7 +136,7 @@ wherever we need to.
 Here's another simple example showing how, by returning a value, a routine
 can report back to the piece of code which called it.  We've once or twice
 used the test ``if (self has visited) ...``; we could create a routine
-which performs that same check and then returns ``true`` or ``false`` to
+which performs that same check and then returns :const:`true` or :const:`false` to
 indicate what it discovered::
 
     [ BeenHereBefore;
@@ -153,7 +156,7 @@ we *could* write another routine to perform that check::
     ];
 
 However, the two routines are very similar; the only difference is the name
-of the variable -- ``self`` or ``location`` -- which is being checked.  A
+of the variable -- :var:`self` or :var:`location` -- which is being checked.  A
 better approach might be to rework our ``BeenHereBefore`` routine so that
 it does both jobs, but we somehow need to tell it which variable's value is
 to be checked.  That's easy: we design the routine so that it expects an
@@ -167,17 +170,17 @@ to be checked.  That's easy: we design the routine so that it expects an
 Notice that the argument's name is one that we've invented to be
 descriptive of its content; it doesn't matter if we define it as "``x``",
 "``this_room``" or "``hubba_hubba``".  Whatever its name, the argument acts
-as a placeholder for a value (here, one of the variables ``self`` or
-``location``) which we must supply when calling the routine::
+as a placeholder for a value (here, one of the variables :var:`self` or
+:var:`location`) which we must supply when calling the routine::
 
     if (BeenToBefore(self) == true) ...
 
     if (BeenToBefore(location) == true) ...
 
-In the first line, we supply ``self`` as the routine's argument.  The
+In the first line, we supply :var:`self` as the routine's argument.  The
 routine doesn't care where the argument came from; it just sees a value
 which it knows as ``this_room``, and which it then uses to test for the
-``visited`` attribute.  On the second line we supply ``location`` as the
+:attr:`visited` attribute.  On the second line we supply :var:`location` as the
 argument, but the routine just sees another value in its ``this_room``
 variable.  ``this_room`` is called a :term:`local variable` of the
 ``BeenToBefore`` routine, one that must be set to a suitable value each
@@ -192,7 +195,7 @@ Remember that:
    write a ``return``, ``rtrue`` or ``rfalse`` statement, or because
    execution reaches the ``]`` marking the routine's end.
 
-#. All routines return a value, which can be ``true``, or ``false``, or any
+#. All routines return a value, which can be :const:`true`, or :const:`false`, or any
    other number.  This value is determined by the ``return``, ``rtrue`` or
    ``rfalse`` statement, or by the the ``]`` marking the routine's end (in
    which case the default STEF rule applies: Standalone routines return
@@ -211,7 +214,7 @@ Remember that:
    you always *have* to use it; you can simply ignore the value if you want
    to.  The ``TooFarAway`` routine that we showed you earlier in this
    chapter contains a ``print_ret`` statement and so always returns
-   ``true``, but we didn't take any notice; the sole purpose of the routine
+   :const:`true`, but we didn't take any notice; the sole purpose of the routine
    was to display some text.  Compare this with the ``BeenToBefore``
    routine, which does nothing *except* return a value; if we'd ignored
    that, then calling the routine would have been a waste of time.
@@ -273,12 +276,12 @@ The result is that we ask three questions: Is ``o`` the ``bow`` object?
 which is a member of the ``Arrow`` class?
 
 What this means is that the value returned by the call ``BowOrArrow(bow)``
-is ``true``, while the value returned by the call ``BowOrArrow(tree)`` is
-``false``.  Or, more generally, the value returned by the call
-``BowOrArrow(second)`` will be either ``true`` or ``false``, depending on
+is :const:`true`, while the value returned by the call ``BowOrArrow(tree)`` is
+:const:`false`.  Or, more generally, the value returned by the call
+``BowOrArrow(second)`` will be either :const:`true` or :const:`false`, depending on
 the characteristics of the object defined by the value of the variable
-``second``.  So, we can write this set of statements in an object's
-``before`` property::
+:var:`second`.  So, we can write this set of statements in an object's
+:prop:`before` property::
 
      if (BowOrArrow(second) == true) {
          This object deals with having an arrow fired at it
@@ -287,13 +290,13 @@ the characteristics of the object defined by the value of the variable
 
 and the effect is either
 
-* ``second`` is a weapon: ``BowOrArrow`` displays nothing and returns a
-  value of ``true``, the ``if`` statement reacts to that value and executes
+* :var:`second` is a weapon: ``BowOrArrow`` displays nothing and returns a
+  value of :const:`true`, the ``if`` statement reacts to that value and executes
   the following statements to produce an appropriate response to the
   fast-approaching arrow; or
 
-* ``second`` isn't a weapon: ``BowOrArrow`` displays a standard "don't be
-  silly" message and returns a value of ``false``, the ``if`` statement
+* :var:`second` isn't a weapon: ``BowOrArrow`` displays a standard "don't be
+  silly" message and returns a value of :const:`false`, the ``if`` statement
   reacts to that value and ignores the following statements.  Then
 
 * in both cases, the ``return true`` statement terminates the object's
@@ -301,7 +304,7 @@ and the effect is either
 
 That whole ``BowOrArrow()`` bit was rather complex, but the rest of the
 ``FireAt`` action is straightforward.  Once the tree has determined that
-it's being shot at by something sensible, it can just set ``deadflag`` to 3
+it's being shot at by something sensible, it can just set :var:`deadflag` to 3
 -- the "You have screwed up" ending, display a message, and be done.
 
 Gessler the governor
@@ -346,7 +349,7 @@ There's nothing in Gessler's definition that we haven't already encountered::
             ],
      has    male;
 
-Like most NPCs, Gessler has a ``life`` property which deals with actions
+Like most NPCs, Gessler has a :prop:`life` property which deals with actions
 applicable only to animate objects.  This one responds merely to ``Talk``
 (as in TALK TO THE GOVERNOR).
 
@@ -400,17 +403,17 @@ Walter::
            found_in [; return true; ],
     has    male proper scenery transparent;
 
-His attributes are ``male`` (he's your son, after all), ``proper`` (so the
-interpreter doesn't mention "the your son"), ``scenery`` (so he's not
-listed in every room description), and ``transparent`` (because you see
-right through him).  No, that's wrong: a ``transparent`` object isn't made
+His attributes are :attr:`male` (he's your son, after all), :attr:`proper` (so the
+interpreter doesn't mention "the your son"), :attr:`scenery` (so he's not
+listed in every room description), and :attr:`transparent` (because you see
+right through him).  No, that's wrong: a :attr:`transparent` object isn't made
 of glass; it's one whose possessions are visible to you.  We've done that
 because we'd still like to be able to EXAMINE APPLE even when Walter is
-carrying it.  Without the ``transparent`` attribute, it would be as though
+carrying it.  Without the :attr:`transparent` attribute, it would be as though
 the apple was in his pocket or otherwise out of sight; the interpreter
 would reply "You can't see any such thing".
 
-Walter has a ``found_in`` property which automatically moves him to the
+Walter has a :prop:`found_in` property which automatically moves him to the
 player's location on each turn.  We can get away with this because in such
 a short and simple game, he does indeed follow you everywhere.  In a more
 realistic model world, NPCs often move around independently, but we don't
@@ -421,14 +424,14 @@ that is, is the player (and hence Walter) currently in that room?  The
 events in the marketplace are such that specialised responses are more
 appropriate there than our standard ones.
 
-Walter's ``life`` property responds to ``Give`` (as in GIVE APPLE TO
+Walter's :prop:`life` property responds to ``Give`` (as in GIVE APPLE TO
 WALTER) and Talk (as in TALK TO YOUR SON); during ``Give``, we increment
-the library variable ``score``, thus rewarding the player's generous good
-nature.  His ``before`` property is perhaps a little confusing.  It's
+the library variable :var:`score`, thus rewarding the player's generous good
+nature.  His :prop:`before` property is perhaps a little confusing.  It's
 saying:
 
 #. The ``Examine``, ``Listen``, ``Salute`` and ``Talk`` actions are always
-   available (a ``Talk`` action then gets passed to Walter's ``life``
+   available (a ``Talk`` action then gets passed to Walter's :prop:`life`
    property).
 
 #. The ``FireAt`` action is permitted in the ``marketplace``, albeit with
@@ -438,8 +441,8 @@ saying:
 #. All other actions are prevented in the ``marketplace``, and allowed to
    run their standard course (thanks to the ``return false``) elsewhere.
 
-The apple's moment of glory has arrived!  Its ``before`` property responds
-to the ``FireAt`` action by setting ``deadflag`` to 2.  When that happens,
+The apple's moment of glory has arrived!  Its :prop:`before` property responds
+to the ``FireAt`` action by setting :var:`deadflag` to 2.  When that happens,
 the game is over; the player has won. ::
 
   Object   apple "apple"
@@ -510,7 +513,7 @@ prepared to accept::
           * noun                          -> Untie;
 
 and we need a routine to handle the action in the default situation (where
-the action isn't intercepted by an object's ``before`` property). ::
+the action isn't intercepted by an object's :prop:`before` property). ::
 
       [ UntieSub; print_ret "You really shouldn't try that."; ];
 
@@ -522,7 +525,7 @@ The grammar is less complex than it perhaps at first appears:
 #. The asterisk ``*`` indicates the start of a pattern defining what
    word(s) might follow the verb.
 
-#. In this example, there's only one pattern: the "``noun``" token
+#. In this example, there's only one pattern: the ":var:`noun`" token
    represents an object which is currently in scope -- in the same room as
    the player.
 
@@ -566,12 +569,12 @@ We can illustrate how this works in the Altdorf street:
 
 The illustration shows four attempted usages of the new action.  In the
 first, the player omits to mention an object; the interpreter knows (from
-that ``noun`` in the grammar which implies that the action needs a direct
+that :var:`noun` in the grammar which implies that the action needs a direct
 object) that something is missing, so it issues a helpful prompt.  In the
 second, the player mentions an object that isn't in scope (in fact, there's
 no dog anywhere in the game, but the interpreter isn't about to give *that*
 away to the player).  In the third, the object is in scope, but its
-``before`` property intercepts the ``Untie`` action (and indeed, since this
+:prop:`before` property intercepts the ``Untie`` action (and indeed, since this
 object is of the class ``Prop``, all actions apart from ``Examine``) to
 display a customised rejection message.  Finally, the fourth usage refers
 to an object which *doesn't* intercept the action, so the interpreter calls
@@ -582,7 +585,7 @@ The principles presented here are those that you should generally employ:
 write a generic action handler which either refuses to do anything (see,
 for example SQUASH or HIT), or performs the action without affecting the
 state of the model world (see, for example, JUMP or WAVE); then, intercept
-that non-action (generally using a ``before`` property) for those objects
+that non-action (generally using a :prop:`before` property) for those objects
 which might make a legitimate target for the action, and instead provide a
 more specific response, either performing or rejecting the action.
 
@@ -601,7 +604,7 @@ the hat on the pole.  Here's the default action handler::
 
 You'll notice that this is slightly more intelligent than our ``Untie``
 handler, since it produces different responses depending on whether the
-object being saluted -- stored in the ``noun`` variable -- is ``animate``
+object being saluted -- stored in the :var:`noun` variable -- is :attr:`animate`
 or not.  But it's basically doing the same job.  And here's the grammar::
 
      Verb 'bow' 'nod' 'kowtow' 'genuflect'
@@ -734,27 +737,27 @@ semicolon in all of the grammar, right at the very end.
 
 The first two statements in ``FireAtSub`` deal with the first line of
 grammar: FIRE (or SHOOT, or AIM) by itself.  If the player types just that,
-both ``noun`` and ``second`` will contain ``nothing``, so we reject the
+both :var:`noun` and :var:`second` will contain ``nothing``, so we reject the
 attempt with the "at random?" message.  Otherwise, we've got at least a
-``noun`` value, and possibly a ``second`` value also, so we make our
-standard check that ``second`` is something that can be fired, and then
+:var:`noun` value, and possibly a :var:`second` value also, so we make our
+standard check that :var:`second` is something that can be fired, and then
 reject the attempt with the "Unthinkable!"  message.
 
 There are a couple of reasons why you might find this grammar a bit tricky.
-The first is that on some lines the word ``noun`` appears twice: you need
-to remember that in this context ``noun`` is a parsing token which matches
+The first is that on some lines the word :var:`noun` appears twice: you need
+to remember that in this context :var:`noun` is a parsing token which matches
 any single object visible to the player.  Thus, the line::
 
      * 'at' noun 'with' noun        -> FireAt
 
 is matching FIRE AT :samp:`{some_visible_target}` WITH
 :samp:`{some_visible_weapon}`; perhaps confusingly, the value of the target
-object is then stored in variable ``noun``, and the value of the weapon
-object in variable ``second``.
+object is then stored in variable :var:`noun`, and the value of the weapon
+object in variable :var:`second`.
 
 The second difficulty may be the final grammar line.  Whereas on the
-preceding lines, the first ``noun`` matches a target object and the second
-``noun``, if present, matches a weapon object, that final line matches FIRE
+preceding lines, the first :var:`noun` matches a target object and the second
+:var:`noun`, if present, matches a weapon object, that final line matches FIRE
 :samp:`{some_visible_weapon}` AT :samp:`{some_visible_target}` -- the two
 objects are mentioned in the wrong sequence.  If we did nothing, our
 ``FireAtSub`` would get pretty confused at this point, but we can swap the
@@ -785,9 +788,9 @@ curious), and does three things:
 
 #. Deals with TALK TO ME or TALK TO MYSELF.
 
-#. Checks (a) whether the creature being talked to has a ``life``
+#. Checks (a) whether the creature being talked to has a :prop:`life`
    property, (b) whether that property is prepared to process a ``Talk``
-   action, and (c) if the ``Talk`` processing returns ``true``.  If all
+   action, and (c) if the ``Talk`` processing returns :const:`true`.  If all
    three checks succeed then ``TalkSub`` need do nothing more; if one or
    more of them fails then ``TalkSub`` simply...
 
@@ -804,10 +807,10 @@ curious), and does three things:
       That second condition ``(RunLife(noun,##Talk) ~= false)`` is a bit of
       a stumbling block, since it uses ``RunLife`` -- an undocumented
       internal library routine -- to offer the ``Talk`` action to the NPC's
-      ``life`` property.  We've decided to use it in exactly the same way
+      :prop:`life` property.  We've decided to use it in exactly the same way
       as the ``Tell`` action does, without worrying too much about how it
-      works (though it looks as though ``RunLife`` returns some ``true``
-      value if the ``life`` property has intercepted the action, ``false``
+      works (though it looks as though ``RunLife`` returns some :const:`true`
+      value if the :prop:`life` property has intercepted the action, :const:`false`
       if it hasn't).  The ``~=`` operator means "not equal to".
 
 The grammar is straightforward::
@@ -855,12 +858,12 @@ And Helga's is the most sophisticated (though that isn't saying much)::
         }
    ],
 
-This handler uses Helga's ``times_spoken_to`` property -- not a library
-property, it's one that we invented, like the ``mid_square.warnings_count``
-and ``pole.has_been_saluted`` properties -- to keep track of what's been
-said, permitting two snatches of conversation (and awarding a point) before
-falling back on the embarrassing silences implied by "You can't think of
-anything to say".
+This handler uses Helga's :prop:`times_spoken_to` property -- not a library
+property, it's one that we invented, like the
+:prop:`mid_square.warnings_count` and :prop:`pole.has_been_saluted`
+properties -- to keep track of what's been said, permitting two snatches of
+conversation (and awarding a point) before falling back on the embarrassing
+silences implied by "You can't think of anything to say".
 
 That's the end of our little fable; you'll find a transcript and the full
 source in :doc:`/appendices/c`.  And now, it's time to meet -- Captain
