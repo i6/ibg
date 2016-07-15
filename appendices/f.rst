@@ -2,7 +2,7 @@
  Appendix F -- Inform library
 ==============================
 
-.. |ADD| replace:: **+**
+.. |ADD| replace:: **(+)**
 
 .. The ⊕ symbol doesn't work in LaTeX.
 
@@ -21,11 +21,17 @@ properties and attributes, the verb grammars and actions.
 Library objects
 ===============
 
+.. index::
+   pair: compass; library object
+
 :obj:`compass`
   A :attr:`container` object holding the twelve direction objects
   :obj:`d_obj`, :obj:`e_obj`, :obj:`in_obj`, :obj:`n_obj`, :obj:`ne_obj`,
   :obj:`nw_obj`, :obj:`out_obj`, :obj:`s_obj`, :obj:`se_obj`,
   :obj:`sw_obj`, :obj:`u_obj`, :obj:`w_obj`.
+
+.. index::
+   pair: LibraryMessages; library object
 
 :obj:`LibraryMessages`
   If defined (between Includes of `Parser` and `VerbLib`), changes standard
@@ -44,9 +50,15 @@ Library objects
   |            `...`
   |        `];`
 
+.. index::
+   pair: selfobj; library object
+
 :obj:`selfobj`
   The default player object.  Avoid: use instead the :var:`player`
   variable, which usually refers to :obj:`selfobj`.
+
+.. index::
+   pair: thedark; library object
 
 :obj:`thedark`
   A pseudo-room which becomes the :var:`location` when there is no light
@@ -344,7 +356,7 @@ Library routines
    pair: MoveFloatingObjects; library routine
 
 `MoveFloatingObjects()`
-  Adjusts positions of game's `found_in` objects.
+  Adjusts positions of game's :prop:`found_in` objects.
 
 .. index::
    pair: NextWord; library routine
@@ -666,9 +678,9 @@ Object's value being considered first.
    pair: description; library property
 
 :prop:`description`
-  For an object: its description (output by `Examine`).
+  For an object: its description (output by :act:`Examine`).
 
-  For a room: its long description (output by `Look`).
+  For a room: its long description (output by :act:`Look`).
 
   The `{value}` can be a string, or a routine which outputs a string.
 
@@ -718,9 +730,9 @@ Object's value being considered first.
   the :attr:`absent` attribute.  The `{value}` can be
 
   * a space-separated list of `{rooms}` (where this object can be found) or
-     `{obj_ids}` (whose locations are tracked by this object);
+    `{obj_ids}` (whose locations are tracked by this object);
   * a routine which should return :const:`true` if this object can be found
-     in the current location, otherwise :const:`false`.
+    in the current location, otherwise :const:`false`.
 
 .. index::
    pair: grammar; library property
@@ -753,8 +765,8 @@ Object's value being considered first.
    pair: inside_description; library property
 
 :prop:`inside_description`
-  For an `enterable` object: its description, output as part of the room
-  description when the player is inside the object.
+  For an :prop:`enterable` object: its description, output as part of the
+  room description when the player is inside the object.
 
   The `{value}` can be a string, or a routine which outputs a string.
 
@@ -776,14 +788,15 @@ Object's value being considered first.
    pair: life; library property
 
 :prop:`life` |ADD|
-  For an `animate` object: receives person-to-person actions (`Answer`,
-  `Ask`, `Attack`, `Give`, `Kiss`, `Order`, `Show`, `Tell`, `ThrowAt` and
-  `WakeOther`) for which this is the `{noun}`.  The `{value}` is a routine
-  of structure similar to a `switch` statement, having cases for the
-  appropriate `{actions}` (and an optional default as well).  The routine
-  should return :const:`false` to continue, telling the player what has
-  happened, or :const:`true` to stop processing the action and produce no
-  further output.
+  For an :prop:`animate` object: receives person-to-person actions
+  (:act:`Answer`, :act:`Ask`, :act:`Attack`, :act:`Give`, :act:`Kiss`,
+  :act:`Order`, :act:`Show`, :act:`Tell`, :act:`ThrowAt` and
+  :act:`WakeOther`) for which this is the `{noun}`.  The `{value}` is a
+  routine of structure similar to a `switch` statement, having cases for
+  the appropriate `{actions}` (and an optional default as well).  The
+  routine should return :const:`false` to continue, telling the player what
+  has happened, or :const:`true` to stop processing the action and produce
+  no further output.
 
 .. index::
    pair: list_together; library property
@@ -797,10 +810,10 @@ Object's value being considered first.
     the string;
   * a routine which is called twice.  On the first call nothing has been
     output; :var:`inventory_stage` has the value 1, and the routine should
-    return :const:`false` to continue, or :const::const:`true` to stop
-    processing and produce no further output.  On the second call the list
-    has been output; :var:`inventory_stage` has the value 2, and there is
-    no test on the return value.
+    return :const:`false` to continue, or :const:`true` to stop processing
+    and produce no further output.  On the second call the list has been
+    output; :var:`inventory_stage` has the value 2, and there is no test on
+    the return value.
 
 .. index::
    pair: n_to; library property
@@ -943,23 +956,19 @@ Object's value being considered first.
 
 .. index::
    pair: u_to; library property
+   pair: w_to; library property
 
 :prop:`u_to`
   See :prop:`d_to`.
-
-.. index::
-   pair: w_to; library property
 
 :prop:`w_to`
   See :prop:`d_to`.
 
 .. index::
    pair: when_closed; library property
+   pair: when_open; library property
 
 :prop:`when_closed`
-
-.. index::
-   pair: when_open; library property
 
 :prop:`when_open`
   For a :attr:`container` or :attr:`door` object: used when including this
@@ -968,11 +977,9 @@ Object's value being considered first.
 
 .. index::
    pair: when_off; library property
+   pair: when_on; library property
 
 :prop:`when_off`
-
-.. index::
-   pair: when_on; library property
 
 :prop:`when_on`
   For a :attr:`switchable` object: used when including this object in a
@@ -1213,7 +1220,7 @@ These routines, if you supply them, are called when shown.
   The player has gone from one dark room to another.
 
 `DeathMessage()`
-  The player has died; `deadflag` is 3 or more.
+  The player has died; :var:`deadflag` is 3 or more.
 
 `GamePostRoutine()`
   Called after all actions.
@@ -1229,7 +1236,7 @@ These routines, if you supply them, are called when shown.
   Called during parsing.
 
 `LookRoutine()`
-  Called at the end of every `Look` description.
+  Called at the end of every :act:`Look` description.
 
 `NewRoom()`
   Called when room changes, before description is output.
@@ -1266,54 +1273,54 @@ Group 1 actions
 Group 1 actions support the 'meta' verbs.  These are the standard actions
 and their triggering verbs.
 
-==============  =====================================================
-`CommandsOff`   "`RECORDING OFF`"
-`CommandsOn`    "`RECORDING [ON]`"
-`CommandsRead`  "`REPLAY`"
-`FullScore`     "`FULLSCORE`", "`FULL [SCORE]`"
-`LMode1`        "`BRIEF`", "`NORMAL`"
-`LMode2`        "`LONG`", "`VERBOSE`"
-`LMode3`        "`SHORT`", "`SUPERBRIEF`"
-`NotifyOff`     "`NOTIFY OFF`"
-`NotifyOn`      "`NOTIFY [ON]`"
-`Objects`       "`OBJECTS`"
-`Places`        "`PLACES`"
-`Pronouns`      "`[PRO]NOUNS`"
-`Quit`          "`DIE`", "`Q[UIT]`"
-`Restart`       "`RESTART`"
-`Restore`       "`RESTORE`"
-`Save`          "`CLOSE`"
-`Score`         "`SCORE`"
-`ScriptOff`     "`[TRAN]SCRIPT OFF`", "`NOSCRIPT`", "`UNSCRIPT`"
-`ScriptOn`      "`[TRAN]SCRIPT [ON]`"
-`Verify`        "`VERIFY`"
-`Version`       "`VERSION`"
-==============  =====================================================
+===================    ==================================================
+:act:`CommandsOff`     "`RECORDING OFF`"
+:act:`CommandsOn`      "`RECORDING [ON]`"
+:act:`CommandsRead`    "`REPLAY`"
+:act:`FullScore`       "`FULLSCORE`", "`FULL [SCORE]`"
+:act:`LMode1`          "`BRIEF`", "`NORMAL`"
+:act:`LMode2`          "`LONG`", "`VERBOSE`"
+:act:`LMode3`          "`SHORT`", "`SUPERBRIEF`"
+:act:`NotifyOff`       "`NOTIFY OFF`"
+:act:`NotifyOn`        "`NOTIFY [ON]`"
+:act:`Objects`         "`OBJECTS`"
+:act:`Places`          "`PLACES`"
+:act:`Pronouns`        "`[PRO]NOUNS`"
+:act:`Quit`            "`DIE`", "`Q[UIT]`"
+:act:`Restart`         "`RESTART`"
+:act:`Restore`         "`RESTORE`"
+:act:`Save`            "`CLOSE`"
+:act:`Score`           "`SCORE`"
+:act:`ScriptOff`       "`[TRAN]SCRIPT OFF`", "`NOSCRIPT`", "`UNSCRIPT`"
+:act:`ScriptOn`        "`[TRAN]SCRIPT [ON]`"
+:act:`Verify`          "`VERIFY`"
+:act:`Version`         "`VERSION`"
+===================    ==================================================
 
 and the debug tools.
 
-===============   ===================================================
-`ActionsOff`      "`ACTIONS OFF`"
-`ActionsOn`       "`ACTIONS [ON]`"
-`ChangesOff`      "`CHANGES OFF`"
-`ChangesOn`       "`CHANGES [ON]`"
-`Gonear`          "`GONEAR`"
-`Goto`            "`GOTO`"
-`Predictable`     "`RANDOM`"
-`RoutinesOff`     "`MESSAGES OFF`", "`ROUTINES OFF`"
-`RoutinesOn`      "`MESSAGES [ON]`", "`ROUTINES [ON]`"
-`Scope`           "`SCOPE`"
-`Showobj`         "`SHOWOBJ`"
-`Showverb`        "`SHOWVERB`"
-`TimersOff`       "`DAEMONS OFF`", "`TIMERS OFF`"
-`TimersOn`        "`DAEMONS [ON]`", "`TIMERS [ON]`"
-`TraceLevel`      "`TRACE number`"
-`TraceOff`        "`TRACE OFF`"
-`TraceOn`         "`TRACE [ON]`"
-`XAbstract`       "`ABSTRACT`"
-`XPurloin`        "`PURLOIN`"
-`XTree`           "`TREE`"
-===============   ===================================================
+==================    ===================================================
+:act:`ActionsOff`     "`ACTIONS OFF`"
+:act:`ActionsOn`      "`ACTIONS [ON]`"
+:act:`ChangesOff`     "`CHANGES OFF`"
+:act:`ChangesOn`      "`CHANGES [ON]`"
+:act:`Gonear`         "`GONEAR`"
+:act:`Goto`           "`GOTO`"
+:act:`Predictable`    "`RANDOM`"
+:act:`RoutinesOff`    "`MESSAGES OFF`", "`ROUTINES OFF`"
+:act:`RoutinesOn`     "`MESSAGES [ON]`", "`ROUTINES [ON]`"
+:act:`Scope`          "`SCOPE`"
+:act:`Showobj`        "`SHOWOBJ`"
+:act:`Showverb`       "`SHOWVERB`"
+:act:`TimersOff`      "`DAEMONS OFF`", "`TIMERS OFF`"
+:act:`TimersOn`       "`DAEMONS [ON]`", "`TIMERS [ON]`"
+:act:`TraceLevel`     "`TRACE number`"
+:act:`TraceOff`       "`TRACE OFF`"
+:act:`TraceOn`        "`TRACE [ON]`"
+:act:`XAbstract`      "`ABSTRACT`"
+:act:`XPurloin`       "`PURLOIN`"
+:act:`XTree`          "`TREE`"
+==================    ===================================================
 
 .. _group-2-actions:
 
@@ -1324,62 +1331,61 @@ Group 2 actions usually work, given the right circumstances.
 
 .. tabularcolumns:: |l|p{5in}|
 
-=============   =============================================================
-`Close`         "`CLOSE [UP]`", "`COVER [UP]`", "`SHUT [UP]`"
-`Disrobe`       "`DISROBE`", "`DOFF`", "`REMOVE`", "`SHED`", "`TAKE OFF`"
-`Drop`          "`DISCARD`", "`DROP`", "`PUT DOWN`", "`THROW`"
-`Eat`           "`EAT`"
-`Empty`         "`EMPTY [OUT]`"
-`EmptyT`        "`EMPTY IN|INTO|ON|ONTO|TO`"
-`Enter`         "`CROSS`", "`ENTER`", "`GET IN|INTO|ON|ONTO`",
-                "`GO IN|INSIDE|INTO|THROUGH`",
-                "`LEAVE IN|INSIDE|INTO|THROUGH`", "`LIE IN|INSIDE|ON`",
-                "`LIE ON TOP OF`",
-                "`RUN IN|INSIDE|INTO|THROUGH`", "`SIT IN|INSIDE|ON`",
-                "`SIT ON TOP OF`", "`STAND ON`",
-                "`WALK IN|INSIDE|INTO|THROUGH`"
-`Examine`       "`CHECK,`" "`DESCRIBE`", "`EXAMINE`",
-                "`L[OOK] AT`", "`READ`", "`WATCH`", "`X`"
-`Exit`          "`EXIT`", "`GET OFF|OUT|UP`",
-                "`LEAVE`", "`OUT[SIDE]`", "`STAND [UP]`"
-`GetOff`        "`GET OFF`"
-`Give`          "`FEED [TO]`", "`GIVE [TO]`", "`OFFER [TO]`", "`PAY [TO]`"
-`Go`            "`GO`", "`LEAVE`", "`RUN`", "`WALK`"
-`GoIn`          "`CROSS`", "`ENTER`", "`IN[SIDE]`"
-`Insert`        "`DISCARD IN|INTO`",
-                "`DROP DOWN|IN|INTO`",
-                "`INSERT IN|INTO`",
-                "`PUT IN|INSIDE|INTO`",
-                "`THROW DOWN|IN|INTO`"
-`Inv`           "`I[NV]`", "`INVENTORY`", "`TAKE INVENTORY`"
-`InvTall`       "`I[NV] TALL`", "`INVENTORY TALL`"
-`InvWide`       "`I[NV] WIDE`", "`INVENTORY WIDE`"
-`Lock`          "`LOCK WITH`"
-`Look`          "`L[OOK]`"
-`Open`          "`OPEN`", "`UNCOVER`", "`UNDO`", "`UNWRAP`"
-`PutOn`         "`DISCARD ON|ONTO`",
-                "`DROP ON|ONTO`",
-                "`PUT ON|ONTO`",
-                "`THROW ON|ONTO`"
-`Remove`        "`GET FROM`", "`REMOVE FROM`", "`TAKE FROM|OFF`"
-`Search`        "`L[OOK] IN|INSIDE|INTO|THROUGH`", "`SEARCH`"
-`Show`          "`DISPLAY [TO]`", "`PRESENT [TO]`", "`SHOW [TO]`"
-`SwitchOff`     "`CLOSE OFF`", "`SCREW OFF`",
-                "`SWITCH OFF`", "`TURN OFF`",
-                "`TWIST OFF`"
-`SwitchOn`      "`SCREW ON`", "`SWITCH ON`",
-                "`TURN ON`", "`TWIST ON`"
-`Take`          "`CARRY`", "`GET`", "`HOLD`",
-                "`PEEL [OFF]`", "`PICK UP`",
-                "`REMOVE`", "`TAKE`"
-`Transfer`      "`CLEAR TO`", "`MOVE TO`",
-                "`PRESS TO`", "`PUSH TO`",
-                "`SHIFT TO`", "`TRANSFER TO`"
-`Unlock`        "`OPEN WITH`", "`UNDO WITH`",
-                "`UNLOCK WITH`"
-`VagueGo`       "`GO`", "`LEAVE`", "`RUN`", "`WALK`"
-`Wear`          "`DON`", "`PUT ON`", "`WEAR`"
-=============   =============================================================
+================   ===========================================================
+:act:`Close`       "`CLOSE [UP]`", "`COVER [UP]`", "`SHUT [UP]`"
+:act:`Disrobe`     "`DISROBE`", "`DOFF`", "`REMOVE`", "`SHED`", "`TAKE OFF`"
+:act:`Drop`        "`DISCARD`", "`DROP`", "`PUT DOWN`", "`THROW`"
+:act:`Eat`         "`EAT`"
+:act:`Empty`       "`EMPTY [OUT]`"
+:act:`EmptyT`      "`EMPTY IN|INTO|ON|ONTO|TO`"
+:act:`Enter`       "`CROSS`", "`ENTER`", "`GET IN|INTO|ON|ONTO`",
+                   "`GO IN|INSIDE|INTO|THROUGH`",
+                   "`LEAVE IN|INSIDE|INTO|THROUGH`", "`LIE IN|INSIDE|ON`",
+                   "`LIE ON TOP OF`",
+                   "`RUN IN|INSIDE|INTO|THROUGH`", "`SIT IN|INSIDE|ON`",
+                   "`SIT ON TOP OF`", "`STAND ON`",
+                   "`WALK IN|INSIDE|INTO|THROUGH`"
+:act:`Examine`     "`CHECK`", "`DESCRIBE`", "`EXAMINE`",
+                   "`L[OOK] AT`", "`READ`", "`WATCH`", "`X`"
+:act:`Exit`        "`EXIT`", "`GET OFF|OUT|UP`",
+                   "`LEAVE`", "`OUT[SIDE]`", "`STAND [UP]`"
+:act:`GetOff`      "`GET OFF`"
+:act:`Give`        "`FEED [TO]`", "`GIVE [TO]`", "`OFFER [TO]`", "`PAY [TO]`"
+:act:`Go`          "`GO`", "`LEAVE`", "`RUN`", "`WALK`"
+:act:`GoIn`        "`CROSS`", "`ENTER`", "`IN[SIDE]`"
+:act:`Insert`      "`DISCARD IN|INTO`",
+                   "`DROP DOWN|IN|INTO`",
+                   "`INSERT IN|INTO`",
+                   "`PUT IN|INSIDE|INTO`",
+                   "`THROW DOWN|IN|INTO`"
+:act:`Inv`         "`I[NV]`", "`INVENTORY`", "`TAKE INVENTORY`"
+:act:`InvTall`     "`I[NV] TALL`", "`INVENTORY TALL`"
+:act:`InvWide`     "`I[NV] WIDE`", "`INVENTORY WIDE`"
+:act:`Lock`        "`LOCK WITH`"
+:act:`Look`        "`L[OOK]`"
+:act:`Open`        "`OPEN`", "`UNCOVER`", "`UNDO`", "`UNWRAP`"
+:act:`PutOn`       "`DISCARD ON|ONTO`",
+                   "`DROP ON|ONTO`",
+                   "`PUT ON|ONTO`",
+                   "`THROW ON|ONTO`"
+:act:`Remove`      "`GET FROM`", "`REMOVE FROM`", "`TAKE FROM|OFF`"
+:act:`Search`      "`L[OOK] IN|INSIDE|INTO|THROUGH`", "`SEARCH`"
+:act:`Show`        "`DISPLAY [TO]`", "`PRESENT [TO]`", "`SHOW [TO]`"
+:act:`SwitchOff`   "`CLOSE OFF`", "`SCREW OFF`", "`SWITCH OFF`",
+                   "`TURN OFF`", "`TWIST OFF`"
+:act:`SwitchOn`    "`SCREW ON`", "`SWITCH ON`",
+                   "`TURN ON`", "`TWIST ON`"
+:act:`Take`        "`CARRY`", "`GET`", "`HOLD`",
+                   "`PEEL [OFF]`", "`PICK UP`",
+                   "`REMOVE`", "`TAKE`"
+:act:`Transfer`    "`CLEAR TO`", "`MOVE TO`",
+                   "`PRESS TO`", "`PUSH TO`",
+                   "`SHIFT TO`", "`TRANSFER TO`"
+:act:`Unlock`      "`OPEN WITH`", "`UNDO WITH`",
+                   "`UNLOCK WITH`"
+:act:`VagueGo`     "`GO`", "`LEAVE`", "`RUN`", "`WALK`"
+:act:`Wear`        "`DON`", "`PUT ON`", "`WEAR`"
+================   ===========================================================
 
 .. _group-3-actions:
 
@@ -1391,69 +1397,69 @@ Group 3 actions are by default stubs which output a message and stop at the
 
 .. tabularcolumns:: |l|p{5in}|
 
-=============   =============================================================
-`Answer`        "`ANSWER TO`", "`SAY TO`",
-                "`SHOUT TO`", "`SPEAK TO`"
-`Ask`           "`ASK ABOUT`"
-`AskFor`        "`ASK FOR`"
-`Attack`        "`ATTACK`", "`BREAK`", "`CRACK`",
-                "`DESTROY`", "`FIGHT`", "`HIT`",
-                "`KILL`", "`MURDER`", "`PUNCH`",
-                "`SMASH`", "`THUMP`", "`TORTURE`",
-                "`WRECK`"
-`Blow`          "`BLOW`"
-`Burn`          "`BURN [WITH]`", "`LIGHT [WITH]`"
-`Buy`           "`BUY`" "`PURCHASE`"
-`Climb`         "`CLIMB [OVER|UP]`", "`SCALE`"
-`Consult`       "`CONSULT ABOUT|ON`",
-                "`LOOK UP IN`",
-                "`READ ABOUT IN`", "`READ IN`"
-`Cut`           "`CHOP,`" "`CUT`", "`PRUNE`", "`SLICE`"
-`Dig`           "`DIG [WITH]`"
-`Drink`         "`DRINK`", "`SIP`", "`SWALLOW`"
-`Fill`          "`FILL`"
-`Jump`          "`HOP`", "`JUMP`", "`SKIP`"
-`JumpOver`      "`HOP OVER`", "`JUMP OVER`", "`SKIP OVER`"
-`Kiss`          "`EMBRACE`", "`HUG`", "`KISS`"
-`Listen`        "`HEAR`", "`LISTEN [TO]`"
-`LookUnder`     "`LOOK UNDER`"
-`Mild`          Various mild swearwords.
-`No`            "`NO`"
-`Pray`          "`PRAY`"
-`Pull`          "`DRAG`" "`PULL`"
-`Push`          "`CLEAR`", "`MOVE`", "`PRESS`",
-                "`PUSH`", "`SHIFT`"
-`PushDir`       "`CLEAR`", "`MOVE`", "`PRESS`",
-                "`PUSH`", "`SHIFT`"
-`Rub`           "`CLEAN`", "`DUST`", "`POLISH`",
-                "`RUB`", "`SCRUB`", "`SHINE`",
-                "`SWEEP`", "`WIPE`"
-`Set`           "`ADJUST`", "`SET`"
-`SetTo`         "`ADJUST TO`", "`SET TO`"
-`Sing`          "`SING`"
-`Sleep`         "`NAP`", "`SLEEP`"
-`Smell`         "`SMELL`", "`SNIFF`"
-`Sorry`         "`SORRY`"
-`Squeeze`       "`SQUASH`", "`SQUEEZE`"
-`Strong`        Various strong swearwords.
-`Swim`          "`DIVE`", "`SWIM`"
-`Swing`         "`SWING [ON]`"
-`Taste`         "`TASTE`"
-`Tell`          "`TELL ABOUT`"
-`Think`         "`THINK`"
-`ThrowAt`       "`THROW AGAINST|AT|ON|ONTO`"
-`Tie`           "`ATTACH [TO]`", "`FASTEN [TO]`",
-                "`FIX [TO]`", "`TIE [TO]`"
-`Touch`         "`FEEL,`" "`FONDLE`", "`GROPE`", "`TOUCH`"
-`Turn`          "`ROTATE`", "`SCREW`", "`TURN`",
-                "`TWIST`", "`UNSCREW`"
-`Wait`          "`WAIT`" "`Z`"
-`Wake`          "`AWAKE[N]`", "`WAKE [UP]`"
-`WakeOther`     "`AWAKE[N]`", "`WAKE [UP]`"
-`Wave`          "`WAVE`"
-`WaveHands`     "`WAVE`"
-`Yes`           "`Y[ES]`"
-=============   =============================================================
+================   ==========================================================
+:act:`Answer`      "`ANSWER TO`", "`SAY TO`",
+                   "`SHOUT TO`", "`SPEAK TO`"
+:act:`Ask`         "`ASK ABOUT`"
+:act:`AskFor`      "`ASK FOR`"
+:act:`Attack`      "`ATTACK`", "`BREAK`", "`CRACK`",
+                   "`DESTROY`", "`FIGHT`", "`HIT`",
+                   "`KILL`", "`MURDER`", "`PUNCH`",
+                   "`SMASH`", "`THUMP`", "`TORTURE`",
+                   "`WRECK`"
+:act:`Blow`        "`BLOW`"
+:act:`Burn`        "`BURN [WITH]`", "`LIGHT [WITH]`"
+:act:`Buy`         "`BUY`" "`PURCHASE`"
+:act:`Climb`       "`CLIMB [OVER|UP]`", "`SCALE`"
+:act:`Consult`     "`CONSULT ABOUT|ON`",
+                   "`LOOK UP IN`",
+                   "`READ ABOUT IN`", "`READ IN`"
+:act:`Cut`         "`CHOP`", "`CUT`", "`PRUNE`", "`SLICE`"
+:act:`Dig`         "`DIG [WITH]`"
+:act:`Drink`       "`DRINK`", "`SIP`", "`SWALLOW`"
+:act:`Fill`        "`FILL`"
+:act:`Jump`        "`HOP`", "`JUMP`", "`SKIP`"
+:act:`JumpOver`    "`HOP OVER`", "`JUMP OVER`", "`SKIP OVER`"
+:act:`Kiss`        "`EMBRACE`", "`HUG`", "`KISS`"
+:act:`Listen`      "`HEAR`", "`LISTEN [TO]`"
+:act:`LookUnder`   "`LOOK UNDER`"
+:act:`Mild`        Various mild swearwords.
+:act:`No`          "`NO`"
+:act:`Pray`        "`PRAY`"
+:act:`Pull`        "`DRAG`" "`PULL`"
+:act:`Push`        "`CLEAR`", "`MOVE`", "`PRESS`",
+                   "`PUSH`", "`SHIFT`"
+:act:`PushDir`     "`CLEAR`", "`MOVE`", "`PRESS`",
+                   "`PUSH`", "`SHIFT`"
+:act:`Rub`         "`CLEAN`", "`DUST`", "`POLISH`",
+                   "`RUB`", "`SCRUB`", "`SHINE`",
+                   "`SWEEP`", "`WIPE`"
+:act:`Set`         "`ADJUST`", "`SET`"
+:act:`SetTo`       "`ADJUST TO`", "`SET TO`"
+:act:`Sing`        "`SING`"
+:act:`Sleep`       "`NAP`", "`SLEEP`"
+:act:`Smell`       "`SMELL`", "`SNIFF`"
+:act:`Sorry`       "`SORRY`"
+:act:`Squeeze`     "`SQUASH`", "`SQUEEZE`"
+:act:`Strong`      Various strong swearwords.
+:act:`Swim`        "`DIVE`", "`SWIM`"
+:act:`Swing`       "`SWING [ON]`"
+:act:`Taste`       "`TASTE`"
+:act:`Tell`        "`TELL ABOUT`"
+:act:`Think`       "`THINK`"
+:act:`ThrowAt`     "`THROW AGAINST|AT|ON|ONTO`"
+:act:`Tie`         "`ATTACH [TO]`", "`FASTEN [TO]`",
+                   "`FIX [TO]`", "`TIE [TO]`"
+:act:`Touch`       "`FEEL`", "`FONDLE`", "`GROPE`", "`TOUCH`"
+:act:`Turn`        "`ROTATE`", "`SCREW`", "`TURN`",
+                   "`TWIST`", "`UNSCREW`"
+:act:`Wait`        "`WAIT`" "`Z`"
+:act:`Wake`        "`AWAKE[N]`", "`WAKE [UP]`"
+:act:`WakeOther`   "`AWAKE[N]`", "`WAKE [UP]`"
+:act:`Wave`        "`WAVE`"
+:act:`WaveHands`   "`WAVE`"
+:act:`Yes`         "`Y[ES]`"
+================   ==========================================================
 
 Fake actions
 ============
@@ -1463,17 +1469,18 @@ the viewpoint of the second object.
 
 .. tabularcolumns:: |l|p{5in}|
 
-================   ========================================================
-`LetGo`            Generated by `Remove`.
-`ListMiscellany`   Outputs a range of inventory messages.
-`Miscellany`       Outputs a range of utility messages.
-`NotUnderstood`    Generated when parser fails to interpret some `orders`.
-`Order`            Receives things not handled by `orders`.
-`PluralFound`      Tells the parser that `parse_name()` has identified a
-                   plural object.
-`Prompt`           Outputs the prompt, normally ">".
-`Receive`          Generated by `Insert` and `PutOn`.
-`TheSame`          Generated when parser can't distinguish between two
-		   objects.
-`ThrownAt`         Generated by `ThrowAt`.
-================   ========================================================
+=====================  ======================================================
+:act:`LetGo`           Generated by :act:`Remove`.
+:act:`ListMiscellany`  Outputs a range of inventory messages.
+:act:`Miscellany`      Outputs a range of utility messages.
+:act:`NotUnderstood`   Generated when parser fails to interpret some
+                       :prop:`orders`.
+:act:`Order`           Receives things not handled by :prop:`orders`.
+:act:`PluralFound`     Tells the parser that `parse_name()` has identified a
+                       plural object.
+:act:`Prompt`          Outputs the prompt, normally ">".
+:act:`Receive`         Generated by :act:`Insert` and :act:`PutOn`.
+:act:`TheSame`         Generated when parser can't distinguish between two
+                       objects.
+:act:`ThrownAt`        Generated by :act:`ThrowAt`.
+=====================  ======================================================
