@@ -64,33 +64,3 @@ this:
 	make latexpdf
 
 Other formats are available; just type `make` for more details.
-
-Conversion strategy
--------------------
-
-The first three editions of the IBG were created with
-[Adobe FrameMaker](http://www.adobe.com/products/framemaker.html).  And the
-FrameMaker source files have kindly been supplied by Roger Firth to make
-this update, which opened up the possibility of creating an auto-converter.
-
-But unfortunately, what with FrameMaker being proprietary, there isn't much
-out there apart from FrameMaker itself that can read them.  I was hoping
-that conversion using [Mif2Go](http://mif2go.com) might be a possibility,
-but it turns out that that's just a plugin for FrameMaker.  I guess I could
-get a trial FrameMaker license, try to set up the plugin and get it to
-autoconvert to some usable format, but it all looks far too messy.  But on
-the plus side, the supplied GIF images are totally usable.
-
-So, it's back to my original plan: use the PDF file.  Here's the first
-(major) part of the work:
-
-* Dump the text out of the PDF file
-* Convert all the 3rd edition text to Sphinx format
-* Get the online version to look good
-
-After that comes the 4th edition changes, hopefully in collaboration with
-others.  Also, in parallel with that, other niceties:
-
-* Add a glossary
-* Add an index
-* Prepare a new PDF version, via the Sphinx LaTeX converter
