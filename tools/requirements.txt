@@ -1,0 +1,2 @@
+alabaster>=0.7.8
+blockdiag>=1.5.3
