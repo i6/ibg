@@ -8,7 +8,7 @@
 
       copyright
       history
-      todo
+      status
 
 .. toctree::
    :maxdepth: 1
