@@ -4,7 +4,7 @@ Inform Beginner's Guide
 Introduction
 ------------
 
-This repository contains the sources for the
+This repository contains the sources for an updated version of the
 [Inform Beginner's Guide](http://www.firthworks.com/roger/IBG.html),
 henceforth known as the IBG.  This version is in a new source format that's
 more version-control and contributor-friendly:
@@ -26,6 +26,9 @@ the 4th edition will be prepared.  The rationale for a 4th edition is:
 
 * Some old web links have gone away, to be replaced by new and better
   ones.
+
+If you want a preview of how the online HTML version of the new guide
+looks, you can find it [here](http://inform-beginners-guide.readthedocs.org).
 
 Building from source
 --------------------
