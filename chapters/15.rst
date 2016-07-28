@@ -7,11 +7,7 @@ Compiling your game
   .. image:: /images/picA.png
      :align: left
 
-.. raw:: latex
-
-   \dropcap{a}
-
-lmost as rarely as an alchemist producing gold from base metal, the 
+|A|\lmost as rarely as an alchemist producing gold from base metal, the 
 compilation process turns your source file into a story file (though the 
 more usual outcome is a reproachful explanation of why -- *again* -- 
 that hasn't happened). The magic is performed by the compiler program, 

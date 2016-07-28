@@ -7,11 +7,7 @@
   .. image:: /images/picI.png
      :align: left
 
-.. raw:: latex
-
-    \dropcap{i}
-
-t would, I think, be immodest to compare myself to Charles
+|I|\t would, I think, be immodest to compare myself to Charles
 Bourbaki (1816--97), French hero of the Crimean War and renowned 
 strategist, a man offered nothing less as a reward than the throne of 
 Greece (he declined). It may be in order, though, to say a few words 

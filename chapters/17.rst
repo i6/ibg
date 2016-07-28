@@ -15,11 +15,7 @@
   .. image:: /images/picJ.png
      :align: left
 
-.. raw:: latex
-
-    \dropcap{j}
-
-ust a few final words to round things off. All that remains are the 
+|J|\ust a few final words to round things off. All that remains are the 
 appendices, with terse but comprehensive summaries of the Inform 
 language and its IF library, plus the source code and run-time 
 transcripts of the games we have developed here. Our "labor and sweat" 

@@ -7,16 +7,12 @@
   .. image:: /images/picN.png
      :align: left
 
-.. raw:: latex
-
-   \dropcap{n}
-
-obody understands the phrase *errare humanum est* quite in the same way 
-as a programmer does. Computers are highly efficient machines capable of 
-wondrous calculations, but they lack imagination and insist that every 
-single item thrown at them must be presented according to certain rules 
-previously defined. You can't negotiate with a computer; you either bow 
-in submission or bite the dust.
+|N|\obody understands the phrase *errare humanum est* quite in the same
+way as a programmer does. Computers are highly efficient machines 
+capable of wondrous calculations, but they lack imagination and insist 
+that every single item thrown at them must be presented according to 
+certain rules previously defined. You can't negotiate with a computer; 
+you either bow in submission or bite the dust.
 
 Inform behaves no differently. If you make a typing or syntax mistake, 
 the compiler will send you back to revise your work. "It was just a 
