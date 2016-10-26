@@ -23,7 +23,11 @@ The marketplace
 ===============
 
 The ``marketplace`` room is unremarkable, and the ``tree`` growing there
-has only one feature of interest::
+has only one feature of interest:
+
+.. include:: /config/typethis.rst
+
+::
 
    Room      marketplace "Marketplace near the square"
      with    description
@@ -270,7 +274,11 @@ want to check on the characteristics of an object, possibly then displaying
 a message.  We don't know exactly *which* object is to be checked, so we
 need to write our routine in a generalised way, capable of checking any
 object which we choose; that is, we'll supply the object to be checked as
-an argument.  Here's the routine::
+an argument.  Here's the routine:
+
+.. include:: /config/typethis.rst
+
+::
 
      [ BowOrArrow o;
          if (o == bow or nothing || o ofclass Arrow) return true;
@@ -346,7 +354,12 @@ to 3 -- the "You have screwed up" ending, display a message, and be done.
 Gessler the governor
 ====================
 
-There's nothing in Gessler's definition that we haven't already encountered::
+There's nothing in Gessler's definition that we haven't already
+encountered:
+
+.. include:: /config/typethis.rst
+
+::
 
    NPC      governor "governor" marketplace
      with   name 'governor' 'vogt' 'Hermann' 'Gessler',
@@ -393,7 +406,11 @@ Walter and the apple
 ====================
 
 Since he's been with you throughout, it's really about time we defined
-Walter::
+Walter:
+
+.. include:: /config/typethis.rst
+
+::
 
   NPC      son "your son"
     with   name 'son' 'your' 'boy' 'lad' 'Walter',
@@ -503,7 +520,11 @@ It's saying:
 
 The apple's moment of glory has arrived!  Its :prop:`before` property
 responds to the :act:`FireAt` action by setting :var:`deadflag` to 2.  When
-that happens, the game is over; the player has won. ::
+that happens, the game is over; the player has won.
+
+.. include:: /config/typethis.rst
+
+::
 
   Object   apple "apple"
     with   name 'apple',
@@ -571,13 +592,21 @@ might be tempted to try to UNTIE WALTER; unlikely, but as we've said
 before, anticipating the improbable is part of the craft of IF.  For this,
 and for all new actions, two things are required.  We need a grammar
 definition, spelling out the structure of the English sentences which we're
-prepared to accept::
+prepared to accept:
+
+.. include:: /config/typethis.rst
+
+::
 
       Verb 'untie' 'unfasten' 'unfix' 'free' 'release'
           * noun                          -> Untie;
 
 and we need a routine to handle the action in the default situation (where
-the action isn't intercepted by an object's :prop:`before` property). ::
+the action isn't intercepted by an object's :prop:`before` property).
+
+.. include:: /config/typethis.rst
+
+::
 
       [ UntieSub; print_ret "You really shouldn't try that."; ];
 
@@ -667,7 +696,11 @@ this game, so we always generate a refusal of some sort.
    pair: Salute; library action
 
 The next action is :act:`Salute`, provided in case Wilhelm chooses to defer
-to the hat on the pole.  Here's the default action handler::
+to the hat on the pole.  Here's the default action handler:
+
+.. include:: /config/typethis.rst
+
+::
 
      [ SaluteSub;
          if (noun has animate) print_ret (The) noun, " acknowledges you.";
@@ -678,7 +711,11 @@ You'll notice that this is slightly more intelligent than our :act:`Untie`
 handler, since it produces different responses depending on whether the
 object being saluted -- stored in the :var:`noun` variable -- is
 :attr:`animate` or not.  But it's basically doing the same job.  And here's
-the grammar::
+the grammar:
+
+.. include:: /config/typethis.rst
+
+::
 
      Verb 'bow' 'nod' 'kowtow' 'genuflect'
          * 'at'/'to'/'towards' noun      -> Salute;
@@ -733,7 +770,11 @@ library, and Inform's rule is that a verb can appear in only one ``Verb``
 definition.  The wrong solution: edit ``Grammar.h`` to *physically* add
 lines to the existing definitions (it's almost never a good idea to make
 changes to the standard library files).  The right solution: use ``Extend``
-to *logically* add those lines.  If we write this in our source file::
+to *logically* add those lines.  If we write this in our source file:
+
+.. include:: /config/typethis.rst
+
+::
 
     Extend 'give'
         * 'homage' 'to' noun              -> Salute;
@@ -762,7 +803,11 @@ players are usually too busy trying to figure out *logical* possibilities.)
 
 .. rubric:: FireAt
 
-As usual, we'll first show you the default handler for this action::
+As usual, we'll first show you the default handler for this action:
+
+.. include:: /config/typethis.rst
+
+::
 
      [ FireAtSub;
          if (noun == nothing)
@@ -779,7 +824,11 @@ As usual, we'll first show you the default handler for this action::
    design practice to reword the message as a statement rather than a
    question.
 
-Here is the associated grammar::
+Here is the associated grammar:
+
+.. include:: /config/typethis.rst
+
+::
 
      Verb 'fire' 'shoot' 'aim'
          *                                ->   FireAt
@@ -848,7 +897,11 @@ cases.
    pair: FireAt; library action
 
 Before leaving the :act:`FireAt` action, we'll add one more piece of
-grammar::
+grammar:
+
+.. include:: /config/typethis.rst
+
+::
 
       Extend 'attack' replace
           * noun                          -> FireAt;
@@ -889,7 +942,11 @@ handler is closely based on ``TellSub`` (defined in library file
    all three checks succeed then ``TalkSub`` need do nothing more; if one
    or more of them fails then ``TalkSub`` simply...
 
-#. Displays a general "nothing to say" refusal to talk. ::
+#. Displays a general "nothing to say" refusal to talk.
+
+   .. include:: /config/typethis.rst
+
+   ::
 
      [ TalkSub;
          if (noun == player) print_ret "Nothing you hear surprises you.";

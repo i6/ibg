@@ -85,93 +85,89 @@ player), and we use the placeholders `{obj_id}`, `{var_id}`,
 Statements
 ==========
 
-.. todo::
-
-   We might need some custom syntax highlighting here.
-
 A :term:`statement` is an instruction intended for the interpreter, telling
 it what to do at run-time. It *must* be given in lower-case, and always
 ends with a semicolon.
 
 Some statements, like ``if``, control one or more other statements. We 
 use the placeholder `{statement_block}` to represent either a single 
-`{statement}`, or any number of `{statements}` enclosed in braces::
+`{statement}`, or any number of `{statements}` enclosed in braces:
 
-  statement;
-
-  { statement; statement; ... statement; }
+  | `{statement};`
+  |
+  | `{statement}; {statement}; ... {statement};`
 
 Statements that we've met
 -------------------------
 
 Our games have used these statements, about half of the Inform 
-possibilities::
+possibilities:
 
-  give obj_id attribute;
-  give obj_id attribute attribute ... attribute;
-
-  if (expression) statement_block
-  if (expression) statement_block else statement_block
-
-  move obj_id to parent_obj_id;
-
-  objectloop (var_id) statement_block
-
-  print value;
-  print value, value, ... value;
-
-  print_ret value;
-  print_ret value, value, ... value;
-
-  remove obj_id;
-
-  return false;
-  return true;
-
-  style underline; print...; style roman;
-
-  switch (expression) {
-      value: statement; statement; ... statement;
-      ...
-      default: statement; statement; ... statement;
-  }
-
-  "string";
-  "string", value, ... value;
-
-  <action>;
-  <action noun>;
-  <action noun second>;
-
-  <<action>>;
-  <<action noun>>;
-  <<action noun second>>;
+  | `give {obj_id} {attribute};`
+  | `give {obj_id} {attribute} {attribute} ... {attribute};`
+  |
+  | `if ({expression}) {statement_block}`
+  | `if ({expression}) {statement_block} else {statement_block}`
+  |
+  | `move {obj_id} to {parent_obj_id};`
+  |
+  | `objectloop ({var_id}) {statement_block}`
+  |
+  | `print {value};`
+  | `print {value}, {value}, ... {value};`
+  |
+  | `print_ret {value};`
+  | `print_ret {value}, {value}, ... {value};`
+  |
+  | `remove {obj_id};`
+  |
+  | `return false;`
+  | `return true;`
+  |
+  | `style underline; print...; style roman;`
+  |
+  | `switch ({expression}) {`
+  |     `{value}: {statement}; {statement}; ... {statement};`
+  |     `...`
+  |     `default: {statement}; {statement}; ... {statement};`
+  | `}`
+  |
+  | `"{string}";`
+  | `"{string}", {value}, ... {value};`
+  |
+  | `<{action}>;`
+  | `<{action} {noun}>;`
+  | `<{action} {noun} {second}>;`
+  |
+  | `<<{action}>>;`
+  | `<<{action} {noun}>>;`
+  | `<<{action} {noun} {second}>>;`
 
 Statements that we've not met
 -----------------------------
 
 Although our example games haven't needed to use them, these looping
-statements are sometimes useful::
+statements are sometimes useful:
 
-  break;
-  continue;
-
-  do statement_block until (expression)
-
-  for (set_var : loop_while_expression : update_var) statement_block
-
-  while (expression) statement_block
+  | `break;`
+  | `continue;`
+  |
+  | `do {statement_block} until ({expression})`
+  |
+  | `for ({set_var} : {loop_while_expression} : {update_var}) {statement_block}`
+  |
+  | `while ({expression}) {statement_block}`
 
 On the other hand, we suggest that you put the following statements on 
 hold for now; they're not immediately relevant to everyday code and have 
-mostly to do with printing and formatting::
+mostly to do with printing and formatting:
 
-  box
-  font
-  jump
-  new_line
-  spaces
-  string
+  | `box`
+  | `font`
+  | `jump`
+  | `new_line`
+  | `spaces`
+  | `string`
 
 In particular, avoid using the deprecated jump statement if you possibly can.
 

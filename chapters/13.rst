@@ -22,6 +22,8 @@ Additional catering garnish
 
 We must not forget a couple of tiny details in the café room:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Object   food "Benny's snacks" cafe
@@ -44,6 +46,8 @@ We must not forget a couple of tiny details in the café room:
     has    scenery;
 
 And a not-so-trivial object:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -120,6 +124,8 @@ bogged down with details of the room's function or plumbing.
 There's not a lot about the toilet room and its contents, though there will
 be some tricky side effects:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Room    toilet "Unisex toilet"
@@ -194,6 +200,8 @@ space and, to add a touch of realism, we'll make the room a dark one, which
 will enable us to tell you about Inform's default behaviour when there's no
 light to see by.  However, let's define first the light switch mentioned in
 the room's description to aid players in their dressing duties.
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -329,6 +337,8 @@ toilet, some light coming from the café room will illuminate our
 surroundings -- at least until the player decides to close the door.  So
 perhaps it would be a good idea to append a little code to the door object
 to account for this.  A couple of lines in the after property will suffice:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -540,6 +550,8 @@ that the player has picked up at one time in the game; :attr:`scenery` and
 :attr:`moved`.  Here is the reworked ``InScope`` routine.  There are a
 couple of new concepts to look at:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   [ InScope person item;
@@ -602,6 +614,8 @@ Amazing techicolour dreamcoats
 
 This leaves us the clothing items themselves, which will require a few
 tailored actions.  Let's see first the ordinary garments of John Covarth:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -708,6 +722,8 @@ change into the hero's suit, after which we'll prevent a change back into
 ordinary clothes.  So now we are dealing with a Captain Fate in full
 costume:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Object   costume "your costume"
@@ -748,6 +764,8 @@ Nearly there; just a few minor odds and ends to round things off.
 All the objects of our game are defined.  Now we must add a couple of lines
 to the ``Initialise`` routine to make sure that the player does not start
 the game naked:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -812,6 +830,8 @@ Therefore, we must define a ``DeathMessage`` routine as we did in "William
 Tell", to write our customised messages and assign them to :var:`deadflag`
 values greater than 2.
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   [ DeathMessage;
@@ -825,6 +845,8 @@ values greater than 2.
 Finally, we need to extend the existing grammar, to allow for a couple of
 things.  We have already seen that we need a verb CHANGE.  We'll make it
 really simple:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -892,6 +914,8 @@ Bolognese (or any other delicacy from Benny's kitchen) -- the words
 is perhaps not a major deficiency in our game, but it takes very little to
 allow Benny to use his default line for *any* undefined input from the
 player.  We need to extend the existing ASK grammar:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 

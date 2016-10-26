@@ -112,7 +112,11 @@ Inform statement:
 
 as meaning "display on the player's screen the arbitrary character or
 characters which are represented here by the placeholder *string*".
-Examples might include::
+Examples might include:
+
+.. include:: /config/typethis.rst
+
+::
 
   print "Hello world!";
   print "Fourscore and seven years ago our fathers brought forth on
@@ -120,14 +124,7 @@ Examples might include::
 	 the people, by the people, for the people shall not perish
 	 from the earth.";
 
-We place the "TYPE" symbol alongside game fragments which you can type in
-as a part of our working examples.  This differentiates them from other
-code snippets whose only purpose is to illustrate some particular feature.
-
-.. todo::
-
-   The "TYPE" symbol doesn't really work here.  Think of a better way to
-   indicate typed-in fragments.
+.. include:: /config/typeinfo.rst
 
 Useful Internet resources
 =========================

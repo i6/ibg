@@ -60,6 +60,8 @@ LISTEN TO NEST or LISTEN TO TREE, but fairly inappropriate here; we really
 need to substitute a more relevant response after LISTEN TO BIRD.  Here's
 how we do it:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
    Object   bird "baby bird" forest
@@ -185,6 +187,8 @@ which might lead her to believe that she can go inside:
 Again, that isn't perhaps the most appropriate response, but it's easy to
 change:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
    Object    before_cottage "In front of a cottage"
@@ -249,6 +253,8 @@ response:
 The situation here is similar to our LISTEN TO BIRD problem, and the
 solution we adopt is similar as well:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
    Object   cottage "tiny cottage" before_cottage
@@ -287,6 +293,8 @@ meant to type UP.  Just as likely, though, she'll try CLIMB TREE (which
 currently gives the completely misleading response "I don't think much is
 to be achieved by that").  Yet another opportunity to use a :prop:`before`
 property, but now with a difference.
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -359,6 +367,8 @@ And the best approach to the first problem is to do this particular
 interception not on an object-by-object basis, as we have been doing so
 far, but instead for every :act:`Drop` which takes place in our troublesome
 ``top_of_tree`` room.  This is what we have to write:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -472,6 +482,8 @@ so; the player may have first taken up the bird and then gone back for the
 nest, or vice versa.  It would be better not to end the game until we'd
 checked for the bird actually being in the nest; fortunately, that's easy
 to do:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 

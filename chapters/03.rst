@@ -47,6 +47,8 @@ that we design will start out like this.  Follow these steps:
 #. In that folder, use your text editor to create this source file
    ``Heidi.inf``:
 
+   .. include:: /config/typethis.rst
+
    .. code-block:: inform
 
       !% -SD
@@ -92,20 +94,23 @@ that we design will start out like this.  Follow these steps:
    learn Inform more quickly by trying it for yourself, rather than just 
    taking our word for how things work.
 
-   .. todo::
-
-      Again, revisit the TYPE symbol.  Maybe a standard indicator above
-      each snippet?
-
 #. In the same folder, use your text editor to create the compilation
-   support file ``Heidi.bat`` (on a PC)::
+   support file ``Heidi.bat`` (on a PC):
+
+   .. include:: /config/typethis.rst
+
+   ::
 
        ..\..\Lib\Base\Inform Heidi
                    +include_path=.\,..\..\Lib\Base,..\..\Lib\Contrib | more
 
        pause "at end of compilation"
 
-   or ``Heidi.command`` (on a Macintosh)::
+   or ``Heidi.command`` (on a Macintosh):
+
+   .. include:: /config/typethis.rst
+
+   ::
 
        cd ~/Inform/Games/Heidi/
 
@@ -495,6 +500,8 @@ At this stage, you should study the four room definitions, comparing them
 with the sketch map until you're comfortable that you understand how to
 create simple rooms and define the connections between them.
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
    !============================================================================
@@ -595,6 +602,8 @@ relate to each object.  Our aim here is flexibility: providing a choice of
 relevant vocabulary so that the player can use whatever term seems
 appropriate to her, with a good chance of it being understood.  We add a
 line to each definition:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -752,6 +761,8 @@ Adding the tree and the branch
 The description of the clearing mentions a tall sycamore tree, up which the
 player character supposedly "climbs".  We'd better define it:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
    Object   tree "tall sycamore tree" clearing
@@ -768,6 +779,8 @@ sycamore tree here" afterwards, as it does for the bird and the nest.  By
 labelling the tree as :attr:`scenery` we suppress that, and also prevent it
 from being picked up by the player character.  One final object: the branch
 at the top of the tree.  Again, not many surprises in this definition:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -853,6 +866,8 @@ carrying the bird and the nest separately: we want the player character to
 put the bird into the nest first.  One easy way to enforce this is by
 adding a line near the top of the file:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
    !============================================================================
@@ -874,6 +889,8 @@ currently no way to "win" the game!  The goal is for the player character
 to put the bird in the nest, take the nest to the top of the tree, and
 place it on the branch; when that happens, the game should be over.  This
 is one way of making it happen:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 

@@ -59,6 +59,8 @@ Fade up on: a nondescript city street
 The game starts with meek John Covarth walking down the street.  We set up
 the game as usual:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   !% -SD
@@ -232,6 +234,8 @@ normal room, it would seem logical that the phone booth is actually a big
 box on the sidewalk; therefore we define a :attr:`container` set in the
 street, which players may enter:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Appliance booth "phone booth" street
@@ -387,6 +391,8 @@ every time.  There is another solution.  We can make the
 change its value: instead of a string, we write an embedded routine.
 Here's the (almost) finished room:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Room    street "On the street"
@@ -414,6 +420,8 @@ Here's the (almost) finished room:
 The description while inside the booth mentions the sidewalk, which 
 might invite the player to EXAMINE it.  No problem:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Appliance "sidewalk" street
@@ -430,6 +438,8 @@ player may enter it and will get whatever description we code as the
 result of a LOOK action (which will have to do with the way the café 
 looks from the *inside*); but while we are on the street we need 
 something else to describe it:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -503,6 +513,8 @@ that it would be neater to handle the actual movement of the player in just
 one place of our code, because this helps clarity.  To achieve this, we
 redirect the street's :prop:`n_to` property thus:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   n_to [; <<Enter outside_of_cafe>>; ],
@@ -555,6 +567,8 @@ default messages, but we deem it worthwhile to give him some customised
 responses.  If nothing else, this adds to the general atmosphere, a nicety
 that many players regard as important.  For this mission, we make use of
 the :obj:`LibraryMessages` object.
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 

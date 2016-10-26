@@ -25,7 +25,11 @@ The south side of the square
 ============================
 
 The town square, notionally one enormous open space, is represented by
-three rooms.  Here's the south side::
+three rooms.  Here's the south side:
+
+.. include:: /config/typethis.rst
+
+::
 
    Room     south_square "South side of the square"
      with   description
@@ -131,7 +135,11 @@ room::
             n_to north_square,
             s_to south_square;
 
-and the pole::
+and the pole:
+
+.. include:: /config/typethis.rst
+
+::
 
    Furniture    pole "hat on a pole" mid_square
      with name 'wooden' 'pole' 'pine' 'hat' 'black' 'red' 'brim' 'feathers',
@@ -516,7 +524,11 @@ we didn't give it to him earlier in the game), relocate to the final room
 using ``PlayerTo(marketplace)``, and finally ``return true`` to tell the
 interpreter that we've handled this part of the :act:`Go` action ourselves.
 And so, at long last, here's the complete code for the ``mid_square``, the
-most complicated object in the whole game::
+most complicated object in the whole game:
+
+.. include:: /config/typethis.rst
+
+::
 
   Room    mid_square "Middle of the square"
     with  description
@@ -572,7 +584,11 @@ The north side of the square
 ============================
 
 The only way to get here is by saluting the pole and then moving north; not
-very likely, but good game design is about predicting the unpredictable. ::
+very likely, but good game design is about predicting the unpredictable.
+
+.. include:: /config/typethis.rst
+
+::
 
   Room     north_square "North side of the square"
     with   description
@@ -606,7 +622,11 @@ the end of every turn; these are the values that it's expecting to find:
 
 In this game, we never set :var:`deadflag` to 1, but we do use values of 2
 and 3.  So we'd better define a ``DeathMessage`` routine to tell players
-what they've done::
+what they've done:
+
+.. include:: /config/typethis.rst
+
+::
 
     [ DeathMessage; print "You have screwed up a favourite folk story"; ];
 

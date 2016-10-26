@@ -22,7 +22,11 @@ stallholder.
 Defining the street
 ===================
 
-This is the street room, the location where the game starts::
+This is the street room, the location where the game starts:
+
+.. include:: /config/typethis.rst
+
+::
 
    Room     street "A street in Altdorf"
      with   description [;
@@ -153,7 +157,11 @@ Adding some props
 The street's description mentions various items -- the gate, the people,
 etc. -- which ought to exist within the game (albeit only in minimal form)
 to sustain the illusion of hustle and bustle.  Our ``Prop`` class is ideal
-for this::
+for this:
+
+.. include:: /config/typethis.rst
+
+::
 
    Prop     "south gate" street
      with   name 'south' 'southern' 'wooden' 'gate',
@@ -280,7 +288,11 @@ The player's possessions
 ========================
 
 Since our ``Initialise`` routine has already mentioned them, we might as
-well define Wilhelm's bow and arrows::
+well define Wilhelm's bow and arrows:
+
+.. include:: /config/typethis.rst
+
+::
 
    Object   bow "bow"
      with   name 'bow',
@@ -310,7 +322,11 @@ that our ``Initialise`` routine goes on to add a :attr:`worn` attribute to
 the quiver.
 
 An empty quiver is pretty useless, so here's the class used to define
-Wilhelm's stock of arrows.  This class has some unusual features::
+Wilhelm's stock of arrows.  This class has some unusual features:
+
+.. include:: /config/typethis.rst
+
+::
 
    Class    Arrow
      with   name 'arrow' 'arrows//p',
@@ -355,7 +371,11 @@ listing them individually in this clumsy fashion:
 The interpreter will do this for us if our objects are "indistinguishable",
 best achieved by making them members of a class which includes both
 :prop:`name` and :prop:`plural` properties.  We define the actual arrows
-very simply, like this::
+very simply, like this:
+
+.. include:: /config/typethis.rst
+
+::
 
    Arrow "arrow" quiver;
    Arrow "arrow" quiver;
@@ -400,7 +420,11 @@ of cakes".
 Moving further along the street
 ===============================
 
-As Wilhelm moves north towards the square, he comes to this room::
+As Wilhelm moves north towards the square, he comes to this room:
+
+.. include:: /config/typethis.rst
+
+::
 
    Room     below_square "Further along the street"
      with   description
@@ -410,7 +434,11 @@ As Wilhelm moves north towards the square, he comes to this room::
             n_to south_square,
             s_to street;
 
-No surprises there, nor in most of the supporting scenery objects. ::
+No surprises there, nor in most of the supporting scenery objects.
+
+.. include:: /config/typethis.rst
+
+::
 
    Furniture   stall "fruit and vegetable stall" below_square
      with name 'fruit' 'veg' 'vegetable' 'stall' 'table',
@@ -506,7 +534,11 @@ can be a real nightmare.
 
 But not here: we've kept our three NPCs -- Helga, Walter and the vogt -- as
 simple as possible.  Nevertheless, we can establish some fundamental
-principles; here's the class upon which we base our NPCs::
+principles; here's the class upon which we base our NPCs:
+
+.. include:: /config/typethis.rst
+
+::
 
    Class    NPC
      with   life [;
@@ -543,7 +575,11 @@ such as ASK HELGA ABOUT APPLE and TELL WALTER ABOUT BABIES, telling players
 that in this game we've implemented only a simpler TALK verb (which we
 describe in :ref:`verbs`).
 
-Based on the NPC class we've created, here's Helga::
+Based on the NPC class we've created, here's Helga:
+
+.. include:: /config/typethis.rst
+
+::
 
    NPC      stallholder "Helga" below_square
      with   name 'stallholder' 'greengrocer' 'monger' 'shopkeeper' 'merchant'

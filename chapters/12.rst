@@ -136,6 +136,8 @@ It seems simple enough.  So, following steps one and two, we add those
 ``pname.h`` right after it.  ``Replace`` tells the compiler that we're
 providing replacements for some standard routines.
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Constant Story "Captain Fate";
@@ -161,6 +163,8 @@ added to some of our objects, and which works pretty much like a
 :prop:`name` property.  In fact, it should be used *instead* of a
 :prop:`name` property where we have a disambiguation problem.  Let’s change
 the relevant lines for the toilet door and the toilet key:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -253,6 +257,8 @@ generic form:
 We have seen some of these actions before.  We'll take care of the easier
 ones:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Attack:
@@ -291,6 +297,8 @@ coffee has been paid for, and whether the toilet key has been returned.
 The solution, yet again (this really is a most useful capability), is more
 local property variables:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Object  benny "Benny" cafe
@@ -309,6 +317,8 @@ Now we are ready to tackle the :act:`Give` action of the :prop:`life`
 property, which deals with commands like GIVE THE KEY TO BENNY (in a
 moment, we'll come to the :act:`Give` action of the :prop:`orders`
 property, which deals with commands like BENNY, GIVE ME THE KEY):
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -384,6 +394,8 @@ of the player's requests for coffee and the key, and to fend off any other
 demands.  The :act:`Give` action in an :prop:`orders` property deals with
 inputs like ASK BENNY FOR THE KEY or BENNY, GIVE ME THE KEY.  The syntax is
 similar to that of the :prop:`life` property:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -474,6 +486,8 @@ the key.  We promised you that Benny would stop the player, and indeed he
 will.  But where?
 
 We must revisit the café room object:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 

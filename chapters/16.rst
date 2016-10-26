@@ -378,13 +378,6 @@ change:
   "OK, Herr Tell, now you're in real trouble.
   ...
 
-.. todo::
-
-   "Herr" above is italicized.  Was that a mistake in the original text?
-
-   Update: I don't think so.  In 08.rst, lines 465 and 516, "Herr" is
-   explicitly underlined (which probably appears italicized on output).
-
 Infix is quite complex -- there are more commands than those we have 
 shown you -- so while it's good to have available, it's not really a 
 tool for novices. If you do use it, be careful: you get a lot of runtime 

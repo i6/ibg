@@ -26,7 +26,11 @@ Initial setup
 =============
 
 Our starting point is much the same as last time.  Here's a basic
-``Tell.inf``::
+``Tell.inf``:
+
+.. include:: /config/typethis.rst
+
+::
 
    !% -SD
    !===========================================================================
@@ -317,7 +321,11 @@ In fact, for any object both the block of properties and the block of
 attributes are optional and can be omitted if there's nothing to be
 specified.  Now that the :attr:`light` attribute is being provided
 automatically and there aren't any other attributes to set, the word
-``has`` can be left out.  Here's the class again::
+``has`` can be left out.  Here's the class again:
+
+.. include:: /config/typethis.rst
+
+::
 
    Class  Room
      has  light;
@@ -348,7 +356,11 @@ We use the ``Room`` class in "William Tell", and a few other classes
 besides.  Here's a ``Prop`` class (that's "Prop" in the sense of a
 theatrical property rather than a supportive device), useful for scenic
 items whose only role is to sit waiting in the background on the off-chance
-that the player might think to EXAMINE them::
+that the player might think to EXAMINE them:
+
+.. include:: /config/typethis.rst
+
+::
 
    Class    Prop
      with   before [;
@@ -461,7 +473,11 @@ an object with the :attr:`static` attribute, an attempt to TAKE it results
 in "That's fixed in place" -- acceptable in the case of Heidi's branch
 object (which is indeed supposed to be part of the tree), less so for items
 which are simply large and heavy.  This ``Furniture`` class might sometimes
-be more appropriate::
+be more appropriate:
+
+.. include:: /config/typethis.rst
+
+::
 
    Class    Furniture
      with   before [;

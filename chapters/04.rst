@@ -4,6 +4,8 @@
 
 .. highlight:: inform
 
+.. default-role:: samp
+
 .. epigraph::
 
    | |CENTER| *G was a gamester, who had but ill-luck;*
@@ -93,20 +95,16 @@ room is an object, each item that the player sees and touches is an object;
 indeed the player herself is also an object (one that's automatically
 defined by the library).
 
-.. todo::
+The general model of an :term:`object` definition looks like this:
 
-  The set-off below needs to be tweaked or perhaps a custom lexer 
-  created to get italics in the right places.
-
-The general model of an :term:`object` definition looks like this::
-
-        Object      obj_id   "external_name"   parent_obj_id
-           with     property    value ,
-                    property    value ,
-                    ...
-                    property    value ,
-           has      attribute    attribute   ... attribute
-           ;
+  | `Object {obj_id} "{external_name}" {parent_obj_id}`
+  |   `with`
+  |      `{property} {value},`
+  |      `{property} {value},`
+  |      `...`
+  |      `{property} {value},`
+  |   `has {attribute} {attribute} ... {attribute}`
+  |   `;`
 
 The definition starts with the word ``Object`` and ends with a semicolon;
 in between are three major blocks of information:
@@ -120,22 +118,22 @@ Object headers
 
 An object header comprises up to three items, all optional:
 
-* An internal ``obj_id`` by which other objects refer to this object.  It's
+* An internal `{obj_id}` by which other objects refer to this object.  It's
   a single word (though it can contain digits and underscores) of up to
   thirty-two characters, and it must be unique within the game.  You can
-  omit the ``obj_id`` if this object isn't referred to by any other
+  omit the `{obj_id}` if this object isn't referred to by any other
   objects.
 
   For example: ``bird``, ``tree``, ``top_of_tree``.
 
-* An ``external_name``, in double quotes, which is what the interpreter
+* An `{external_name}`, in double quotes, which is what the interpreter
   uses when referring to the object.  It can be one or more words, and need
   not be unique (for instance, you might have several ``"Somewhere in the
   desert"`` rooms).  Although not mandatory, it's best to give *every*
-  object an ``external_name``.  For example: ``"baby bird"``, ``"tall
+  object an `{external_name}`.  For example: ``"baby bird"``, ``"tall
   sycamore tree"``, ``"At the top of the tree"``.
 
-* The internal ``obj_id`` of another object which is the initial location
+* The internal `{obj_id}` of another object which is the initial location
   of this object (its "parent" -- see the next section) at the start of the
   game.  This is omitted from objects which have no initial parent; it's
   *always* omitted from a room.

@@ -55,6 +55,8 @@ define the door object which lies between the café and the toilet.
 
 We've mentioned a counter:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Appliance counter "counter" cafe
@@ -124,6 +126,8 @@ the player to accomplish this.
 
 We've also mentioned some customers.  These are treated as NPCs, reacting
 to our hero’s performance.
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -327,6 +331,8 @@ in their Captain’s outfit, they’ll be coming from the toilet.  As a
 consequence of all this, we add an :prop:`after` property to the café room
 object:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Room   cafe "Inside Benny's cafe"
@@ -452,6 +458,8 @@ and its possible states affect both sides.  However, the coding gets a
 little bit complicated and you''ll have to define routines for most
 properties:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Object  toilet_door "toilet door"
@@ -510,6 +518,8 @@ object, either as a string or an embedded routine.  Normally, objects
 retain the same external name throughout the game -- and the header
 information method is perfect in that case -- but if it needs to change,
 it's easy to write a routine as the value of :prop:`short_name`:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -576,6 +586,8 @@ all?
 If a few lines of code can make the life of the player easier, it's worth a
 shot.  Let's provide a few improvements to our toilet door in
 :prop:`before` and :prop:`after` properties:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -704,6 +716,8 @@ So far, we have the player in front of a locked door leading to the toilet.
 A dead end?  No, the description mentions a scribbled note on its surface.
 This one should offer no problem:
 
+.. include:: /config/typethis.rst
+
 .. code-block:: inform
 
   Object  "scribbled note" cafe
@@ -743,6 +757,8 @@ Originally, the key is in Benny's possession, and the player will have to
 ask for it, just as the note explains.  Although we'll define Benny in
 detail throughout the next chapter, here we present a basic definition,
 largely so that the key has a parent object.
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
@@ -836,6 +852,8 @@ When we had players in the street, we faced the problem that they might
 choose to examine the café from the outside.  While it's unlikely that
 they'll try to examine the toilet room from the outside, it takes very
 little effort to offer a sensible output just in case:
+
+.. include:: /config/typethis.rst
 
 .. code-block:: inform
 
