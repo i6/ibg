@@ -11,7 +11,7 @@ if [ `ps -o uid= $$` -ne 0 ] ; then
 	exit 1
 fi
 
-TEXMFLOCAL=`kpsewhich -var TEXMFLOCAL`
+TEXMFLOCAL=`kpsewhich -var-value TEXMFLOCAL`
 
 echo "Deleting emerald from $TEXMFLOCAL..."
 

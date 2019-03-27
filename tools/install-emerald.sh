@@ -20,7 +20,7 @@ fi
 PERM=644
 DPERM=755
 PKGDIR="emerald"
-TEXMFLOCAL=`kpsewhich -var TEXMFLOCAL`
+TEXMFLOCAL=`kpsewhich -var-value TEXMFLOCAL`
 
 echo "Installing to $TEXMFLOCAL..."
 echo "Making directories..."
