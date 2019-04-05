@@ -1,3 +1,5 @@
 output/*
 *.pyc
 *.z5
+tools/emerald.zip
+tools/emerald

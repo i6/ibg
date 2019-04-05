@@ -6,6 +6,8 @@
 # Created by David Griffith <dave@661.org>
 # Released into the public domain 2016
 
+echo "Emerald CTAN package uninstaller..."
+
 if [ `ps -o uid= $$` -ne 0 ] ; then
 	echo "This script must be run as root"
 	exit 1
